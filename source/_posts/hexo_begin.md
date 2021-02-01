@@ -1,6 +1,9 @@
-# Hexo_begin #
-
-----------
+---
+title: Hexo_begin
+tags: 
+    - hexo
+categories: blog
+---
 
 ## 机制介绍 ##
 
