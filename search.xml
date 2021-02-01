@@ -2,6 +2,15 @@
 <search>
   <entry>
     <title></title>
+    <url>/2021/02/01/Keil%E8%B0%83%E8%AF%95%E6%97%B6%E8%B7%B3%E8%BF%87%E9%83%A8%E5%88%86%E4%BB%A3%E7%A0%81%EF%BC%88%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98%EF%BC%89/</url>
+    <content><![CDATA[<h1 id="Keil调试代码优化问题"><a href="#Keil调试代码优化问题" class="headerlink" title="Keil调试代码优化问题"></a>Keil调试代码优化问题</h1><ul>
+<li>在使用Keil进行调试的过程中，有的时候你可能会发现有几行代码怎么也得不到执行，下断点也会变成灰色感叹号。甚至有时候在做条件判断的时候，明明两个不相等的值却被判定为相等。</li>
+<li>这是因为Keil对我们的代码进行了<strong>优化</strong>处理，将优化等级降低计科解决问题。<img src="https://www.lingzhicheng.cn/usr/file/picture/Keil/Keil_optimism.png" alt="请输入图片描述"></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
     <url>/2021/01/31/hexo_begin/</url>
     <content><![CDATA[<h1 id="Hexo-begin"><a href="#Hexo-begin" class="headerlink" title="Hexo_begin"></a>Hexo_begin</h1><hr>
 <h2 id="机制介绍"><a href="#机制介绍" class="headerlink" title="机制介绍"></a>机制介绍</h2><p><code>hexo d</code>上传部署到Github的其实是hexo编译后的文件静态文件，用于生成网页，不包含源文件，也就是上传<code>.deploy_git</code>中的文件，其他文件，包括<code>source</code>里面的和一些配置、主题文件都不会上传到GitHub，考虑到可能会在不同主机发布，因此将<code>hexo d</code>操作不会上传的文件主动<code>git</code>到另一个分支。</p>
@@ -100,15 +109,6 @@
 <li>不同进程间数据难以共享</li>
 <li>进程间不会互相影响，一个线程挂掉将导致整个进程挂掉</li>
 <li>进程占用更多资源</li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2021/02/01/Keil%E8%B0%83%E8%AF%95%E6%97%B6%E8%B7%B3%E8%BF%87%E9%83%A8%E5%88%86%E4%BB%A3%E7%A0%81%EF%BC%88%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98%EF%BC%89/</url>
-    <content><![CDATA[<h1 id="Keil调试代码优化问题"><a href="#Keil调试代码优化问题" class="headerlink" title="Keil调试代码优化问题"></a>Keil调试代码优化问题</h1><ul>
-<li>在使用Keil进行调试的过程中，有的时候你可能会发现有几行代码怎么也得不到执行，下断点也会变成灰色感叹号。甚至有时候在做条件判断的时候，明明两个不相等的值却被判定为相等。</li>
-<li>这是因为Keil对我们的代码进行了<strong>优化</strong>处理，将优化等级降低计科解决问题。<img src="https://www.lingzhicheng.cn/usr/file/picture/Keil/Keil_optimism.png" alt="请输入图片描述"></li>
 </ul>
 ]]></content>
   </entry>
