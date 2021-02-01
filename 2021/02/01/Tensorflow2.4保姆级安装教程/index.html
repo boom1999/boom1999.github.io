@@ -13,7 +13,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    PSW设置改进中断 |  Haisen
+    Tensorflow2.4保姆级安装教程 |  Haisen
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -45,7 +45,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-AT89S51的PSW设置改进中断"
+  id="post-Tensorflow2.4保姆级安装教程"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -56,18 +56,18 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  PSW设置改进中断
+  Tensorflow2.4保姆级安装教程
 </h1>
  
 
     </header>
      
     <div class="article-meta">
-      <a href="/2021/02/01/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/" class="article-date">
-  <time datetime="2021-02-01T13:49:09.283Z" itemprop="datePublished">2021-02-01</time>
+      <a href="/2021/02/01/Tensorflow2.4%E4%BF%9D%E5%A7%86%E7%BA%A7%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" class="article-date">
+  <time datetime="2021-02-01T13:49:09.142Z" itemprop="datePublished">2021-02-01</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/AT89S51/">AT89S51</a>
+    <a class="article-category-link" href="/categories/Tensorflow/">Tensorflow</a>
   </div>
   
 <div class="word_count">
@@ -75,7 +75,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">354</span>
+            <span class="post-count">1.8k</span>
         </span>
     </span>
 
@@ -84,13 +84,15 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1 分钟</span>
+            <span class="post-count">6 分钟</span>
         </span>
     </span>
 </div>
  
     </div>
       
+    <div class="tocbot"></div>
+
 
 
 
@@ -98,16 +100,166 @@
     <div class="article-entry" itemprop="articleBody">
        
   <ul>
-<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
+<li>先装python还是先装anaconda?</li>
+<li>Anaconda版本选择与下载</li>
+<li>Anaconda安装</li>
+<li>更换conda镜像源</li>
+<li>Pycharm使用</li>
+<li>Pycharm虚拟环境介绍</li>
+<li>CUDA与cuDNN</li>
+<li>TensorFlow</li>
 </ul>
-<blockquote>
-<p>中断优先级实验，主程序相邻2个LED灯循环点亮（03H—C0H）1S，外部中断0后静态数码管间隔1S轮流点亮0-F后返回，外部中断1后1个LED灯循环点亮（01H-80H）后返回，外部中断0优先级高于外部中断1，实现中断嵌套</p>
+<hr>
+<h2 id="版本介绍"><a href="#版本介绍" class="headerlink" title="版本介绍"></a>版本介绍</h2><blockquote>
+<p>python 3.7.0<br>conda 4.5.11<br>CUDA 11.1<br>Cudatoolkit 11.1.0<br>cuDNN 11.1 v8.0.5<br>tensorflow_gpu-2.4.1<br>Pycharm Professional 2020.3.3</p>
 </blockquote>
 <hr>
-<blockquote>
-<p>P1接LED的ABCDEF，P3.2接K1，P3.3接K4，P0接静态数码管ABCDEF</p>
+<h2 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h2><blockquote>
+<p>下面列举了一些常见问题，请务必注意</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    AJMP    START</span><br><span class="line"></span><br><span class="line">    ORG     0003H</span><br><span class="line">    AJMP    INTT0</span><br><span class="line">    </span><br><span class="line">    ORG     0013H</span><br><span class="line">    AJMP    INTT1</span><br><span class="line">    </span><br><span class="line">    ORG     0100H</span><br><span class="line">START:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    MOV     PSW,#00H</span><br><span class="line">    SETB    EX0</span><br><span class="line">    SETB    IT0</span><br><span class="line">    SETB    EX1</span><br><span class="line">    SETB    IT1</span><br><span class="line">    SETB    EA</span><br><span class="line">    MOV     IP,#01H</span><br><span class="line">    MOV     P3,#0FFH</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">    MOV     R0,#03H</span><br><span class="line">    MOV     R2,#08H</span><br><span class="line">    ACALL   LOOP</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">LOOP:</span><br><span class="line">    MOV     A,R0</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R2,LOOP</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">INTT0:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#08H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.2,Pkey0</span><br><span class="line">    LJMP    RETURN</span><br><span class="line"></span><br><span class="line">INTT1:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#10H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.3,Pkey2</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey0:</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    CJNE    A,#0FFH,Pkey1</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey1:</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    INC     DPTR</span><br><span class="line">    LJMP    Pkey0</span><br><span class="line">Pkey2:</span><br><span class="line">    MOV     R1,#01H</span><br><span class="line">    MOV     R3,#08H</span><br><span class="line">    ACALL   Pkey3</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey3:</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R3,Pkey3</span><br><span class="line">    RET</span><br><span class="line">RETURN:</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H</span><br><span class="line">    DB  80H,90H,88H,83H,0C6H,0A1H,86H,8EH</span><br><span class="line">    DB  0FFH</span><br><span class="line"></span><br><span class="line">D10ms:</span><br><span class="line">    MOV     R7,#25</span><br><span class="line">D4:</span><br><span class="line">    MOV     R6,#200</span><br><span class="line">    DJNZ    R6,$</span><br><span class="line">    DJNZ    R7,D4</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">D1S:</span><br><span class="line">    MOV     R5,#20</span><br><span class="line">D5: MOV     R6,#100</span><br><span class="line">D6: MOV     R7,#248</span><br><span class="line">D7: DJNZ     R7,D7</span><br><span class="line">    DJNZ    R6,D6</span><br><span class="line">    DJNZ    R5,D5</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">    END</span><br></pre></td></tr></table></figure> 
+<ul>
+<li>国外源速度慢导致连接断开（请参考下文<strong>更换pip源和conda源</strong>）</li>
+<li>版本对应问题（请勿安装过高版本的Anaconda，会导致python版本过高，Tensorflow不支持，至本文发布为止最高支持到python3.8，Tensorflow_CPU的安装较为简单，故演示了GPU-2.4.1）</li>
+</ul>
+<blockquote>
+<p>笔者在开始前已经有了python3.6.8，但实际上可以直接跳过，anaconda自带python<br><a target="_blank" rel="noopener" href="https://www.python.org/downloads/">Python Download</a></p>
+<p>鉴于目前网上教程采用的版本比较混乱，故此次保姆级教程采用了较新的版本并通过测试</p>
+<p>保姆级教程：尽可能详细的列出具体步骤，但省略了一些作者认为比较简单的操作：如何打开命令行、命令行基本操作、如何使用Pycharm、软件的基本安装流程、环境变量的手动配置等。</p>
+<p><strong>如果仍然无法解决您的问题</strong><br>建议1：转身立马退坑<br>建议2：<a target="_blank" rel="noopener" href="https://www.google.com.hk/">点击这里</a></p>
+</blockquote>
+<hr>
+<h2 id="1-前言：先装python还是先装anaconda"><a href="#1-前言：先装python还是先装anaconda" class="headerlink" title="1.前言：先装python还是先装anaconda"></a>1.前言：先装python还是先装anaconda</h2><blockquote>
+<p><strong>装anaconda，就不需要单独装python了</strong></p>
+<p>anaconda 是一个python的发行版，包括了python和很多常见的软件库,和一个包管理器conda，集成了很多关于python科学计算的第三方库，主要是安装方便，而python是一个编译器，如果不使用anaconda，那么安装起来会比较痛苦，各个库之间的依赖性就很难连接的很好。</p>
+</blockquote>
+<h2 id="2-Anaconda版本选择与下载"><a href="#2-Anaconda版本选择与下载" class="headerlink" title="2.Anaconda版本选择与下载"></a>2.Anaconda版本选择与下载</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><blockquote>
+<p><strong>官网下载:</strong> 不推荐，不会开飞机的话速度慢并且容易断<br><a target="_blank" rel="noopener" href="https://www.anaconda.com/products/individual">Anaconda官网</a></p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda.png" alt="Anaconda官网"></p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><blockquote>
+<p><strong>国内镜像源:</strong> 可以用清华源、中科大源……<br><a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive">Anaconda清华源</a></p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_tsinghua.png" alt="Anaconda清华源"></p>
+<h3 id="版本选择"><a href="#版本选择" class="headerlink" title="版本选择"></a>版本选择</h3><p> <img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_python.png" alt="请输入图片描述"></p>
+<h2 id="3-Anaconda安装"><a href="#3-Anaconda安装" class="headerlink" title="3.Anaconda安装"></a>3.Anaconda安装</h2><blockquote>
+<p><strong>比较容易</strong>，一路next和skip，包括自动添加到环境变量等操作，可以直接装到C盘可以避免一些后续问题，笔者这里选择装到了E://Anaconda3 <strong>等待安装完毕即可</strong><br>若没有勾选<code>Add Anaconda to the system Path environment variable</code>，需要手动添加环境变量，比较简单；此处勾选了所以忽略</p>
+</blockquote>
+<h3 id="验证是否安装完成-conda-info"><a href="#验证是否安装完成-conda-info" class="headerlink" title="验证是否安装完成 conda info"></a>验证是否安装完成 conda info</h3><p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_complete.png" alt="验证是否安装完成 conda info"></p>
+<h3 id="Anaconda-Navigator是否可用"><a href="#Anaconda-Navigator是否可用" class="headerlink" title="Anaconda Navigator是否可用"></a>Anaconda Navigator是否可用</h3><p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_navigator.png" alt="Anaconda Navigator是否可用"></p>
+<blockquote>
+<p>至此，Python 3.7.0 + Anaconda3-5.3.1安装完成</p>
+</blockquote>
+<hr>
+<h2 id="4-更换conda镜像源"><a href="#4-更换conda镜像源" class="headerlink" title="4.更换conda镜像源"></a>4.更换conda镜像源</h2><ul>
+<li><p>可以在Anaconda Navigator中的channel直接更换</p>
+</li>
+<li><p>也可以在Anaconda Prompt中更换镜像源<br>  <code>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</code><br>  <code>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/</code><br>  <code>conda config --set show_channel_urls yes</code></p>
+</li>
+<li><p>查看是否已经更换好通道<br>  <code>conda config --show channels</code><br><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Change_channel.png" alt="Change_channel"></p>
+</li>
+</ul>
+<h2 id="5-Pycharm使用"><a href="#5-Pycharm使用" class="headerlink" title="5.Pycharm使用"></a>5.Pycharm使用</h2><blockquote>
+<p>Jetbrains全家桶：US $649.00/Year，当然建议使用edu邮箱获取，申请教育版邮箱认证即可（可能需要不定时验证信息），建议安装<strong>Toolbox</strong>方便更新以及使用</p>
+<p><a target="_blank" rel="noopener" href="https://www.jetbrains.com/">附上<strong>Jetbrains</strong>链接</a></p>
+<p><em>针对浙工大学生邮箱：Jetbrains的验证邮件容易出现在e邮的<strong>拦截队列</strong>中，收不到confirm email可以在拦截队列中找到</em></p>
+<p>如果比较困难，可以尝试装中文插件 File-&gt;Settings-&gt;Plugins-&gt;Chinese (Simplified) Language Pack EAP  当然<strong>不建议</strong>这样使用，<strong>汉化</strong>的翻译可能存在偏差</p>
+</blockquote>
+<h2 id="6-Pycharm虚拟环境介绍"><a href="#6-Pycharm虚拟环境介绍" class="headerlink" title="6. Pycharm虚拟环境介绍"></a>6. Pycharm虚拟环境介绍</h2><blockquote>
+<p>Pycharm采用虚拟的环境，配置是可以采用为项目新建Python解释器或者使用原有的环境</p>
+</blockquote>
+<ol>
+<li>Inherit global site-packages<br>继承本地的库，如果需要重复安装第三方库，可以勾上这个</li>
+<li>Make available to all projects<br>可以使别的工程项目可以使用此工程的环境</li>
+</ol>
+<blockquote>
+<p>区别：创建Virtualenv Environment 或者 Conda Environment<br>若要在服务器上远程运行，配置SSH interpreter，并且在Tools-&gt;Deploment-&gt;Configuration中配置主机即可，后续有机会再详细展开……</p>
+</blockquote>
+<h2 id="7-CUDA和cuDNN"><a href="#7-CUDA和cuDNN" class="headerlink" title="7. CUDA和cuDNN"></a>7. CUDA和cuDNN</h2><blockquote>
+<p>检测目前安装了哪些环境<br>cmd: <code>conda info --envs</code></p>
+<p>检查目前有哪些版本的python可以安装<br>cmd：<code>conda search --full-name python</code></p>
+<p>检查目前有哪些版本的Tensorflow可以安装<br>cmd：<code>conda search --full -name tensorflow</code></p>
+<p>查看依赖关系<br>cmd：<code>conda info tensorflow</code></p>
+<p><strong>在这之前，检查Nvidia驱动支持的CUDA版本，此处安装的是Tensorflow2.4.1，需要CUDA11.0或及以上版本</strong></p>
+</blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://tensorflow.google.cn/install/source_windows?hl=cn#gpu">查看Tensorflow和CUDA对应版本</a>（版本一定要对应）</li>
+</ul>
+<blockquote>
+<p><code>nvidia-smin</code>命令行查看CUDA Version （当前显卡驱动最高支持的CUDA版本）</p>
+</blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-toolkit-archive">Nvidia官网下载Cudatoolkit</a>（下载速度慢可以复制链接到迅雷下载）</li>
+</ul>
+<blockquote>
+<p>一路安装下来即可，安装过程中已经自动添加了环境变量<br>cmd：<code>nvcc -V</code>返回CUDA版本信息，如果<strong>nvcc命令无法识别则表示安装失败</strong></p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/nvcc%20-V.png" alt="CUDA版本信息"></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/rdp/cudnn-archive">Nvidia官网下载cuDNN</a>（下载速度慢可以复制链接到迅雷下载）</li>
+</ul>
+<blockquote>
+<p>只要把cuDNN文件复制到CUDA的对应文件夹里就可以，即所谓的插入式设计，cuDNN是CUDA的扩展计算库，不会对CUDA造成其他影响。<br>复制后，手动将CUDA相对路径下的/bin和/lib/x64添加到环境变量CUDA_PATH</p>
+</blockquote>
+<ul>
+<li><strong>测试CUDA</strong></li>
+</ul>
+<blockquote>
+<p>cmd：<code>cd /d C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1\extras\demo_suite</code></p>
+</blockquote>
+<ul>
+<li><strong>测试<code>deviceQuery.exe</code></strong></li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/CUDA_test0.png" alt="CUDA_deviceQuery"></p>
+<ul>
+<li><strong>测试<code>bandwidthTest.exe</code></strong></li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/CUDA_test1.png" alt="CUDA_bandwidthTest"></p>
+<blockquote>
+<p>都返回Result = PASS<br>That’s all OK.</p>
+</blockquote>
+<h2 id="8-TensorFlow"><a href="#8-TensorFlow" class="headerlink" title="8. TensorFlow"></a>8. TensorFlow</h2><h3 id="8-1-创建环境"><a href="#8-1-创建环境" class="headerlink" title="8.1 创建环境"></a>8.1 创建环境</h3><pre><code>conda create -name tfenv python=3.7.0
+</code></pre>
+<blockquote>
+<p>由于之前已经更换了清华源，由于网络问题造成的错误率大大降低，但仍然可能被中断<br>用<code>conda info --envs</code>检查一下是否装好了tfenv环境</p>
+</blockquote>
+<h3 id="8-2-激活环境"><a href="#8-2-激活环境" class="headerlink" title="8.2 激活环境"></a>8.2 激活环境</h3><pre><code>conda activate tfenv
+</code></pre>
+<blockquote>
+<p>退出环境<code>conda activate</code></p>
+</blockquote>
+<h3 id="8-3-激活后安装Tensorflow"><a href="#8-3-激活后安装Tensorflow" class="headerlink" title="8.3 激活后安装Tensorflow"></a>8.3 激活后安装Tensorflow</h3><ul>
+<li><p>更换tfenv环境的pip源 👉<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/help/pypi/">更换pip清华源参考方法</a></p>
+</li>
+<li><p>pip install tensorflow-gpu</p>
+</li>
+</ul>
+<blockquote>
+<p>此处未指定版本，会选择最高的gpu版本安装，若要置顶版本，<code>tensorflow-gpu=2.x.x</code><br>虽然已经换源，但还是可能出现<code>These Packages Do Not Match The Hashes From The Requirements File.</code><br>解决方案：在pip时，添加”–upgrade”参数（<strong>实测有效</strong>）。<br>几分钟后👉<strong>安装成功</strong></p>
+</blockquote>
+<h3 id="8-4-激活后测试Tensorflow"><a href="#8-4-激活后测试Tensorflow" class="headerlink" title="8.4 激活后测试Tensorflow"></a>8.4 激活后测试Tensorflow</h3><ul>
+<li><p>输出包含GPU信息的日志</p>
+<p>  import tensorflow as tf<br>  tf.test.is_gpu_available()<br>  tf.test.gpu_device_name()</p>
+</li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Prompt_test.png" alt="Prompt_test"></p>
+<h3 id="8-5-Pycharm测试Tensorflow"><a href="#8-5-Pycharm测试Tensorflow" class="headerlink" title="8.5 Pycharm测试Tensorflow"></a>8.5 Pycharm测试Tensorflow</h3><ul>
+<li>添加安装有Tensorflow的环境作为工程的python解释器</li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Pycharm_test0.png" alt="Anaconda官网.png"></p>
+<pre><code>import tensorflow as tf
+tf.compat.v1.disable_eager_execution()
+greeting = tf.constant(&#39;Hello Tensorflow!&#39;)
+sess = tf.compat.v1.Session()
+result = sess.run(greeting)
+print(result)
+sess.close()
+</code></pre>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Pycharm_test1.png" alt="Pycharm中测试"></p>
+<hr>
+<blockquote>
+<p>至此，所有安装和配置完成，<strong>版本对应</strong>问题非常重要，如果出现装错了版本请尝试<strong>彻底卸载</strong>后重装<br>为了更有针对性，本文采用了较新的版本，请务必在安装前选择<strong>合适的版本</strong><br>如果提示确实dll动态链接库，请尝试手动下载，貌似采用CUDA11.1可能会遇到这种情况，并且有部分人认为11.1中有未知错误并且不推荐使用，但在安装过程中并未发现，或许之后遇到了会继续补充</p>
+</blockquote>
+ 
       <!-- reward -->
       
     </div>
@@ -159,12 +311,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2021/02/01/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2021/02/01/Tensorflow2.4%E4%BF%9D%E5%A7%86%E7%BA%A7%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%B8%AD%E6%96%AD/" rel="tag">中断</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tensorflow/" rel="tag">tensorflow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" rel="tag">安装教程</a></li></ul>
 
     </footer>
   </div>
@@ -172,10 +324,19 @@
    
   <nav class="article-nav">
     
+      <a href="/2021/02/01/Keil5%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            Keil调试代码优化问题
+          
+        </div>
+      </a>
     
-      <a href="/2021/02/01/AT89S51%E4%BA%A4%E9%80%9A%E7%81%AF%E7%B3%BB%E7%BB%9F/" class="article-nav-link">
+    
+      <a href="/2021/02/01/Process%20or%20Thread/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">交通灯系统</div>
+        <div class="article-nav-title">Process or Thread</div>
       </a>
     
   </nav>
