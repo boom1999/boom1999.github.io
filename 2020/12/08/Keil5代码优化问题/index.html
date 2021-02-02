@@ -14,7 +14,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    定时器解决方案备忘录 |  Haisen
+    Keil调试代码优化问题 |  Haisen
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -46,7 +46,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-AT89S51定时器解决方案备忘录"
+  id="post-Keil5代码优化问题"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -57,15 +57,15 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  定时器解决方案备忘录
+  Keil调试代码优化问题
 </h1>
  
 
     </header>
      
     <div class="article-meta">
-      <a href="/2021/02/01/AT89S51%E5%AE%9A%E6%97%B6%E5%99%A8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E5%A4%87%E5%BF%98%E5%BD%95/" class="article-date">
-  <time datetime="2021-02-01T13:49:09.276Z" itemprop="datePublished">2021-02-01</time>
+      <a href="/2020/12/08/Keil5%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/" class="article-date">
+  <time datetime="2020-12-08T00:00:00.000Z" itemprop="datePublished">2020-12-08</time>
 </a> 
   <div class="article-category">
     <a class="article-category-link" href="/categories/AT89S51/">AT89S51</a>
@@ -76,7 +76,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">298</span>
+            <span class="post-count">108</span>
         </span>
     </span>
 
@@ -92,8 +92,6 @@
  
     </div>
       
-    <div class="tocbot"></div>
-
 
 
 
@@ -101,60 +99,8 @@
     <div class="article-entry" itemprop="articleBody">
        
   <ul>
-<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
-</ul>
-<blockquote>
-<p>P2.0接LED模块J12的A</p>
-</blockquote>
-<pre><code>    ORG     0000H
-RESET:
-    LJMP    MAIN
-    ORG     000BH           //定时器中断0入口
-    LJMP    T0_INT
-    ORG     0100H
-
-MAIN:
-    MOV     SP,#60H
-    MOV     TMOD,#01H       //计时工作方式1
-    MOV     30H,#00H        //定时器超时一百次，达到64h即一秒
-                            //12MHz，机器周期1μs，需要10000个计数，初值=65536-10000=55536=D8F0H
-    MOV     TH0,#0D8H
-    MOV     TL0,#0F0H
-    SETB    P2.0
-    SETB    ET0             //开放T0中断和总中断
-    SETB    EA
-    SETB    TR0             //启动T0
-    JNB     TF0,$           //wait for TF0
-
-T0_INT:
-    PUSH    PSW             //保护状态字寄存器
-    PUSH    ACC
-    CLR     EA              //关闭总中断
-    MOV     TH0,#0D8H
-    MOV     TL0,#0F0H
-    INC     30H
-    MOV     A,30H
-    CJNE    A,#100,CONTINUE_T0
-    MOV     30H,#00H        //定时器超时一百次，达到64h即一秒
-    CPL     P2.0
-
-CONTINUE_T0:
-    SETB    EA              //开总中断
-    POP     ACC
-    POP     PSW             //保护状态字寄存器
-    RETI
-
-    END
-</code></pre>
-<hr>
-<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><blockquote>
-<p>定时器0还是定时器1<br>晶振频率是6Mhz还是12Mhz（这里使用的是12MHz，则12个晶振周期–&gt;机器周期1μs）<br>方式1：最多2^16=65536*1μs=65.5ms<br>方式2：最多2^8=256μs但自动重装载</p>
-</blockquote>
-<hr>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Keil/Keil_INT0.png" alt="定时器调试"></p>
-<ul>
-<li>设置一百次10ms定时器溢出后断点调试，发现右下角时间刚好为1s</li>
-<li>（不精准，由于时钟实际11.0592）</li>
+<li>在使用Keil进行调试的过程中，有的时候你可能会发现有几行代码怎么也得不到执行，下断点也会变成灰色感叹号。甚至有时候在做条件判断的时候，明明两个不相等的值却被判定为相等。</li>
+<li>这是因为Keil对我们的代码进行了<strong>优化</strong>处理，将优化等级降低计科解决问题。<img src="https://www.lingzhicheng.cn/usr/file/picture/Keil/Keil_optimism.png" alt="请输入图片描述"></li>
 </ul>
  
       <!-- reward -->
@@ -208,12 +154,12 @@ CONTINUE_T0:
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2021/02/01/AT89S51%E5%AE%9A%E6%97%B6%E5%99%A8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E5%A4%87%E5%BF%98%E5%BD%95/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2020/12/08/Keil5%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%9A%E6%97%B6%E5%99%A8/" rel="tag">定时器</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B0%83%E8%AF%95/" rel="tag">调试</a></li></ul>
 
     </footer>
   </div>
@@ -221,20 +167,15 @@ CONTINUE_T0:
    
   <nav class="article-nav">
     
-      <a href="/2021/02/01/AT89S51%E4%BA%A4%E9%80%9A%E7%81%AF%E7%B3%BB%E7%BB%9F/" class="article-nav-link">
+      <a href="/2020/12/15/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            交通灯系统
+            PSW设置改进中断
           
         </div>
       </a>
     
-    
-      <a href="/2021/02/01/AT89S51%E6%A8%A1%E6%8B%9F%E9%87%87%E9%9B%86AD%E8%BD%AC%E5%8C%96/" class="article-nav-link">
-        <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">模拟采集AD转化</div>
-      </a>
     
   </nav>
 
