@@ -4,6 +4,7 @@ tags:
     - 安装教程
     - tensorflow
 categories: Tensorflow
+copyright: true
 ---
 
 - 先装python还是先装anaconda?
