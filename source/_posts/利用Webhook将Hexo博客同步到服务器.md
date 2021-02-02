@@ -1,5 +1,6 @@
 ---
 title: Hexo同步部署再Github和服务器
+date: 2021-02-01
 tags: 
     - hexo
     - 同步
@@ -28,14 +29,14 @@ categories: blog
     #输出当前时间
     date --date='0 days ago' "+%Y-%m-%d %H:%M:%S"
     e   cho "Start"
-
+    
     #git项目路径
     gitPath=" "
     #git 网址
     gitHttp=" "
- 
+     
     echo "Web站点路径：$gitPath"
- 
+     
     #判断项目路径是否存在
     if [ -d "$gitPath" ]; then
         cd $gitPath

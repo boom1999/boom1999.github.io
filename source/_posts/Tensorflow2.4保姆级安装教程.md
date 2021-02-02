@@ -1,5 +1,6 @@
 ---
 title: Tensorflow2.4保姆级安装教程
+date: 2021-01-30
 tags: 
     - 安装教程
     - tensorflow
