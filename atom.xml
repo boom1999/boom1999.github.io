@@ -6,7 +6,7 @@
   <link href="https://www.lingzhicheng.cn/atom.xml" rel="self"/>
   
   <link href="https://www.lingzhicheng.cn/"/>
-  <updated>2021-02-01T13:49:09.283Z</updated>
+  <updated>2021-02-02T06:59:53.069Z</updated>
   <id>https://www.lingzhicheng.cn/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hexo同步部署再Github和服务器</title>
+    <link href="https://www.lingzhicheng.cn/2021/02/02/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    <id>https://www.lingzhicheng.cn/2021/02/02/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</id>
+    <published>2021-02-02T06:59:53.069Z</published>
+    <updated>2021-02-02T06:59:53.069Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;ul&gt;
+&lt;li&gt;寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页&lt;/li&gt;
+&lt;li&gt;前提条件：已有github.io仓库</summary>
+        
+      
+    
+    
+    
+    <category term="blog" scheme="https://www.lingzhicheng.cn/categories/blog/"/>
+    
+    
+    <category term="hexo" scheme="https://www.lingzhicheng.cn/tags/hexo/"/>
+    
+    <category term="同步" scheme="https://www.lingzhicheng.cn/tags/%E5%90%8C%E6%AD%A5/"/>
+    
+    <category term="webhook" scheme="https://www.lingzhicheng.cn/tags/webhook/"/>
+    
+  </entry>
   
   <entry>
     <title>PSW设置改进中断</title>
@@ -164,37 +195,6 @@
     
     
     <category term="双机通信" scheme="https://www.lingzhicheng.cn/tags/%E5%8F%8C%E6%9C%BA%E9%80%9A%E4%BF%A1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hexo同步部署再Github和服务器</title>
-    <link href="https://www.lingzhicheng.cn/2021/02/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
-    <id>https://www.lingzhicheng.cn/2021/02/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</id>
-    <published>2021-02-01T13:49:09.249Z</published>
-    <updated>2021-02-01T13:49:09.249Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;ul&gt;
-&lt;li&gt;寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页&lt;/li&gt;
-&lt;li&gt;前提条件：已有github.io仓库</summary>
-        
-      
-    
-    
-    
-    <category term="blog" scheme="https://www.lingzhicheng.cn/categories/blog/"/>
-    
-    
-    <category term="hexo" scheme="https://www.lingzhicheng.cn/tags/hexo/"/>
-    
-    <category term="同步" scheme="https://www.lingzhicheng.cn/tags/%E5%90%8C%E6%AD%A5/"/>
-    
-    <category term="webhook" scheme="https://www.lingzhicheng.cn/tags/webhook/"/>
     
   </entry>
   
