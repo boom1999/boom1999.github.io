@@ -22,4 +22,4 @@ type: me
 [1]: https://github.com/boom1999
 [2]: https://twitter.com/ZhichengLing
 [3]: https://www.instagram.com/zhichengling66
-[4]: mailto:lingzhicheng66@gmail.com
+[4]: mailto:lingzhicheng66@gmail.co
