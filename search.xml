@@ -139,21 +139,6 @@ CONTINUE_T0:
       </tags>
   </entry>
   <entry>
-    <title>Keil调试代码优化问题</title>
-    <url>/2020/12/08/Keil5%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<ul>
-<li>在使用Keil进行调试的过程中，有的时候你可能会发现有几行代码怎么也得不到执行，下断点也会变成灰色感叹号。甚至有时候在做条件判断的时候，明明两个不相等的值却被判定为相等。</li>
-<li>这是因为Keil对我们的代码进行了<strong>优化</strong>处理，将优化等级降低计科解决问题。<img src="https://www.lingzhicheng.cn/usr/file/picture/Keil/Keil_optimism.png" alt="请输入图片描述"></li>
-</ul>
-]]></content>
-      <categories>
-        <category>AT89S51</category>
-      </categories>
-      <tags>
-        <tag>调试</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>PSW设置改进中断</title>
     <url>/2020/12/15/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/</url>
     <content><![CDATA[<ul>
@@ -193,6 +178,112 @@ CONTINUE_T0:
       <categories>
         <category>总结</category>
       </categories>
+  </entry>
+  <entry>
+    <title>Keil调试代码优化问题</title>
+    <url>/2020/12/08/Keil5%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<ul>
+<li>在使用Keil进行调试的过程中，有的时候你可能会发现有几行代码怎么也得不到执行，下断点也会变成灰色感叹号。甚至有时候在做条件判断的时候，明明两个不相等的值却被判定为相等。</li>
+<li>这是因为Keil对我们的代码进行了<strong>优化</strong>处理，将优化等级降低计科解决问题。<img src="https://www.lingzhicheng.cn/usr/file/picture/Keil/Keil_optimism.png" alt="请输入图片描述"></li>
+</ul>
+]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>调试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo_begin</title>
+    <url>/2021/01/31/hexo_begin/</url>
+    <content><![CDATA[<h2 id="机制介绍"><a href="#机制介绍" class="headerlink" title="机制介绍"></a>机制介绍</h2><p><code>hexo d</code>上传部署到Github的其实是hexo编译后的文件静态文件，用于生成网页，不包含源文件，也就是上传<code>.deploy_git</code>中的文件，其他文件，包括<code>source</code>里面的和一些配置、主题文件都不会上传到GitHub，考虑到可能会在不同主机发布，因此将<code>hexo d</code>操作不会上传的文件主动<code>git</code>到另一个分支。</p>
+<hr>
+<h2 id="新建备份分支"><a href="#新建备份分支" class="headerlink" title="新建备份分支"></a>新建备份分支</h2><ol>
+<li><p>首先在Github上新建一个<code>hexo_backup</code>分支并且设置为默认分支，以便在每次同步的时候不用指定分支，比较方便，用于备份源文件。</p>
+</li>
+<li><p>在本地<code>blog_local</code>目录下<code>git clone git@github.com:boom1999/boom1999.github.io.git</code>,此时由于默认分支为hexo_backup，所以知识clone了hexo_backup。在clone下的目录里将<code>.git</code>以外的文件全部删除，将源文件（包括<code>.gitignore</code>）全部复制过来。（<code>.deploy_git</code>不需要，这是生成的静态文件，也就是会push到master分支中的文件）。如果没有<code>.gitignore</code>，忽略push这部分文件，请手动添加：</p>
+<pre><code> .DS_Store
+ Thumbs.db
+ db.json
+ *.log
+ node_modules/
+ public/
+ .deploy*/
+</code></pre>
+</li>
+<li><p>将源文件push到hexo_backup分支,上传后GitHub上的hexo_backup分支备份完成</p>
+<pre><code> git add .
+ git commit –m &quot;your commit&quot;
+ git push 
+</code></pre>
+</li>
+</ol>
+<hr>
+<h2 id="更换环境操作"><a href="#更换环境操作" class="headerlink" title="更换环境操作"></a>更换环境操作</h2><ul>
+<li><p>创建一个新的<code>blog_local</code>文件夹</p>
+</li>
+<li><p>安装<code>git</code>和<code>nodejs</code></p>
+</li>
+<li><p>设置git全局邮箱和用户名</p>
+<pre><code>  git config --global user.name &quot;yourgithubname&quot;
+  git config --global user.email &quot;yourgithubemail&quot;
+</code></pre>
+</li>
+<li><p>设置<code>ssh key</code></p>
+<pre><code>  ssh-keygen -t rsa -C &quot;youremail&quot;
+  #生成后公钥添加到GitHub仓库中
+  #验证是否成功
+  ssh -T git@github.com
+</code></pre>
+</li>
+<li><p>安装hexo（不需要hexo init，因为整体框架会被clone下来）</p>
+<pre><code>  npm install hexo-cli -g
+  #或者局部安装
+  npm install hexo
+</code></pre>
+</li>
+<li><p><code>clone</code>到本地操作</p>
+<pre><code>  git clone git@github.com:boom1999/boom1999.github.io.git
+</code></pre>
+</li>
+<li><p>进入本地文件</p>
+<pre><code>  cd boom1999.github.io
+  npm install
+</code></pre>
+</li>
+<li><p>安装名为<code>hexo-deployer-git</code>的部署器插件，通过该插件就能实现一键部署</p>
+<pre><code>  npm install hexo-deployer-git --save
+</code></pre>
+</li>
+<li><p>添加新文件<code>source/_posts</code>，生成，部署</p>
+<pre><code>  hexo g
+  hexo d
+</code></pre>
+</li>
+</ul>
+<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
+<li><p>每次写完不要忘了备份源文件</p>
+<pre><code>  git add .
+  git commit –m &quot;your commit&quot;
+  git push 
+</code></pre>
+</li>
+<li><p>如果是在已经目前使用的机器，如在其他机器上更新过，每次<strong>使用前</strong>只要远端同步一下就行<code>git pull</code></p>
+</li>
+</ul>
+<hr>
+<ul>
+<li><code>2021/01/30测试通过</code></li>
+<li>下一步准备部署到自己的服务器，GitHub作备份用</li>
+</ul>
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
   </entry>
   <entry>
     <title>Tensorflow2.4保姆级安装教程</title>
@@ -364,97 +455,6 @@ sess.close()
       <tags>
         <tag>安装教程</tag>
         <tag>tensorflow</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo_begin</title>
-    <url>/2021/01/31/hexo_begin/</url>
-    <content><![CDATA[<h2 id="机制介绍"><a href="#机制介绍" class="headerlink" title="机制介绍"></a>机制介绍</h2><p><code>hexo d</code>上传部署到Github的其实是hexo编译后的文件静态文件，用于生成网页，不包含源文件，也就是上传<code>.deploy_git</code>中的文件，其他文件，包括<code>source</code>里面的和一些配置、主题文件都不会上传到GitHub，考虑到可能会在不同主机发布，因此将<code>hexo d</code>操作不会上传的文件主动<code>git</code>到另一个分支。</p>
-<hr>
-<h2 id="新建备份分支"><a href="#新建备份分支" class="headerlink" title="新建备份分支"></a>新建备份分支</h2><ol>
-<li><p>首先在Github上新建一个<code>hexo_backup</code>分支并且设置为默认分支，以便在每次同步的时候不用指定分支，比较方便，用于备份源文件。</p>
-</li>
-<li><p>在本地<code>blog_local</code>目录下<code>git clone git@github.com:boom1999/boom1999.github.io.git</code>,此时由于默认分支为hexo_backup，所以知识clone了hexo_backup。在clone下的目录里将<code>.git</code>以外的文件全部删除，将源文件（包括<code>.gitignore</code>）全部复制过来。（<code>.deploy_git</code>不需要，这是生成的静态文件，也就是会push到master分支中的文件）。如果没有<code>.gitignore</code>，忽略push这部分文件，请手动添加：</p>
-<pre><code> .DS_Store
- Thumbs.db
- db.json
- *.log
- node_modules/
- public/
- .deploy*/
-</code></pre>
-</li>
-<li><p>将源文件push到hexo_backup分支,上传后GitHub上的hexo_backup分支备份完成</p>
-<pre><code> git add .
- git commit –m &quot;your commit&quot;
- git push 
-</code></pre>
-</li>
-</ol>
-<hr>
-<h2 id="更换环境操作"><a href="#更换环境操作" class="headerlink" title="更换环境操作"></a>更换环境操作</h2><ul>
-<li><p>创建一个新的<code>blog_local</code>文件夹</p>
-</li>
-<li><p>安装<code>git</code>和<code>nodejs</code></p>
-</li>
-<li><p>设置git全局邮箱和用户名</p>
-<pre><code>  git config --global user.name &quot;yourgithubname&quot;
-  git config --global user.email &quot;yourgithubemail&quot;
-</code></pre>
-</li>
-<li><p>设置<code>ssh key</code></p>
-<pre><code>  ssh-keygen -t rsa -C &quot;youremail&quot;
-  #生成后公钥添加到GitHub仓库中
-  #验证是否成功
-  ssh -T git@github.com
-</code></pre>
-</li>
-<li><p>安装hexo（不需要hexo init，因为整体框架会被clone下来）</p>
-<pre><code>  npm install hexo-cli -g
-  #或者局部安装
-  npm install hexo
-</code></pre>
-</li>
-<li><p><code>clone</code>到本地操作</p>
-<pre><code>  git clone git@github.com:boom1999/boom1999.github.io.git
-</code></pre>
-</li>
-<li><p>进入本地文件</p>
-<pre><code>  cd boom1999.github.io
-  npm install
-</code></pre>
-</li>
-<li><p>安装名为<code>hexo-deployer-git</code>的部署器插件，通过该插件就能实现一键部署</p>
-<pre><code>  npm install hexo-deployer-git --save
-</code></pre>
-</li>
-<li><p>添加新文件<code>source/_posts</code>，生成，部署</p>
-<pre><code>  hexo g
-  hexo d
-</code></pre>
-</li>
-</ul>
-<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
-<li><p>每次写完不要忘了备份源文件</p>
-<pre><code>  git add .
-  git commit –m &quot;your commit&quot;
-  git push 
-</code></pre>
-</li>
-<li><p>如果是在已经目前使用的机器，如在其他机器上更新过，每次<strong>使用前</strong>只要远端同步一下就行<code>git pull</code></p>
-</li>
-</ul>
-<hr>
-<ul>
-<li><code>2021/01/30测试通过</code></li>
-<li>下一步准备部署到自己的服务器，GitHub作备份用</li>
-</ul>
-]]></content>
-      <categories>
-        <category>blog</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
