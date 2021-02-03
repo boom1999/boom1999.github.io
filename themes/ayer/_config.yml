@@ -27,7 +27,7 @@ logo: /images/haisen-side.svg
 # enable-是否启用封面；path-封面背景图；logo-封面logo
 cover:
   enable: true
-  path: /images/bj.jpg
+  path: /images/bj.webp
   logo: false 
 
 # 页面顶部进度条
@@ -191,7 +191,7 @@ friends_link:
     img: /images/xn.png
 
   大佬lyc:
-    url: https://www.huhaorui.com/
+    url: https://www.congb19.top/
     img: /images/lyc.png
 
   喜羊羊:
@@ -199,7 +199,7 @@ friends_link:
     img: /images/xyyxyy.jpg
 
   胖胖hhr:
-    url: https://www.congb19.top/
+    url: https://www.huhaorui.com/
     img: /images/hhr.png
 
   
