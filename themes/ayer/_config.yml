@@ -226,6 +226,8 @@ gitalk:
   repo: blog-comments # Repository name
   owner: boom1999 # GitHub ID
   admin: boom1999 # GitHub ID
+  proxy: https://netnr-proxy.cloudno.de/https://github.com/login/oauth/access_token
+
 
 # 3、Twikoo(https://github.com/imaegoo/twikoo)
 twikoo:
