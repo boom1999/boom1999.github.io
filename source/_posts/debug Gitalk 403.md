@@ -63,7 +63,8 @@ copyright: true
 >
 > ``` None
 > proxy: '<%- theme.gitalk.proxy %>'
-> ``` None
+> ```
+>
 > 在配置文件中添加
 >
 > ``` None
