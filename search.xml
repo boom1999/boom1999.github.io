@@ -51,27 +51,6 @@
       </tags>
   </entry>
   <entry>
-    <title>模拟采集AD转化</title>
-    <url>/2021/01/05/AT89S51%E6%A8%A1%E6%8B%9F%E9%87%87%E9%9B%86AD%E8%BD%AC%E5%8C%96/</url>
-    <content><![CDATA[<ul>
-<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
-</ul>
-<blockquote>
-<p>包含进制转化和动态显示<br>AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片，转换时间约10uS,控制字分别为94H可调电位器、0A4H光敏电阻、0D4H热敏电阻<br>采用LED（4位）动态显示，千位、百位、十位和个位<br>000H-FFFH的温度数据需要转换成十进制数的仟佰拾个位</p>
-</blockquote>
-<hr>
-<blockquote>
-<p>连接单片机的 JP10 到动态数码管的 J12<br>分别连接单片机的 P20、P21、P22 到 74HC138 模块的 A、B、C。<br>分别连接单片机的 P34、P35、P36、P37 到AD/DA模块的 DI、CS、CLK、DO。<br>将NE555 模块的跳线帽 J11 跳开，跳线帽安装在其中一根上，以免丢掉。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">    ORG     0200H</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    ACALL   AD_CHANGE</span><br><span class="line">    </span><br><span class="line">    MOV     DPTR,#D_table   &#x2F;&#x2F;动态显示四位</span><br><span class="line">    </span><br><span class="line">    MOV     A,#00H          &#x2F;&#x2F;38译码器动态显示四位</span><br><span class="line">    MOV     A,R0            &#x2F;&#x2F;放个位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#03</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R1            &#x2F;&#x2F;放十位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#02</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R2            &#x2F;&#x2F;放百位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#01</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R3            &#x2F;&#x2F;放千位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#00</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line">    </span><br><span class="line">    MOV     P0,#00H</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">AD_CHANGE:                  &#x2F;&#x2F;获取AD转换结果，共12位，串行读入单片机内，用SPI总线</span><br><span class="line">    INC     R7</span><br><span class="line">DELL: </span><br><span class="line">    DJNZ    R6,DELL</span><br><span class="line">    CJNE    R7,#0FFH,RETURN</span><br><span class="line">    MOV     R7,#00H</span><br><span class="line">    MOV     R6,#0FFH</span><br><span class="line">    </span><br><span class="line">    MOV     R0,#0d4H        &#x2F;&#x2F;R0控制字  0X94或0XB4电位，0XD4热敏，0XA4光敏</span><br><span class="line">    CLR     P3.5            &#x2F;&#x2F;片选CS为低电平，选中XPT2046</span><br><span class="line">    CLR     P3.6            &#x2F;&#x2F;时钟脚I&#x2F;O CLOCK位低电平</span><br><span class="line">    MOV     R2,#08H         &#x2F;&#x2F;设置循环读入的次数为8</span><br><span class="line">    MOV     A,R0            &#x2F;&#x2F;下一次转换的命令从R0送入A</span><br><span class="line">LOOP0:</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     P3.4,C</span><br><span class="line">    CLR     P3.6</span><br><span class="line">    NOP</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    NOP</span><br><span class="line">    DJNZ    R2,LOOP0</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     R2,#04H</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">LOOP1:</span><br><span class="line">    MOV     C,P3.7          &#x2F;&#x2F;读入上一次的转换结果中的1位</span><br><span class="line">    RRC     A               &#x2F;&#x2F;带进位位的循环右移</span><br><span class="line">    </span><br><span class="line">    SETB    P3.6            &#x2F;&#x2F;一个CLK时钟</span><br><span class="line">    NOP</span><br><span class="line">    CLR     P3.6</span><br><span class="line">    NOP</span><br><span class="line">    </span><br><span class="line">    DJNZ    R2,LOOP1        &#x2F;&#x2F;是否完成8次转换结果读入和命令输出？未完成则继续</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    MOV     R1,A            &#x2F;&#x2F;R1存高4位数据</span><br><span class="line">    MOV     A,#00H          &#x2F;&#x2F;A清“0”</span><br><span class="line">    MOV     R2,#08H         &#x2F;&#x2F;设置R2循环次数为8，为移入8位数据准备</span><br><span class="line">LOOP2:</span><br><span class="line">    MOV     C,P3.7          &#x2F;&#x2F;读入上一次的转换结果中的1位</span><br><span class="line">    RRC     A               &#x2F;&#x2F;带进位位的循环右移</span><br><span class="line"></span><br><span class="line">    CLR     P3.6            &#x2F;&#x2F;一个CLK时钟</span><br><span class="line">    NOP</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    NOP</span><br><span class="line">    </span><br><span class="line">    DJNZ    R2,LOOP2        &#x2F;&#x2F;是否完成8次转换结果读入和命令输出？未完成则继续</span><br><span class="line">    </span><br><span class="line">    SWAP    A</span><br><span class="line">    MOV     R0,A            &#x2F;&#x2F;R0存低8位</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    LJMP    DATA_HEX_DEC</span><br><span class="line">RETURN:</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">DATA_HEX_DEC:               &#x2F;&#x2F;将获取的12位2进制数转换为十进制存在R3 R2 R1 R0；千位 百位 十位 个位里 #R0--&gt;TL0 #R1--&gt;TH0</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    ANL     A,#0FH</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    CLR     A</span><br><span class="line">    </span><br><span class="line">    MOV     R2,A            &#x2F;&#x2F;先清零</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    MOV     R4,A</span><br><span class="line">    MOV     R5,#16          &#x2F;&#x2F;共转换十六位数 </span><br><span class="line">LOOP:</span><br><span class="line">    CLR     C</span><br><span class="line">    MOV     A,R0            &#x2F;&#x2F;从待转换数的高端移出一位到Cy</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R1</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R4            &#x2F;&#x2F;送到BCD码的低端</span><br><span class="line">    ADDC    A,R4            &#x2F;&#x2F;带进位的自身相加，相当于左移一位</span><br><span class="line">    DA      A               &#x2F;&#x2F;十进制调整，变成BCD码</span><br><span class="line">    MOV     R4,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R3</span><br><span class="line">    ADDC    A,R3</span><br><span class="line">    DA      A</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R2</span><br><span class="line">    ADDC    A,R2</span><br><span class="line">    MOV     R2,A</span><br><span class="line">    </span><br><span class="line">    DJNZ    R5,LOOP</span><br><span class="line">&#x2F;&#x2F;已经把TH1 TL1中的数字，转换成BCD码，送到了R2 R3 R4</span><br><span class="line">&#x2F;&#x2F;*************************************************&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F;分别存入 R3 R2 R1 R0；千位 百位 十位 个位</span><br><span class="line">    MOV     A,R4</span><br><span class="line">    MOV     B,#16</span><br><span class="line">    DIV     AB</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    MOV     R0,B</span><br><span class="line"></span><br><span class="line">    MOV     A,R2</span><br><span class="line">    MOV     R4,A</span><br><span class="line"></span><br><span class="line">    MOV     A,R3</span><br><span class="line">    MOV     B,#16</span><br><span class="line">    DIV     AB</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    MOV     R2,B</span><br><span class="line">    RET </span><br><span class="line">    </span><br><span class="line">Delay:                      &#x2F;&#x2F;定时0.4ms</span><br><span class="line">        MOV     30H,#10</span><br><span class="line">DEL0:   MOV     31H,#1</span><br><span class="line">DEL1:   MOV     32H,#20</span><br><span class="line">DEL2:   DJNZ    32H,DEL2</span><br><span class="line">        DJNZ    31H,DEL1</span><br><span class="line">        DJNZ    30H,DEL0</span><br><span class="line">      </span><br><span class="line">    RET  </span><br><span class="line">    </span><br><span class="line">D_table:</span><br><span class="line">    DB 3FH,06H,5BH,4FH,66H,6DH,7DH,07H,7FH,6FH  &#x2F;&#x2F;共阴极0~9</span><br><span class="line"></span><br><span class="line">    END</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>AT89S51</category>
-      </categories>
-      <tags>
-        <tag>AD转化</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>定时器解决方案备忘录</title>
     <url>/2020/12/22/AT89S51%E5%AE%9A%E6%97%B6%E5%99%A8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E5%A4%87%E5%BF%98%E5%BD%95/</url>
     <content><![CDATA[<ul>
@@ -139,6 +118,27 @@ CONTINUE_T0:
       </tags>
   </entry>
   <entry>
+    <title>模拟采集AD转化</title>
+    <url>/2021/01/05/AT89S51%E6%A8%A1%E6%8B%9F%E9%87%87%E9%9B%86AD%E8%BD%AC%E5%8C%96/</url>
+    <content><![CDATA[<ul>
+<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
+</ul>
+<blockquote>
+<p>包含进制转化和动态显示<br>AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片，转换时间约10uS,控制字分别为94H可调电位器、0A4H光敏电阻、0D4H热敏电阻<br>采用LED（4位）动态显示，千位、百位、十位和个位<br>000H-FFFH的温度数据需要转换成十进制数的仟佰拾个位</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>连接单片机的 JP10 到动态数码管的 J12<br>分别连接单片机的 P20、P21、P22 到 74HC138 模块的 A、B、C。<br>分别连接单片机的 P34、P35、P36、P37 到AD/DA模块的 DI、CS、CLK、DO。<br>将NE555 模块的跳线帽 J11 跳开，跳线帽安装在其中一根上，以免丢掉。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">    ORG     0200H</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    ACALL   AD_CHANGE</span><br><span class="line">    </span><br><span class="line">    MOV     DPTR,#D_table   &#x2F;&#x2F;动态显示四位</span><br><span class="line">    </span><br><span class="line">    MOV     A,#00H          &#x2F;&#x2F;38译码器动态显示四位</span><br><span class="line">    MOV     A,R0            &#x2F;&#x2F;放个位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#03</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R1            &#x2F;&#x2F;放十位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#02</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R2            &#x2F;&#x2F;放百位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#01</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R3            &#x2F;&#x2F;放千位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#00</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line">    </span><br><span class="line">    MOV     P0,#00H</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">AD_CHANGE:                  &#x2F;&#x2F;获取AD转换结果，共12位，串行读入单片机内，用SPI总线</span><br><span class="line">    INC     R7</span><br><span class="line">DELL: </span><br><span class="line">    DJNZ    R6,DELL</span><br><span class="line">    CJNE    R7,#0FFH,RETURN</span><br><span class="line">    MOV     R7,#00H</span><br><span class="line">    MOV     R6,#0FFH</span><br><span class="line">    </span><br><span class="line">    MOV     R0,#0d4H        &#x2F;&#x2F;R0控制字  0X94或0XB4电位，0XD4热敏，0XA4光敏</span><br><span class="line">    CLR     P3.5            &#x2F;&#x2F;片选CS为低电平，选中XPT2046</span><br><span class="line">    CLR     P3.6            &#x2F;&#x2F;时钟脚I&#x2F;O CLOCK位低电平</span><br><span class="line">    MOV     R2,#08H         &#x2F;&#x2F;设置循环读入的次数为8</span><br><span class="line">    MOV     A,R0            &#x2F;&#x2F;下一次转换的命令从R0送入A</span><br><span class="line">LOOP0:</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     P3.4,C</span><br><span class="line">    CLR     P3.6</span><br><span class="line">    NOP</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    NOP</span><br><span class="line">    DJNZ    R2,LOOP0</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     R2,#04H</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">LOOP1:</span><br><span class="line">    MOV     C,P3.7          &#x2F;&#x2F;读入上一次的转换结果中的1位</span><br><span class="line">    RRC     A               &#x2F;&#x2F;带进位位的循环右移</span><br><span class="line">    </span><br><span class="line">    SETB    P3.6            &#x2F;&#x2F;一个CLK时钟</span><br><span class="line">    NOP</span><br><span class="line">    CLR     P3.6</span><br><span class="line">    NOP</span><br><span class="line">    </span><br><span class="line">    DJNZ    R2,LOOP1        &#x2F;&#x2F;是否完成8次转换结果读入和命令输出？未完成则继续</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    MOV     R1,A            &#x2F;&#x2F;R1存高4位数据</span><br><span class="line">    MOV     A,#00H          &#x2F;&#x2F;A清“0”</span><br><span class="line">    MOV     R2,#08H         &#x2F;&#x2F;设置R2循环次数为8，为移入8位数据准备</span><br><span class="line">LOOP2:</span><br><span class="line">    MOV     C,P3.7          &#x2F;&#x2F;读入上一次的转换结果中的1位</span><br><span class="line">    RRC     A               &#x2F;&#x2F;带进位位的循环右移</span><br><span class="line"></span><br><span class="line">    CLR     P3.6            &#x2F;&#x2F;一个CLK时钟</span><br><span class="line">    NOP</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    NOP</span><br><span class="line">    </span><br><span class="line">    DJNZ    R2,LOOP2        &#x2F;&#x2F;是否完成8次转换结果读入和命令输出？未完成则继续</span><br><span class="line">    </span><br><span class="line">    SWAP    A</span><br><span class="line">    MOV     R0,A            &#x2F;&#x2F;R0存低8位</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    LJMP    DATA_HEX_DEC</span><br><span class="line">RETURN:</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">DATA_HEX_DEC:               &#x2F;&#x2F;将获取的12位2进制数转换为十进制存在R3 R2 R1 R0；千位 百位 十位 个位里 #R0--&gt;TL0 #R1--&gt;TH0</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    ANL     A,#0FH</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    CLR     A</span><br><span class="line">    </span><br><span class="line">    MOV     R2,A            &#x2F;&#x2F;先清零</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    MOV     R4,A</span><br><span class="line">    MOV     R5,#16          &#x2F;&#x2F;共转换十六位数 </span><br><span class="line">LOOP:</span><br><span class="line">    CLR     C</span><br><span class="line">    MOV     A,R0            &#x2F;&#x2F;从待转换数的高端移出一位到Cy</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R1</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R4            &#x2F;&#x2F;送到BCD码的低端</span><br><span class="line">    ADDC    A,R4            &#x2F;&#x2F;带进位的自身相加，相当于左移一位</span><br><span class="line">    DA      A               &#x2F;&#x2F;十进制调整，变成BCD码</span><br><span class="line">    MOV     R4,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R3</span><br><span class="line">    ADDC    A,R3</span><br><span class="line">    DA      A</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R2</span><br><span class="line">    ADDC    A,R2</span><br><span class="line">    MOV     R2,A</span><br><span class="line">    </span><br><span class="line">    DJNZ    R5,LOOP</span><br><span class="line">&#x2F;&#x2F;已经把TH1 TL1中的数字，转换成BCD码，送到了R2 R3 R4</span><br><span class="line">&#x2F;&#x2F;*************************************************&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F;分别存入 R3 R2 R1 R0；千位 百位 十位 个位</span><br><span class="line">    MOV     A,R4</span><br><span class="line">    MOV     B,#16</span><br><span class="line">    DIV     AB</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    MOV     R0,B</span><br><span class="line"></span><br><span class="line">    MOV     A,R2</span><br><span class="line">    MOV     R4,A</span><br><span class="line"></span><br><span class="line">    MOV     A,R3</span><br><span class="line">    MOV     B,#16</span><br><span class="line">    DIV     AB</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    MOV     R2,B</span><br><span class="line">    RET </span><br><span class="line">    </span><br><span class="line">Delay:                      &#x2F;&#x2F;定时0.4ms</span><br><span class="line">        MOV     30H,#10</span><br><span class="line">DEL0:   MOV     31H,#1</span><br><span class="line">DEL1:   MOV     32H,#20</span><br><span class="line">DEL2:   DJNZ    32H,DEL2</span><br><span class="line">        DJNZ    31H,DEL1</span><br><span class="line">        DJNZ    30H,DEL0</span><br><span class="line">      </span><br><span class="line">    RET  </span><br><span class="line">    </span><br><span class="line">D_table:</span><br><span class="line">    DB 3FH,06H,5BH,4FH,66H,6DH,7DH,07H,7FH,6FH  &#x2F;&#x2F;共阴极0~9</span><br><span class="line"></span><br><span class="line">    END</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>AD转化</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>PSW设置改进中断</title>
     <url>/2020/12/15/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/</url>
     <content><![CDATA[<ul>
@@ -193,6 +193,31 @@ CONTINUE_T0:
       <categories>
         <category>总结</category>
       </categories>
+  </entry>
+  <entry>
+    <title>VS2019代码提示延迟很高，部分快捷键无法使用的问题</title>
+    <url>/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><ul>
+<li>Visual Studio 与Nvidia CUDA NSightVSE冲突</li>
+</ul>
+<h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><ul>
+<li>Tab、Ctrl’+C 、 Ctrl’+K 等快捷键失效，智能代码提示不能正常显示，有时不会出现，有时要等四五秒，非常不正常</li>
+</ul>
+<blockquote>
+<p>Setting中检查设置无误，尝试过重启、重置个人配置、重装等均无效<br>很长一段时间没有使用过vs，之前装了比较新的Nvidia CUDA，同时附带的有NSightVSE，也就是设计vs的拓展，问题出在这里</p>
+</blockquote>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><blockquote>
+<p>卸载NSightVSE或者其他Nvidia和vs相关的拓展，重启vs后生效<br>正常情况搜索NsightVSE会出现四个，保留下列三个即可，版本仅供参考，可能其他版本不会出现如上问题。<br>Nvidia CUDA Nsight NVTX 11.1<br>Nvidia Nsight Compute 2020.2.0<br>Nvidia Nsight Systems 2020.3.4</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
+      <tags>
+        <tag>debug</tag>
+        <tag>Nvidia CUDA</tag>
+        <tag>Visual Studio</tag>
+      </tags>
   </entry>
   <entry>
     <title>Tensorflow2.4保姆级安装教程</title>
@@ -409,88 +434,6 @@ sess.close()
       </tags>
   </entry>
   <entry>
-    <title>Hexo同步部署再Github和服务器</title>
-    <url>/2021/02/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
-    <content><![CDATA[<ul>
-<li>寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页</li>
-<li>前提条件：已有github.io仓库，hexo博客已经上线测试可以使用，已有<code>nginx</code>、<code>git</code>、<code>node</code>等基础，可参考上一篇笔记</li>
-<li>省略了一些次要步骤，域名解析、备案等</li>
-</ul>
-<hr>
-<h2 id="服务器Webhook部分"><a href="#服务器Webhook部分" class="headerlink" title="服务器Webhook部分"></a>服务器Webhook部分</h2><ul>
-<li>利用宝塔平台的Webhook插件</li>
-</ul>
-<blockquote>
-<p>名称随意，实例脚本如下<br>gitPath=”/www/wwwroot/YourWebsiteLocation/“<br>gitHttp=”<a href="https://github.com/YourGithubName/xxxxxxxx.github.io.git&quot;">https://github.com/YourGithubName/xxxxxxxx.github.io.git&quot;</a><br>若失败，可考虑加上<code>sudo</code>使用管理员权限</p>
-</blockquote>
-<pre><code>#!/bin/bash
-echo &quot;&quot;
-#输出当前时间
-date --date=&#39;0 days ago&#39; &quot;+%Y-%m-%d %H:%M:%S&quot;
-e   cho &quot;Start&quot;
-
-#git项目路径
-gitPath=&quot; &quot;
-#git 网址
-gitHttp=&quot; &quot;
- 
-echo &quot;Web站点路径：$gitPath&quot;
- 
-#判断项目路径是否存在
-if [ -d &quot;$gitPath&quot; ]; then
-    cd $gitPath
-    #判断是否存在git目录
-    if [ ! -d &quot;.git&quot; ]; then
-            echo &quot;在该目录下克隆 git&quot;
-            sudo git clone $gitHttp gittemp
-            sudo mv gittemp/.git .
-            sudo rm -rf gittemp
-    fi
-    #拉取最新的项目文件
-    sudo git reset --hard origin/master
-    sudo git pull origin master
-    #设置目录权限
-    sudo chown -R www:www $gitPath
-    echo &quot;End&quot;
-    exit
-else
-    echo &quot;该项目路径不存在&quot;
-    echo &quot;End&quot;
-    exit
-fi
-</code></pre>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook01.png" alt="宝塔Webhook"></p>
-<h2 id="Github设置Webhook"><a href="#Github设置Webhook" class="headerlink" title="Github设置Webhook"></a>Github设置Webhook</h2><ul>
-<li><p>查看密钥<br><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook02.png" alt="宝塔Webhook查看密钥"></p>
-</li>
-<li><p>切换到Github项目的Settings-Webhooks</p>
-</li>
-<li><p><code>Add Webhook</code></p>
-</li>
-</ul>
-<blockquote>
-<p><strong>Payload URL:</strong> <code>http://服务器ip:8888?hook?access_key=xxxxx</code><br><strong>Content type:</strong> <code>application/json</code><br><strong>Secret:</strong> <code>Key</code><br><strong>Which events would you like to trigger this webhook?</strong><br>choose：Just the push event.<br>√<strong>Active</strong></p>
-</blockquote>
-<ul>
-<li>测试，本地更改sources后<code>hexo g</code>+<code>hexo d</code></li>
-<li>第一次红了是因为将Github中Webhook的Content type设置成了<code>application/x-www-form-urlencoded</code>，改成<code>application/json</code>通过<br><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook03.png" alt="Webhook测试"></li>
-</ul>
-<hr>
-<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><ol>
-<li>服务器需要开放8888端口，如果使用其他端口同样需要打开</li>
-<li>两者都是表单数据发送时的编码类型<br> application/x-www-form-urlencoded –&gt; key=value&amp;key=value</li>
-</ol>
-]]></content>
-      <categories>
-        <category>blog</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>同步</tag>
-        <tag>webhook</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo_begin</title>
     <url>/2021/01/31/hexo_begin/</url>
     <content><![CDATA[<h2 id="机制介绍"><a href="#机制介绍" class="headerlink" title="机制介绍"></a>机制介绍</h2><p><code>hexo d</code>上传部署到Github的其实是hexo编译后的文件静态文件，用于生成网页，不包含源文件，也就是上传<code>.deploy_git</code>中的文件，其他文件，包括<code>source</code>里面的和一些配置、主题文件都不会上传到GitHub，考虑到可能会在不同主机发布，因此将<code>hexo d</code>操作不会上传的文件主动<code>git</code>到另一个分支。</p>
@@ -579,6 +522,88 @@ fi
       </categories>
       <tags>
         <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo同步部署再Github和服务器</title>
+    <url>/2021/02/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
+    <content><![CDATA[<ul>
+<li>寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页</li>
+<li>前提条件：已有github.io仓库，hexo博客已经上线测试可以使用，已有<code>nginx</code>、<code>git</code>、<code>node</code>等基础，可参考上一篇笔记</li>
+<li>省略了一些次要步骤，域名解析、备案等</li>
+</ul>
+<hr>
+<h2 id="服务器Webhook部分"><a href="#服务器Webhook部分" class="headerlink" title="服务器Webhook部分"></a>服务器Webhook部分</h2><ul>
+<li>利用宝塔平台的Webhook插件</li>
+</ul>
+<blockquote>
+<p>名称随意，实例脚本如下<br>gitPath=”/www/wwwroot/YourWebsiteLocation/“<br>gitHttp=”<a href="https://github.com/YourGithubName/xxxxxxxx.github.io.git&quot;">https://github.com/YourGithubName/xxxxxxxx.github.io.git&quot;</a><br>若失败，可考虑加上<code>sudo</code>使用管理员权限</p>
+</blockquote>
+<pre><code>#!/bin/bash
+echo &quot;&quot;
+#输出当前时间
+date --date=&#39;0 days ago&#39; &quot;+%Y-%m-%d %H:%M:%S&quot;
+e   cho &quot;Start&quot;
+
+#git项目路径
+gitPath=&quot; &quot;
+#git 网址
+gitHttp=&quot; &quot;
+ 
+echo &quot;Web站点路径：$gitPath&quot;
+ 
+#判断项目路径是否存在
+if [ -d &quot;$gitPath&quot; ]; then
+    cd $gitPath
+    #判断是否存在git目录
+    if [ ! -d &quot;.git&quot; ]; then
+            echo &quot;在该目录下克隆 git&quot;
+            sudo git clone $gitHttp gittemp
+            sudo mv gittemp/.git .
+            sudo rm -rf gittemp
+    fi
+    #拉取最新的项目文件
+    sudo git reset --hard origin/master
+    sudo git pull origin master
+    #设置目录权限
+    sudo chown -R www:www $gitPath
+    echo &quot;End&quot;
+    exit
+else
+    echo &quot;该项目路径不存在&quot;
+    echo &quot;End&quot;
+    exit
+fi
+</code></pre>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook01.png" alt="宝塔Webhook"></p>
+<h2 id="Github设置Webhook"><a href="#Github设置Webhook" class="headerlink" title="Github设置Webhook"></a>Github设置Webhook</h2><ul>
+<li><p>查看密钥<br><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook02.png" alt="宝塔Webhook查看密钥"></p>
+</li>
+<li><p>切换到Github项目的Settings-Webhooks</p>
+</li>
+<li><p><code>Add Webhook</code></p>
+</li>
+</ul>
+<blockquote>
+<p><strong>Payload URL:</strong> <code>http://服务器ip:8888?hook?access_key=xxxxx</code><br><strong>Content type:</strong> <code>application/json</code><br><strong>Secret:</strong> <code>Key</code><br><strong>Which events would you like to trigger this webhook?</strong><br>choose：Just the push event.<br>√<strong>Active</strong></p>
+</blockquote>
+<ul>
+<li>测试，本地更改sources后<code>hexo g</code>+<code>hexo d</code></li>
+<li>第一次红了是因为将Github中Webhook的Content type设置成了<code>application/x-www-form-urlencoded</code>，改成<code>application/json</code>通过<br><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook03.png" alt="Webhook测试"></li>
+</ul>
+<hr>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><ol>
+<li>服务器需要开放8888端口，如果使用其他端口同样需要打开</li>
+<li>两者都是表单数据发送时的编码类型<br> application/x-www-form-urlencoded –&gt; key=value&amp;key=value</li>
+</ol>
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>同步</tag>
+        <tag>webhook</tag>
       </tags>
   </entry>
   <entry>
