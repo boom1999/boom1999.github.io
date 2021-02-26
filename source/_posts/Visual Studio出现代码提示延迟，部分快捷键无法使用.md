@@ -1,10 +1,11 @@
 ---
 title: VS2019代码提示延迟很高，部分快捷键无法使用的问题
-date: 2021-02-23
+date: 2021-02-26
 tags: 
    - debug
    - Nvidia CUDA
-categories: Visual Studio
+   - Visual Studio
+categories: 总结
 copyright: true
 ---
 
