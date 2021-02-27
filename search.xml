@@ -160,21 +160,6 @@ CONTINUE_T0:
       </tags>
   </entry>
   <entry>
-    <title>Keil调试代码优化问题</title>
-    <url>/2020/12/08/Keil5%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<ul>
-<li>在使用Keil进行调试的过程中，有的时候你可能会发现有几行代码怎么也得不到执行，下断点也会变成灰色感叹号。甚至有时候在做条件判断的时候，明明两个不相等的值却被判定为相等。</li>
-<li>这是因为Keil对我们的代码进行了<strong>优化</strong>处理，将优化等级降低计科解决问题。<img src="https://www.lingzhicheng.cn/usr/file/picture/Keil/Keil_optimism.png" alt="请输入图片描述"></li>
-</ul>
-]]></content>
-      <categories>
-        <category>AT89S51</category>
-      </categories>
-      <tags>
-        <tag>调试</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Process or Thread</title>
     <url>/2021/01/20/Process%20or%20Thread/</url>
     <content><![CDATA[<h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位"><a href="#进程是资源分配的最小单位-线程是CPU调度的最小单位" class="headerlink" title="进程是资源分配的最小单位|线程是CPU调度的最小单位"></a>进程是资源分配的最小单位|线程是CPU调度的最小单位</h3><hr>
@@ -193,6 +178,21 @@ CONTINUE_T0:
       <categories>
         <category>总结</category>
       </categories>
+  </entry>
+  <entry>
+    <title>Keil调试代码优化问题</title>
+    <url>/2020/12/08/Keil5%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<ul>
+<li>在使用Keil进行调试的过程中，有的时候你可能会发现有几行代码怎么也得不到执行，下断点也会变成灰色感叹号。甚至有时候在做条件判断的时候，明明两个不相等的值却被判定为相等。</li>
+<li>这是因为Keil对我们的代码进行了<strong>优化</strong>处理，将优化等级降低计科解决问题。<img src="https://www.lingzhicheng.cn/usr/file/picture/Keil/Keil_optimism.png" alt="请输入图片描述"></li>
+</ul>
+]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>调试</tag>
+      </tags>
   </entry>
   <entry>
     <title>Tensorflow2.4保姆级安装教程</title>
@@ -525,6 +525,88 @@ sess.close()
       </tags>
   </entry>
   <entry>
+    <title>Hexo同步部署再Github和服务器</title>
+    <url>/2021/02/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
+    <content><![CDATA[<ul>
+<li>寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页</li>
+<li>前提条件：已有github.io仓库，hexo博客已经上线测试可以使用，已有<code>nginx</code>、<code>git</code>、<code>node</code>等基础，可参考上一篇笔记</li>
+<li>省略了一些次要步骤，域名解析、备案等</li>
+</ul>
+<hr>
+<h2 id="服务器Webhook部分"><a href="#服务器Webhook部分" class="headerlink" title="服务器Webhook部分"></a>服务器Webhook部分</h2><ul>
+<li>利用宝塔平台的Webhook插件</li>
+</ul>
+<blockquote>
+<p>名称随意，实例脚本如下<br>gitPath=”/www/wwwroot/YourWebsiteLocation/“<br>gitHttp=”<a href="https://github.com/YourGithubName/xxxxxxxx.github.io.git&quot;">https://github.com/YourGithubName/xxxxxxxx.github.io.git&quot;</a><br>若失败，可考虑加上<code>sudo</code>使用管理员权限</p>
+</blockquote>
+<pre><code>#!/bin/bash
+echo &quot;&quot;
+#输出当前时间
+date --date=&#39;0 days ago&#39; &quot;+%Y-%m-%d %H:%M:%S&quot;
+e   cho &quot;Start&quot;
+
+#git项目路径
+gitPath=&quot; &quot;
+#git 网址
+gitHttp=&quot; &quot;
+ 
+echo &quot;Web站点路径：$gitPath&quot;
+ 
+#判断项目路径是否存在
+if [ -d &quot;$gitPath&quot; ]; then
+    cd $gitPath
+    #判断是否存在git目录
+    if [ ! -d &quot;.git&quot; ]; then
+            echo &quot;在该目录下克隆 git&quot;
+            sudo git clone $gitHttp gittemp
+            sudo mv gittemp/.git .
+            sudo rm -rf gittemp
+    fi
+    #拉取最新的项目文件
+    sudo git reset --hard origin/master
+    sudo git pull origin master
+    #设置目录权限
+    sudo chown -R www:www $gitPath
+    echo &quot;End&quot;
+    exit
+else
+    echo &quot;该项目路径不存在&quot;
+    echo &quot;End&quot;
+    exit
+fi
+</code></pre>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook01.png" alt="宝塔Webhook"></p>
+<h2 id="Github设置Webhook"><a href="#Github设置Webhook" class="headerlink" title="Github设置Webhook"></a>Github设置Webhook</h2><ul>
+<li><p>查看密钥<br><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook02.png" alt="宝塔Webhook查看密钥"></p>
+</li>
+<li><p>切换到Github项目的Settings-Webhooks</p>
+</li>
+<li><p><code>Add Webhook</code></p>
+</li>
+</ul>
+<blockquote>
+<p><strong>Payload URL:</strong> <code>http://服务器ip:8888?hook?access_key=xxxxx</code><br><strong>Content type:</strong> <code>application/json</code><br><strong>Secret:</strong> <code>Key</code><br><strong>Which events would you like to trigger this webhook?</strong><br>choose：Just the push event.<br>√<strong>Active</strong></p>
+</blockquote>
+<ul>
+<li>测试，本地更改sources后<code>hexo g</code>+<code>hexo d</code></li>
+<li>第一次红了是因为将Github中Webhook的Content type设置成了<code>application/x-www-form-urlencoded</code>，改成<code>application/json</code>通过<br><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook03.png" alt="Webhook测试"></li>
+</ul>
+<hr>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><ol>
+<li>服务器需要开放8888端口，如果使用其他端口同样需要打开</li>
+<li>两者都是表单数据发送时的编码类型<br> application/x-www-form-urlencoded –&gt; key=value&amp;key=value</li>
+</ol>
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>同步</tag>
+        <tag>webhook</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>正则表达式整理（持续更新）</title>
     <url>/2021/02/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B4%E7%90%86/</url>
     <content><![CDATA[<h2 id="最常用的匹配"><a href="#最常用的匹配" class="headerlink" title="最常用的匹配"></a>最常用的匹配</h2><table>
@@ -640,88 +722,6 @@ sess.close()
       </categories>
       <tags>
         <tag>re.match</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo同步部署再Github和服务器</title>
-    <url>/2021/02/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
-    <content><![CDATA[<ul>
-<li>寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页</li>
-<li>前提条件：已有github.io仓库，hexo博客已经上线测试可以使用，已有<code>nginx</code>、<code>git</code>、<code>node</code>等基础，可参考上一篇笔记</li>
-<li>省略了一些次要步骤，域名解析、备案等</li>
-</ul>
-<hr>
-<h2 id="服务器Webhook部分"><a href="#服务器Webhook部分" class="headerlink" title="服务器Webhook部分"></a>服务器Webhook部分</h2><ul>
-<li>利用宝塔平台的Webhook插件</li>
-</ul>
-<blockquote>
-<p>名称随意，实例脚本如下<br>gitPath=”/www/wwwroot/YourWebsiteLocation/“<br>gitHttp=”<a href="https://github.com/YourGithubName/xxxxxxxx.github.io.git&quot;">https://github.com/YourGithubName/xxxxxxxx.github.io.git&quot;</a><br>若失败，可考虑加上<code>sudo</code>使用管理员权限</p>
-</blockquote>
-<pre><code>#!/bin/bash
-echo &quot;&quot;
-#输出当前时间
-date --date=&#39;0 days ago&#39; &quot;+%Y-%m-%d %H:%M:%S&quot;
-e   cho &quot;Start&quot;
-
-#git项目路径
-gitPath=&quot; &quot;
-#git 网址
-gitHttp=&quot; &quot;
- 
-echo &quot;Web站点路径：$gitPath&quot;
- 
-#判断项目路径是否存在
-if [ -d &quot;$gitPath&quot; ]; then
-    cd $gitPath
-    #判断是否存在git目录
-    if [ ! -d &quot;.git&quot; ]; then
-            echo &quot;在该目录下克隆 git&quot;
-            sudo git clone $gitHttp gittemp
-            sudo mv gittemp/.git .
-            sudo rm -rf gittemp
-    fi
-    #拉取最新的项目文件
-    sudo git reset --hard origin/master
-    sudo git pull origin master
-    #设置目录权限
-    sudo chown -R www:www $gitPath
-    echo &quot;End&quot;
-    exit
-else
-    echo &quot;该项目路径不存在&quot;
-    echo &quot;End&quot;
-    exit
-fi
-</code></pre>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook01.png" alt="宝塔Webhook"></p>
-<h2 id="Github设置Webhook"><a href="#Github设置Webhook" class="headerlink" title="Github设置Webhook"></a>Github设置Webhook</h2><ul>
-<li><p>查看密钥<br><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook02.png" alt="宝塔Webhook查看密钥"></p>
-</li>
-<li><p>切换到Github项目的Settings-Webhooks</p>
-</li>
-<li><p><code>Add Webhook</code></p>
-</li>
-</ul>
-<blockquote>
-<p><strong>Payload URL:</strong> <code>http://服务器ip:8888?hook?access_key=xxxxx</code><br><strong>Content type:</strong> <code>application/json</code><br><strong>Secret:</strong> <code>Key</code><br><strong>Which events would you like to trigger this webhook?</strong><br>choose：Just the push event.<br>√<strong>Active</strong></p>
-</blockquote>
-<ul>
-<li>测试，本地更改sources后<code>hexo g</code>+<code>hexo d</code></li>
-<li>第一次红了是因为将Github中Webhook的Content type设置成了<code>application/x-www-form-urlencoded</code>，改成<code>application/json</code>通过<br><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook03.png" alt="Webhook测试"></li>
-</ul>
-<hr>
-<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><ol>
-<li>服务器需要开放8888端口，如果使用其他端口同样需要打开</li>
-<li>两者都是表单数据发送时的编码类型<br> application/x-www-form-urlencoded –&gt; key=value&amp;key=value</li>
-</ol>
-]]></content>
-      <categories>
-        <category>blog</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>同步</tag>
-        <tag>webhook</tag>
       </tags>
   </entry>
 </search>
