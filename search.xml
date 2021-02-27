@@ -160,21 +160,6 @@ CONTINUE_T0:
       </tags>
   </entry>
   <entry>
-    <title>Keil调试代码优化问题</title>
-    <url>/2020/12/08/Keil5%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<ul>
-<li>在使用Keil进行调试的过程中，有的时候你可能会发现有几行代码怎么也得不到执行，下断点也会变成灰色感叹号。甚至有时候在做条件判断的时候，明明两个不相等的值却被判定为相等。</li>
-<li>这是因为Keil对我们的代码进行了<strong>优化</strong>处理，将优化等级降低计科解决问题。<img src="https://www.lingzhicheng.cn/usr/file/picture/Keil/Keil_optimism.png" alt="请输入图片描述"></li>
-</ul>
-]]></content>
-      <categories>
-        <category>AT89S51</category>
-      </categories>
-      <tags>
-        <tag>调试</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Process or Thread</title>
     <url>/2021/01/20/Process%20or%20Thread/</url>
     <content><![CDATA[<h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位"><a href="#进程是资源分配的最小单位-线程是CPU调度的最小单位" class="headerlink" title="进程是资源分配的最小单位|线程是CPU调度的最小单位"></a>进程是资源分配的最小单位|线程是CPU调度的最小单位</h3><hr>
@@ -193,6 +178,21 @@ CONTINUE_T0:
       <categories>
         <category>总结</category>
       </categories>
+  </entry>
+  <entry>
+    <title>Keil调试代码优化问题</title>
+    <url>/2020/12/08/Keil5%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<ul>
+<li>在使用Keil进行调试的过程中，有的时候你可能会发现有几行代码怎么也得不到执行，下断点也会变成灰色感叹号。甚至有时候在做条件判断的时候，明明两个不相等的值却被判定为相等。</li>
+<li>这是因为Keil对我们的代码进行了<strong>优化</strong>处理，将优化等级降低计科解决问题。<img src="https://www.lingzhicheng.cn/usr/file/picture/Keil/Keil_optimism.png" alt="请输入图片描述"></li>
+</ul>
+]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>调试</tag>
+      </tags>
   </entry>
   <entry>
     <title>Tensorflow2.4保姆级安装教程</title>
