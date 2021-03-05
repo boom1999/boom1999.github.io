@@ -1,0 +1,733 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>交通灯系统</title>
+    <url>/2021/01/12/AT89S51%E4%BA%A4%E9%80%9A%E7%81%AF%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<ul>
+<li><p><strong>浙江工业大学信息工程学院单片机实验</strong></p>
+</li>
+<li><p>题：定义一个秒表计数器如R2</p>
+</li>
+</ul>
+<ol>
+<li>在R2的值为1~30秒，输出P1口和P3.0、P3.1实现南北绿灯、东西红灯、人行道东西红灯、南北绿灯，并将R2的值除10，商放在动态LED0，余数放在动态LED1点亮；</li>
+<li>在R2的值为31~35秒，输出P1口和P3.0、P3.1实现南北黄灯、东西红灯、人行道东西红灯、南北红灯，并将R2的值减去30后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
+<li>在R2的值为36~65秒，输出P1口和P3.0、P3.1实现南北红灯、东西绿灯、人行道东西绿灯、南北红灯，并将R2的值减去35后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
+<li>在R2的值为66~70秒，输出P1口和P3.0、P3.1实现南北红灯、东西黄灯、人行道东西红灯、南北红灯，并将R2的值减去65后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
+<li>当R2的值等于71秒时，R2置1，重新开始</li>
+</ol>
+<blockquote>
+<p>交通灯模块、动态数码管模块，利用定时器、十进制数拆分<br>用 8 根的排线连接单片机 P0 的 JP10 到动态数码管的 J12，用 8 根的排线连接单片机 P1 的 JP8 到 交通灯模块的 JP1<br>单片机的 P22、P23、P24 分别接到 74HC138 模块的A、B、C。JP165 跳线帽一定要拔掉，插在其中一根针上，以免丢掉。<br>南北绿灯30s，红灯30s；黄灯均为5s；东西绿灯25s，红灯35s，<br>人行道不显示倒计时，车道显示倒计时</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">RESET:</span><br><span class="line">    AJMP    MAIN</span><br><span class="line">    ORG     000BH           &#x2F;&#x2F;定时器中断0入口</span><br><span class="line">    AJMP    INTI0</span><br><span class="line">    ORG     0100H</span><br><span class="line"></span><br><span class="line">MAIN:</span><br><span class="line">    MOV     SP,#60H         &#x2F;&#x2F;计时工作方式1</span><br><span class="line">    MOV     TMOD,#01H</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">                            &#x2F;&#x2F;12MHz，机器周期1μs，需要10000个计数，初值&#x3D;65536-10000&#x3D;55536&#x3D;D8F0H</span><br><span class="line">    MOV     TH0,#0D8H</span><br><span class="line">    MOV     TL0,#0F0H</span><br><span class="line">    SETB    ET0             &#x2F;&#x2F;开放T0中断和总中断</span><br><span class="line">    SETB    EA</span><br><span class="line">    SETB    TR0             &#x2F;&#x2F;启动T0</span><br><span class="line">    MOV     R0,#01          &#x2F;&#x2F;计数器初值为01</span><br><span class="line">    MOV     30H,#00H        &#x2F;&#x2F;定时器超时一百次，达到64h即一秒</span><br><span class="line">    MOV     31H,#30         &#x2F;&#x2F;南北方向红黄绿时间，30，5，30</span><br><span class="line">    MOV     32H,#35         &#x2F;&#x2F;东西方向红黄绿时间，35，5，25</span><br><span class="line">    MOV     P1,#11001101B   &#x2F;&#x2F;110东西红&#39;011南北绿&#39;01人行南北绿</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    LJMP    DISPLAY</span><br><span class="line"></span><br><span class="line">CALCU:</span><br><span class="line">&#x2F;***********南北方向倒计时计算********************&#x2F;</span><br><span class="line">    MOV     R1,#10          &#x2F;&#x2F;除数为10</span><br><span class="line">    MOV     A,31H           &#x2F;&#x2F;倒计时数字放到A</span><br><span class="line">    MOV     B,R1            &#x2F;&#x2F;除数10放到B</span><br><span class="line">    DIV     AB              &#x2F;&#x2F;A为商，B为余数</span><br><span class="line">    MOV     R4,A            &#x2F;&#x2F;R4存放商</span><br><span class="line">    MOV     R5,B            &#x2F;&#x2F;R5存放余数</span><br><span class="line">&#x2F;***********东西方向倒计时计算********************&#x2F;</span><br><span class="line">    MOV     R1,#10          &#x2F;&#x2F;除数为10</span><br><span class="line">    MOV     A,32H           &#x2F;&#x2F;倒计时数字放到A</span><br><span class="line">    MOV     B,R1            &#x2F;&#x2F;除数10放到B</span><br><span class="line">    DIV     AB              &#x2F;&#x2F;A为商，B为余数</span><br><span class="line">    MOV     R6,A            &#x2F;&#x2F;R6存放商</span><br><span class="line">    MOV     R7,B            &#x2F;&#x2F;R7存放余数</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">DISPLAY:</span><br><span class="line">&#x2F;***********南北方向倒计时显示********************&#x2F;</span><br><span class="line">    CLR     P2.2</span><br><span class="line">    CLR     P2.3</span><br><span class="line">    CLR     P2.4</span><br><span class="line">    MOV     A,R4            &#x2F;&#x2F;LED0输出商</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D04MS</span><br><span class="line">    </span><br><span class="line">    SETB    P2.2</span><br><span class="line">    MOV     A,R5            &#x2F;&#x2F;LED1输出余数</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">&#x2F;***********东西方向倒计时显示********************&#x2F;</span><br><span class="line">    CLR     P2.2</span><br><span class="line">    CLR     P2.3</span><br><span class="line">    SETB    P2.4</span><br><span class="line">    LCALL   D04MS </span><br><span class="line">    MOV     A,R6            &#x2F;&#x2F;LED4输出商</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D04MS</span><br><span class="line">    </span><br><span class="line">    SETB    P2.2</span><br><span class="line">    MOV     A,R7            &#x2F;&#x2F;LED5输出余数</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">&#x2F;*********************************************&#x2F;</span><br><span class="line">    JNB     TF0,DISPLAY     &#x2F;&#x2F;wait for TF0</span><br><span class="line"></span><br><span class="line">INTI0:</span><br><span class="line">    PUSH    PSW             &#x2F;&#x2F;保护状态字寄存器</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    CLR     EA              &#x2F;&#x2F;关闭总中断</span><br><span class="line">    MOV     TH0,#0D8H       &#x2F;&#x2F;定时10ms</span><br><span class="line">    MOV     TL0,#0F0H</span><br><span class="line">    INC     30H</span><br><span class="line">    MOV     A,30H</span><br><span class="line">    CJNE    A,#100,OUT</span><br><span class="line">    MOV     30H,#00H        &#x2F;&#x2F;定时器超时一百次，达到64h即一秒</span><br><span class="line">    INC     R0              &#x2F;&#x2F;计数器+1</span><br><span class="line">    DEC     31H</span><br><span class="line">    DEC     32H</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;***********四种状态互相转变********************&#x2F;</span><br><span class="line">JMP5SN:</span><br><span class="line">    CJNE    R0,#31,JMP30EW</span><br><span class="line">    MOV     P1,#11010110B   &#x2F;&#x2F;110东西红&#39;101南北黄&#39;10人行南北红</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    MOV     31H,#5</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP30EW:</span><br><span class="line">    CJNE    R0,#36,JMP5EW</span><br><span class="line">    MOV     P1,#01111010B   &#x2F;&#x2F;011东西绿&#39;110南北红&#39;10人行南北红</span><br><span class="line">    SETB    P3.0            &#x2F;&#x2F;01人行东西绿</span><br><span class="line">    CLR     P3.1</span><br><span class="line">    MOV     31H,#30</span><br><span class="line">    MOV     32H,#25</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP5EW:</span><br><span class="line">    CJNE    R0,#66,JMP30SN</span><br><span class="line">    MOV     P1,#10111010B   &#x2F;&#x2F;101东西黄&#39;110南北红&#39;10人行南北红</span><br><span class="line">    SETB    P3.0            &#x2F;&#x2F;01人行东西绿</span><br><span class="line">    CLR     P3.1</span><br><span class="line">    MOV     32H,#5</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP30SN:</span><br><span class="line">    CJNE    R0,#71,OUT</span><br><span class="line">    MOV     R0,#1</span><br><span class="line">    MOV     P1,#11001101B   &#x2F;&#x2F;110东西红&#39;011南北绿&#39;01人行南北绿</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    MOV     31H,#30</span><br><span class="line">    MOV     32H,#35</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line"></span><br><span class="line">OUT:</span><br><span class="line">    SETB    EA              &#x2F;&#x2F;开总中断</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW             &#x2F;&#x2F;保护状态字寄存器</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">D04MS:                      &#x2F;&#x2F;延时0.4ms</span><br><span class="line">    MOV     R3,#2</span><br><span class="line">D1: MOV     R2,#10</span><br><span class="line">D2: DJNZ    R2,D2</span><br><span class="line">    DJNZ    R3,D1</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  3FH,06H,5BH,4FH,66H,6DH,7DH,07H &#x2F;&#x2F;共阴极0~9</span><br><span class="line">    DB  7FH,6FH</span><br><span class="line">    DB  00H</span><br><span class="line"></span><br><span class="line">END</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>中断</tag>
+        <tag>汇编</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Dual_computer_communication</title>
+    <url>/2020/12/29/AT89S51%E5%8F%8C%E6%9C%BA%E9%80%9A%E4%BF%A1/</url>
+    <content><![CDATA[<ul>
+<li><p><strong>浙江工业大学信息工程学院单片机实验</strong></p>
+</li>
+<li><p>要求：甲机将内部RAM 30h~4Fh的内容发送给乙机</p>
+</li>
+</ul>
+<blockquote>
+<p>通讯双方均采用4800bps波特率进行传送(系统时钟频率为11.0592MHz)，甲机发送数据，乙机接收数据。双机开始通讯时，甲机发送一个呼叫信号“06H”，询问乙机是否可以接收数据；乙机收到呼叫信号后，若同意接收数据则发回“00H”作为应答，否则发“15H”表示暂不能接收数据，甲机只有收到乙机的应答信号“00H”后才可把存放在内部数据存储器的字节内容发送给乙机，否则继续向乙机呼叫，直到乙机同意接收。呼叫成功后甲机依次发送长度字节（1字节）、数据字节（n字节）和校验和字节（1字节），其中校验和为长度字节和数据字节的“累加和”。乙机在成功收到甲机的数据之后，发送“0FH”作为成功应答，否则发送“F0H”作为失败应答。</p>
+</blockquote>
+<hr>
+<h2 id="发送机"><a href="#发送机" class="headerlink" title="发送机"></a>发送机</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">        ORG     0000H</span><br><span class="line">        LJMP    START</span><br><span class="line">        ORG     1000H</span><br><span class="line">            </span><br><span class="line">START:</span><br><span class="line">        MOV     SP,#60H</span><br><span class="line">        MOV     TMOD,#20H       &#x2F;&#x2F;定时器0，定时器工作模式2工作</span><br><span class="line">        MOV     TH1,#0FAH       &#x2F;&#x2F;模式2自动重装载的初值</span><br><span class="line">        MOV     TH1,#0FAH</span><br><span class="line">        SETB    TR1             &#x2F;&#x2F;开始计时</span><br><span class="line">        MOV     SCON,#50H       &#x2F;&#x2F;方式1工作,允许接收--&gt;4.8kbit&#x2F;s</span><br><span class="line">        MOV     PCON,#00H       &#x2F;&#x2F;SMOD&#x3D;0</span><br><span class="line">        MOV     R0,30H          &#x2F;&#x2F;存放发送的数据块首地址</span><br><span class="line">        MOV     R7,#20H         &#x2F;&#x2F;存放发送的数据块长度</span><br><span class="line">        MOV     R6,#00H         &#x2F;&#x2F;校验和，长度字节与数字字节的累加和</span><br><span class="line">        </span><br><span class="line">TX_ACK:</span><br><span class="line">        MOV     A,#06H          &#x2F;&#x2F;发送06H询问是否可以接收数据</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">WAIT1:</span><br><span class="line">        JNB     TI,WAIT1        &#x2F;&#x2F;等待发送完一个字节</span><br><span class="line">        CLR     TI              &#x2F;&#x2F;清除发送完毕TI标志位</span><br><span class="line"></span><br><span class="line">RX_YES:</span><br><span class="line">        JNB     RI,RX_YES       &#x2F;&#x2F;等待乙机回答是否可以接收</span><br><span class="line">        CLR     RI              &#x2F;&#x2F;清除接收完毕RI标志位</span><br><span class="line">        </span><br><span class="line">NEXT1:</span><br><span class="line">        MOV     A,SBUF          &#x2F;&#x2F;接收到乙机发送过来的ACK</span><br><span class="line">        CJNE    A,#00H,TX_ACK   &#x2F;&#x2F;若为00H则表示可以接收数据，往下启动发送，否则再次询问</span><br><span class="line">        </span><br><span class="line">TX_LENGTH:</span><br><span class="line">        MOV     A,R7            &#x2F;&#x2F;先发送字节长度数R7</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">WAIT2:</span><br><span class="line">        JNB     TI,WAIT2        &#x2F;&#x2F;等待数据发送完毕</span><br><span class="line">        CLR     TI              &#x2F;&#x2F;清除发送完毕TI标志位</span><br><span class="line">        MOV     R6,A            &#x2F;&#x2F;增加校验和</span><br><span class="line"></span><br><span class="line">TX_NEWS:                        &#x2F;&#x2F;查询发送数据</span><br><span class="line">        MOV     A,@R0</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">TX_NEWS_WAIT:</span><br><span class="line">        JNB     TI,TX_NEWS_WAIT</span><br><span class="line">        CLR     TI              &#x2F;&#x2F;清除发送完毕TI标志位</span><br><span class="line">        MOV     A,R6</span><br><span class="line">        ADD     A,@R0</span><br><span class="line">        MOV     R6,A</span><br><span class="line">        INC     @R0</span><br><span class="line">        DJNZ    R7,TX_NEWS      &#x2F;&#x2F;如果没发送完32个数据，继续发送</span><br><span class="line">        </span><br><span class="line">TX_CHECK:</span><br><span class="line">        MOV     A,R6</span><br><span class="line">        ADD     A,@R0</span><br><span class="line">        MOV     R6,A</span><br><span class="line">        MOV     A,R6            &#x2F;&#x2F;发送校验位</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">WAIT3:                          &#x2F;&#x2F;等待发送完校验位</span><br><span class="line">        JNB     TI,WAIT3</span><br><span class="line">        CLR     TI</span><br><span class="line">        </span><br><span class="line">WAIT4:                          &#x2F;&#x2F;等待接收完校验位</span><br><span class="line">        JNB     RI,WAIT4</span><br><span class="line">        CLR     RI</span><br><span class="line">        </span><br><span class="line">IF_0FH:</span><br><span class="line">        MOV     A,SBUF          &#x2F;&#x2F;将接收到校验是否正确的恢复存到累加器</span><br><span class="line">        CJNE    A,#0FH,START</span><br><span class="line"></span><br><span class="line">HERE:</span><br><span class="line">        SJMP    HERE</span><br><span class="line"></span><br><span class="line">        END</span><br><span class="line">        </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="接收机"><a href="#接收机" class="headerlink" title="接收机"></a>接收机</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">        ORG     0000H</span><br><span class="line">        LJMP    START</span><br><span class="line">        ORG     0023H</span><br><span class="line">        LJMP    IF_06H</span><br><span class="line">        ORG     1000H</span><br><span class="line">            </span><br><span class="line">START:</span><br><span class="line">        MOV     SP,#60H</span><br><span class="line">        MOV     TMOD,#20H       &#x2F;&#x2F;定时器0，定时器工作模式2工作</span><br><span class="line">        MOV     TH1,#0FAH       &#x2F;&#x2F;模式2自动重装载的初值</span><br><span class="line">        MOV     TH1,#0FAH</span><br><span class="line">        SETB    TR1             &#x2F;&#x2F;开始计时</span><br><span class="line">        MOV     SCON,#50H       &#x2F;&#x2F;方式1,允许接收--&gt;4.8kbit&#x2F;s</span><br><span class="line">        MOV     PCON,#00H       &#x2F;&#x2F;SMOD&#x3D;0</span><br><span class="line">        MOV     IE,#90H</span><br><span class="line">        MOV     R0,30H          &#x2F;&#x2F;存放发送的数据块首地址</span><br><span class="line">        MOV     R7,#00H         &#x2F;&#x2F;存放发送的数据块长度</span><br><span class="line">        MOV     R6,#00H         &#x2F;&#x2F;校验和，长度字节与数字字节的累加和</span><br><span class="line">        </span><br><span class="line">HERE:</span><br><span class="line">        SJMP    HERE</span><br><span class="line">        </span><br><span class="line">IF_06H:</span><br><span class="line">        PUSH    ACC</span><br><span class="line">        PUSH    PSW</span><br><span class="line">        CLR     RI              &#x2F;&#x2F;清除接收完毕RI标志位</span><br><span class="line">        MOV     A,SBUF          &#x2F;&#x2F;核对握手信号是不是06H</span><br><span class="line">        CJNE    A,#06H,TX_15H   &#x2F;&#x2F;如果是06H则发送00H应答，否则发送15H拒绝</span><br><span class="line"></span><br><span class="line">TX_00H:</span><br><span class="line">        MOV     A,#00H</span><br><span class="line">        MOV     SBUF,A          &#x2F;&#x2F;发送出00H表示可以接收数据</span><br><span class="line">        LJMP    HERE_RE</span><br><span class="line">        </span><br><span class="line">TX_15H:</span><br><span class="line">        MOV     A,#15H          &#x2F;&#x2F;发送15H表示不可以接收</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        LJMP    RETURN</span><br><span class="line">            </span><br><span class="line">HERE_RE:</span><br><span class="line">        JNB     TI,HERE_RE      &#x2F;&#x2F;等待发送完毕，发送完毕准备接收</span><br><span class="line">        CLR     TI</span><br><span class="line">        </span><br><span class="line">HAVE1:</span><br><span class="line">        JNB     RI,HAVE1        &#x2F;&#x2F;等待接收数据长度</span><br><span class="line">        CLR     RI</span><br><span class="line">        MOV     A,SBUF</span><br><span class="line">        MOV     R7,A            &#x2F;&#x2F;R7存数据长度</span><br><span class="line">        MOV     R6,A            &#x2F;&#x2F;R6存校验和</span><br><span class="line"></span><br><span class="line">HAVE2:</span><br><span class="line">        JNB     RI,HAVE2        &#x2F;&#x2F;等待接收正式数据</span><br><span class="line">        CLR     RI</span><br><span class="line">        MOV     A,SBUF</span><br><span class="line">        MOV     @R0,A</span><br><span class="line">        MOV     A,R6</span><br><span class="line">        ADD     A,@R0</span><br><span class="line">        MOV     R6,A</span><br><span class="line">        INC     @R0</span><br><span class="line">        DJNZ    R7,HAVE2        &#x2F;&#x2F;如果没接收完完20个数据，继续接收</span><br><span class="line">        </span><br><span class="line">RX_CHECK:                       &#x2F;&#x2F;接收校验和</span><br><span class="line">        JNB     RI,RX_CHECK</span><br><span class="line">        CLR     RI</span><br><span class="line">        MOV     A,SBUF</span><br><span class="line">        MOV     39H,A</span><br><span class="line">        CJNE    A,39H,TX_ERR    &#x2F;&#x2F;如果校验正确，则继续向下ok，错误则发送#F0H</span><br><span class="line">        </span><br><span class="line">TX_OK:                          &#x2F;&#x2F;校验正确，发送0FH</span><br><span class="line">        MOV     A,#0FH</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        LJMP    HERE_END</span><br><span class="line">            </span><br><span class="line">TX_ERR:                         &#x2F;&#x2F;校验错误，发送F0H</span><br><span class="line">        MOV     A,#0F0H</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">HERE_END:                       &#x2F;&#x2F;等待发送完毕</span><br><span class="line">        JNB TI,HERE_END</span><br><span class="line">        CLR TI</span><br><span class="line"></span><br><span class="line">RETURN:</span><br><span class="line">        POP     PSW</span><br><span class="line">        POP     ACC</span><br><span class="line">        RETI</span><br><span class="line"></span><br><span class="line">        END</span><br><span class="line">            </span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>双机通信</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>定时器解决方案备忘录</title>
+    <url>/2020/12/22/AT89S51%E5%AE%9A%E6%97%B6%E5%99%A8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E5%A4%87%E5%BF%98%E5%BD%95/</url>
+    <content><![CDATA[<ul>
+<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
+</ul>
+<blockquote>
+<p>P2.0接LED模块J12的A</p>
+</blockquote>
+<pre><code>    ORG     0000H
+RESET:
+    LJMP    MAIN
+    ORG     000BH           //定时器中断0入口
+    LJMP    T0_INT
+    ORG     0100H
+
+MAIN:
+    MOV     SP,#60H
+    MOV     TMOD,#01H       //计时工作方式1
+    MOV     30H,#00H        //定时器超时一百次，达到64h即一秒
+                            //12MHz，机器周期1μs，需要10000个计数，初值=65536-10000=55536=D8F0H
+    MOV     TH0,#0D8H
+    MOV     TL0,#0F0H
+    SETB    P2.0
+    SETB    ET0             //开放T0中断和总中断
+    SETB    EA
+    SETB    TR0             //启动T0
+    JNB     TF0,$           //wait for TF0
+
+T0_INT:
+    PUSH    PSW             //保护状态字寄存器
+    PUSH    ACC
+    CLR     EA              //关闭总中断
+    MOV     TH0,#0D8H
+    MOV     TL0,#0F0H
+    INC     30H
+    MOV     A,30H
+    CJNE    A,#100,CONTINUE_T0
+    MOV     30H,#00H        //定时器超时一百次，达到64h即一秒
+    CPL     P2.0
+
+CONTINUE_T0:
+    SETB    EA              //开总中断
+    POP     ACC
+    POP     PSW             //保护状态字寄存器
+    RETI
+
+    END
+</code></pre>
+<hr>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><blockquote>
+<p>定时器0还是定时器1<br>晶振频率是6Mhz还是12Mhz（这里使用的是12MHz，则12个晶振周期–&gt;机器周期1μs）<br>方式1：最多2^16=65536*1μs=65.5ms<br>方式2：最多2^8=256μs但自动重装载</p>
+</blockquote>
+<hr>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Keil/Keil_INT0.png" alt="定时器调试"></p>
+<ul>
+<li>设置一百次10ms定时器溢出后断点调试，发现右下角时间刚好为1s</li>
+<li>（不精准，由于时钟实际11.0592）</li>
+</ul>
+]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>定时器</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>模拟采集AD转化</title>
+    <url>/2021/01/05/AT89S51%E6%A8%A1%E6%8B%9F%E9%87%87%E9%9B%86AD%E8%BD%AC%E5%8C%96/</url>
+    <content><![CDATA[<ul>
+<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
+</ul>
+<blockquote>
+<p>包含进制转化和动态显示<br>AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片，转换时间约10uS,控制字分别为94H可调电位器、0A4H光敏电阻、0D4H热敏电阻<br>采用LED（4位）动态显示，千位、百位、十位和个位<br>000H-FFFH的温度数据需要转换成十进制数的仟佰拾个位</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>连接单片机的 JP10 到动态数码管的 J12<br>分别连接单片机的 P20、P21、P22 到 74HC138 模块的 A、B、C。<br>分别连接单片机的 P34、P35、P36、P37 到AD/DA模块的 DI、CS、CLK、DO。<br>将NE555 模块的跳线帽 J11 跳开，跳线帽安装在其中一根上，以免丢掉。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">    ORG     0200H</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    ACALL   AD_CHANGE</span><br><span class="line">    </span><br><span class="line">    MOV     DPTR,#D_table   &#x2F;&#x2F;动态显示四位</span><br><span class="line">    </span><br><span class="line">    MOV     A,#00H          &#x2F;&#x2F;38译码器动态显示四位</span><br><span class="line">    MOV     A,R0            &#x2F;&#x2F;放个位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#03</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R1            &#x2F;&#x2F;放十位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#02</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R2            &#x2F;&#x2F;放百位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#01</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R3            &#x2F;&#x2F;放千位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#00</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line">    </span><br><span class="line">    MOV     P0,#00H</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">AD_CHANGE:                  &#x2F;&#x2F;获取AD转换结果，共12位，串行读入单片机内，用SPI总线</span><br><span class="line">    INC     R7</span><br><span class="line">DELL: </span><br><span class="line">    DJNZ    R6,DELL</span><br><span class="line">    CJNE    R7,#0FFH,RETURN</span><br><span class="line">    MOV     R7,#00H</span><br><span class="line">    MOV     R6,#0FFH</span><br><span class="line">    </span><br><span class="line">    MOV     R0,#0d4H        &#x2F;&#x2F;R0控制字  0X94或0XB4电位，0XD4热敏，0XA4光敏</span><br><span class="line">    CLR     P3.5            &#x2F;&#x2F;片选CS为低电平，选中XPT2046</span><br><span class="line">    CLR     P3.6            &#x2F;&#x2F;时钟脚I&#x2F;O CLOCK位低电平</span><br><span class="line">    MOV     R2,#08H         &#x2F;&#x2F;设置循环读入的次数为8</span><br><span class="line">    MOV     A,R0            &#x2F;&#x2F;下一次转换的命令从R0送入A</span><br><span class="line">LOOP0:</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     P3.4,C</span><br><span class="line">    CLR     P3.6</span><br><span class="line">    NOP</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    NOP</span><br><span class="line">    DJNZ    R2,LOOP0</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     R2,#04H</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">LOOP1:</span><br><span class="line">    MOV     C,P3.7          &#x2F;&#x2F;读入上一次的转换结果中的1位</span><br><span class="line">    RRC     A               &#x2F;&#x2F;带进位位的循环右移</span><br><span class="line">    </span><br><span class="line">    SETB    P3.6            &#x2F;&#x2F;一个CLK时钟</span><br><span class="line">    NOP</span><br><span class="line">    CLR     P3.6</span><br><span class="line">    NOP</span><br><span class="line">    </span><br><span class="line">    DJNZ    R2,LOOP1        &#x2F;&#x2F;是否完成8次转换结果读入和命令输出？未完成则继续</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    MOV     R1,A            &#x2F;&#x2F;R1存高4位数据</span><br><span class="line">    MOV     A,#00H          &#x2F;&#x2F;A清“0”</span><br><span class="line">    MOV     R2,#08H         &#x2F;&#x2F;设置R2循环次数为8，为移入8位数据准备</span><br><span class="line">LOOP2:</span><br><span class="line">    MOV     C,P3.7          &#x2F;&#x2F;读入上一次的转换结果中的1位</span><br><span class="line">    RRC     A               &#x2F;&#x2F;带进位位的循环右移</span><br><span class="line"></span><br><span class="line">    CLR     P3.6            &#x2F;&#x2F;一个CLK时钟</span><br><span class="line">    NOP</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    NOP</span><br><span class="line">    </span><br><span class="line">    DJNZ    R2,LOOP2        &#x2F;&#x2F;是否完成8次转换结果读入和命令输出？未完成则继续</span><br><span class="line">    </span><br><span class="line">    SWAP    A</span><br><span class="line">    MOV     R0,A            &#x2F;&#x2F;R0存低8位</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    LJMP    DATA_HEX_DEC</span><br><span class="line">RETURN:</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">DATA_HEX_DEC:               &#x2F;&#x2F;将获取的12位2进制数转换为十进制存在R3 R2 R1 R0；千位 百位 十位 个位里 #R0--&gt;TL0 #R1--&gt;TH0</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    ANL     A,#0FH</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    CLR     A</span><br><span class="line">    </span><br><span class="line">    MOV     R2,A            &#x2F;&#x2F;先清零</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    MOV     R4,A</span><br><span class="line">    MOV     R5,#16          &#x2F;&#x2F;共转换十六位数 </span><br><span class="line">LOOP:</span><br><span class="line">    CLR     C</span><br><span class="line">    MOV     A,R0            &#x2F;&#x2F;从待转换数的高端移出一位到Cy</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R1</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R4            &#x2F;&#x2F;送到BCD码的低端</span><br><span class="line">    ADDC    A,R4            &#x2F;&#x2F;带进位的自身相加，相当于左移一位</span><br><span class="line">    DA      A               &#x2F;&#x2F;十进制调整，变成BCD码</span><br><span class="line">    MOV     R4,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R3</span><br><span class="line">    ADDC    A,R3</span><br><span class="line">    DA      A</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R2</span><br><span class="line">    ADDC    A,R2</span><br><span class="line">    MOV     R2,A</span><br><span class="line">    </span><br><span class="line">    DJNZ    R5,LOOP</span><br><span class="line">&#x2F;&#x2F;已经把TH1 TL1中的数字，转换成BCD码，送到了R2 R3 R4</span><br><span class="line">&#x2F;&#x2F;*************************************************&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F;分别存入 R3 R2 R1 R0；千位 百位 十位 个位</span><br><span class="line">    MOV     A,R4</span><br><span class="line">    MOV     B,#16</span><br><span class="line">    DIV     AB</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    MOV     R0,B</span><br><span class="line"></span><br><span class="line">    MOV     A,R2</span><br><span class="line">    MOV     R4,A</span><br><span class="line"></span><br><span class="line">    MOV     A,R3</span><br><span class="line">    MOV     B,#16</span><br><span class="line">    DIV     AB</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    MOV     R2,B</span><br><span class="line">    RET </span><br><span class="line">    </span><br><span class="line">Delay:                      &#x2F;&#x2F;定时0.4ms</span><br><span class="line">        MOV     30H,#10</span><br><span class="line">DEL0:   MOV     31H,#1</span><br><span class="line">DEL1:   MOV     32H,#20</span><br><span class="line">DEL2:   DJNZ    32H,DEL2</span><br><span class="line">        DJNZ    31H,DEL1</span><br><span class="line">        DJNZ    30H,DEL0</span><br><span class="line">      </span><br><span class="line">    RET  </span><br><span class="line">    </span><br><span class="line">D_table:</span><br><span class="line">    DB 3FH,06H,5BH,4FH,66H,6DH,7DH,07H,7FH,6FH  &#x2F;&#x2F;共阴极0~9</span><br><span class="line"></span><br><span class="line">    END</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>AD转化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PSW设置改进中断</title>
+    <url>/2020/12/15/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/</url>
+    <content><![CDATA[<ul>
+<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
+</ul>
+<blockquote>
+<p>中断优先级实验，主程序相邻2个LED灯循环点亮（03H—C0H）1S，外部中断0后静态数码管间隔1S轮流点亮0-F后返回，外部中断1后1个LED灯循环点亮（01H-80H）后返回，外部中断0优先级高于外部中断1，实现中断嵌套</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>P1接LED的ABCDEF，P3.2接K1，P3.3接K4，P0接静态数码管ABCDEF</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    AJMP    START</span><br><span class="line"></span><br><span class="line">    ORG     0003H</span><br><span class="line">    AJMP    INTT0</span><br><span class="line">    </span><br><span class="line">    ORG     0013H</span><br><span class="line">    AJMP    INTT1</span><br><span class="line">    </span><br><span class="line">    ORG     0100H</span><br><span class="line">START:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    MOV     PSW,#00H</span><br><span class="line">    SETB    EX0</span><br><span class="line">    SETB    IT0</span><br><span class="line">    SETB    EX1</span><br><span class="line">    SETB    IT1</span><br><span class="line">    SETB    EA</span><br><span class="line">    MOV     IP,#01H</span><br><span class="line">    MOV     P3,#0FFH</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">    MOV     R0,#03H</span><br><span class="line">    MOV     R2,#08H</span><br><span class="line">    ACALL   LOOP</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">LOOP:</span><br><span class="line">    MOV     A,R0</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R2,LOOP</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">INTT0:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#08H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.2,Pkey0</span><br><span class="line">    LJMP    RETURN</span><br><span class="line"></span><br><span class="line">INTT1:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#10H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.3,Pkey2</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey0:</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    CJNE    A,#0FFH,Pkey1</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey1:</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    INC     DPTR</span><br><span class="line">    LJMP    Pkey0</span><br><span class="line">Pkey2:</span><br><span class="line">    MOV     R1,#01H</span><br><span class="line">    MOV     R3,#08H</span><br><span class="line">    ACALL   Pkey3</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey3:</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R3,Pkey3</span><br><span class="line">    RET</span><br><span class="line">RETURN:</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H</span><br><span class="line">    DB  80H,90H,88H,83H,0C6H,0A1H,86H,8EH</span><br><span class="line">    DB  0FFH</span><br><span class="line"></span><br><span class="line">D10ms:</span><br><span class="line">    MOV     R7,#25</span><br><span class="line">D4:</span><br><span class="line">    MOV     R6,#200</span><br><span class="line">    DJNZ    R6,$</span><br><span class="line">    DJNZ    R7,D4</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">D1S:</span><br><span class="line">    MOV     R5,#20</span><br><span class="line">D5: MOV     R6,#100</span><br><span class="line">D6: MOV     R7,#248</span><br><span class="line">D7: DJNZ     R7,D7</span><br><span class="line">    DJNZ    R6,D6</span><br><span class="line">    DJNZ    R5,D5</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">    END</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>中断</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Keil调试代码优化问题</title>
+    <url>/2020/12/08/Keil5%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<ul>
+<li>在使用Keil进行调试的过程中，有的时候你可能会发现有几行代码怎么也得不到执行，下断点也会变成灰色感叹号。甚至有时候在做条件判断的时候，明明两个不相等的值却被判定为相等。</li>
+<li>这是因为Keil对我们的代码进行了<strong>优化</strong>处理，将优化等级降低计科解决问题。<img src="https://www.lingzhicheng.cn/usr/file/picture/Keil/Keil_optimism.png" alt="请输入图片描述"></li>
+</ul>
+]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>调试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Process or Thread</title>
+    <url>/2021/01/20/Process%20or%20Thread/</url>
+    <content><![CDATA[<h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位"><a href="#进程是资源分配的最小单位-线程是CPU调度的最小单位" class="headerlink" title="进程是资源分配的最小单位|线程是CPU调度的最小单位"></a>进程是资源分配的最小单位|线程是CPU调度的最小单位</h3><hr>
+<blockquote>
+<p>看了很多资料，解释都比较抽象<br>用一个简答的比喻在形容：进程=高铁，线程=车厢</p>
+</blockquote>
+<ul>
+<li>线程在进程下行进（单纯的车厢无法行动）</li>
+<li>一个进程可以包含多个线程（一辆高铁可以有多个车厢）</li>
+<li>同意进程下不同线程间数据容易共享</li>
+<li>不同进程间数据难以共享</li>
+<li>进程间不会互相影响，一个线程挂掉将导致整个进程挂掉</li>
+<li>进程占用更多资源</li>
+</ul>
+]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Tensorflow2.4保姆级安装教程</title>
+    <url>/2021/01/30/Tensorflow2.4%E4%BF%9D%E5%A7%86%E7%BA%A7%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<ul>
+<li>先装python还是先装anaconda?</li>
+<li>Anaconda版本选择与下载</li>
+<li>Anaconda安装</li>
+<li>更换conda镜像源</li>
+<li>Pycharm使用</li>
+<li>Pycharm虚拟环境介绍</li>
+<li>CUDA与cuDNN</li>
+<li>TensorFlow</li>
+</ul>
+<hr>
+<h2 id="版本介绍"><a href="#版本介绍" class="headerlink" title="版本介绍"></a>版本介绍</h2><blockquote>
+<p>python 3.7.0<br>conda 4.5.11<br>CUDA 11.1<br>Cudatoolkit 11.1.0<br>cuDNN 11.1 v8.0.5<br>tensorflow_gpu-2.4.1<br>Pycharm Professional 2020.3.3</p>
+</blockquote>
+<hr>
+<h2 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h2><blockquote>
+<p>下面列举了一些常见问题，请务必注意</p>
+</blockquote>
+<ul>
+<li>国外源速度慢导致连接断开（请参考下文<strong>更换pip源和conda源</strong>）</li>
+<li>版本对应问题（请勿安装过高版本的Anaconda，会导致python版本过高，Tensorflow不支持，至本文发布为止最高支持到python3.8，Tensorflow_CPU的安装较为简单，故演示了GPU-2.4.1）</li>
+</ul>
+<blockquote>
+<p>笔者在开始前已经有了python3.6.8，但实际上可以直接跳过，anaconda自带python<br><a href="https://www.python.org/downloads/">Python Download</a></p>
+<p>鉴于目前网上教程采用的版本比较混乱，故此次保姆级教程采用了较新的版本并通过测试</p>
+<p>保姆级教程：尽可能详细的列出具体步骤，但省略了一些作者认为比较简单的操作：如何打开命令行、命令行基本操作、如何使用Pycharm、软件的基本安装流程、环境变量的手动配置等。</p>
+<p><strong>如果仍然无法解决您的问题</strong><br>建议1：转身立马退坑<br>建议2：<a href="https://www.google.com.hk/">点击这里</a></p>
+</blockquote>
+<hr>
+<h2 id="1-前言：先装python还是先装anaconda"><a href="#1-前言：先装python还是先装anaconda" class="headerlink" title="1.前言：先装python还是先装anaconda"></a>1.前言：先装python还是先装anaconda</h2><blockquote>
+<p><strong>装anaconda，就不需要单独装python了</strong></p>
+<p>anaconda 是一个python的发行版，包括了python和很多常见的软件库,和一个包管理器conda，集成了很多关于python科学计算的第三方库，主要是安装方便，而python是一个编译器，如果不使用anaconda，那么安装起来会比较痛苦，各个库之间的依赖性就很难连接的很好。</p>
+</blockquote>
+<h2 id="2-Anaconda版本选择与下载"><a href="#2-Anaconda版本选择与下载" class="headerlink" title="2.Anaconda版本选择与下载"></a>2.Anaconda版本选择与下载</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><blockquote>
+<p><strong>官网下载:</strong> 不推荐，不会开飞机的话速度慢并且容易断<br><a href="https://www.anaconda.com/products/individual">Anaconda官网</a></p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda.png" alt="Anaconda官网"></p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><blockquote>
+<p><strong>国内镜像源:</strong> 可以用清华源、中科大源……<br><a href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive">Anaconda清华源</a></p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_tsinghua.png" alt="Anaconda清华源"></p>
+<h3 id="版本选择"><a href="#版本选择" class="headerlink" title="版本选择"></a>版本选择</h3><p> <img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_python.png" alt="请输入图片描述"></p>
+<h2 id="3-Anaconda安装"><a href="#3-Anaconda安装" class="headerlink" title="3.Anaconda安装"></a>3.Anaconda安装</h2><blockquote>
+<p><strong>比较容易</strong>，一路next和skip，包括自动添加到环境变量等操作，可以直接装到C盘可以避免一些后续问题，笔者这里选择装到了E://Anaconda3 <strong>等待安装完毕即可</strong><br>若没有勾选<code>Add Anaconda to the system Path environment variable</code>，需要手动添加环境变量，比较简单；此处勾选了所以忽略</p>
+</blockquote>
+<h3 id="验证是否安装完成-conda-info"><a href="#验证是否安装完成-conda-info" class="headerlink" title="验证是否安装完成 conda info"></a>验证是否安装完成 conda info</h3><p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_complete.png" alt="验证是否安装完成 conda info"></p>
+<h3 id="Anaconda-Navigator是否可用"><a href="#Anaconda-Navigator是否可用" class="headerlink" title="Anaconda Navigator是否可用"></a>Anaconda Navigator是否可用</h3><p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_navigator.png" alt="Anaconda Navigator是否可用"></p>
+<blockquote>
+<p>至此，Python 3.7.0 + Anaconda3-5.3.1安装完成</p>
+</blockquote>
+<hr>
+<h2 id="4-更换conda镜像源"><a href="#4-更换conda镜像源" class="headerlink" title="4.更换conda镜像源"></a>4.更换conda镜像源</h2><ul>
+<li><p>可以在Anaconda Navigator中的channel直接更换</p>
+</li>
+<li><p>也可以在Anaconda Prompt中更换镜像源<br>  <code>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</code><br>  <code>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/</code><br>  <code>conda config --set show_channel_urls yes</code></p>
+</li>
+<li><p>查看是否已经更换好通道<br>  <code>conda config --show channels</code><br><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Change_channel.png" alt="Change_channel"></p>
+</li>
+</ul>
+<h2 id="5-Pycharm使用"><a href="#5-Pycharm使用" class="headerlink" title="5.Pycharm使用"></a>5.Pycharm使用</h2><blockquote>
+<p>Jetbrains全家桶：US $649.00/Year，当然建议使用edu邮箱获取，申请教育版邮箱认证即可（可能需要不定时验证信息），建议安装<strong>Toolbox</strong>方便更新以及使用</p>
+<p><a href="https://www.jetbrains.com/">附上<strong>Jetbrains</strong>链接</a></p>
+<p><em>针对浙工大学生邮箱：Jetbrains的验证邮件容易出现在e邮的<strong>拦截队列</strong>中，收不到confirm email可以在拦截队列中找到</em></p>
+<p>如果比较困难，可以尝试装中文插件 File-&gt;Settings-&gt;Plugins-&gt;Chinese (Simplified) Language Pack EAP  当然<strong>不建议</strong>这样使用，<strong>汉化</strong>的翻译可能存在偏差</p>
+</blockquote>
+<h2 id="6-Pycharm虚拟环境介绍"><a href="#6-Pycharm虚拟环境介绍" class="headerlink" title="6. Pycharm虚拟环境介绍"></a>6. Pycharm虚拟环境介绍</h2><blockquote>
+<p>Pycharm采用虚拟的环境，配置是可以采用为项目新建Python解释器或者使用原有的环境</p>
+</blockquote>
+<ol>
+<li>Inherit global site-packages<br>继承本地的库，如果需要重复安装第三方库，可以勾上这个</li>
+<li>Make available to all projects<br>可以使别的工程项目可以使用此工程的环境</li>
+</ol>
+<blockquote>
+<p>区别：创建Virtualenv Environment 或者 Conda Environment<br>若要在服务器上远程运行，配置SSH interpreter，并且在Tools-&gt;Deploment-&gt;Configuration中配置主机即可，后续有机会再详细展开……</p>
+</blockquote>
+<h2 id="7-CUDA和cuDNN"><a href="#7-CUDA和cuDNN" class="headerlink" title="7. CUDA和cuDNN"></a>7. CUDA和cuDNN</h2><blockquote>
+<p>检测目前安装了哪些环境<br>cmd: <code>conda info --envs</code></p>
+<p>检查目前有哪些版本的python可以安装<br>cmd：<code>conda search --full-name python</code></p>
+<p>检查目前有哪些版本的Tensorflow可以安装<br>cmd：<code>conda search --full -name tensorflow</code></p>
+<p>查看依赖关系<br>cmd：<code>conda info tensorflow</code></p>
+<p><strong>在这之前，检查Nvidia驱动支持的CUDA版本，此处安装的是Tensorflow2.4.1，需要CUDA11.0或及以上版本</strong></p>
+</blockquote>
+<ul>
+<li><a href="https://tensorflow.google.cn/install/source_windows?hl=cn#gpu">查看Tensorflow和CUDA对应版本</a>（版本一定要对应）</li>
+</ul>
+<blockquote>
+<p><code>nvidia-smin</code>命令行查看CUDA Version （当前显卡驱动最高支持的CUDA版本）</p>
+</blockquote>
+<ul>
+<li><a href="https://developer.nvidia.com/cuda-toolkit-archive">Nvidia官网下载Cudatoolkit</a>（下载速度慢可以复制链接到迅雷下载）</li>
+</ul>
+<blockquote>
+<p>一路安装下来即可，安装过程中已经自动添加了环境变量<br>cmd：<code>nvcc -V</code>返回CUDA版本信息，如果<strong>nvcc命令无法识别则表示安装失败</strong></p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/nvcc%20-V.png" alt="CUDA版本信息"></p>
+<ul>
+<li><a href="https://developer.nvidia.com/rdp/cudnn-archive">Nvidia官网下载cuDNN</a>（下载速度慢可以复制链接到迅雷下载）</li>
+</ul>
+<blockquote>
+<p>只要把cuDNN文件复制到CUDA的对应文件夹里就可以，即所谓的插入式设计，cuDNN是CUDA的扩展计算库，不会对CUDA造成其他影响。<br>复制后，手动将CUDA相对路径下的/bin和/lib/x64添加到环境变量CUDA_PATH</p>
+</blockquote>
+<ul>
+<li><strong>测试CUDA</strong></li>
+</ul>
+<blockquote>
+<p>cmd：<code>cd /d C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1\extras\demo_suite</code></p>
+</blockquote>
+<ul>
+<li><strong>测试<code>deviceQuery.exe</code></strong></li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/CUDA_test0.png" alt="CUDA_deviceQuery"></p>
+<ul>
+<li><strong>测试<code>bandwidthTest.exe</code></strong></li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/CUDA_test1.png" alt="CUDA_bandwidthTest"></p>
+<blockquote>
+<p>都返回Result = PASS<br>That’s all OK.</p>
+</blockquote>
+<h2 id="8-TensorFlow"><a href="#8-TensorFlow" class="headerlink" title="8. TensorFlow"></a>8. TensorFlow</h2><h3 id="8-1-创建环境"><a href="#8-1-创建环境" class="headerlink" title="8.1 创建环境"></a>8.1 创建环境</h3><pre><code>conda create -name tfenv python=3.7.0
+</code></pre>
+<blockquote>
+<p>由于之前已经更换了清华源，由于网络问题造成的错误率大大降低，但仍然可能被中断<br>用<code>conda info --envs</code>检查一下是否装好了tfenv环境</p>
+</blockquote>
+<h3 id="8-2-激活环境"><a href="#8-2-激活环境" class="headerlink" title="8.2 激活环境"></a>8.2 激活环境</h3><pre><code>conda activate tfenv
+</code></pre>
+<blockquote>
+<p>退出环境<code>conda activate</code></p>
+</blockquote>
+<h3 id="8-3-激活后安装Tensorflow"><a href="#8-3-激活后安装Tensorflow" class="headerlink" title="8.3 激活后安装Tensorflow"></a>8.3 激活后安装Tensorflow</h3><ul>
+<li><p>更换tfenv环境的pip源 👉<a href="https://mirrors.tuna.tsinghua.edu.cn/help/pypi/">更换pip清华源参考方法</a></p>
+</li>
+<li><p>pip install tensorflow-gpu</p>
+</li>
+</ul>
+<blockquote>
+<p>此处未指定版本，会选择最高的gpu版本安装，若要置顶版本，<code>tensorflow-gpu=2.x.x</code><br>虽然已经换源，但还是可能出现<code>These Packages Do Not Match The Hashes From The Requirements File.</code><br>解决方案：在pip时，添加”–upgrade”参数（<strong>实测有效</strong>）。<br>几分钟后👉<strong>安装成功</strong></p>
+</blockquote>
+<h3 id="8-4-激活后测试Tensorflow"><a href="#8-4-激活后测试Tensorflow" class="headerlink" title="8.4 激活后测试Tensorflow"></a>8.4 激活后测试Tensorflow</h3><ul>
+<li><p>输出包含GPU信息的日志</p>
+<p>  import tensorflow as tf<br>  tf.test.is_gpu_available()<br>  tf.test.gpu_device_name()</p>
+</li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Prompt_test.png" alt="Prompt_test"></p>
+<h3 id="8-5-Pycharm测试Tensorflow"><a href="#8-5-Pycharm测试Tensorflow" class="headerlink" title="8.5 Pycharm测试Tensorflow"></a>8.5 Pycharm测试Tensorflow</h3><ul>
+<li>添加安装有Tensorflow的环境作为工程的python解释器</li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Pycharm_test0.png" alt="Anaconda官网.png"></p>
+<pre><code>import tensorflow as tf
+tf.compat.v1.disable_eager_execution()
+greeting = tf.constant(&#39;Hello Tensorflow!&#39;)
+sess = tf.compat.v1.Session()
+result = sess.run(greeting)
+print(result)
+sess.close()
+</code></pre>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Pycharm_test1.png" alt="Pycharm中测试"></p>
+<hr>
+<blockquote>
+<p>至此，所有安装和配置完成，<strong>版本对应</strong>问题非常重要，如果出现装错了版本请尝试<strong>彻底卸载</strong>后重装<br>为了更有针对性，本文采用了较新的版本，请务必在安装前选择<strong>合适的版本</strong><br>如果提示确实dll动态链接库，请尝试手动下载，貌似采用CUDA11.1可能会遇到这种情况，并且有部分人认为11.1中有未知错误并且不推荐使用，但在安装过程中并未发现，或许之后遇到了会继续补充</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Tensorflow</category>
+      </categories>
+      <tags>
+        <tag>安装教程</tag>
+        <tag>tensorflow</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>VS2019代码提示延迟很高，部分快捷键无法使用的问题</title>
+    <url>/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><ul>
+<li>Visual Studio 与Nvidia CUDA NSightVSE冲突</li>
+</ul>
+<h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><ul>
+<li>Tab、Ctrl’+C 、 Ctrl’+K 等快捷键失效，智能代码提示不能正常显示，有时不会出现，有时要等四五秒，非常不正常</li>
+</ul>
+<blockquote>
+<p>Setting中检查设置无误，尝试过重启、重置个人配置、重装等均无效<br>很长一段时间没有使用过vs，之前装了比较新的Nvidia CUDA，同时附带的有NSightVSE，也就是设计vs的拓展，问题出在这里</p>
+</blockquote>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><blockquote>
+<p>卸载NSightVSE或者其他Nvidia和vs相关的拓展，重启vs后生效<br>正常情况搜索NsightVSE会出现四个，保留下列三个即可，版本仅供参考，可能其他版本不会出现如上问题。<br>Nvidia CUDA Nsight NVTX 11.1<br>Nvidia Nsight Compute 2020.2.0<br>Nvidia Nsight Systems 2020.3.4</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
+      <tags>
+        <tag>debug</tag>
+        <tag>Nvidia CUDA</tag>
+        <tag>Visual Studio</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>debug Gitalk 403</title>
+    <url>/2021/02/23/debug%20Gitalk%20403/</url>
+    <content><![CDATA[<ul>
+<li>留言系统使用Gitalk，最近发现无法使用GitHub账号登陆，出现403</li>
+<li>Error: Request failed with status code 403</li>
+</ul>
+<h3 id="Headers"><a href="#Headers" class="headerlink" title="Headers"></a>Headers</h3><blockquote>
+<p>网络请求403，拿不到token，导致登陆不上<br>Request URL：<a href="https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token">https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Missing required request header. Must specify one of: origin,x-requested-with</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="cors-anywhere"><a href="#cors-anywhere" class="headerlink" title="cors-anywhere"></a>cors-anywhere</h3><blockquote>
+<p>开源框架解决跨域问题的反向代理</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CORS Anywhere is a NodeJS proxy which adds CORS headers to the proxied request.</span><br><span class="line"></span><br><span class="line">The url to proxy is literally taken from the path, validated and proxied. The protocol part of the proxied URI is optional, and defaults to &quot;http&quot;. If port 443 is specified, the protocol defaults to &quot;https&quot;.</span><br><span class="line"></span><br><span class="line">This package does not put any restrictions on the http methods or headers, except for cookies. Requesting user credentials is disallowed. The app can be configured to require a header for proxying a request, for example to avoid a direct visit from the browser.</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="more"><a href="#more" class="headerlink" title="more"></a>more</h3><blockquote>
+<p>看上去像是被滥用，然后从2021.1.31后用户必须手动获得这个网站的访问权限后才能使用，这也就是为什么最近登陆不上了</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Public demo server (cors-anywhere.herokuapp.com) will be very limited by January 2021, 31st</span><br><span class="line">The demo server of CORS Anywhere (cors-anywhere.herokuapp.com) is meant to be a demo of this project. But abuse has become so common that the platform where the demo is hosted (Heroku) has asked me to shut down the server, despite efforts to counter the abuse (rate limits in #45 and #164, and blocking other forms of requests). Downtime becomes increasingly frequent (e.g. recently #300, #299, #295, #294, #287) due to abuse and its popularity.</span><br></pre></td></tr></table></figure>
+
+</blockquote>
+<h3 id="Gitalk-Document"><a href="#Gitalk-Document" class="headerlink" title="Gitalk Document"></a>Gitalk Document</h3><blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;const gitalk &#x3D; new Gitalk(&#123;</span><br><span class="line"> clientID: &#39;GitHub Application Client ID&#39;,</span><br><span class="line"> clientSecret: &#39;GitHub Application Client Secret&#39;,</span><br><span class="line"> repo: &#39;GitHub repo&#39;,      &#x2F;&#x2F; The repository of store comments,</span><br><span class="line"> owner: &#39;GitHub repo owner&#39;,</span><br><span class="line"> admin: [&#39;GitHub repo owner and collaborators, only these guys can initialize github issues&#39;],</span><br><span class="line"> id: location.pathname,      &#x2F;&#x2F; Ensure uniqueness and length less than 50</span><br><span class="line"> distractionFreeMode: false  &#x2F;&#x2F; Facebook-like distraction free mode</span><br><span class="line">&gt;&#125;)</span><br><span class="line"></span><br><span class="line">&gt;gitalk.render(&#39;gitalk-container&#39;)</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="add"><a href="#add" class="headerlink" title="add"></a>add</h3><blockquote>
+<p>在gitalk相应js文件中添加</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">proxy: &#39;&lt;%- theme.gitalk.proxy %&gt;&#39;</span><br></pre></td></tr></table></figure>
+
+<p>在配置文件中添加</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">proxy: https:&#x2F;&#x2F;netnr-proxy.cloudno.de&#x2F;https:&#x2F;&#x2F;github.com&#x2F;login&#x2F;oauth&#x2F;access_token</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>重新部署</p>
+</blockquote>
+<hr>
+<p>暂时采用了Issue中找到的可替代的cors，表示感谢.</p>
+]]></content>
+      <categories>
+        <category>Gitalk, plug-in</category>
+      </categories>
+      <tags>
+        <tag>debug</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo_begin</title>
+    <url>/2021/01/31/hexo_begin/</url>
+    <content><![CDATA[<h2 id="机制介绍"><a href="#机制介绍" class="headerlink" title="机制介绍"></a>机制介绍</h2><p><code>hexo d</code>上传部署到Github的其实是hexo编译后的文件静态文件，用于生成网页，不包含源文件，也就是上传<code>.deploy_git</code>中的文件，其他文件，包括<code>source</code>里面的和一些配置、主题文件都不会上传到GitHub，考虑到可能会在不同主机发布，因此将<code>hexo d</code>操作不会上传的文件主动<code>git</code>到另一个分支。</p>
+<hr>
+<h2 id="新建备份分支"><a href="#新建备份分支" class="headerlink" title="新建备份分支"></a>新建备份分支</h2><ol>
+<li><p>首先在Github上新建一个<code>hexo_backup</code>分支并且设置为默认分支，以便在每次同步的时候不用指定分支，比较方便，用于备份源文件。</p>
+</li>
+<li><p>在本地<code>blog_local</code>目录下<code>git clone git@github.com:boom1999/boom1999.github.io.git</code>,此时由于默认分支为hexo_backup，所以只是clone了hexo_backup。在clone下的目录里将<code>.git</code>以外的文件全部删除，将源文件（包括<code>.gitignore</code>）全部复制过来。（<code>.deploy_git</code>不需要，这是生成的静态文件，也就是会push到master分支中的文件）。如果没有<code>.gitignore</code>，忽略push这部分文件，请手动添加：</p>
+<pre><code> .DS_Store
+ Thumbs.db
+ db.json
+ *.log
+ node_modules/
+ public/
+ .deploy*/
+</code></pre>
+</li>
+<li><p>将源文件push到hexo_backup分支,上传后GitHub上的hexo_backup分支备份完成</p>
+<pre><code> git add .
+ git commit –m &quot;your commit&quot;
+ git push 
+</code></pre>
+</li>
+</ol>
+<hr>
+<h2 id="更换环境操作"><a href="#更换环境操作" class="headerlink" title="更换环境操作"></a>更换环境操作</h2><ul>
+<li><p>创建一个新的<code>blog_local</code>文件夹</p>
+</li>
+<li><p>安装<code>git</code>和<code>nodejs</code></p>
+</li>
+<li><p>设置git全局邮箱和用户名</p>
+<pre><code>  git config --global user.name &quot;yourgithubname&quot;
+  git config --global user.email &quot;yourgithubemail&quot;
+</code></pre>
+</li>
+<li><p>设置<code>ssh key</code></p>
+<pre><code>  ssh-keygen -t rsa -C &quot;youremail&quot;
+  #生成后公钥添加到GitHub仓库中
+  #验证是否成功
+  ssh -T git@github.com
+</code></pre>
+</li>
+<li><p>安装hexo（不需要hexo init，因为整体框架会被clone下来）</p>
+<pre><code>  npm install hexo-cli -g
+  #或者局部安装
+  npm install hexo
+</code></pre>
+</li>
+<li><p><code>clone</code>到本地操作</p>
+<pre><code>  git clone git@github.com:boom1999/boom1999.github.io.git
+</code></pre>
+</li>
+<li><p>进入本地文件</p>
+<pre><code>  cd boom1999.github.io
+  npm install
+</code></pre>
+</li>
+<li><p>安装名为<code>hexo-deployer-git</code>的部署器插件，通过该插件就能实现一键部署</p>
+<pre><code>  npm install hexo-deployer-git --save
+</code></pre>
+</li>
+<li><p>添加新文件<code>source/_posts</code>，生成，部署</p>
+<pre><code>  hexo g
+  hexo d
+</code></pre>
+</li>
+</ul>
+<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
+<li><p>每次写完不要忘了备份源文件</p>
+<pre><code>  git add .
+  git commit –m &quot;your commit&quot;
+  git push 
+</code></pre>
+</li>
+<li><p>如果是在已经目前使用的机器，如在其他机器上更新过，每次<strong>使用前</strong>只要远端同步一下就行<code>git pull</code></p>
+</li>
+</ul>
+<hr>
+<ul>
+<li><code>2021/01/30测试通过</code></li>
+<li>下一步准备部署到自己的服务器，GitHub作备份用</li>
+</ul>
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo同步部署再Github和服务器</title>
+    <url>/2021/02/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
+    <content><![CDATA[<ul>
+<li>寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页</li>
+<li>前提条件：已有github.io仓库，hexo博客已经上线测试可以使用，已有<code>nginx</code>、<code>git</code>、<code>node</code>等基础，可参考上一篇笔记</li>
+<li>省略了一些次要步骤，域名解析、备案等</li>
+</ul>
+<hr>
+<h2 id="服务器Webhook部分"><a href="#服务器Webhook部分" class="headerlink" title="服务器Webhook部分"></a>服务器Webhook部分</h2><ul>
+<li>利用宝塔平台的Webhook插件</li>
+</ul>
+<blockquote>
+<p>名称随意，实例脚本如下<br>gitPath=”/www/wwwroot/YourWebsiteLocation/“<br>gitHttp=”<a href="https://github.com/YourGithubName/xxxxxxxx.github.io.git&quot;">https://github.com/YourGithubName/xxxxxxxx.github.io.git&quot;</a><br>若失败，可考虑加上<code>sudo</code>使用管理员权限</p>
+</blockquote>
+<pre><code>#!/bin/bash
+echo &quot;&quot;
+#输出当前时间
+date --date=&#39;0 days ago&#39; &quot;+%Y-%m-%d %H:%M:%S&quot;
+e   cho &quot;Start&quot;
+
+#git项目路径
+gitPath=&quot; &quot;
+#git 网址
+gitHttp=&quot; &quot;
+ 
+echo &quot;Web站点路径：$gitPath&quot;
+ 
+#判断项目路径是否存在
+if [ -d &quot;$gitPath&quot; ]; then
+    cd $gitPath
+    #判断是否存在git目录
+    if [ ! -d &quot;.git&quot; ]; then
+            echo &quot;在该目录下克隆 git&quot;
+            sudo git clone $gitHttp gittemp
+            sudo mv gittemp/.git .
+            sudo rm -rf gittemp
+    fi
+    #拉取最新的项目文件
+    sudo git reset --hard origin/master
+    sudo git pull origin master
+    #设置目录权限
+    sudo chown -R www:www $gitPath
+    echo &quot;End&quot;
+    exit
+else
+    echo &quot;该项目路径不存在&quot;
+    echo &quot;End&quot;
+    exit
+fi
+</code></pre>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook01.png" alt="宝塔Webhook"></p>
+<h2 id="Github设置Webhook"><a href="#Github设置Webhook" class="headerlink" title="Github设置Webhook"></a>Github设置Webhook</h2><ul>
+<li><p>查看密钥<br><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook02.png" alt="宝塔Webhook查看密钥"></p>
+</li>
+<li><p>切换到Github项目的Settings-Webhooks</p>
+</li>
+<li><p><code>Add Webhook</code></p>
+</li>
+</ul>
+<blockquote>
+<p><strong>Payload URL:</strong> <code>http://服务器ip:8888?hook?access_key=xxxxx</code><br><strong>Content type:</strong> <code>application/json</code><br><strong>Secret:</strong> <code>Key</code><br><strong>Which events would you like to trigger this webhook?</strong><br>choose：Just the push event.<br>√<strong>Active</strong></p>
+</blockquote>
+<ul>
+<li>测试，本地更改sources后<code>hexo g</code>+<code>hexo d</code></li>
+<li>第一次红了是因为将Github中Webhook的Content type设置成了<code>application/x-www-form-urlencoded</code>，改成<code>application/json</code>通过<br><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook03.png" alt="Webhook测试"></li>
+</ul>
+<hr>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><ol>
+<li>服务器需要开放8888端口，如果使用其他端口同样需要打开</li>
+<li>两者都是表单数据发送时的编码类型<br> application/x-www-form-urlencoded –&gt; key=value&amp;key=value</li>
+</ol>
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>同步</tag>
+        <tag>webhook</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>正则表达式整理（持续更新）</title>
+    <url>/2021/02/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h2 id="最常用的匹配"><a href="#最常用的匹配" class="headerlink" title="最常用的匹配"></a>最常用的匹配</h2><table>
+<thead>
+<tr>
+<th>字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>\d</code></strong></td>
+<td>表示任意数字，就是阿拉伯数字<code>0~9</code>这些。</td>
+</tr>
+<tr>
+<td><code>\D</code></td>
+<td>大写的表示与小写的相反，表示不是数字。</td>
+</tr>
+<tr>
+<td><code>\w</code></td>
+<td>代表字母，数字，下划线。<code>a-z</code>、<code>A-Z</code>、<code>0~9</code>、<code>_</code>。</td>
+</tr>
+<tr>
+<td><code>\W</code></td>
+<td>大写的表示与小写的相反，不是字母、不是数字也不是下划线。</td>
+</tr>
+<tr>
+<td><strong><code>\n</code></strong></td>
+<td>代表一个回换行。</td>
+</tr>
+<tr>
+<td><code>\r</code></td>
+<td>代表一个回车。</td>
+</tr>
+<tr>
+<td><code>\f</code></td>
+<td>代表换页。</td>
+</tr>
+<tr>
+<td><code>\t</code></td>
+<td>代表一个<code>Tab</code>。</td>
+</tr>
+<tr>
+<td><code>\s</code></td>
+<td>代表所有的空白符，也就是上面四个：<code>\n</code>、<code>\r</code>、<code>\f</code>、<code>\t</code>。</td>
+</tr>
+<tr>
+<td><code>\S</code></td>
+<td>大写的表示与小写的相反，代表所有不是空白的字符。</td>
+</tr>
+<tr>
+<td><code>\A</code></td>
+<td>代表字符串的开始。</td>
+</tr>
+<tr>
+<td><code>\Z</code></td>
+<td>代表字符串的结束。</td>
+</tr>
+<tr>
+<td><strong><code>^</code></strong></td>
+<td>匹配字符串开始的位置。</td>
+</tr>
+<tr>
+<td><strong><code>$</code></strong></td>
+<td>匹配字符串结束的位置。</td>
+</tr>
+<tr>
+<td><strong><code>.</code></strong></td>
+<td>代表所有的单个字符，除了换行<code>\n</code>,回车<code>\r</code>。</td>
+</tr>
+<tr>
+<td><code>[...]</code></td>
+<td>代表在<code>[]</code>范围内的字符，比如<code>[a-z]</code>就代表<code>a-z</code>的字母。</td>
+</tr>
+<tr>
+<td><code>[^...]</code></td>
+<td>与上一个相反，代表不在<code>[]</code>范围内的字符。</td>
+</tr>
+<tr>
+<td><code>&#123;n&#125;</code></td>
+<td>匹配在<code>&#123;n&#125;</code>前面的东西，比如<code>o&#123;2&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>food</code>中的两个<code>o</code>。</td>
+</tr>
+<tr>
+<td><code>&#123;n,m&#125;</code></td>
+<td>匹配在<code>&#123;n,m&#125;</code>前面的东西，比如<code>o&#123;1,3&#125;</code>将匹配<code>fooooood</code>中的前三个<code>o</code>。</td>
+</tr>
+<tr>
+<td><code>&#123;n, &#125;</code></td>
+<td>匹配在<code>&#123;n,&#125;</code>前面的东西，比如<code>o&#123;2,&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>foooood</code>中的所有<code>o</code>。</td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>和<code>&#123;0,&#125;</code>一样，匹配<code>*</code>前面的0次或多次。比如<code>zo*</code>能匹配<code>z</code>、<code>zo</code>以及<code>zoo</code>。</td>
+</tr>
+<tr>
+<td><code>+</code></td>
+<td>和<code>&#123;1,&#125;</code>一样，匹配+前面1次或多次。比如<code>zo+</code>能匹配<code>zo</code>以及<code>zoo</code>但不能匹配<code>z</code></td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td>和<code>&#123;0,1&#125;</code>一样，匹配<code>?</code>前面0次或1次</td>
+</tr>
+<tr>
+<td><code>()</code></td>
+<td>匹配括号里的内容</td>
+</tr>
+</tbody></table>
+<h2 id="re-match"><a href="#re-match" class="headerlink" title="re.match"></a>re.match</h2><blockquote>
+<p>传入两个参数，第一个是匹配的规则，第二个是需要被过滤的内容</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">content = <span class="string">&#x27;you have 100 bananas.&#x27;</span></span><br><span class="line">res = re.match(<span class="string">&#x27;^yo.*(\d+)\s.*s$&#x27;</span>,content)</span><br><span class="line">print(res.group(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>re.match</tag>
+      </tags>
+  </entry>
+</search>

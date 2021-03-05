@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+
+
+<head>
+  <meta name="google-site-verification" content="QbUVAi0K2ZB_P4A6jbbi-GVB4BXs3n6GqgIEGHlySnk" />
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="Tensorflow,at89s51,dsp,随记" />
+   
+  <meta name="description" content="No fear of words,no fear of years" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    Tensorflow2.4保姆级安装教程 |  Haisen
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="Haisen" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-Tensorflow2.4保姆级安装教程"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Tensorflow2.4保姆级安装教程
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/01/30/Tensorflow2.4%E4%BF%9D%E5%A7%86%E7%BA%A7%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" class="article-date">
+  <time datetime="2021-01-30T00:00:00.000Z" itemprop="datePublished">2021-01-30</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Tensorflow/">Tensorflow</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.8k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">6 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <ul>
+<li>先装python还是先装anaconda?</li>
+<li>Anaconda版本选择与下载</li>
+<li>Anaconda安装</li>
+<li>更换conda镜像源</li>
+<li>Pycharm使用</li>
+<li>Pycharm虚拟环境介绍</li>
+<li>CUDA与cuDNN</li>
+<li>TensorFlow</li>
+</ul>
+<hr>
+<h2 id="版本介绍"><a href="#版本介绍" class="headerlink" title="版本介绍"></a>版本介绍</h2><blockquote>
+<p>python 3.7.0<br>conda 4.5.11<br>CUDA 11.1<br>Cudatoolkit 11.1.0<br>cuDNN 11.1 v8.0.5<br>tensorflow_gpu-2.4.1<br>Pycharm Professional 2020.3.3</p>
+</blockquote>
+<hr>
+<h2 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h2><blockquote>
+<p>下面列举了一些常见问题，请务必注意</p>
+</blockquote>
+<ul>
+<li>国外源速度慢导致连接断开（请参考下文<strong>更换pip源和conda源</strong>）</li>
+<li>版本对应问题（请勿安装过高版本的Anaconda，会导致python版本过高，Tensorflow不支持，至本文发布为止最高支持到python3.8，Tensorflow_CPU的安装较为简单，故演示了GPU-2.4.1）</li>
+</ul>
+<blockquote>
+<p>笔者在开始前已经有了python3.6.8，但实际上可以直接跳过，anaconda自带python<br><a target="_blank" rel="noopener" href="https://www.python.org/downloads/">Python Download</a></p>
+<p>鉴于目前网上教程采用的版本比较混乱，故此次保姆级教程采用了较新的版本并通过测试</p>
+<p>保姆级教程：尽可能详细的列出具体步骤，但省略了一些作者认为比较简单的操作：如何打开命令行、命令行基本操作、如何使用Pycharm、软件的基本安装流程、环境变量的手动配置等。</p>
+<p><strong>如果仍然无法解决您的问题</strong><br>建议1：转身立马退坑<br>建议2：<a target="_blank" rel="noopener" href="https://www.google.com.hk/">点击这里</a></p>
+</blockquote>
+<hr>
+<h2 id="1-前言：先装python还是先装anaconda"><a href="#1-前言：先装python还是先装anaconda" class="headerlink" title="1.前言：先装python还是先装anaconda"></a>1.前言：先装python还是先装anaconda</h2><blockquote>
+<p><strong>装anaconda，就不需要单独装python了</strong></p>
+<p>anaconda 是一个python的发行版，包括了python和很多常见的软件库,和一个包管理器conda，集成了很多关于python科学计算的第三方库，主要是安装方便，而python是一个编译器，如果不使用anaconda，那么安装起来会比较痛苦，各个库之间的依赖性就很难连接的很好。</p>
+</blockquote>
+<h2 id="2-Anaconda版本选择与下载"><a href="#2-Anaconda版本选择与下载" class="headerlink" title="2.Anaconda版本选择与下载"></a>2.Anaconda版本选择与下载</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><blockquote>
+<p><strong>官网下载:</strong> 不推荐，不会开飞机的话速度慢并且容易断<br><a target="_blank" rel="noopener" href="https://www.anaconda.com/products/individual">Anaconda官网</a></p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda.png" alt="Anaconda官网"></p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><blockquote>
+<p><strong>国内镜像源:</strong> 可以用清华源、中科大源……<br><a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive">Anaconda清华源</a></p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_tsinghua.png" alt="Anaconda清华源"></p>
+<h3 id="版本选择"><a href="#版本选择" class="headerlink" title="版本选择"></a>版本选择</h3><p> <img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_python.png" alt="请输入图片描述"></p>
+<h2 id="3-Anaconda安装"><a href="#3-Anaconda安装" class="headerlink" title="3.Anaconda安装"></a>3.Anaconda安装</h2><blockquote>
+<p><strong>比较容易</strong>，一路next和skip，包括自动添加到环境变量等操作，可以直接装到C盘可以避免一些后续问题，笔者这里选择装到了E://Anaconda3 <strong>等待安装完毕即可</strong><br>若没有勾选<code>Add Anaconda to the system Path environment variable</code>，需要手动添加环境变量，比较简单；此处勾选了所以忽略</p>
+</blockquote>
+<h3 id="验证是否安装完成-conda-info"><a href="#验证是否安装完成-conda-info" class="headerlink" title="验证是否安装完成 conda info"></a>验证是否安装完成 conda info</h3><p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_complete.png" alt="验证是否安装完成 conda info"></p>
+<h3 id="Anaconda-Navigator是否可用"><a href="#Anaconda-Navigator是否可用" class="headerlink" title="Anaconda Navigator是否可用"></a>Anaconda Navigator是否可用</h3><p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_navigator.png" alt="Anaconda Navigator是否可用"></p>
+<blockquote>
+<p>至此，Python 3.7.0 + Anaconda3-5.3.1安装完成</p>
+</blockquote>
+<hr>
+<h2 id="4-更换conda镜像源"><a href="#4-更换conda镜像源" class="headerlink" title="4.更换conda镜像源"></a>4.更换conda镜像源</h2><ul>
+<li><p>可以在Anaconda Navigator中的channel直接更换</p>
+</li>
+<li><p>也可以在Anaconda Prompt中更换镜像源<br>  <code>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</code><br>  <code>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/</code><br>  <code>conda config --set show_channel_urls yes</code></p>
+</li>
+<li><p>查看是否已经更换好通道<br>  <code>conda config --show channels</code><br><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Change_channel.png" alt="Change_channel"></p>
+</li>
+</ul>
+<h2 id="5-Pycharm使用"><a href="#5-Pycharm使用" class="headerlink" title="5.Pycharm使用"></a>5.Pycharm使用</h2><blockquote>
+<p>Jetbrains全家桶：US $649.00/Year，当然建议使用edu邮箱获取，申请教育版邮箱认证即可（可能需要不定时验证信息），建议安装<strong>Toolbox</strong>方便更新以及使用</p>
+<p><a target="_blank" rel="noopener" href="https://www.jetbrains.com/">附上<strong>Jetbrains</strong>链接</a></p>
+<p><em>针对浙工大学生邮箱：Jetbrains的验证邮件容易出现在e邮的<strong>拦截队列</strong>中，收不到confirm email可以在拦截队列中找到</em></p>
+<p>如果比较困难，可以尝试装中文插件 File-&gt;Settings-&gt;Plugins-&gt;Chinese (Simplified) Language Pack EAP  当然<strong>不建议</strong>这样使用，<strong>汉化</strong>的翻译可能存在偏差</p>
+</blockquote>
+<h2 id="6-Pycharm虚拟环境介绍"><a href="#6-Pycharm虚拟环境介绍" class="headerlink" title="6. Pycharm虚拟环境介绍"></a>6. Pycharm虚拟环境介绍</h2><blockquote>
+<p>Pycharm采用虚拟的环境，配置是可以采用为项目新建Python解释器或者使用原有的环境</p>
+</blockquote>
+<ol>
+<li>Inherit global site-packages<br>继承本地的库，如果需要重复安装第三方库，可以勾上这个</li>
+<li>Make available to all projects<br>可以使别的工程项目可以使用此工程的环境</li>
+</ol>
+<blockquote>
+<p>区别：创建Virtualenv Environment 或者 Conda Environment<br>若要在服务器上远程运行，配置SSH interpreter，并且在Tools-&gt;Deploment-&gt;Configuration中配置主机即可，后续有机会再详细展开……</p>
+</blockquote>
+<h2 id="7-CUDA和cuDNN"><a href="#7-CUDA和cuDNN" class="headerlink" title="7. CUDA和cuDNN"></a>7. CUDA和cuDNN</h2><blockquote>
+<p>检测目前安装了哪些环境<br>cmd: <code>conda info --envs</code></p>
+<p>检查目前有哪些版本的python可以安装<br>cmd：<code>conda search --full-name python</code></p>
+<p>检查目前有哪些版本的Tensorflow可以安装<br>cmd：<code>conda search --full -name tensorflow</code></p>
+<p>查看依赖关系<br>cmd：<code>conda info tensorflow</code></p>
+<p><strong>在这之前，检查Nvidia驱动支持的CUDA版本，此处安装的是Tensorflow2.4.1，需要CUDA11.0或及以上版本</strong></p>
+</blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://tensorflow.google.cn/install/source_windows?hl=cn#gpu">查看Tensorflow和CUDA对应版本</a>（版本一定要对应）</li>
+</ul>
+<blockquote>
+<p><code>nvidia-smin</code>命令行查看CUDA Version （当前显卡驱动最高支持的CUDA版本）</p>
+</blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-toolkit-archive">Nvidia官网下载Cudatoolkit</a>（下载速度慢可以复制链接到迅雷下载）</li>
+</ul>
+<blockquote>
+<p>一路安装下来即可，安装过程中已经自动添加了环境变量<br>cmd：<code>nvcc -V</code>返回CUDA版本信息，如果<strong>nvcc命令无法识别则表示安装失败</strong></p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/nvcc%20-V.png" alt="CUDA版本信息"></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/rdp/cudnn-archive">Nvidia官网下载cuDNN</a>（下载速度慢可以复制链接到迅雷下载）</li>
+</ul>
+<blockquote>
+<p>只要把cuDNN文件复制到CUDA的对应文件夹里就可以，即所谓的插入式设计，cuDNN是CUDA的扩展计算库，不会对CUDA造成其他影响。<br>复制后，手动将CUDA相对路径下的/bin和/lib/x64添加到环境变量CUDA_PATH</p>
+</blockquote>
+<ul>
+<li><strong>测试CUDA</strong></li>
+</ul>
+<blockquote>
+<p>cmd：<code>cd /d C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1\extras\demo_suite</code></p>
+</blockquote>
+<ul>
+<li><strong>测试<code>deviceQuery.exe</code></strong></li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/CUDA_test0.png" alt="CUDA_deviceQuery"></p>
+<ul>
+<li><strong>测试<code>bandwidthTest.exe</code></strong></li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/CUDA_test1.png" alt="CUDA_bandwidthTest"></p>
+<blockquote>
+<p>都返回Result = PASS<br>That’s all OK.</p>
+</blockquote>
+<h2 id="8-TensorFlow"><a href="#8-TensorFlow" class="headerlink" title="8. TensorFlow"></a>8. TensorFlow</h2><h3 id="8-1-创建环境"><a href="#8-1-创建环境" class="headerlink" title="8.1 创建环境"></a>8.1 创建环境</h3><pre><code>conda create -name tfenv python=3.7.0
+</code></pre>
+<blockquote>
+<p>由于之前已经更换了清华源，由于网络问题造成的错误率大大降低，但仍然可能被中断<br>用<code>conda info --envs</code>检查一下是否装好了tfenv环境</p>
+</blockquote>
+<h3 id="8-2-激活环境"><a href="#8-2-激活环境" class="headerlink" title="8.2 激活环境"></a>8.2 激活环境</h3><pre><code>conda activate tfenv
+</code></pre>
+<blockquote>
+<p>退出环境<code>conda activate</code></p>
+</blockquote>
+<h3 id="8-3-激活后安装Tensorflow"><a href="#8-3-激活后安装Tensorflow" class="headerlink" title="8.3 激活后安装Tensorflow"></a>8.3 激活后安装Tensorflow</h3><ul>
+<li><p>更换tfenv环境的pip源 👉<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/help/pypi/">更换pip清华源参考方法</a></p>
+</li>
+<li><p>pip install tensorflow-gpu</p>
+</li>
+</ul>
+<blockquote>
+<p>此处未指定版本，会选择最高的gpu版本安装，若要置顶版本，<code>tensorflow-gpu=2.x.x</code><br>虽然已经换源，但还是可能出现<code>These Packages Do Not Match The Hashes From The Requirements File.</code><br>解决方案：在pip时，添加”–upgrade”参数（<strong>实测有效</strong>）。<br>几分钟后👉<strong>安装成功</strong></p>
+</blockquote>
+<h3 id="8-4-激活后测试Tensorflow"><a href="#8-4-激活后测试Tensorflow" class="headerlink" title="8.4 激活后测试Tensorflow"></a>8.4 激活后测试Tensorflow</h3><ul>
+<li><p>输出包含GPU信息的日志</p>
+<p>  import tensorflow as tf<br>  tf.test.is_gpu_available()<br>  tf.test.gpu_device_name()</p>
+</li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Prompt_test.png" alt="Prompt_test"></p>
+<h3 id="8-5-Pycharm测试Tensorflow"><a href="#8-5-Pycharm测试Tensorflow" class="headerlink" title="8.5 Pycharm测试Tensorflow"></a>8.5 Pycharm测试Tensorflow</h3><ul>
+<li>添加安装有Tensorflow的环境作为工程的python解释器</li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Pycharm_test0.png" alt="Anaconda官网.png"></p>
+<pre><code>import tensorflow as tf
+tf.compat.v1.disable_eager_execution()
+greeting = tf.constant(&#39;Hello Tensorflow!&#39;)
+sess = tf.compat.v1.Session()
+result = sess.run(greeting)
+print(result)
+sess.close()
+</code></pre>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Pycharm_test1.png" alt="Pycharm中测试"></p>
+<hr>
+<blockquote>
+<p>至此，所有安装和配置完成，<strong>版本对应</strong>问题非常重要，如果出现装错了版本请尝试<strong>彻底卸载</strong>后重装<br>为了更有针对性，本文采用了较新的版本，请务必在安装前选择<strong>合适的版本</strong><br>如果提示确实dll动态链接库，请尝试手动下载，貌似采用CUDA11.1可能会遇到这种情况，并且有部分人认为11.1中有未知错误并且不推荐使用，但在安装过程中并未发现，或许之后遇到了会继续补充</p>
+</blockquote>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2021/01/30/Tensorflow2.4%E4%BF%9D%E5%A7%86%E7%BA%A7%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tensorflow/" rel="tag">tensorflow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" rel="tag">安装教程</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2021/01/31/hexo_begin/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            Hexo_begin
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2021/01/20/Process%20or%20Thread/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">Process or Thread</div>
+      </a>
+    
+  </nav>
+
+  
+   
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.6.2/dist/gitalk.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.6.2/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'a1a50124b0c46fa4fab9',
+    clientSecret: '4a29dee6f998a9272f57ba07f987ea9eed9da5ec',
+    repo: 'blog-comments',
+    owner: 'boom1999',
+    admin: ['boom1999'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: true,  // Facebook-like distraction free mode
+    pagerDirection: 'last',
+    proxy: 'https://netnr-proxy.cloudno.de/https://github.com/login/oauth/access_token'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <span class="division">|</span> Zhicheng Ling
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+          
+          
+          Power <a href="https://hexo.io" target="_blank">Hexo</a>
+          <span class="division">|</span>
+          Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+          
+          <span class="division">|</span>
+        
+          
+          <span>
+  <span><i class="ri-eye-fill"></i> <span id="busuanzi_value_page_pv"></span></span>
+</span>
+          
+      </li>
+    </ul>
+    <ul>
+      
+        <li>
+          <a href="http://www.beian.miit.gov.cn/" target="_black" rel="nofollow">浙ICP备2020044847</a>
+        </li>
+        
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/haisen-side.svg" alt="Haisen"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">文章</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/me">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>
