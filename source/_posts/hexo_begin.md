@@ -16,7 +16,7 @@ categories: blog
 
 1. 首先在Github上新建一个`hexo_backup`分支并且设置为默认分支，以便在每次同步的时候不用指定分支，比较方便，用于备份源文件。
 
-2. 在本地`blog_local`目录下`git clone git@github.com:boom1999/boom1999.github.io.git`,此时由于默认分支为hexo_backup，所以知识clone了hexo_backup。在clone下的目录里将`.git`以外的文件全部删除，将源文件（包括`.gitignore`）全部复制过来。（`.deploy_git`不需要，这是生成的静态文件，也就是会push到master分支中的文件）。如果没有`.gitignore`，忽略push这部分文件，请手动添加：
+2. 在本地`blog_local`目录下`git clone git@github.com:boom1999/boom1999.github.io.git`,此时由于默认分支为hexo_backup，所以只是clone了hexo_backup。在clone下的目录里将`.git`以外的文件全部删除，将源文件（包括`.gitignore`）全部复制过来。（`.deploy_git`不需要，这是生成的静态文件，也就是会push到master分支中的文件）。如果没有`.gitignore`，忽略push这部分文件，请手动添加：
 
         .DS_Store
         Thumbs.db
