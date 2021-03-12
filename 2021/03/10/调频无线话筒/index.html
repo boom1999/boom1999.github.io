@@ -85,7 +85,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">4 分钟</span>
+            <span class="post-count">5 分钟</span>
         </span>
     </span>
 </div>
@@ -110,7 +110,7 @@
 </ul>
 <hr>
 <h2 id="一、实验目的"><a href="#一、实验目的" class="headerlink" title="一、实验目的"></a>一、实验目的</h2><blockquote>
-<p>掌握调频发射机整机电路的设计与调试方法，以及高频电路的调试中常见故障的分析与 排除；学会如何将高频单元电路组合起来实现满足工程实际要求的整机电路的设计与调试技<br>术。</p>
+<p>掌握调频发射机整机电路的设计与调试方法，以及高频电路的调试中常见故障的分析与 排除；学会如何将高频单元电路组合起来实现满足工程实际要求的整机电路的设计与调试技术</p>
 </blockquote>
 <h2 id="二、参考设计"><a href="#二、参考设计" class="headerlink" title="二、参考设计"></a>二、参考设计</h2><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/System.png" alt="系统框图"></p>
 <blockquote>
@@ -164,13 +164,60 @@
 <p>高频功放由三极管T3 9018，电阻R10、R11、R12作为偏置电阻确定静态工作点。C10和可调电感L3组成LC回路，谐振在载频上，输出波形的峰峰值V_{pp}可由L3调节</p>
 </blockquote>
 <p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/High-frequency_amplifier_module.png" alt="高频功放"></p>
-<h2 id="操作步骤与数据记录"><a href="#操作步骤与数据记录" class="headerlink" title="操作步骤与数据记录"></a>操作步骤与数据记录</h2><p>#TODO:数据调整<br>| 三极管/电极 | 基极b/V | 发射极e/V | 集电极c/V |<br>|——-|——-|——-|——-|<br>|T1 9018|2.80|2.19|6.78|<br>|T2 9018|5.04|4.33|9.03|<br>|T3 9018|2.71|2.15|8.86|<br>|T4 9018|2.56|1.93|5.56|</p>
+<h2 id="操作步骤与数据记录"><a href="#操作步骤与数据记录" class="headerlink" title="操作步骤与数据记录"></a>操作步骤与数据记录</h2><table>
+<thead>
+<tr>
+<th>三极管/电极</th>
+<th>基极b/V</th>
+<th>发射极e/V</th>
+<th>集电极c/V</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T1 9018</td>
+<td>2.918</td>
+<td>2.190</td>
+<td>6.901</td>
+</tr>
+<tr>
+<td>T2 9018</td>
+<td>5.356</td>
+<td>4.818</td>
+<td>9.030</td>
+</tr>
+<tr>
+<td>T3 9018</td>
+<td>2.872</td>
+<td>2.102</td>
+<td>9.006</td>
+</tr>
+<tr>
+<td>T4 9018</td>
+<td>2.533</td>
+<td>1.879</td>
+<td>5.663</td>
+</tr>
+</tbody></table>
 <blockquote>
-<p>高频振荡频率83.4MHz，率低于参考频率f=89.5MHz，可能是手个别高频器件引脚预留过长所阐述的电感效应影响<br>R5和R6之间的电压值为V=3.99V，接近4V，达到预期值<br>天线输出信号的峰峰值Vpp=1.49V，达到预期值</p>
+<p>高频振荡频率83.4MHz，率低于参考频率f=89.5MHz，可能是手个别高频器件引脚预留过长所阐述的电感效应影响<br>R5和R6之间的电压值为V=4.094V，接近4V，达到预期值<br>天线输出信号的峰峰值Vpp=1.49V，达到预期值</p>
 </blockquote>
-<h2 id="实物图"><a href="#实物图" class="headerlink" title="实物图"></a>实物图</h2><h3 id="附录👇"><a href="#附录👇" class="headerlink" title="附录👇"></a><em>附录👇</em></h3><h4 id="附1：SCH"><a href="#附1：SCH" class="headerlink" title="附1：SCH"></a><em>附1：SCH</em></h4><p>#TODO:SCH重新截图，右/下侧<br><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/SCH.png" alt="SCH图"></p>
-<h4 id="附2：PCB"><a href="#附2：PCB" class="headerlink" title="附2：PCB"></a><em>附2：PCB</em></h4><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/PCB.png" alt="PCB图"></p>
-<h4 id="附3：源文件下载"><a href="#附3：源文件下载" class="headerlink" title="附3：源文件下载"></a><em>附3：源文件下载</em></h4><p><a href="https://www.lingzhicheng.cn/usr/file/2021FM.zip">Altium Designer工程源文件</a></p>
+<h2 id="实物图"><a href="#实物图" class="headerlink" title="实物图"></a>实物图</h2><h3 id="附录👇"><a href="#附录👇" class="headerlink" title="附录👇"></a><em>附录👇</em></h3><h4 id="附1：SCH"><a href="#附1：SCH" class="headerlink" title="附1：SCH"></a><em>附1：SCH</em></h4><blockquote>
+<p>原SCH图👇</p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/SCH_easy.png" alt="SCH图"></p>
+<blockquote>
+<p>修改之后的SCH图👇</p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/SCH_new.png" alt="修改之后的SCH图"></p>
+<h4 id="附2：PCB"><a href="#附2：PCB" class="headerlink" title="附2：PCB"></a><em>附2：PCB</em></h4><blockquote>
+<p>第一版PCB图👇</p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/PCB_easy.png" alt="PCB图"></p>
+<blockquote>
+<p>经过优化的PCB图（较为紧凑，封装与实物所用略有不同，稍有出入。实物上C9在焊接时两引脚掰开，中间空了一格走地线，PCB图中有所不同）</p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/PCB_new.png" alt="经过优化的PCB图"></p>
+<h4 id="附3：源文件下载"><a href="#附3：源文件下载" class="headerlink" title="附3：源文件下载"></a><em>附3：源文件下载</em></h4><p><a href="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/PCB_easy.png">Altium Designer工程源文件</a></p>
  
       <!-- reward -->
       
