@@ -76,7 +76,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.3k</span>
+            <span class="post-count">1.4k</span>
         </span>
     </span>
 
@@ -158,47 +158,17 @@
 <p>缓冲高频振荡部分输出的信号，同时隔离前后级电路</p>
 <p>采用射极跟随器，三极管T2 9018的静态工作点由偏置电阻R7、R8、R9确定。此处同样设置了一个简单的模拟滤波电路，由C12、C13、L4构成，C9为隔离电容。</p>
 </blockquote>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/High-frequency_amplifier_module.png" alt="缓冲隔离"></p>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/Buffer_isolation_module.png" alt="缓冲隔离"></p>
 <blockquote>
 <p>高频振荡电路输出的调制信号幅值易班较小，而话筒天线传输出去的信号是在无线信道中传播的，帮你顶存在一定程度上的幅值衰减，所以必须在震荡电路之后添加一个高频功率放大器。</p>
 <p>高频功放由三极管T3 9018，电阻R10、R11、R12作为偏置电阻确定静态工作点。C10和可调电感L3组成LC回路，谐振在载频上，输出波形的峰峰值V_{pp}可由L3调节</p>
 </blockquote>
 <p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/High-frequency_amplifier_module.png" alt="高频功放"></p>
-<h2 id="操作步骤与数据记录"><a href="#操作步骤与数据记录" class="headerlink" title="操作步骤与数据记录"></a>操作步骤与数据记录</h2><table>
-<thead>
-<tr>
-<th>三极管/电极</th>
-<th>基极b/V</th>
-<th>发射极e/V</th>
-<th>集电极c/V</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>T1 9018</td>
-<td>待测</td>
-<td>待测</td>
-<td>待测</td>
-</tr>
-<tr>
-<td>T2 9018</td>
-<td>待测</td>
-<td>待测</td>
-<td>待测</td>
-</tr>
-<tr>
-<td>T3 9018</td>
-<td>待测</td>
-<td>待测</td>
-<td>待测</td>
-</tr>
-<tr>
-<td>T4 9018</td>
-<td>待测</td>
-<td>待测</td>
-<td>待测</td>
-</tr>
-</tbody></table>
-<h2 id="实物图"><a href="#实物图" class="headerlink" title="实物图"></a>实物图</h2><h3 id="附录👇"><a href="#附录👇" class="headerlink" title="附录👇"></a><em>附录👇</em></h3><h4 id="附1：SCH"><a href="#附1：SCH" class="headerlink" title="附1：SCH"></a><em>附1：SCH</em></h4><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/SCH.png" alt="SCH图"></p>
+<h2 id="操作步骤与数据记录"><a href="#操作步骤与数据记录" class="headerlink" title="操作步骤与数据记录"></a>操作步骤与数据记录</h2><p>#TODO:数据调整<br>| 三极管/电极 | 基极b/V | 发射极e/V | 集电极c/V |<br>|——-|——-|——-|——-|<br>|T1 9018|2.80|2.19|6.78|<br>|T2 9018|5.04|4.33|9.03|<br>|T3 9018|2.71|2.15|8.86|<br>|T4 9018|2.56|1.93|5.56|</p>
+<blockquote>
+<p>高频振荡频率83.4MHz，率低于参考频率f=89.5MHz，可能是手个别高频器件引脚预留过长所阐述的电感效应影响<br>R5和R6之间的电压值为V=3.99V，接近4V，达到预期值<br>天线输出信号的峰峰值Vpp=1.49V，达到预期值</p>
+</blockquote>
+<h2 id="实物图"><a href="#实物图" class="headerlink" title="实物图"></a>实物图</h2><h3 id="附录👇"><a href="#附录👇" class="headerlink" title="附录👇"></a><em>附录👇</em></h3><h4 id="附1：SCH"><a href="#附1：SCH" class="headerlink" title="附1：SCH"></a><em>附1：SCH</em></h4><p>#TODO:SCH重新截图，右/下侧<br><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/SCH.png" alt="SCH图"></p>
 <h4 id="附2：PCB"><a href="#附2：PCB" class="headerlink" title="附2：PCB"></a><em>附2：PCB</em></h4><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/PCB.png" alt="PCB图"></p>
 <h4 id="附3：源文件下载"><a href="#附3：源文件下载" class="headerlink" title="附3：源文件下载"></a><em>附3：源文件下载</em></h4><p><a href="https://www.lingzhicheng.cn/usr/file/2021FM.zip">Altium Designer工程源文件</a></p>
  
