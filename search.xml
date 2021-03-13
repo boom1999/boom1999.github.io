@@ -1,35 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>交通灯系统</title>
-    <url>/2021/01/12/AT89S51%E4%BA%A4%E9%80%9A%E7%81%AF%E7%B3%BB%E7%BB%9F/</url>
-    <content><![CDATA[<ul>
-<li><p><strong>浙江工业大学信息工程学院单片机实验</strong></p>
-</li>
-<li><p>题：定义一个秒表计数器如R2</p>
-</li>
-</ul>
-<ol>
-<li>在R2的值为1~30秒，输出P1口和P3.0、P3.1实现南北绿灯、东西红灯、人行道东西红灯、南北绿灯，并将R2的值除10，商放在动态LED0，余数放在动态LED1点亮；</li>
-<li>在R2的值为31~35秒，输出P1口和P3.0、P3.1实现南北黄灯、东西红灯、人行道东西红灯、南北红灯，并将R2的值减去30后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
-<li>在R2的值为36~65秒，输出P1口和P3.0、P3.1实现南北红灯、东西绿灯、人行道东西绿灯、南北红灯，并将R2的值减去35后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
-<li>在R2的值为66~70秒，输出P1口和P3.0、P3.1实现南北红灯、东西黄灯、人行道东西红灯、南北红灯，并将R2的值减去65后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
-<li>当R2的值等于71秒时，R2置1，重新开始</li>
-</ol>
-<blockquote>
-<p>交通灯模块、动态数码管模块，利用定时器、十进制数拆分<br>用 8 根的排线连接单片机 P0 的 JP10 到动态数码管的 J12，用 8 根的排线连接单片机 P1 的 JP8 到 交通灯模块的 JP1<br>单片机的 P22、P23、P24 分别接到 74HC138 模块的A、B、C。JP165 跳线帽一定要拔掉，插在其中一根针上，以免丢掉。<br>南北绿灯30s，红灯30s；黄灯均为5s；东西绿灯25s，红灯35s，<br>人行道不显示倒计时，车道显示倒计时</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">RESET:</span><br><span class="line">    AJMP    MAIN</span><br><span class="line">    ORG     000BH           &#x2F;&#x2F;定时器中断0入口</span><br><span class="line">    AJMP    INTI0</span><br><span class="line">    ORG     0100H</span><br><span class="line"></span><br><span class="line">MAIN:</span><br><span class="line">    MOV     SP,#60H         &#x2F;&#x2F;计时工作方式1</span><br><span class="line">    MOV     TMOD,#01H</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">                            &#x2F;&#x2F;12MHz，机器周期1μs，需要10000个计数，初值&#x3D;65536-10000&#x3D;55536&#x3D;D8F0H</span><br><span class="line">    MOV     TH0,#0D8H</span><br><span class="line">    MOV     TL0,#0F0H</span><br><span class="line">    SETB    ET0             &#x2F;&#x2F;开放T0中断和总中断</span><br><span class="line">    SETB    EA</span><br><span class="line">    SETB    TR0             &#x2F;&#x2F;启动T0</span><br><span class="line">    MOV     R0,#01          &#x2F;&#x2F;计数器初值为01</span><br><span class="line">    MOV     30H,#00H        &#x2F;&#x2F;定时器超时一百次，达到64h即一秒</span><br><span class="line">    MOV     31H,#30         &#x2F;&#x2F;南北方向红黄绿时间，30，5，30</span><br><span class="line">    MOV     32H,#35         &#x2F;&#x2F;东西方向红黄绿时间，35，5，25</span><br><span class="line">    MOV     P1,#11001101B   &#x2F;&#x2F;110东西红&#39;011南北绿&#39;01人行南北绿</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    LJMP    DISPLAY</span><br><span class="line"></span><br><span class="line">CALCU:</span><br><span class="line">&#x2F;***********南北方向倒计时计算********************&#x2F;</span><br><span class="line">    MOV     R1,#10          &#x2F;&#x2F;除数为10</span><br><span class="line">    MOV     A,31H           &#x2F;&#x2F;倒计时数字放到A</span><br><span class="line">    MOV     B,R1            &#x2F;&#x2F;除数10放到B</span><br><span class="line">    DIV     AB              &#x2F;&#x2F;A为商，B为余数</span><br><span class="line">    MOV     R4,A            &#x2F;&#x2F;R4存放商</span><br><span class="line">    MOV     R5,B            &#x2F;&#x2F;R5存放余数</span><br><span class="line">&#x2F;***********东西方向倒计时计算********************&#x2F;</span><br><span class="line">    MOV     R1,#10          &#x2F;&#x2F;除数为10</span><br><span class="line">    MOV     A,32H           &#x2F;&#x2F;倒计时数字放到A</span><br><span class="line">    MOV     B,R1            &#x2F;&#x2F;除数10放到B</span><br><span class="line">    DIV     AB              &#x2F;&#x2F;A为商，B为余数</span><br><span class="line">    MOV     R6,A            &#x2F;&#x2F;R6存放商</span><br><span class="line">    MOV     R7,B            &#x2F;&#x2F;R7存放余数</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">DISPLAY:</span><br><span class="line">&#x2F;***********南北方向倒计时显示********************&#x2F;</span><br><span class="line">    CLR     P2.2</span><br><span class="line">    CLR     P2.3</span><br><span class="line">    CLR     P2.4</span><br><span class="line">    MOV     A,R4            &#x2F;&#x2F;LED0输出商</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D04MS</span><br><span class="line">    </span><br><span class="line">    SETB    P2.2</span><br><span class="line">    MOV     A,R5            &#x2F;&#x2F;LED1输出余数</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">&#x2F;***********东西方向倒计时显示********************&#x2F;</span><br><span class="line">    CLR     P2.2</span><br><span class="line">    CLR     P2.3</span><br><span class="line">    SETB    P2.4</span><br><span class="line">    LCALL   D04MS </span><br><span class="line">    MOV     A,R6            &#x2F;&#x2F;LED4输出商</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D04MS</span><br><span class="line">    </span><br><span class="line">    SETB    P2.2</span><br><span class="line">    MOV     A,R7            &#x2F;&#x2F;LED5输出余数</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">&#x2F;*********************************************&#x2F;</span><br><span class="line">    JNB     TF0,DISPLAY     &#x2F;&#x2F;wait for TF0</span><br><span class="line"></span><br><span class="line">INTI0:</span><br><span class="line">    PUSH    PSW             &#x2F;&#x2F;保护状态字寄存器</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    CLR     EA              &#x2F;&#x2F;关闭总中断</span><br><span class="line">    MOV     TH0,#0D8H       &#x2F;&#x2F;定时10ms</span><br><span class="line">    MOV     TL0,#0F0H</span><br><span class="line">    INC     30H</span><br><span class="line">    MOV     A,30H</span><br><span class="line">    CJNE    A,#100,OUT</span><br><span class="line">    MOV     30H,#00H        &#x2F;&#x2F;定时器超时一百次，达到64h即一秒</span><br><span class="line">    INC     R0              &#x2F;&#x2F;计数器+1</span><br><span class="line">    DEC     31H</span><br><span class="line">    DEC     32H</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;***********四种状态互相转变********************&#x2F;</span><br><span class="line">JMP5SN:</span><br><span class="line">    CJNE    R0,#31,JMP30EW</span><br><span class="line">    MOV     P1,#11010110B   &#x2F;&#x2F;110东西红&#39;101南北黄&#39;10人行南北红</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    MOV     31H,#5</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP30EW:</span><br><span class="line">    CJNE    R0,#36,JMP5EW</span><br><span class="line">    MOV     P1,#01111010B   &#x2F;&#x2F;011东西绿&#39;110南北红&#39;10人行南北红</span><br><span class="line">    SETB    P3.0            &#x2F;&#x2F;01人行东西绿</span><br><span class="line">    CLR     P3.1</span><br><span class="line">    MOV     31H,#30</span><br><span class="line">    MOV     32H,#25</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP5EW:</span><br><span class="line">    CJNE    R0,#66,JMP30SN</span><br><span class="line">    MOV     P1,#10111010B   &#x2F;&#x2F;101东西黄&#39;110南北红&#39;10人行南北红</span><br><span class="line">    SETB    P3.0            &#x2F;&#x2F;01人行东西绿</span><br><span class="line">    CLR     P3.1</span><br><span class="line">    MOV     32H,#5</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP30SN:</span><br><span class="line">    CJNE    R0,#71,OUT</span><br><span class="line">    MOV     R0,#1</span><br><span class="line">    MOV     P1,#11001101B   &#x2F;&#x2F;110东西红&#39;011南北绿&#39;01人行南北绿</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    MOV     31H,#30</span><br><span class="line">    MOV     32H,#35</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line"></span><br><span class="line">OUT:</span><br><span class="line">    SETB    EA              &#x2F;&#x2F;开总中断</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW             &#x2F;&#x2F;保护状态字寄存器</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">D04MS:                      &#x2F;&#x2F;延时0.4ms</span><br><span class="line">    MOV     R3,#2</span><br><span class="line">D1: MOV     R2,#10</span><br><span class="line">D2: DJNZ    R2,D2</span><br><span class="line">    DJNZ    R3,D1</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  3FH,06H,5BH,4FH,66H,6DH,7DH,07H &#x2F;&#x2F;共阴极0~9</span><br><span class="line">    DB  7FH,6FH</span><br><span class="line">    DB  00H</span><br><span class="line"></span><br><span class="line">END</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>AT89S51</category>
-      </categories>
-      <tags>
-        <tag>中断</tag>
-        <tag>汇编</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Dual_computer_communication</title>
     <url>/2020/12/29/AT89S51%E5%8F%8C%E6%9C%BA%E9%80%9A%E4%BF%A1/</url>
     <content><![CDATA[<ul>
@@ -118,6 +89,35 @@ CONTINUE_T0:
       </categories>
       <tags>
         <tag>定时器</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>交通灯系统</title>
+    <url>/2021/01/12/AT89S51%E4%BA%A4%E9%80%9A%E7%81%AF%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<ul>
+<li><p><strong>浙江工业大学信息工程学院单片机实验</strong></p>
+</li>
+<li><p>题：定义一个秒表计数器如R2</p>
+</li>
+</ul>
+<ol>
+<li>在R2的值为1~30秒，输出P1口和P3.0、P3.1实现南北绿灯、东西红灯、人行道东西红灯、南北绿灯，并将R2的值除10，商放在动态LED0，余数放在动态LED1点亮；</li>
+<li>在R2的值为31~35秒，输出P1口和P3.0、P3.1实现南北黄灯、东西红灯、人行道东西红灯、南北红灯，并将R2的值减去30后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
+<li>在R2的值为36~65秒，输出P1口和P3.0、P3.1实现南北红灯、东西绿灯、人行道东西绿灯、南北红灯，并将R2的值减去35后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
+<li>在R2的值为66~70秒，输出P1口和P3.0、P3.1实现南北红灯、东西黄灯、人行道东西红灯、南北红灯，并将R2的值减去65后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
+<li>当R2的值等于71秒时，R2置1，重新开始</li>
+</ol>
+<blockquote>
+<p>交通灯模块、动态数码管模块，利用定时器、十进制数拆分<br>用 8 根的排线连接单片机 P0 的 JP10 到动态数码管的 J12，用 8 根的排线连接单片机 P1 的 JP8 到 交通灯模块的 JP1<br>单片机的 P22、P23、P24 分别接到 74HC138 模块的A、B、C。JP165 跳线帽一定要拔掉，插在其中一根针上，以免丢掉。<br>南北绿灯30s，红灯30s；黄灯均为5s；东西绿灯25s，红灯35s，<br>人行道不显示倒计时，车道显示倒计时</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">RESET:</span><br><span class="line">    AJMP    MAIN</span><br><span class="line">    ORG     000BH           &#x2F;&#x2F;定时器中断0入口</span><br><span class="line">    AJMP    INTI0</span><br><span class="line">    ORG     0100H</span><br><span class="line"></span><br><span class="line">MAIN:</span><br><span class="line">    MOV     SP,#60H         &#x2F;&#x2F;计时工作方式1</span><br><span class="line">    MOV     TMOD,#01H</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">                            &#x2F;&#x2F;12MHz，机器周期1μs，需要10000个计数，初值&#x3D;65536-10000&#x3D;55536&#x3D;D8F0H</span><br><span class="line">    MOV     TH0,#0D8H</span><br><span class="line">    MOV     TL0,#0F0H</span><br><span class="line">    SETB    ET0             &#x2F;&#x2F;开放T0中断和总中断</span><br><span class="line">    SETB    EA</span><br><span class="line">    SETB    TR0             &#x2F;&#x2F;启动T0</span><br><span class="line">    MOV     R0,#01          &#x2F;&#x2F;计数器初值为01</span><br><span class="line">    MOV     30H,#00H        &#x2F;&#x2F;定时器超时一百次，达到64h即一秒</span><br><span class="line">    MOV     31H,#30         &#x2F;&#x2F;南北方向红黄绿时间，30，5，30</span><br><span class="line">    MOV     32H,#35         &#x2F;&#x2F;东西方向红黄绿时间，35，5，25</span><br><span class="line">    MOV     P1,#11001101B   &#x2F;&#x2F;110东西红&#39;011南北绿&#39;01人行南北绿</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    LJMP    DISPLAY</span><br><span class="line"></span><br><span class="line">CALCU:</span><br><span class="line">&#x2F;***********南北方向倒计时计算********************&#x2F;</span><br><span class="line">    MOV     R1,#10          &#x2F;&#x2F;除数为10</span><br><span class="line">    MOV     A,31H           &#x2F;&#x2F;倒计时数字放到A</span><br><span class="line">    MOV     B,R1            &#x2F;&#x2F;除数10放到B</span><br><span class="line">    DIV     AB              &#x2F;&#x2F;A为商，B为余数</span><br><span class="line">    MOV     R4,A            &#x2F;&#x2F;R4存放商</span><br><span class="line">    MOV     R5,B            &#x2F;&#x2F;R5存放余数</span><br><span class="line">&#x2F;***********东西方向倒计时计算********************&#x2F;</span><br><span class="line">    MOV     R1,#10          &#x2F;&#x2F;除数为10</span><br><span class="line">    MOV     A,32H           &#x2F;&#x2F;倒计时数字放到A</span><br><span class="line">    MOV     B,R1            &#x2F;&#x2F;除数10放到B</span><br><span class="line">    DIV     AB              &#x2F;&#x2F;A为商，B为余数</span><br><span class="line">    MOV     R6,A            &#x2F;&#x2F;R6存放商</span><br><span class="line">    MOV     R7,B            &#x2F;&#x2F;R7存放余数</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">DISPLAY:</span><br><span class="line">&#x2F;***********南北方向倒计时显示********************&#x2F;</span><br><span class="line">    CLR     P2.2</span><br><span class="line">    CLR     P2.3</span><br><span class="line">    CLR     P2.4</span><br><span class="line">    MOV     A,R4            &#x2F;&#x2F;LED0输出商</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D04MS</span><br><span class="line">    </span><br><span class="line">    SETB    P2.2</span><br><span class="line">    MOV     A,R5            &#x2F;&#x2F;LED1输出余数</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">&#x2F;***********东西方向倒计时显示********************&#x2F;</span><br><span class="line">    CLR     P2.2</span><br><span class="line">    CLR     P2.3</span><br><span class="line">    SETB    P2.4</span><br><span class="line">    LCALL   D04MS </span><br><span class="line">    MOV     A,R6            &#x2F;&#x2F;LED4输出商</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D04MS</span><br><span class="line">    </span><br><span class="line">    SETB    P2.2</span><br><span class="line">    MOV     A,R7            &#x2F;&#x2F;LED5输出余数</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">&#x2F;*********************************************&#x2F;</span><br><span class="line">    JNB     TF0,DISPLAY     &#x2F;&#x2F;wait for TF0</span><br><span class="line"></span><br><span class="line">INTI0:</span><br><span class="line">    PUSH    PSW             &#x2F;&#x2F;保护状态字寄存器</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    CLR     EA              &#x2F;&#x2F;关闭总中断</span><br><span class="line">    MOV     TH0,#0D8H       &#x2F;&#x2F;定时10ms</span><br><span class="line">    MOV     TL0,#0F0H</span><br><span class="line">    INC     30H</span><br><span class="line">    MOV     A,30H</span><br><span class="line">    CJNE    A,#100,OUT</span><br><span class="line">    MOV     30H,#00H        &#x2F;&#x2F;定时器超时一百次，达到64h即一秒</span><br><span class="line">    INC     R0              &#x2F;&#x2F;计数器+1</span><br><span class="line">    DEC     31H</span><br><span class="line">    DEC     32H</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;***********四种状态互相转变********************&#x2F;</span><br><span class="line">JMP5SN:</span><br><span class="line">    CJNE    R0,#31,JMP30EW</span><br><span class="line">    MOV     P1,#11010110B   &#x2F;&#x2F;110东西红&#39;101南北黄&#39;10人行南北红</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    MOV     31H,#5</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP30EW:</span><br><span class="line">    CJNE    R0,#36,JMP5EW</span><br><span class="line">    MOV     P1,#01111010B   &#x2F;&#x2F;011东西绿&#39;110南北红&#39;10人行南北红</span><br><span class="line">    SETB    P3.0            &#x2F;&#x2F;01人行东西绿</span><br><span class="line">    CLR     P3.1</span><br><span class="line">    MOV     31H,#30</span><br><span class="line">    MOV     32H,#25</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP5EW:</span><br><span class="line">    CJNE    R0,#66,JMP30SN</span><br><span class="line">    MOV     P1,#10111010B   &#x2F;&#x2F;101东西黄&#39;110南北红&#39;10人行南北红</span><br><span class="line">    SETB    P3.0            &#x2F;&#x2F;01人行东西绿</span><br><span class="line">    CLR     P3.1</span><br><span class="line">    MOV     32H,#5</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP30SN:</span><br><span class="line">    CJNE    R0,#71,OUT</span><br><span class="line">    MOV     R0,#1</span><br><span class="line">    MOV     P1,#11001101B   &#x2F;&#x2F;110东西红&#39;011南北绿&#39;01人行南北绿</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    MOV     31H,#30</span><br><span class="line">    MOV     32H,#35</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line"></span><br><span class="line">OUT:</span><br><span class="line">    SETB    EA              &#x2F;&#x2F;开总中断</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW             &#x2F;&#x2F;保护状态字寄存器</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">D04MS:                      &#x2F;&#x2F;延时0.4ms</span><br><span class="line">    MOV     R3,#2</span><br><span class="line">D1: MOV     R2,#10</span><br><span class="line">D2: DJNZ    R2,D2</span><br><span class="line">    DJNZ    R3,D1</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  3FH,06H,5BH,4FH,66H,6DH,7DH,07H &#x2F;&#x2F;共阴极0~9</span><br><span class="line">    DB  7FH,6FH</span><br><span class="line">    DB  00H</span><br><span class="line"></span><br><span class="line">END</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>中断</tag>
+        <tag>汇编</tag>
       </tags>
   </entry>
   <entry>
@@ -372,73 +372,6 @@ sess.close()
       </tags>
   </entry>
   <entry>
-    <title>VS2019代码提示延迟很高，部分快捷键无法使用的问题</title>
-    <url>/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><ul>
-<li>Visual Studio 与Nvidia CUDA NSightVSE冲突</li>
-</ul>
-<h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><ul>
-<li>Tab、Ctrl’+C 、 Ctrl’+K 等快捷键失效，智能代码提示不能正常显示，有时不会出现，有时要等四五秒，非常不正常</li>
-</ul>
-<blockquote>
-<p>Setting中检查设置无误，尝试过重启、重置个人配置、重装等均无效<br>很长一段时间没有使用过vs，之前装了比较新的Nvidia CUDA，同时附带的有NSightVSE，也就是设计vs的拓展，问题出在这里</p>
-</blockquote>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><blockquote>
-<p>卸载NSightVSE或者其他Nvidia和vs相关的拓展，重启vs后生效<br>正常情况搜索NsightVSE会出现四个，保留下列三个即可，版本仅供参考，可能其他版本不会出现如上问题。<br>Nvidia CUDA Nsight NVTX 11.1<br>Nvidia Nsight Compute 2020.2.0<br>Nvidia Nsight Systems 2020.3.4</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>总结</category>
-      </categories>
-      <tags>
-        <tag>debug</tag>
-        <tag>Nvidia CUDA</tag>
-        <tag>Visual Studio</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>debug Gitalk 403</title>
-    <url>/2021/02/23/debug%20Gitalk%20403/</url>
-    <content><![CDATA[<ul>
-<li>留言系统使用Gitalk，最近发现无法使用GitHub账号登陆，出现403</li>
-<li>Error: Request failed with status code 403</li>
-</ul>
-<h3 id="Headers"><a href="#Headers" class="headerlink" title="Headers"></a>Headers</h3><blockquote>
-<p>网络请求403，拿不到token，导致登陆不上<br>Request URL：<a href="https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token">https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token</a></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Missing required request header. Must specify one of: origin,x-requested-with</span><br></pre></td></tr></table></figure>
-</blockquote>
-<h3 id="cors-anywhere"><a href="#cors-anywhere" class="headerlink" title="cors-anywhere"></a>cors-anywhere</h3><blockquote>
-<p>开源框架解决跨域问题的反向代理</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CORS Anywhere is a NodeJS proxy which adds CORS headers to the proxied request.</span><br><span class="line"></span><br><span class="line">The url to proxy is literally taken from the path, validated and proxied. The protocol part of the proxied URI is optional, and defaults to &quot;http&quot;. If port 443 is specified, the protocol defaults to &quot;https&quot;.</span><br><span class="line"></span><br><span class="line">This package does not put any restrictions on the http methods or headers, except for cookies. Requesting user credentials is disallowed. The app can be configured to require a header for proxying a request, for example to avoid a direct visit from the browser.</span><br></pre></td></tr></table></figure>
-</blockquote>
-<h3 id="more"><a href="#more" class="headerlink" title="more"></a>more</h3><blockquote>
-<p>看上去像是被滥用，然后从2021.1.31后用户必须手动获得这个网站的访问权限后才能使用，这也就是为什么最近登陆不上了</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Public demo server (cors-anywhere.herokuapp.com) will be very limited by January 2021, 31st</span><br><span class="line">The demo server of CORS Anywhere (cors-anywhere.herokuapp.com) is meant to be a demo of this project. But abuse has become so common that the platform where the demo is hosted (Heroku) has asked me to shut down the server, despite efforts to counter the abuse (rate limits in #45 and #164, and blocking other forms of requests). Downtime becomes increasingly frequent (e.g. recently #300, #299, #295, #294, #287) due to abuse and its popularity.</span><br></pre></td></tr></table></figure>
-
-</blockquote>
-<h3 id="Gitalk-Document"><a href="#Gitalk-Document" class="headerlink" title="Gitalk Document"></a>Gitalk Document</h3><blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;const gitalk &#x3D; new Gitalk(&#123;</span><br><span class="line"> clientID: &#39;GitHub Application Client ID&#39;,</span><br><span class="line"> clientSecret: &#39;GitHub Application Client Secret&#39;,</span><br><span class="line"> repo: &#39;GitHub repo&#39;,      &#x2F;&#x2F; The repository of store comments,</span><br><span class="line"> owner: &#39;GitHub repo owner&#39;,</span><br><span class="line"> admin: [&#39;GitHub repo owner and collaborators, only these guys can initialize github issues&#39;],</span><br><span class="line"> id: location.pathname,      &#x2F;&#x2F; Ensure uniqueness and length less than 50</span><br><span class="line"> distractionFreeMode: false  &#x2F;&#x2F; Facebook-like distraction free mode</span><br><span class="line">&gt;&#125;)</span><br><span class="line"></span><br><span class="line">&gt;gitalk.render(&#39;gitalk-container&#39;)</span><br></pre></td></tr></table></figure>
-</blockquote>
-<h3 id="add"><a href="#add" class="headerlink" title="add"></a>add</h3><blockquote>
-<p>在gitalk相应js文件中添加</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">proxy: &#39;&lt;%- theme.gitalk.proxy %&gt;&#39;</span><br></pre></td></tr></table></figure>
-
-<p>在配置文件中添加</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">proxy: https:&#x2F;&#x2F;netnr-proxy.cloudno.de&#x2F;https:&#x2F;&#x2F;github.com&#x2F;login&#x2F;oauth&#x2F;access_token</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>重新部署</p>
-</blockquote>
-<hr>
-<p>暂时采用了Issue中找到的可替代的cors，表示感谢.</p>
-]]></content>
-      <categories>
-        <category>Gitalk, plug-in</category>
-      </categories>
-      <tags>
-        <tag>debug</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo_begin</title>
     <url>/2021/01/31/hexo_begin/</url>
     <content><![CDATA[<h2 id="机制介绍"><a href="#机制介绍" class="headerlink" title="机制介绍"></a>机制介绍</h2><p><code>hexo d</code>上传部署到Github的其实是hexo编译后的文件静态文件，用于生成网页，不包含源文件，也就是上传<code>.deploy_git</code>中的文件，其他文件，包括<code>source</code>里面的和一些配置、主题文件都不会上传到GitHub，考虑到可能会在不同主机发布，因此将<code>hexo d</code>操作不会上传的文件主动<code>git</code>到另一个分支。</p>
@@ -527,6 +460,73 @@ sess.close()
       </categories>
       <tags>
         <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>VS2019代码提示延迟很高，部分快捷键无法使用的问题</title>
+    <url>/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><ul>
+<li>Visual Studio 与Nvidia CUDA NSightVSE冲突</li>
+</ul>
+<h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><ul>
+<li>Tab、Ctrl’+C 、 Ctrl’+K 等快捷键失效，智能代码提示不能正常显示，有时不会出现，有时要等四五秒，非常不正常</li>
+</ul>
+<blockquote>
+<p>Setting中检查设置无误，尝试过重启、重置个人配置、重装等均无效<br>很长一段时间没有使用过vs，之前装了比较新的Nvidia CUDA，同时附带的有NSightVSE，也就是设计vs的拓展，问题出在这里</p>
+</blockquote>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><blockquote>
+<p>卸载NSightVSE或者其他Nvidia和vs相关的拓展，重启vs后生效<br>正常情况搜索NsightVSE会出现四个，保留下列三个即可，版本仅供参考，可能其他版本不会出现如上问题。<br>Nvidia CUDA Nsight NVTX 11.1<br>Nvidia Nsight Compute 2020.2.0<br>Nvidia Nsight Systems 2020.3.4</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
+      <tags>
+        <tag>debug</tag>
+        <tag>Nvidia CUDA</tag>
+        <tag>Visual Studio</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>debug Gitalk 403</title>
+    <url>/2021/02/23/debug%20Gitalk%20403/</url>
+    <content><![CDATA[<ul>
+<li>留言系统使用Gitalk，最近发现无法使用GitHub账号登陆，出现403</li>
+<li>Error: Request failed with status code 403</li>
+</ul>
+<h3 id="Headers"><a href="#Headers" class="headerlink" title="Headers"></a>Headers</h3><blockquote>
+<p>网络请求403，拿不到token，导致登陆不上<br>Request URL：<a href="https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token">https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Missing required request header. Must specify one of: origin,x-requested-with</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="cors-anywhere"><a href="#cors-anywhere" class="headerlink" title="cors-anywhere"></a>cors-anywhere</h3><blockquote>
+<p>开源框架解决跨域问题的反向代理</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CORS Anywhere is a NodeJS proxy which adds CORS headers to the proxied request.</span><br><span class="line"></span><br><span class="line">The url to proxy is literally taken from the path, validated and proxied. The protocol part of the proxied URI is optional, and defaults to &quot;http&quot;. If port 443 is specified, the protocol defaults to &quot;https&quot;.</span><br><span class="line"></span><br><span class="line">This package does not put any restrictions on the http methods or headers, except for cookies. Requesting user credentials is disallowed. The app can be configured to require a header for proxying a request, for example to avoid a direct visit from the browser.</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="more"><a href="#more" class="headerlink" title="more"></a>more</h3><blockquote>
+<p>看上去像是被滥用，然后从2021.1.31后用户必须手动获得这个网站的访问权限后才能使用，这也就是为什么最近登陆不上了</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Public demo server (cors-anywhere.herokuapp.com) will be very limited by January 2021, 31st</span><br><span class="line">The demo server of CORS Anywhere (cors-anywhere.herokuapp.com) is meant to be a demo of this project. But abuse has become so common that the platform where the demo is hosted (Heroku) has asked me to shut down the server, despite efforts to counter the abuse (rate limits in #45 and #164, and blocking other forms of requests). Downtime becomes increasingly frequent (e.g. recently #300, #299, #295, #294, #287) due to abuse and its popularity.</span><br></pre></td></tr></table></figure>
+
+</blockquote>
+<h3 id="Gitalk-Document"><a href="#Gitalk-Document" class="headerlink" title="Gitalk Document"></a>Gitalk Document</h3><blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;const gitalk &#x3D; new Gitalk(&#123;</span><br><span class="line"> clientID: &#39;GitHub Application Client ID&#39;,</span><br><span class="line"> clientSecret: &#39;GitHub Application Client Secret&#39;,</span><br><span class="line"> repo: &#39;GitHub repo&#39;,      &#x2F;&#x2F; The repository of store comments,</span><br><span class="line"> owner: &#39;GitHub repo owner&#39;,</span><br><span class="line"> admin: [&#39;GitHub repo owner and collaborators, only these guys can initialize github issues&#39;],</span><br><span class="line"> id: location.pathname,      &#x2F;&#x2F; Ensure uniqueness and length less than 50</span><br><span class="line"> distractionFreeMode: false  &#x2F;&#x2F; Facebook-like distraction free mode</span><br><span class="line">&gt;&#125;)</span><br><span class="line"></span><br><span class="line">&gt;gitalk.render(&#39;gitalk-container&#39;)</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="add"><a href="#add" class="headerlink" title="add"></a>add</h3><blockquote>
+<p>在gitalk相应js文件中添加</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">proxy: &#39;&lt;%- theme.gitalk.proxy %&gt;&#39;</span><br></pre></td></tr></table></figure>
+
+<p>在配置文件中添加</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">proxy: https:&#x2F;&#x2F;netnr-proxy.cloudno.de&#x2F;https:&#x2F;&#x2F;github.com&#x2F;login&#x2F;oauth&#x2F;access_token</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>重新部署</p>
+</blockquote>
+<hr>
+<p>暂时采用了Issue中找到的可替代的cors，表示感谢.</p>
+]]></content>
+      <categories>
+        <category>Gitalk, plug-in</category>
+      </categories>
+      <tags>
+        <tag>debug</tag>
       </tags>
   </entry>
   <entry>
@@ -728,6 +728,137 @@ fi
       </categories>
       <tags>
         <tag>re.match</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>调频无线话筒</title>
+    <url>/2021/03/10/%E8%B0%83%E9%A2%91%E6%97%A0%E7%BA%BF%E8%AF%9D%E7%AD%92/</url>
+    <content><![CDATA[<ul>
+<li><p><strong>浙江工业大学信息工程学院通信电子线路课程设计</strong></p>
+</li>
+<li><p>设计制作：熟悉和掌握通信电子线路的一般设计步骤与方法、电路制作和调试一般步骤和方法</p>
+</li>
+<li><p>CAD设计：掌握电子电路的制图工具，进一步了解和掌握电子线路设计中原理图和PCB图的设计方法和技能</p>
+</li>
+</ul>
+<hr>
+<h2 id="一、实验目的"><a href="#一、实验目的" class="headerlink" title="一、实验目的"></a>一、实验目的</h2><blockquote>
+<p>掌握调频发射机整机电路的设计与调试方法，以及高频电路的调试中常见故障的分析与 排除；学会如何将高频单元电路组合起来实现满足工程实际要求的整机电路的设计与调试技术</p>
+</blockquote>
+<h2 id="二、参考设计"><a href="#二、参考设计" class="headerlink" title="二、参考设计"></a>二、参考设计</h2><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/System.png" alt="系统框图"></p>
+<blockquote>
+<p>对于小功率的调频无线话筒，设计时在保证技术指标的前提下，应力求电路简单、性能 稳定可靠。单元电路级数尽可能少，以减小级间的相互感应、干扰和自激，工作在调频广播频段（87MHz~108MHz）。高频功放在发射功 率较小时可工作于甲类状态</p>
+</blockquote>
+<h2 id="三、仪器与工具"><a href="#三、仪器与工具" class="headerlink" title="三、仪器与工具"></a>三、仪器与工具</h2><blockquote>
+<p>1.直流稳压电源<br>2.数字万用表<br>3、示波器（≥100MHz）<br>4、调频收音机（87~708MHz）<br>5、烙铁、镊子、斜口钳</p>
+</blockquote>
+<h2 id="四、技术指标"><a href="#四、技术指标" class="headerlink" title="四、技术指标"></a>四、技术指标</h2><h3 id="4-1发射功率"><a href="#4-1发射功率" class="headerlink" title="4.1发射功率"></a>4.1发射功率</h3><blockquote>
+<p>发射机输送到天线上的功率，当天线长度L与发射频率波长\lambda 可以比拟时，天线才能有效地将信号发送出去</p>
+</blockquote>
+<h3 id="4-2工作频率或波段"><a href="#4-2工作频率或波段" class="headerlink" title="4.2工作频率或波段"></a>4.2工作频率或波段</h3><blockquote>
+<p>发射机的工作频率之其载波频率，根据调制方式，在国家有关部门所规定的范围内选取，广播通信常用波段可查阅有关书籍，对于调频发射机，工作频率一般在超短波范围内（30MHz ~ 300MHz）。调频广播段规定为87MHz ~ 108MHz</p>
+</blockquote>
+<h3 id="4-3总效率"><a href="#4-3总效率" class="headerlink" title="4.3总效率"></a>4.3总效率</h3><blockquote>
+<p>发射机发射的总功率P_{A}与其消耗的总功率P_{C}^{‘}之比称为发射机的总效率\eta_{A}</p>
+</blockquote>
+<h3 id="4-4输出阻抗"><a href="#4-4输出阻抗" class="headerlink" title="4.4输出阻抗"></a>4.4输出阻抗</h3><blockquote>
+<p>一般要求50Ω</p>
+</blockquote>
+<h3 id="4-5残波辐射"><a href="#4-5残波辐射" class="headerlink" title="4.5残波辐射"></a>4.5残波辐射</h3><blockquote>
+<p>功率与有效输出功率之比</p>
+</blockquote>
+<h3 id="4-6信杂比"><a href="#4-6信杂比" class="headerlink" title="4.6信杂比"></a>4.6信杂比</h3><blockquote>
+<p>在规定频偏的情况下经理想解调后有用信号功率与载波功率之比</p>
+</blockquote>
+<h3 id="4-7失真度"><a href="#4-7失真度" class="headerlink" title="4.7失真度"></a>4.7失真度</h3><blockquote>
+<p>在规定频偏的情况下经理想解调后单音频信号的失真度</p>
+</blockquote>
+<h3 id="4-8频率响应"><a href="#4-8频率响应" class="headerlink" title="4.8频率响应"></a>4.8频率响应</h3><blockquote>
+<p>在规定频偏的情况下经理想解调后输出音频的幅频响应</p>
+</blockquote>
+<h2 id="五、原理分析"><a href="#五、原理分析" class="headerlink" title="五、原理分析"></a>五、原理分析</h2><h3 id="5-1音频放大"><a href="#5-1音频放大" class="headerlink" title="5.1音频放大"></a>5.1音频放大</h3><blockquote>
+<p>低频放大，由三极管实现功能</p>
+<p>微型麦克风将采集的语言信号转换成电压信号输入电路，R15微麦克风偏置电阻，用来确定麦克风的静态工作点。C16电容用来稳定放大器，同时起到低通滤波的作用。R16、R17、R18、R19、R20为三极管9013的偏置电阻。C17为旁路电容，三极管静态工作时，不起任何作用。当输入交流信号时，R19被C17短路，C14、C15接地起到滤波作用。C18为隔离电容</p>
+<p>理论上该部分能对输入的语音信号放大10倍左右，被放大后的语音信号就是调频系统的基带信号</p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/Audio_amplification_module.png" alt="音频放大"></p>
+<h3 id="5-2高频振荡与频率调制"><a href="#5-2高频振荡与频率调制" class="headerlink" title="5.2高频振荡与频率调制"></a>5.2高频振荡与频率调制</h3><blockquote>
+<p>调频系统中，用一个频率高的信号作为载波。载波的频率将被基带信号所控制，携带基带信号的全部信息</p>
+<p>采用电容三段式振荡器，加了变容二极管Cx1和反馈网络，外接电源后只要有一个微小的开关扰动就能自激振荡，最终输出频率为几十兆的正弦波。通过调节可调电感L1，可逐渐改变正弦波的频率直至达到期望值</p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/High_frequency_oscillation_and_frequency_modulation_module.png" alt="高频振荡与频率调制"></p>
+<h3 id="5-3缓冲隔离与高频功放"><a href="#5-3缓冲隔离与高频功放" class="headerlink" title="5.3缓冲隔离与高频功放"></a>5.3缓冲隔离与高频功放</h3><blockquote>
+<p>缓冲高频振荡部分输出的信号，同时隔离前后级电路</p>
+<p>采用射极跟随器，三极管T2 9018的静态工作点由偏置电阻R7、R8、R9确定。此处同样设置了一个简单的模拟滤波电路，由C12、C13、L4构成，C9为隔离电容。</p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/Buffer_isolation_module.png" alt="缓冲隔离"></p>
+<blockquote>
+<p>高频振荡电路输出的调制信号幅值易班较小，而话筒天线传输出去的信号是在无线信道中传播的，帮你顶存在一定程度上的幅值衰减，所以必须在震荡电路之后添加一个高频功率放大器</p>
+<p>高频功放由三极管T3 9018，电阻R10、R11、R12作为偏置电阻确定静态工作点。C10和可调电感L3组成LC回路，谐振在载频上，输出波形的峰峰值V_{pp}可由L3调节</p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/High-frequency_amplifier_module.png" alt="高频功放"></p>
+<h2 id="操作步骤与数据记录"><a href="#操作步骤与数据记录" class="headerlink" title="操作步骤与数据记录"></a>操作步骤与数据记录</h2><table>
+<thead>
+<tr>
+<th>三极管/电极</th>
+<th>基极b/V</th>
+<th>发射极e/V</th>
+<th>集电极c/V</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T1 9018</td>
+<td>2.918</td>
+<td>2.190</td>
+<td>6.901</td>
+</tr>
+<tr>
+<td>T2 9018</td>
+<td>5.356</td>
+<td>4.818</td>
+<td>9.030</td>
+</tr>
+<tr>
+<td>T3 9018</td>
+<td>2.872</td>
+<td>2.102</td>
+<td>9.006</td>
+</tr>
+<tr>
+<td>T4 9018</td>
+<td>2.533</td>
+<td>1.879</td>
+<td>5.663</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>高频振荡频率83.4MHz，率低于参考频率f=89.5MHz，可能是手个别高频器件引脚预留过长所阐述的电感效应影响<br>R5和R6之间的电压值为V=4.094V，接近4V，达到预期值<br>天线输出信号的峰峰值Vpp=1.49V，达到预期值</p>
+</blockquote>
+<h2 id="实物图"><a href="#实物图" class="headerlink" title="实物图"></a>实物图</h2><h3 id="附录👇"><a href="#附录👇" class="headerlink" title="附录👇"></a><em>附录👇</em></h3><h4 id="附1：SCH"><a href="#附1：SCH" class="headerlink" title="附1：SCH"></a><em>附1：SCH</em></h4><blockquote>
+<p>原SCH图👇</p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/SCH_easy.png" alt="SCH图"></p>
+<blockquote>
+<p>修改之后的SCH图👇</p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/SCH_new.png" alt="修改之后的SCH图"></p>
+<h4 id="附2：PCB"><a href="#附2：PCB" class="headerlink" title="附2：PCB"></a><em>附2：PCB</em></h4><blockquote>
+<p>第一版PCB图👇</p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/PCB_easy.png" alt="PCB图"></p>
+<blockquote>
+<p>经过优化的PCB图👇<br>（较为紧凑，封装与实物所用略有不同，稍有出入。实物上C9在焊接时两引脚掰开，中间空了一格走地线，PCB图中有所不同）</p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/PCB_new.png" alt="经过优化的PCB图"></p>
+<h4 id="附3：源文件下载"><a href="#附3：源文件下载" class="headerlink" title="附3：源文件下载"></a><em>附3：源文件下载</em></h4><p><a href="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/PCB_easy.png">Altium Designer工程源文件</a></p>
+]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
+      <tags>
+        <tag>高频电路</tag>
+        <tag>PCB</tag>
+        <tag>无线</tag>
       </tags>
   </entry>
 </search>

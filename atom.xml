@@ -6,7 +6,7 @@
   <link href="https://www.lingzhicheng.cn/atom.xml" rel="self"/>
   
   <link href="https://www.lingzhicheng.cn/"/>
-  <updated>2021-02-26T00:00:00.000Z</updated>
+  <updated>2021-03-10T00:00:00.000Z</updated>
   <id>https://www.lingzhicheng.cn/</id>
   
   <author>
@@ -15,6 +15,42 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>调频无线话筒</title>
+    <link href="https://www.lingzhicheng.cn/2021/03/10/%E8%B0%83%E9%A2%91%E6%97%A0%E7%BA%BF%E8%AF%9D%E7%AD%92/"/>
+    <id>https://www.lingzhicheng.cn/2021/03/10/%E8%B0%83%E9%A2%91%E6%97%A0%E7%BA%BF%E8%AF%9D%E7%AD%92/</id>
+    <published>2021-03-10T00:00:00.000Z</published>
+    <updated>2021-03-10T00:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><p><strong>浙江工业大学信息工程学院通信电子线路课程设计</strong></p></li><li><p>设计制作：熟悉和掌握通信电子线路的一般设计步骤与方法、电路制作和调试一般步骤和方法</p></li><li><p>CAD设计：掌握电子电路的制图工具，进一步了解和掌握电子线路设计中原理图和PCB图的设计方法和技能</p></li></ul><hr><h2 id="一、实验目的"><a href="#一、实验目的" class="headerlink" title="一、实验目的"></a>一、实验目的</h2><blockquote><p>掌握调频发射机整机电路的设计与调试方法，以及高频电路的调试中常见故障的分析与 排除；学会如何将高频单元电路组合起来实现满足工程实际要求的整机电路的设计与调试技术</p></blockquote><h2 id="二、参考设计"><a href="#二、参考设计" class="headerlink" title="二、参考设计"></a>二、参考设计</h2><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/System.png" alt="系统框图"></p><blockquote><p>对于小功率的调频无线话筒，设计时在保证技术指标的前提下，应力求电路简单、性能 稳定可靠。单元电路级数尽可能少，以减小级间的相互感应、干扰和自激，工作在调频广播频段（87MHz~108MHz）。高频功放在发射功 率较小时可工作于甲类状态</p></blockquote><h2 id="三、仪器与工具"><a href="#三、仪器与工具" class="headerlink" title="三、仪器与工具"></a>三、仪器与工具</h2><blockquote><p>1.直流稳压电源<br>2.数字万用表<br>3、示波器（≥100MHz）<br>4、调频收音机（87~708MHz）<br>5、烙铁、镊子、斜口钳</p></blockquote><h2 id="四、技术指标"><a href="#四、技术指标" class="headerlink" title="四、技术指标"></a>四、技术指标</h2><h3 id="4-1发射功率"><a href="#4-1发射功率" class="headerlink" title="4.1发射功率"></a>4.1发射功率</h3><blockquote><p>发射机输送到天线上的功率，当天线长度L与发射频率波长\lambda 可以比拟时，天线才能有效地将信号发送出去</p></blockquote><h3 id="4-2工作频率或波段"><a href="#4-2工作频率或波段" class="headerlink" title="4.2工作频率或波段"></a>4.2工作频率或波段</h3><blockquote><p>发射机的工作频率之其载波频率，根据调制方式，在国家有关部门所规定的范围内选取，广播通信常用波段可查阅有关书籍，对于调频发射机，工作频率一般在超短波范围内（30MHz ~ 300MHz）。调频广播段规定为87MHz ~ 108MHz</p></blockquote><h3 id="4-3总效率"><a href="#4-3总效率" class="headerlink" title="4.3总效率"></a>4.3总效率</h3><blockquote><p>发射机发射的总功率P_{A}与其消耗的总功率P_{C}^{‘}之比称为发射机的总效率\eta_{A}</p></blockquote><h3 id="4-4输出阻抗"><a href="#4-4输出阻抗" class="headerlink" title="4.4输出阻抗"></a>4.4输出阻抗</h3><blockquote><p>一般要求50Ω</p></blockquote><h3 id="4-5残波辐射"><a href="#4-5残波辐射" class="headerlink" title="4.5残波辐射"></a>4.5残波辐射</h3><blockquote><p>功率与有效输出功率之比</p></blockquote><h3 id="4-6信杂比"><a href="#4-6信杂比" class="headerlink" title="4.6信杂比"></a>4.6信杂比</h3><blockquote><p>在规定频偏的情况下经理想解调后有用信号功率与载波功率之比</p></blockquote><h3 id="4-7失真度"><a href="#4-7失真度" class="headerlink" title="4.7失真度"></a>4.7失真度</h3><blockquote><p>在规定频偏的情况下经理想解调后单音频信号的失真度</p></blockquote><h3 id="4-8频率响应"><a href="#4-8频率响应" class="headerlink" title="4.8频率响应"></a>4.8频率响应</h3><blockquote><p>在规定频偏的情况下经理想解调后输出音频的幅频响应</p></blockquote><h2 id="五、原理分析"><a href="#五、原理分析" class="headerlink" title="五、原理分析"></a>五、原理分析</h2><h3 id="5-1音频放大"><a href="#5-1音频放大" class="headerlink" title="5.1音频放大"></a>5.1音频放大</h3><blockquote><p>低频放大，由三极管实现功能</p><p>微型麦克风将采集的语言信号转换成电压信号输入电路，R15微麦克风偏置电阻，用来确定麦克风的静态工作点。C16电容用来稳定放大器，同时起到低通滤波的作用。R16、R17、R18、R19、R20为三极管9013的偏置电阻。C17为旁路电容，三极管静态工作时，不起任何作用。当输入交流信号时，R19被C17短路，C14、C15接地起到滤波作用。C18为隔离电容</p><p>理论上该部分能对输入的语音信号放大10倍左右，被放大后的语音信号就是调频系统的基带信号</p></blockquote><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/Audio_amplification_module.png" alt="音频放大"></p><h3 id="5-2高频振荡与频率调制"><a href="#5-2高频振荡与频率调制" class="headerlink" title="5.2高频振荡与频率调制"></a>5.2高频振荡与频率调制</h3><blockquote><p>调频系统中，用一个频率高的信号作为载波。载波的频率将被基带信号所控制，携带基带信号的全部信息</p><p>采用电容三段式振荡器，加了变容二极管Cx1和反馈网络，外接电源后只要有一个微小的开关扰动就能自激振荡，最终输出频率为几十兆的正弦波。通过调节可调电感L1，可逐渐改变正弦波的频率直至达到期望值</p></blockquote><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/High_frequency_oscillation_and_frequency_modulation_module.png" alt="高频振荡与频率调制"></p><h3 id="5-3缓冲隔离与高频功放"><a href="#5-3缓冲隔离与高频功放" class="headerlink" title="5.3缓冲隔离与高频功放"></a>5.3缓冲隔离与高频功放</h3><blockquote><p>缓冲高频振荡部分输出的信号，同时隔离前后级电路</p><p>采用射极跟随器，三极管T2 9018的静态工作点由偏置电阻R7、R8、R9确定。此处同样设置了一个简单的模拟滤波电路，由C12、C13、L4构成，C9为隔离电容。</p></blockquote><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/Buffer_isolation_module.png" alt="缓冲隔离"></p><blockquote><p>高频振荡电路输出的调制信号幅值易班较小，而话筒天线传输出去的信号是在无线信道中传播的，帮你顶存在一定程度上的幅值衰减，所以必须在震荡电路之后添加一个高频功率放大器</p><p>高频功放由三极管T3 9018，电阻R10、R11、R12作为偏置电阻确定静态工作点。C10和可调电感L3组成LC回路，谐振在载频上，输出波形的峰峰值V_{pp}可由L3调节</p></blockquote><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/High-frequency_amplifier_module.png" alt="高频功放"></p><h2 id="操作步骤与数据记录"><a href="#操作步骤与数据记录" class="headerlink" title="操作步骤与数据记录"></a>操作步骤与数据记录</h2><table><thead><tr><th>三极管/电极</th><th>基极b/V</th><th>发射极e/V</th><th>集电极c/V</th></tr></thead><tbody><tr><td>T1 9018</td><td>2.918</td><td>2.190</td><td>6.901</td></tr><tr><td>T2 9018</td><td>5.356</td><td>4.818</td><td>9.030</td></tr><tr><td>T3 9018</td><td>2.872</td><td>2.102</td><td>9.006</td></tr><tr><td>T4 9018</td><td>2.533</td><td>1.879</td><td>5.663</td></tr></tbody></table><blockquote><p>高频振荡频率83.4MHz，率低于参考频率f=89.5MHz，可能是手个别高频器件引脚预留过长所阐述的电感效应影响<br>R5和R6之间的电压值为V=4.094V，接近4V，达到预期值<br>天线输出信号的峰峰值Vpp=1.49V，达到预期值</p></blockquote><h2 id="实物图"><a href="#实物图" class="headerlink" title="实物图"></a>实物图</h2><h3 id="附录👇"><a href="#附录👇" class="headerlink" title="附录👇"></a><em>附录👇</em></h3><h4 id="附1：SCH"><a href="#附1：SCH" class="headerlink" title="附1：SCH"></a><em>附1：SCH</em></h4><blockquote><p>原SCH图👇</p></blockquote><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/SCH_easy.png" alt="SCH图"></p><blockquote><p>修改之后的SCH图👇</p></blockquote><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/SCH_new.png" alt="修改之后的SCH图"></p><h4 id="附2：PCB"><a href="#附2：PCB" class="headerlink" title="附2：PCB"></a><em>附2：PCB</em></h4><blockquote><p>第一版PCB图👇</p></blockquote><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/PCB_easy.png" alt="PCB图"></p><blockquote><p>经过优化的PCB图👇<br>（较为紧凑，封装与实物所用略有不同，稍有出入。实物上C9在焊接时两引脚掰开，中间空了一格走地线，PCB图中有所不同）</p></blockquote><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/PCB_new.png" alt="经过优化的PCB图"></p><h4 id="附3：源文件下载"><a href="#附3：源文件下载" class="headerlink" title="附3：源文件下载"></a><em>附3：源文件下载</em></h4><p><a href="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/PCB_easy.png">Altium Designer工程源文件</a></p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;浙江工业大学信息工程学院通信电子线路课程设计&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;设计制作：熟悉和掌握通信电子线路的一般设计步骤与方法、电路制作和调试一般步骤和方法&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;CAD设计：掌握电子电路</summary>
+        
+      
+    
+    
+    
+    <category term="总结" scheme="https://www.lingzhicheng.cn/categories/%E6%80%BB%E7%BB%93/"/>
+    
+    
+    <category term="高频电路" scheme="https://www.lingzhicheng.cn/tags/%E9%AB%98%E9%A2%91%E7%94%B5%E8%B7%AF/"/>
+    
+    <category term="PCB" scheme="https://www.lingzhicheng.cn/tags/PCB/"/>
+    
+    <category term="无线" scheme="https://www.lingzhicheng.cn/tags/%E6%97%A0%E7%BA%BF/"/>
+    
+  </entry>
   
   <entry>
     <title>VS2019代码提示延迟很高，部分快捷键无法使用的问题</title>
