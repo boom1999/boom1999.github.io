@@ -28,7 +28,7 @@ categories: blog
     echo ""
     #输出当前时间
     date --date='0 days ago' "+%Y-%m-%d %H:%M:%S"
-    e   cho "Start"
+    echo "Start"
     
     #git项目路径
     gitPath=" "
