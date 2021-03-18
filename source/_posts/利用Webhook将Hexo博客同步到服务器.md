@@ -68,7 +68,7 @@ categories: blog
 
 - 切换到Github项目的Settings-Webhooks
 
-- `Add Webhook`
+- Add Webhook
 
 > **Payload URL:** `http://服务器ip:8888?hook?access_key=xxxxx`
 > **Content type:** `application/json`
