@@ -88,6 +88,7 @@ categories: blog
 1. 服务器需要开放8888端口，如果使用其他端口同样需要打开
 2. 两者都是表单数据发送时的编码类型
     application/x-www-form-urlencoded --> key=value&key=value
+3. 一般情况下都会正常同步，如果长时间未update，可能是DNS的问题，可以考虑选择一个连接速度较快的GitHub的ip添加到/etc/hosts并且刷新
 
 [1]: https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook01.png
 [2]: https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook02.png
