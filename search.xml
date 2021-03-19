@@ -595,6 +595,7 @@ fi
 <h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><ol>
 <li>服务器需要开放8888端口，如果使用其他端口同样需要打开</li>
 <li>两者都是表单数据发送时的编码类型<br> application/x-www-form-urlencoded –&gt; key=value&amp;key=value</li>
+<li>一般情况下都会正常同步，如果长时间未update，可能是DNS的问题，可以考虑选择一个连接速度较快的GitHub的ip添加到/etc/hosts并且刷新</li>
 </ol>
 ]]></content>
       <categories>
