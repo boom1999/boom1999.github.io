@@ -608,6 +608,17 @@ fi
       </tags>
   </entry>
   <entry>
+    <title>常见git操作命令整理</title>
+    <url>/2021/03/19/%E5%B8%B8%E8%A7%81git%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h2 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h2>]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>正则表达式整理（持续更新）</title>
     <url>/2021/02/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B4%E7%90%86/</url>
     <content><![CDATA[<h2 id="最常用的匹配"><a href="#最常用的匹配" class="headerlink" title="最常用的匹配"></a>最常用的匹配</h2><table>
