@@ -1,9 +1,5 @@
-# boom1999.github.io
+# boom1999.github.io #
 
-Personal blog
+![demo][1]
 
-- power hexo
-- theme ayer
-- [demo][1]
-
-[1]: https://www.lingzhicheng.cn/
+[1]: https://www.lingzhicheng.cn/usr/file/web_img/demo.jpg
