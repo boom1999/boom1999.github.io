@@ -158,14 +158,14 @@
   </url>
   
   <url>
-    <loc>https://www.lingzhicheng.cn/tags/%E5%8F%8C%E6%9C%BA%E9%80%9A%E4%BF%A1/</loc>
+    <loc>https://www.lingzhicheng.cn/tags/%E5%AE%9A%E6%97%B6%E5%99%A8/</loc>
     <lastmod>2021-03-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://www.lingzhicheng.cn/tags/%E5%AE%9A%E6%97%B6%E5%99%A8/</loc>
+    <loc>https://www.lingzhicheng.cn/tags/%E5%8F%8C%E6%9C%BA%E9%80%9A%E4%BF%A1/</loc>
     <lastmod>2021-03-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -180,20 +180,6 @@
   
   <url>
     <loc>https://www.lingzhicheng.cn/tags/%E8%B0%83%E8%AF%95/</loc>
-    <lastmod>2021-03-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.lingzhicheng.cn/tags/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</loc>
-    <lastmod>2021-03-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.lingzhicheng.cn/tags/tensorflow/</loc>
     <lastmod>2021-03-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -215,6 +201,20 @@
   
   <url>
     <loc>https://www.lingzhicheng.cn/tags/Visual-Studio/</loc>
+    <lastmod>2021-03-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.lingzhicheng.cn/tags/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</loc>
+    <lastmod>2021-03-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.lingzhicheng.cn/tags/tensorflow/</loc>
     <lastmod>2021-03-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -249,13 +249,6 @@
   </url>
   
   <url>
-    <loc>https://www.lingzhicheng.cn/tags/re-match/</loc>
-    <lastmod>2021-03-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.lingzhicheng.cn/tags/%E9%AB%98%E9%A2%91%E7%94%B5%E8%B7%AF/</loc>
     <lastmod>2021-03-20</lastmod>
     <changefreq>daily</changefreq>
@@ -271,6 +264,13 @@
   
   <url>
     <loc>https://www.lingzhicheng.cn/tags/%E6%97%A0%E7%BA%BF/</loc>
+    <lastmod>2021-03-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.lingzhicheng.cn/tags/re-match/</loc>
     <lastmod>2021-03-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

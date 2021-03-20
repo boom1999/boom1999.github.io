@@ -29,28 +29,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Dual_computer_communication</title>
-    <url>/2020/12/29/AT89S51%E5%8F%8C%E6%9C%BA%E9%80%9A%E4%BF%A1/</url>
-    <content><![CDATA[<ul>
-<li><p><strong>浙江工业大学信息工程学院单片机实验</strong></p>
-</li>
-<li><p>要求：甲机将内部RAM 30h~4Fh的内容发送给乙机</p>
-</li>
-</ul>
-<blockquote>
-<p>通讯双方均采用4800bps波特率进行传送(系统时钟频率为11.0592MHz)，甲机发送数据，乙机接收数据。双机开始通讯时，甲机发送一个呼叫信号“06H”，询问乙机是否可以接收数据；乙机收到呼叫信号后，若同意接收数据则发回“00H”作为应答，否则发“15H”表示暂不能接收数据，甲机只有收到乙机的应答信号“00H”后才可把存放在内部数据存储器的字节内容发送给乙机，否则继续向乙机呼叫，直到乙机同意接收。呼叫成功后甲机依次发送长度字节（1字节）、数据字节（n字节）和校验和字节（1字节），其中校验和为长度字节和数据字节的“累加和”。乙机在成功收到甲机的数据之后，发送“0FH”作为成功应答，否则发送“F0H”作为失败应答。</p>
-</blockquote>
-<hr>
-<h2 id="发送机"><a href="#发送机" class="headerlink" title="发送机"></a>发送机</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">        ORG     0000H</span><br><span class="line">        LJMP    START</span><br><span class="line">        ORG     1000H</span><br><span class="line">            </span><br><span class="line">START:</span><br><span class="line">        MOV     SP,#60H</span><br><span class="line">        MOV     TMOD,#20H       &#x2F;&#x2F;定时器0，定时器工作模式2工作</span><br><span class="line">        MOV     TH1,#0FAH       &#x2F;&#x2F;模式2自动重装载的初值</span><br><span class="line">        MOV     TH1,#0FAH</span><br><span class="line">        SETB    TR1             &#x2F;&#x2F;开始计时</span><br><span class="line">        MOV     SCON,#50H       &#x2F;&#x2F;方式1工作,允许接收--&gt;4.8kbit&#x2F;s</span><br><span class="line">        MOV     PCON,#00H       &#x2F;&#x2F;SMOD&#x3D;0</span><br><span class="line">        MOV     R0,30H          &#x2F;&#x2F;存放发送的数据块首地址</span><br><span class="line">        MOV     R7,#20H         &#x2F;&#x2F;存放发送的数据块长度</span><br><span class="line">        MOV     R6,#00H         &#x2F;&#x2F;校验和，长度字节与数字字节的累加和</span><br><span class="line">        </span><br><span class="line">TX_ACK:</span><br><span class="line">        MOV     A,#06H          &#x2F;&#x2F;发送06H询问是否可以接收数据</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">WAIT1:</span><br><span class="line">        JNB     TI,WAIT1        &#x2F;&#x2F;等待发送完一个字节</span><br><span class="line">        CLR     TI              &#x2F;&#x2F;清除发送完毕TI标志位</span><br><span class="line"></span><br><span class="line">RX_YES:</span><br><span class="line">        JNB     RI,RX_YES       &#x2F;&#x2F;等待乙机回答是否可以接收</span><br><span class="line">        CLR     RI              &#x2F;&#x2F;清除接收完毕RI标志位</span><br><span class="line">        </span><br><span class="line">NEXT1:</span><br><span class="line">        MOV     A,SBUF          &#x2F;&#x2F;接收到乙机发送过来的ACK</span><br><span class="line">        CJNE    A,#00H,TX_ACK   &#x2F;&#x2F;若为00H则表示可以接收数据，往下启动发送，否则再次询问</span><br><span class="line">        </span><br><span class="line">TX_LENGTH:</span><br><span class="line">        MOV     A,R7            &#x2F;&#x2F;先发送字节长度数R7</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">WAIT2:</span><br><span class="line">        JNB     TI,WAIT2        &#x2F;&#x2F;等待数据发送完毕</span><br><span class="line">        CLR     TI              &#x2F;&#x2F;清除发送完毕TI标志位</span><br><span class="line">        MOV     R6,A            &#x2F;&#x2F;增加校验和</span><br><span class="line"></span><br><span class="line">TX_NEWS:                        &#x2F;&#x2F;查询发送数据</span><br><span class="line">        MOV     A,@R0</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">TX_NEWS_WAIT:</span><br><span class="line">        JNB     TI,TX_NEWS_WAIT</span><br><span class="line">        CLR     TI              &#x2F;&#x2F;清除发送完毕TI标志位</span><br><span class="line">        MOV     A,R6</span><br><span class="line">        ADD     A,@R0</span><br><span class="line">        MOV     R6,A</span><br><span class="line">        INC     @R0</span><br><span class="line">        DJNZ    R7,TX_NEWS      &#x2F;&#x2F;如果没发送完32个数据，继续发送</span><br><span class="line">        </span><br><span class="line">TX_CHECK:</span><br><span class="line">        MOV     A,R6</span><br><span class="line">        ADD     A,@R0</span><br><span class="line">        MOV     R6,A</span><br><span class="line">        MOV     A,R6            &#x2F;&#x2F;发送校验位</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">WAIT3:                          &#x2F;&#x2F;等待发送完校验位</span><br><span class="line">        JNB     TI,WAIT3</span><br><span class="line">        CLR     TI</span><br><span class="line">        </span><br><span class="line">WAIT4:                          &#x2F;&#x2F;等待接收完校验位</span><br><span class="line">        JNB     RI,WAIT4</span><br><span class="line">        CLR     RI</span><br><span class="line">        </span><br><span class="line">IF_0FH:</span><br><span class="line">        MOV     A,SBUF          &#x2F;&#x2F;将接收到校验是否正确的恢复存到累加器</span><br><span class="line">        CJNE    A,#0FH,START</span><br><span class="line"></span><br><span class="line">HERE:</span><br><span class="line">        SJMP    HERE</span><br><span class="line"></span><br><span class="line">        END</span><br><span class="line">        </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="接收机"><a href="#接收机" class="headerlink" title="接收机"></a>接收机</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">        ORG     0000H</span><br><span class="line">        LJMP    START</span><br><span class="line">        ORG     0023H</span><br><span class="line">        LJMP    IF_06H</span><br><span class="line">        ORG     1000H</span><br><span class="line">            </span><br><span class="line">START:</span><br><span class="line">        MOV     SP,#60H</span><br><span class="line">        MOV     TMOD,#20H       &#x2F;&#x2F;定时器0，定时器工作模式2工作</span><br><span class="line">        MOV     TH1,#0FAH       &#x2F;&#x2F;模式2自动重装载的初值</span><br><span class="line">        MOV     TH1,#0FAH</span><br><span class="line">        SETB    TR1             &#x2F;&#x2F;开始计时</span><br><span class="line">        MOV     SCON,#50H       &#x2F;&#x2F;方式1,允许接收--&gt;4.8kbit&#x2F;s</span><br><span class="line">        MOV     PCON,#00H       &#x2F;&#x2F;SMOD&#x3D;0</span><br><span class="line">        MOV     IE,#90H</span><br><span class="line">        MOV     R0,30H          &#x2F;&#x2F;存放发送的数据块首地址</span><br><span class="line">        MOV     R7,#00H         &#x2F;&#x2F;存放发送的数据块长度</span><br><span class="line">        MOV     R6,#00H         &#x2F;&#x2F;校验和，长度字节与数字字节的累加和</span><br><span class="line">        </span><br><span class="line">HERE:</span><br><span class="line">        SJMP    HERE</span><br><span class="line">        </span><br><span class="line">IF_06H:</span><br><span class="line">        PUSH    ACC</span><br><span class="line">        PUSH    PSW</span><br><span class="line">        CLR     RI              &#x2F;&#x2F;清除接收完毕RI标志位</span><br><span class="line">        MOV     A,SBUF          &#x2F;&#x2F;核对握手信号是不是06H</span><br><span class="line">        CJNE    A,#06H,TX_15H   &#x2F;&#x2F;如果是06H则发送00H应答，否则发送15H拒绝</span><br><span class="line"></span><br><span class="line">TX_00H:</span><br><span class="line">        MOV     A,#00H</span><br><span class="line">        MOV     SBUF,A          &#x2F;&#x2F;发送出00H表示可以接收数据</span><br><span class="line">        LJMP    HERE_RE</span><br><span class="line">        </span><br><span class="line">TX_15H:</span><br><span class="line">        MOV     A,#15H          &#x2F;&#x2F;发送15H表示不可以接收</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        LJMP    RETURN</span><br><span class="line">            </span><br><span class="line">HERE_RE:</span><br><span class="line">        JNB     TI,HERE_RE      &#x2F;&#x2F;等待发送完毕，发送完毕准备接收</span><br><span class="line">        CLR     TI</span><br><span class="line">        </span><br><span class="line">HAVE1:</span><br><span class="line">        JNB     RI,HAVE1        &#x2F;&#x2F;等待接收数据长度</span><br><span class="line">        CLR     RI</span><br><span class="line">        MOV     A,SBUF</span><br><span class="line">        MOV     R7,A            &#x2F;&#x2F;R7存数据长度</span><br><span class="line">        MOV     R6,A            &#x2F;&#x2F;R6存校验和</span><br><span class="line"></span><br><span class="line">HAVE2:</span><br><span class="line">        JNB     RI,HAVE2        &#x2F;&#x2F;等待接收正式数据</span><br><span class="line">        CLR     RI</span><br><span class="line">        MOV     A,SBUF</span><br><span class="line">        MOV     @R0,A</span><br><span class="line">        MOV     A,R6</span><br><span class="line">        ADD     A,@R0</span><br><span class="line">        MOV     R6,A</span><br><span class="line">        INC     @R0</span><br><span class="line">        DJNZ    R7,HAVE2        &#x2F;&#x2F;如果没接收完完20个数据，继续接收</span><br><span class="line">        </span><br><span class="line">RX_CHECK:                       &#x2F;&#x2F;接收校验和</span><br><span class="line">        JNB     RI,RX_CHECK</span><br><span class="line">        CLR     RI</span><br><span class="line">        MOV     A,SBUF</span><br><span class="line">        MOV     39H,A</span><br><span class="line">        CJNE    A,39H,TX_ERR    &#x2F;&#x2F;如果校验正确，则继续向下ok，错误则发送#F0H</span><br><span class="line">        </span><br><span class="line">TX_OK:                          &#x2F;&#x2F;校验正确，发送0FH</span><br><span class="line">        MOV     A,#0FH</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        LJMP    HERE_END</span><br><span class="line">            </span><br><span class="line">TX_ERR:                         &#x2F;&#x2F;校验错误，发送F0H</span><br><span class="line">        MOV     A,#0F0H</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">HERE_END:                       &#x2F;&#x2F;等待发送完毕</span><br><span class="line">        JNB TI,HERE_END</span><br><span class="line">        CLR TI</span><br><span class="line"></span><br><span class="line">RETURN:</span><br><span class="line">        POP     PSW</span><br><span class="line">        POP     ACC</span><br><span class="line">        RETI</span><br><span class="line"></span><br><span class="line">        END</span><br><span class="line">            </span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>AT89S51</category>
-      </categories>
-      <tags>
-        <tag>双机通信</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>定时器解决方案备忘录</title>
     <url>/2020/12/22/AT89S51%E5%AE%9A%E6%97%B6%E5%99%A8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E5%A4%87%E5%BF%98%E5%BD%95/</url>
     <content><![CDATA[<ul>
@@ -115,6 +93,28 @@ CONTINUE_T0:
       </categories>
       <tags>
         <tag>定时器</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Dual_computer_communication</title>
+    <url>/2020/12/29/AT89S51%E5%8F%8C%E6%9C%BA%E9%80%9A%E4%BF%A1/</url>
+    <content><![CDATA[<ul>
+<li><p><strong>浙江工业大学信息工程学院单片机实验</strong></p>
+</li>
+<li><p>要求：甲机将内部RAM 30h~4Fh的内容发送给乙机</p>
+</li>
+</ul>
+<blockquote>
+<p>通讯双方均采用4800bps波特率进行传送(系统时钟频率为11.0592MHz)，甲机发送数据，乙机接收数据。双机开始通讯时，甲机发送一个呼叫信号“06H”，询问乙机是否可以接收数据；乙机收到呼叫信号后，若同意接收数据则发回“00H”作为应答，否则发“15H”表示暂不能接收数据，甲机只有收到乙机的应答信号“00H”后才可把存放在内部数据存储器的字节内容发送给乙机，否则继续向乙机呼叫，直到乙机同意接收。呼叫成功后甲机依次发送长度字节（1字节）、数据字节（n字节）和校验和字节（1字节），其中校验和为长度字节和数据字节的“累加和”。乙机在成功收到甲机的数据之后，发送“0FH”作为成功应答，否则发送“F0H”作为失败应答。</p>
+</blockquote>
+<hr>
+<h2 id="发送机"><a href="#发送机" class="headerlink" title="发送机"></a>发送机</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">        ORG     0000H</span><br><span class="line">        LJMP    START</span><br><span class="line">        ORG     1000H</span><br><span class="line">            </span><br><span class="line">START:</span><br><span class="line">        MOV     SP,#60H</span><br><span class="line">        MOV     TMOD,#20H       &#x2F;&#x2F;定时器0，定时器工作模式2工作</span><br><span class="line">        MOV     TH1,#0FAH       &#x2F;&#x2F;模式2自动重装载的初值</span><br><span class="line">        MOV     TH1,#0FAH</span><br><span class="line">        SETB    TR1             &#x2F;&#x2F;开始计时</span><br><span class="line">        MOV     SCON,#50H       &#x2F;&#x2F;方式1工作,允许接收--&gt;4.8kbit&#x2F;s</span><br><span class="line">        MOV     PCON,#00H       &#x2F;&#x2F;SMOD&#x3D;0</span><br><span class="line">        MOV     R0,30H          &#x2F;&#x2F;存放发送的数据块首地址</span><br><span class="line">        MOV     R7,#20H         &#x2F;&#x2F;存放发送的数据块长度</span><br><span class="line">        MOV     R6,#00H         &#x2F;&#x2F;校验和，长度字节与数字字节的累加和</span><br><span class="line">        </span><br><span class="line">TX_ACK:</span><br><span class="line">        MOV     A,#06H          &#x2F;&#x2F;发送06H询问是否可以接收数据</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">WAIT1:</span><br><span class="line">        JNB     TI,WAIT1        &#x2F;&#x2F;等待发送完一个字节</span><br><span class="line">        CLR     TI              &#x2F;&#x2F;清除发送完毕TI标志位</span><br><span class="line"></span><br><span class="line">RX_YES:</span><br><span class="line">        JNB     RI,RX_YES       &#x2F;&#x2F;等待乙机回答是否可以接收</span><br><span class="line">        CLR     RI              &#x2F;&#x2F;清除接收完毕RI标志位</span><br><span class="line">        </span><br><span class="line">NEXT1:</span><br><span class="line">        MOV     A,SBUF          &#x2F;&#x2F;接收到乙机发送过来的ACK</span><br><span class="line">        CJNE    A,#00H,TX_ACK   &#x2F;&#x2F;若为00H则表示可以接收数据，往下启动发送，否则再次询问</span><br><span class="line">        </span><br><span class="line">TX_LENGTH:</span><br><span class="line">        MOV     A,R7            &#x2F;&#x2F;先发送字节长度数R7</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">WAIT2:</span><br><span class="line">        JNB     TI,WAIT2        &#x2F;&#x2F;等待数据发送完毕</span><br><span class="line">        CLR     TI              &#x2F;&#x2F;清除发送完毕TI标志位</span><br><span class="line">        MOV     R6,A            &#x2F;&#x2F;增加校验和</span><br><span class="line"></span><br><span class="line">TX_NEWS:                        &#x2F;&#x2F;查询发送数据</span><br><span class="line">        MOV     A,@R0</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">TX_NEWS_WAIT:</span><br><span class="line">        JNB     TI,TX_NEWS_WAIT</span><br><span class="line">        CLR     TI              &#x2F;&#x2F;清除发送完毕TI标志位</span><br><span class="line">        MOV     A,R6</span><br><span class="line">        ADD     A,@R0</span><br><span class="line">        MOV     R6,A</span><br><span class="line">        INC     @R0</span><br><span class="line">        DJNZ    R7,TX_NEWS      &#x2F;&#x2F;如果没发送完32个数据，继续发送</span><br><span class="line">        </span><br><span class="line">TX_CHECK:</span><br><span class="line">        MOV     A,R6</span><br><span class="line">        ADD     A,@R0</span><br><span class="line">        MOV     R6,A</span><br><span class="line">        MOV     A,R6            &#x2F;&#x2F;发送校验位</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">WAIT3:                          &#x2F;&#x2F;等待发送完校验位</span><br><span class="line">        JNB     TI,WAIT3</span><br><span class="line">        CLR     TI</span><br><span class="line">        </span><br><span class="line">WAIT4:                          &#x2F;&#x2F;等待接收完校验位</span><br><span class="line">        JNB     RI,WAIT4</span><br><span class="line">        CLR     RI</span><br><span class="line">        </span><br><span class="line">IF_0FH:</span><br><span class="line">        MOV     A,SBUF          &#x2F;&#x2F;将接收到校验是否正确的恢复存到累加器</span><br><span class="line">        CJNE    A,#0FH,START</span><br><span class="line"></span><br><span class="line">HERE:</span><br><span class="line">        SJMP    HERE</span><br><span class="line"></span><br><span class="line">        END</span><br><span class="line">        </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="接收机"><a href="#接收机" class="headerlink" title="接收机"></a>接收机</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">        ORG     0000H</span><br><span class="line">        LJMP    START</span><br><span class="line">        ORG     0023H</span><br><span class="line">        LJMP    IF_06H</span><br><span class="line">        ORG     1000H</span><br><span class="line">            </span><br><span class="line">START:</span><br><span class="line">        MOV     SP,#60H</span><br><span class="line">        MOV     TMOD,#20H       &#x2F;&#x2F;定时器0，定时器工作模式2工作</span><br><span class="line">        MOV     TH1,#0FAH       &#x2F;&#x2F;模式2自动重装载的初值</span><br><span class="line">        MOV     TH1,#0FAH</span><br><span class="line">        SETB    TR1             &#x2F;&#x2F;开始计时</span><br><span class="line">        MOV     SCON,#50H       &#x2F;&#x2F;方式1,允许接收--&gt;4.8kbit&#x2F;s</span><br><span class="line">        MOV     PCON,#00H       &#x2F;&#x2F;SMOD&#x3D;0</span><br><span class="line">        MOV     IE,#90H</span><br><span class="line">        MOV     R0,30H          &#x2F;&#x2F;存放发送的数据块首地址</span><br><span class="line">        MOV     R7,#00H         &#x2F;&#x2F;存放发送的数据块长度</span><br><span class="line">        MOV     R6,#00H         &#x2F;&#x2F;校验和，长度字节与数字字节的累加和</span><br><span class="line">        </span><br><span class="line">HERE:</span><br><span class="line">        SJMP    HERE</span><br><span class="line">        </span><br><span class="line">IF_06H:</span><br><span class="line">        PUSH    ACC</span><br><span class="line">        PUSH    PSW</span><br><span class="line">        CLR     RI              &#x2F;&#x2F;清除接收完毕RI标志位</span><br><span class="line">        MOV     A,SBUF          &#x2F;&#x2F;核对握手信号是不是06H</span><br><span class="line">        CJNE    A,#06H,TX_15H   &#x2F;&#x2F;如果是06H则发送00H应答，否则发送15H拒绝</span><br><span class="line"></span><br><span class="line">TX_00H:</span><br><span class="line">        MOV     A,#00H</span><br><span class="line">        MOV     SBUF,A          &#x2F;&#x2F;发送出00H表示可以接收数据</span><br><span class="line">        LJMP    HERE_RE</span><br><span class="line">        </span><br><span class="line">TX_15H:</span><br><span class="line">        MOV     A,#15H          &#x2F;&#x2F;发送15H表示不可以接收</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        LJMP    RETURN</span><br><span class="line">            </span><br><span class="line">HERE_RE:</span><br><span class="line">        JNB     TI,HERE_RE      &#x2F;&#x2F;等待发送完毕，发送完毕准备接收</span><br><span class="line">        CLR     TI</span><br><span class="line">        </span><br><span class="line">HAVE1:</span><br><span class="line">        JNB     RI,HAVE1        &#x2F;&#x2F;等待接收数据长度</span><br><span class="line">        CLR     RI</span><br><span class="line">        MOV     A,SBUF</span><br><span class="line">        MOV     R7,A            &#x2F;&#x2F;R7存数据长度</span><br><span class="line">        MOV     R6,A            &#x2F;&#x2F;R6存校验和</span><br><span class="line"></span><br><span class="line">HAVE2:</span><br><span class="line">        JNB     RI,HAVE2        &#x2F;&#x2F;等待接收正式数据</span><br><span class="line">        CLR     RI</span><br><span class="line">        MOV     A,SBUF</span><br><span class="line">        MOV     @R0,A</span><br><span class="line">        MOV     A,R6</span><br><span class="line">        ADD     A,@R0</span><br><span class="line">        MOV     R6,A</span><br><span class="line">        INC     @R0</span><br><span class="line">        DJNZ    R7,HAVE2        &#x2F;&#x2F;如果没接收完完20个数据，继续接收</span><br><span class="line">        </span><br><span class="line">RX_CHECK:                       &#x2F;&#x2F;接收校验和</span><br><span class="line">        JNB     RI,RX_CHECK</span><br><span class="line">        CLR     RI</span><br><span class="line">        MOV     A,SBUF</span><br><span class="line">        MOV     39H,A</span><br><span class="line">        CJNE    A,39H,TX_ERR    &#x2F;&#x2F;如果校验正确，则继续向下ok，错误则发送#F0H</span><br><span class="line">        </span><br><span class="line">TX_OK:                          &#x2F;&#x2F;校验正确，发送0FH</span><br><span class="line">        MOV     A,#0FH</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        LJMP    HERE_END</span><br><span class="line">            </span><br><span class="line">TX_ERR:                         &#x2F;&#x2F;校验错误，发送F0H</span><br><span class="line">        MOV     A,#0F0H</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">HERE_END:                       &#x2F;&#x2F;等待发送完毕</span><br><span class="line">        JNB TI,HERE_END</span><br><span class="line">        CLR TI</span><br><span class="line"></span><br><span class="line">RETURN:</span><br><span class="line">        POP     PSW</span><br><span class="line">        POP     ACC</span><br><span class="line">        RETI</span><br><span class="line"></span><br><span class="line">        END</span><br><span class="line">            </span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>双机通信</tag>
       </tags>
   </entry>
   <entry>
@@ -193,6 +193,31 @@ CONTINUE_T0:
       <categories>
         <category>总结</category>
       </categories>
+  </entry>
+  <entry>
+    <title>VS2019代码提示延迟很高，部分快捷键无法使用的问题</title>
+    <url>/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><ul>
+<li>Visual Studio 与Nvidia CUDA NSightVSE冲突</li>
+</ul>
+<h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><ul>
+<li>Tab、Ctrl’+C 、 Ctrl’+K 等快捷键失效，智能代码提示不能正常显示，有时不会出现，有时要等四五秒，非常不正常</li>
+</ul>
+<blockquote>
+<p>Setting中检查设置无误，尝试过重启、重置个人配置、重装等均无效<br>很长一段时间没有使用过vs，之前装了比较新的Nvidia CUDA，同时附带的有NSightVSE，也就是设计vs的拓展，问题出在这里</p>
+</blockquote>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><blockquote>
+<p>卸载NSightVSE或者其他Nvidia和vs相关的拓展，重启vs后生效<br>正常情况搜索NsightVSE会出现四个，保留下列三个即可，版本仅供参考，可能其他版本不会出现如上问题。<br>Nvidia CUDA Nsight NVTX 11.1<br>Nvidia Nsight Compute 2020.2.0<br>Nvidia Nsight Systems 2020.3.4</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
+      <tags>
+        <tag>debug</tag>
+        <tag>Nvidia CUDA</tag>
+        <tag>Visual Studio</tag>
+      </tags>
   </entry>
   <entry>
     <title>Tensorflow2.4保姆级安装教程</title>
@@ -367,31 +392,6 @@ sess.close()
       </tags>
   </entry>
   <entry>
-    <title>VS2019代码提示延迟很高，部分快捷键无法使用的问题</title>
-    <url>/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><ul>
-<li>Visual Studio 与Nvidia CUDA NSightVSE冲突</li>
-</ul>
-<h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><ul>
-<li>Tab、Ctrl’+C 、 Ctrl’+K 等快捷键失效，智能代码提示不能正常显示，有时不会出现，有时要等四五秒，非常不正常</li>
-</ul>
-<blockquote>
-<p>Setting中检查设置无误，尝试过重启、重置个人配置、重装等均无效<br>很长一段时间没有使用过vs，之前装了比较新的Nvidia CUDA，同时附带的有NSightVSE，也就是设计vs的拓展，问题出在这里</p>
-</blockquote>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><blockquote>
-<p>卸载NSightVSE或者其他Nvidia和vs相关的拓展，重启vs后生效<br>正常情况搜索NsightVSE会出现四个，保留下列三个即可，版本仅供参考，可能其他版本不会出现如上问题。<br>Nvidia CUDA Nsight NVTX 11.1<br>Nvidia Nsight Compute 2020.2.0<br>Nvidia Nsight Systems 2020.3.4</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>总结</category>
-      </categories>
-      <tags>
-        <tag>debug</tag>
-        <tag>Nvidia CUDA</tag>
-        <tag>Visual Studio</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>debug Gitalk 403</title>
     <url>/2021/02/23/debug%20Gitalk%20403/</url>
     <content><![CDATA[<ul>
@@ -431,6 +431,89 @@ sess.close()
       </categories>
       <tags>
         <tag>debug</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo同步部署再Github和服务器</title>
+    <url>/2021/02/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
+    <content><![CDATA[<ul>
+<li>寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页</li>
+<li>前提条件：已有github.io仓库，hexo博客已经上线测试可以使用，已有<code>nginx</code>、<code>git</code>、<code>node</code>等基础，可参考上一篇笔记</li>
+<li>省略了一些次要步骤，域名解析、备案等</li>
+</ul>
+<hr>
+<h2 id="服务器Webhook部分"><a href="#服务器Webhook部分" class="headerlink" title="服务器Webhook部分"></a>服务器Webhook部分</h2><ul>
+<li>利用宝塔平台的Webhook插件</li>
+</ul>
+<blockquote>
+<p>名称随意，实例脚本如下<br>gitPath=”/www/wwwroot/YourWebsiteLocation/“<br>gitHttp=”<a href="https://github.com/YourGithubName/xxxxxxxx.github.io.git&quot;">https://github.com/YourGithubName/xxxxxxxx.github.io.git&quot;</a><br>若失败，可考虑加上<code>sudo</code>使用管理员权限</p>
+</blockquote>
+<pre><code>#!/bin/bash
+echo &quot;&quot;
+#输出当前时间
+date --date=&#39;0 days ago&#39; &quot;+%Y-%m-%d %H:%M:%S&quot;
+echo &quot;Start&quot;
+
+#git项目路径
+gitPath=&quot; &quot;
+#git 网址
+gitHttp=&quot; &quot;
+ 
+echo &quot;Web站点路径：$gitPath&quot;
+ 
+#判断项目路径是否存在
+if [ -d &quot;$gitPath&quot; ]; then
+    cd $gitPath
+    #判断是否存在git目录
+    if [ ! -d &quot;.git&quot; ]; then
+            echo &quot;在该目录下克隆 git&quot;
+            sudo git clone $gitHttp gittemp
+            sudo mv gittemp/.git .
+            sudo rm -rf gittemp
+    fi
+    #拉取最新的项目文件
+    sudo git reset --hard origin/master
+    sudo git pull origin master
+    #设置目录权限
+    sudo chown -R www:www $gitPath
+    echo &quot;End&quot;
+    exit
+else
+    echo &quot;该项目路径不存在&quot;
+    echo &quot;End&quot;
+    exit
+fi
+</code></pre>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook01.png" alt="宝塔Webhook"></p>
+<h2 id="Github设置Webhook"><a href="#Github设置Webhook" class="headerlink" title="Github设置Webhook"></a>Github设置Webhook</h2><ul>
+<li><p>查看密钥<br><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook02.png" alt="宝塔Webhook查看密钥"></p>
+</li>
+<li><p>切换到Github项目的Settings-Webhooks</p>
+</li>
+<li><p>Add Webhook</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>Payload URL:</strong> <code>http://服务器ip:8888?hook?access_key=xxxxx</code><br><strong>Content type:</strong> <code>application/json</code><br><strong>Secret:</strong> <code>Key</code><br><strong>Which events would you like to trigger this webhook?</strong><br>choose：Just the push event.<br>√<strong>Active</strong></p>
+</blockquote>
+<ul>
+<li>测试，本地更改sources后<code>hexo g</code>+<code>hexo d</code></li>
+<li>第一次红了是因为将Github中Webhook的Content type设置成了<code>application/x-www-form-urlencoded</code>，改成<code>application/json</code>通过<br><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook03.png" alt="Webhook测试"></li>
+</ul>
+<hr>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><ol>
+<li>服务器需要开放8888端口，如果使用其他端口同样需要打开</li>
+<li>两者都是表单数据发送时的编码类型<br> application/x-www-form-urlencoded –&gt; key=value&amp;key=value</li>
+<li>一般情况下都会正常同步，如果长时间未update，可能是DNS的问题，可以考虑选择一个连接速度较快的GitHub的ip添加到/etc/hosts并且刷新</li>
+</ol>
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>同步</tag>
+        <tag>webhook</tag>
       </tags>
   </entry>
   <entry>
@@ -525,89 +608,6 @@ sess.close()
       </tags>
   </entry>
   <entry>
-    <title>Hexo同步部署再Github和服务器</title>
-    <url>/2021/02/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
-    <content><![CDATA[<ul>
-<li>寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页</li>
-<li>前提条件：已有github.io仓库，hexo博客已经上线测试可以使用，已有<code>nginx</code>、<code>git</code>、<code>node</code>等基础，可参考上一篇笔记</li>
-<li>省略了一些次要步骤，域名解析、备案等</li>
-</ul>
-<hr>
-<h2 id="服务器Webhook部分"><a href="#服务器Webhook部分" class="headerlink" title="服务器Webhook部分"></a>服务器Webhook部分</h2><ul>
-<li>利用宝塔平台的Webhook插件</li>
-</ul>
-<blockquote>
-<p>名称随意，实例脚本如下<br>gitPath=”/www/wwwroot/YourWebsiteLocation/“<br>gitHttp=”<a href="https://github.com/YourGithubName/xxxxxxxx.github.io.git&quot;">https://github.com/YourGithubName/xxxxxxxx.github.io.git&quot;</a><br>若失败，可考虑加上<code>sudo</code>使用管理员权限</p>
-</blockquote>
-<pre><code>#!/bin/bash
-echo &quot;&quot;
-#输出当前时间
-date --date=&#39;0 days ago&#39; &quot;+%Y-%m-%d %H:%M:%S&quot;
-echo &quot;Start&quot;
-
-#git项目路径
-gitPath=&quot; &quot;
-#git 网址
-gitHttp=&quot; &quot;
- 
-echo &quot;Web站点路径：$gitPath&quot;
- 
-#判断项目路径是否存在
-if [ -d &quot;$gitPath&quot; ]; then
-    cd $gitPath
-    #判断是否存在git目录
-    if [ ! -d &quot;.git&quot; ]; then
-            echo &quot;在该目录下克隆 git&quot;
-            sudo git clone $gitHttp gittemp
-            sudo mv gittemp/.git .
-            sudo rm -rf gittemp
-    fi
-    #拉取最新的项目文件
-    sudo git reset --hard origin/master
-    sudo git pull origin master
-    #设置目录权限
-    sudo chown -R www:www $gitPath
-    echo &quot;End&quot;
-    exit
-else
-    echo &quot;该项目路径不存在&quot;
-    echo &quot;End&quot;
-    exit
-fi
-</code></pre>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook01.png" alt="宝塔Webhook"></p>
-<h2 id="Github设置Webhook"><a href="#Github设置Webhook" class="headerlink" title="Github设置Webhook"></a>Github设置Webhook</h2><ul>
-<li><p>查看密钥<br><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook02.png" alt="宝塔Webhook查看密钥"></p>
-</li>
-<li><p>切换到Github项目的Settings-Webhooks</p>
-</li>
-<li><p>Add Webhook</p>
-</li>
-</ul>
-<blockquote>
-<p><strong>Payload URL:</strong> <code>http://服务器ip:8888?hook?access_key=xxxxx</code><br><strong>Content type:</strong> <code>application/json</code><br><strong>Secret:</strong> <code>Key</code><br><strong>Which events would you like to trigger this webhook?</strong><br>choose：Just the push event.<br>√<strong>Active</strong></p>
-</blockquote>
-<ul>
-<li>测试，本地更改sources后<code>hexo g</code>+<code>hexo d</code></li>
-<li>第一次红了是因为将Github中Webhook的Content type设置成了<code>application/x-www-form-urlencoded</code>，改成<code>application/json</code>通过<br><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook03.png" alt="Webhook测试"></li>
-</ul>
-<hr>
-<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><ol>
-<li>服务器需要开放8888端口，如果使用其他端口同样需要打开</li>
-<li>两者都是表单数据发送时的编码类型<br> application/x-www-form-urlencoded –&gt; key=value&amp;key=value</li>
-<li>一般情况下都会正常同步，如果长时间未update，可能是DNS的问题，可以考虑选择一个连接速度较快的GitHub的ip添加到/etc/hosts并且刷新</li>
-</ol>
-]]></content>
-      <categories>
-        <category>blog</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>同步</tag>
-        <tag>webhook</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>常见git操作命令整理</title>
     <url>/2021/03/19/%E5%B8%B8%E8%A7%81git%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/</url>
     <content><![CDATA[]]></content>
@@ -616,124 +616,6 @@ fi
       </categories>
       <tags>
         <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>正则表达式整理（持续更新）</title>
-    <url>/2021/02/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<h2 id="最常用的匹配"><a href="#最常用的匹配" class="headerlink" title="最常用的匹配"></a>最常用的匹配</h2><table>
-<thead>
-<tr>
-<th>字符</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong><code>\d</code></strong></td>
-<td>表示任意数字，就是阿拉伯数字<code>0~9</code>这些。</td>
-</tr>
-<tr>
-<td><code>\D</code></td>
-<td>大写的表示与小写的相反，表示不是数字。</td>
-</tr>
-<tr>
-<td><code>\w</code></td>
-<td>代表字母，数字，下划线。<code>a-z</code>、<code>A-Z</code>、<code>0~9</code>、<code>_</code>。</td>
-</tr>
-<tr>
-<td><code>\W</code></td>
-<td>大写的表示与小写的相反，不是字母、不是数字也不是下划线。</td>
-</tr>
-<tr>
-<td><strong><code>\n</code></strong></td>
-<td>代表一个回换行。</td>
-</tr>
-<tr>
-<td><code>\r</code></td>
-<td>代表一个回车。</td>
-</tr>
-<tr>
-<td><code>\f</code></td>
-<td>代表换页。</td>
-</tr>
-<tr>
-<td><code>\t</code></td>
-<td>代表一个<code>Tab</code>。</td>
-</tr>
-<tr>
-<td><code>\s</code></td>
-<td>代表所有的空白符，也就是上面四个：<code>\n</code>、<code>\r</code>、<code>\f</code>、<code>\t</code>。</td>
-</tr>
-<tr>
-<td><code>\S</code></td>
-<td>大写的表示与小写的相反，代表所有不是空白的字符。</td>
-</tr>
-<tr>
-<td><code>\A</code></td>
-<td>代表字符串的开始。</td>
-</tr>
-<tr>
-<td><code>\Z</code></td>
-<td>代表字符串的结束。</td>
-</tr>
-<tr>
-<td><strong><code>^</code></strong></td>
-<td>匹配字符串开始的位置。</td>
-</tr>
-<tr>
-<td><strong><code>$</code></strong></td>
-<td>匹配字符串结束的位置。</td>
-</tr>
-<tr>
-<td><strong><code>.</code></strong></td>
-<td>代表所有的单个字符，除了换行<code>\n</code>,回车<code>\r</code>。</td>
-</tr>
-<tr>
-<td><code>[...]</code></td>
-<td>代表在<code>[]</code>范围内的字符，比如<code>[a-z]</code>就代表<code>a-z</code>的字母。</td>
-</tr>
-<tr>
-<td><code>[^...]</code></td>
-<td>与上一个相反，代表不在<code>[]</code>范围内的字符。</td>
-</tr>
-<tr>
-<td><code>&#123;n&#125;</code></td>
-<td>匹配在<code>&#123;n&#125;</code>前面的东西，比如<code>o&#123;2&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>food</code>中的两个<code>o</code>。</td>
-</tr>
-<tr>
-<td><code>&#123;n,m&#125;</code></td>
-<td>匹配在<code>&#123;n,m&#125;</code>前面的东西，比如<code>o&#123;1,3&#125;</code>将匹配<code>fooooood</code>中的前三个<code>o</code>。</td>
-</tr>
-<tr>
-<td><code>&#123;n, &#125;</code></td>
-<td>匹配在<code>&#123;n,&#125;</code>前面的东西，比如<code>o&#123;2,&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>foooood</code>中的所有<code>o</code>。</td>
-</tr>
-<tr>
-<td><code>*</code></td>
-<td>和<code>&#123;0,&#125;</code>一样，匹配<code>*</code>前面的0次或多次。比如<code>zo*</code>能匹配<code>z</code>、<code>zo</code>以及<code>zoo</code>。</td>
-</tr>
-<tr>
-<td><code>+</code></td>
-<td>和<code>&#123;1,&#125;</code>一样，匹配+前面1次或多次。比如<code>zo+</code>能匹配<code>zo</code>以及<code>zoo</code>但不能匹配<code>z</code></td>
-</tr>
-<tr>
-<td><code>?</code></td>
-<td>和<code>&#123;0,1&#125;</code>一样，匹配<code>?</code>前面0次或1次</td>
-</tr>
-<tr>
-<td><code>()</code></td>
-<td>匹配括号里的内容</td>
-</tr>
-</tbody></table>
-<h2 id="re-match"><a href="#re-match" class="headerlink" title="re.match"></a>re.match</h2><blockquote>
-<p>传入两个参数，第一个是匹配的规则，第二个是需要被过滤的内容</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">content = <span class="string">&#x27;you have 100 bananas.&#x27;</span></span><br><span class="line">res = re.match(<span class="string">&#x27;^yo.*(\d+)\s.*s$&#x27;</span>,content)</span><br><span class="line">print(res.group(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>re.match</tag>
       </tags>
   </entry>
   <entry>
@@ -897,6 +779,124 @@ fi
         <tag>高频电路</tag>
         <tag>PCB</tag>
         <tag>无线</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>正则表达式整理（持续更新）</title>
+    <url>/2021/02/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h2 id="最常用的匹配"><a href="#最常用的匹配" class="headerlink" title="最常用的匹配"></a>最常用的匹配</h2><table>
+<thead>
+<tr>
+<th>字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>\d</code></strong></td>
+<td>表示任意数字，就是阿拉伯数字<code>0~9</code>这些。</td>
+</tr>
+<tr>
+<td><code>\D</code></td>
+<td>大写的表示与小写的相反，表示不是数字。</td>
+</tr>
+<tr>
+<td><code>\w</code></td>
+<td>代表字母，数字，下划线。<code>a-z</code>、<code>A-Z</code>、<code>0~9</code>、<code>_</code>。</td>
+</tr>
+<tr>
+<td><code>\W</code></td>
+<td>大写的表示与小写的相反，不是字母、不是数字也不是下划线。</td>
+</tr>
+<tr>
+<td><strong><code>\n</code></strong></td>
+<td>代表一个回换行。</td>
+</tr>
+<tr>
+<td><code>\r</code></td>
+<td>代表一个回车。</td>
+</tr>
+<tr>
+<td><code>\f</code></td>
+<td>代表换页。</td>
+</tr>
+<tr>
+<td><code>\t</code></td>
+<td>代表一个<code>Tab</code>。</td>
+</tr>
+<tr>
+<td><code>\s</code></td>
+<td>代表所有的空白符，也就是上面四个：<code>\n</code>、<code>\r</code>、<code>\f</code>、<code>\t</code>。</td>
+</tr>
+<tr>
+<td><code>\S</code></td>
+<td>大写的表示与小写的相反，代表所有不是空白的字符。</td>
+</tr>
+<tr>
+<td><code>\A</code></td>
+<td>代表字符串的开始。</td>
+</tr>
+<tr>
+<td><code>\Z</code></td>
+<td>代表字符串的结束。</td>
+</tr>
+<tr>
+<td><strong><code>^</code></strong></td>
+<td>匹配字符串开始的位置。</td>
+</tr>
+<tr>
+<td><strong><code>$</code></strong></td>
+<td>匹配字符串结束的位置。</td>
+</tr>
+<tr>
+<td><strong><code>.</code></strong></td>
+<td>代表所有的单个字符，除了换行<code>\n</code>,回车<code>\r</code>。</td>
+</tr>
+<tr>
+<td><code>[...]</code></td>
+<td>代表在<code>[]</code>范围内的字符，比如<code>[a-z]</code>就代表<code>a-z</code>的字母。</td>
+</tr>
+<tr>
+<td><code>[^...]</code></td>
+<td>与上一个相反，代表不在<code>[]</code>范围内的字符。</td>
+</tr>
+<tr>
+<td><code>&#123;n&#125;</code></td>
+<td>匹配在<code>&#123;n&#125;</code>前面的东西，比如<code>o&#123;2&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>food</code>中的两个<code>o</code>。</td>
+</tr>
+<tr>
+<td><code>&#123;n,m&#125;</code></td>
+<td>匹配在<code>&#123;n,m&#125;</code>前面的东西，比如<code>o&#123;1,3&#125;</code>将匹配<code>fooooood</code>中的前三个<code>o</code>。</td>
+</tr>
+<tr>
+<td><code>&#123;n, &#125;</code></td>
+<td>匹配在<code>&#123;n,&#125;</code>前面的东西，比如<code>o&#123;2,&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>foooood</code>中的所有<code>o</code>。</td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>和<code>&#123;0,&#125;</code>一样，匹配<code>*</code>前面的0次或多次。比如<code>zo*</code>能匹配<code>z</code>、<code>zo</code>以及<code>zoo</code>。</td>
+</tr>
+<tr>
+<td><code>+</code></td>
+<td>和<code>&#123;1,&#125;</code>一样，匹配+前面1次或多次。比如<code>zo+</code>能匹配<code>zo</code>以及<code>zoo</code>但不能匹配<code>z</code></td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td>和<code>&#123;0,1&#125;</code>一样，匹配<code>?</code>前面0次或1次</td>
+</tr>
+<tr>
+<td><code>()</code></td>
+<td>匹配括号里的内容</td>
+</tr>
+</tbody></table>
+<h2 id="re-match"><a href="#re-match" class="headerlink" title="re.match"></a>re.match</h2><blockquote>
+<p>传入两个参数，第一个是匹配的规则，第二个是需要被过滤的内容</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">content = <span class="string">&#x27;you have 100 bananas.&#x27;</span></span><br><span class="line">res = re.match(<span class="string">&#x27;^yo.*(\d+)\s.*s$&#x27;</span>,content)</span><br><span class="line">print(res.group(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>re.match</tag>
       </tags>
   </entry>
 </search>
