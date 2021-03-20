@@ -6,7 +6,7 @@
   <link href="https://www.lingzhicheng.cn/atom.xml" rel="self"/>
   
   <link href="https://www.lingzhicheng.cn/"/>
-  <updated>2021-03-19T00:00:00.000Z</updated>
+  <updated>2021-03-10T00:00:00.000Z</updated>
   <id>https://www.lingzhicheng.cn/</id>
   
   <author>
@@ -15,23 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>常见git操作命令整理</title>
-    <link href="https://www.lingzhicheng.cn/2021/03/19/%E5%B8%B8%E8%A7%81git%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/"/>
-    <id>https://www.lingzhicheng.cn/2021/03/19/%E5%B8%B8%E8%A7%81git%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/</id>
-    <published>2021-03-19T00:00:00.000Z</published>
-    <updated>2021-03-19T00:00:00.000Z</updated>
-    
-    
-    
-    
-    <category term="总结" scheme="https://www.lingzhicheng.cn/categories/%E6%80%BB%E7%BB%93/"/>
-    
-    
-    <category term="git" scheme="https://www.lingzhicheng.cn/tags/git/"/>
-    
-  </entry>
   
   <entry>
     <title>调频无线话筒</title>
