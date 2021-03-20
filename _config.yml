@@ -131,6 +131,6 @@ baidusitemap:
 
 #Webpushr
 webPushNotification:
-  webpushrKey: "3c5ad60ed6b624f96a21fa214a2d157f"
-  webpushrAuthToken: "26411"
-  trackingCode: "BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA"
+  webpushrKey: 3c5ad60ed6b624f96a21fa214a2d157f
+  webpushrAuthToken: 26411
+  trackingCode: BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA
