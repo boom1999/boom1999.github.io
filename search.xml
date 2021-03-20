@@ -175,6 +175,26 @@ CONTINUE_T0:
       </tags>
   </entry>
   <entry>
+    <title>Process or Thread</title>
+    <url>/2021/01/20/Process%20or%20Thread/</url>
+    <content><![CDATA[<h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位"><a href="#进程是资源分配的最小单位-线程是CPU调度的最小单位" class="headerlink" title="进程是资源分配的最小单位|线程是CPU调度的最小单位"></a>进程是资源分配的最小单位|线程是CPU调度的最小单位</h3><hr>
+<blockquote>
+<p>看了很多资料，解释都比较抽象<br>用一个简答的比喻在形容：进程=高铁，线程=车厢</p>
+</blockquote>
+<ul>
+<li>线程在进程下行进（单纯的车厢无法行动）</li>
+<li>一个进程可以包含多个线程（一辆高铁可以有多个车厢）</li>
+<li>同意进程下不同线程间数据容易共享</li>
+<li>不同进程间数据难以共享</li>
+<li>进程间不会互相影响，一个线程挂掉将导致整个进程挂掉</li>
+<li>进程占用更多资源</li>
+</ul>
+]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Tensorflow2.4保姆级安装教程</title>
     <url>/2021/01/30/Tensorflow2.4%E4%BF%9D%E5%A7%86%E7%BA%A7%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<ul>
@@ -345,26 +365,6 @@ sess.close()
         <tag>安装教程</tag>
         <tag>tensorflow</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Process or Thread</title>
-    <url>/2021/01/20/Process%20or%20Thread/</url>
-    <content><![CDATA[<h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位"><a href="#进程是资源分配的最小单位-线程是CPU调度的最小单位" class="headerlink" title="进程是资源分配的最小单位|线程是CPU调度的最小单位"></a>进程是资源分配的最小单位|线程是CPU调度的最小单位</h3><hr>
-<blockquote>
-<p>看了很多资料，解释都比较抽象<br>用一个简答的比喻在形容：进程=高铁，线程=车厢</p>
-</blockquote>
-<ul>
-<li>线程在进程下行进（单纯的车厢无法行动）</li>
-<li>一个进程可以包含多个线程（一辆高铁可以有多个车厢）</li>
-<li>同意进程下不同线程间数据容易共享</li>
-<li>不同进程间数据难以共享</li>
-<li>进程间不会互相影响，一个线程挂掉将导致整个进程挂掉</li>
-<li>进程占用更多资源</li>
-</ul>
-]]></content>
-      <categories>
-        <category>总结</category>
-      </categories>
   </entry>
   <entry>
     <title>VS2019代码提示延迟很高，部分快捷键无法使用的问题</title>
@@ -608,6 +608,124 @@ fi
       </tags>
   </entry>
   <entry>
+    <title>正则表达式整理（持续更新）</title>
+    <url>/2021/02/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h2 id="最常用的匹配"><a href="#最常用的匹配" class="headerlink" title="最常用的匹配"></a>最常用的匹配</h2><table>
+<thead>
+<tr>
+<th>字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>\d</code></strong></td>
+<td>表示任意数字，就是阿拉伯数字<code>0~9</code>这些。</td>
+</tr>
+<tr>
+<td><code>\D</code></td>
+<td>大写的表示与小写的相反，表示不是数字。</td>
+</tr>
+<tr>
+<td><code>\w</code></td>
+<td>代表字母，数字，下划线。<code>a-z</code>、<code>A-Z</code>、<code>0~9</code>、<code>_</code>。</td>
+</tr>
+<tr>
+<td><code>\W</code></td>
+<td>大写的表示与小写的相反，不是字母、不是数字也不是下划线。</td>
+</tr>
+<tr>
+<td><strong><code>\n</code></strong></td>
+<td>代表一个回换行。</td>
+</tr>
+<tr>
+<td><code>\r</code></td>
+<td>代表一个回车。</td>
+</tr>
+<tr>
+<td><code>\f</code></td>
+<td>代表换页。</td>
+</tr>
+<tr>
+<td><code>\t</code></td>
+<td>代表一个<code>Tab</code>。</td>
+</tr>
+<tr>
+<td><code>\s</code></td>
+<td>代表所有的空白符，也就是上面四个：<code>\n</code>、<code>\r</code>、<code>\f</code>、<code>\t</code>。</td>
+</tr>
+<tr>
+<td><code>\S</code></td>
+<td>大写的表示与小写的相反，代表所有不是空白的字符。</td>
+</tr>
+<tr>
+<td><code>\A</code></td>
+<td>代表字符串的开始。</td>
+</tr>
+<tr>
+<td><code>\Z</code></td>
+<td>代表字符串的结束。</td>
+</tr>
+<tr>
+<td><strong><code>^</code></strong></td>
+<td>匹配字符串开始的位置。</td>
+</tr>
+<tr>
+<td><strong><code>$</code></strong></td>
+<td>匹配字符串结束的位置。</td>
+</tr>
+<tr>
+<td><strong><code>.</code></strong></td>
+<td>代表所有的单个字符，除了换行<code>\n</code>,回车<code>\r</code>。</td>
+</tr>
+<tr>
+<td><code>[...]</code></td>
+<td>代表在<code>[]</code>范围内的字符，比如<code>[a-z]</code>就代表<code>a-z</code>的字母。</td>
+</tr>
+<tr>
+<td><code>[^...]</code></td>
+<td>与上一个相反，代表不在<code>[]</code>范围内的字符。</td>
+</tr>
+<tr>
+<td><code>&#123;n&#125;</code></td>
+<td>匹配在<code>&#123;n&#125;</code>前面的东西，比如<code>o&#123;2&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>food</code>中的两个<code>o</code>。</td>
+</tr>
+<tr>
+<td><code>&#123;n,m&#125;</code></td>
+<td>匹配在<code>&#123;n,m&#125;</code>前面的东西，比如<code>o&#123;1,3&#125;</code>将匹配<code>fooooood</code>中的前三个<code>o</code>。</td>
+</tr>
+<tr>
+<td><code>&#123;n, &#125;</code></td>
+<td>匹配在<code>&#123;n,&#125;</code>前面的东西，比如<code>o&#123;2,&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>foooood</code>中的所有<code>o</code>。</td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>和<code>&#123;0,&#125;</code>一样，匹配<code>*</code>前面的0次或多次。比如<code>zo*</code>能匹配<code>z</code>、<code>zo</code>以及<code>zoo</code>。</td>
+</tr>
+<tr>
+<td><code>+</code></td>
+<td>和<code>&#123;1,&#125;</code>一样，匹配+前面1次或多次。比如<code>zo+</code>能匹配<code>zo</code>以及<code>zoo</code>但不能匹配<code>z</code></td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td>和<code>&#123;0,1&#125;</code>一样，匹配<code>?</code>前面0次或1次</td>
+</tr>
+<tr>
+<td><code>()</code></td>
+<td>匹配括号里的内容</td>
+</tr>
+</tbody></table>
+<h2 id="re-match"><a href="#re-match" class="headerlink" title="re.match"></a>re.match</h2><blockquote>
+<p>传入两个参数，第一个是匹配的规则，第二个是需要被过滤的内容</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">content = <span class="string">&#x27;you have 100 bananas.&#x27;</span></span><br><span class="line">res = re.match(<span class="string">&#x27;^yo.*(\d+)\s.*s$&#x27;</span>,content)</span><br><span class="line">print(res.group(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>re.match</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>调频无线话筒</title>
     <url>/2021/03/10/%E8%B0%83%E9%A2%91%E6%97%A0%E7%BA%BF%E8%AF%9D%E7%AD%92/</url>
     <content><![CDATA[<p>较为详细的实验总结，需要的可以借鉴参考</p>
@@ -771,124 +889,6 @@ fi
         <tag>高频电路</tag>
         <tag>PCB</tag>
         <tag>无线</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>正则表达式整理（持续更新）</title>
-    <url>/2021/02/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<h2 id="最常用的匹配"><a href="#最常用的匹配" class="headerlink" title="最常用的匹配"></a>最常用的匹配</h2><table>
-<thead>
-<tr>
-<th>字符</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong><code>\d</code></strong></td>
-<td>表示任意数字，就是阿拉伯数字<code>0~9</code>这些。</td>
-</tr>
-<tr>
-<td><code>\D</code></td>
-<td>大写的表示与小写的相反，表示不是数字。</td>
-</tr>
-<tr>
-<td><code>\w</code></td>
-<td>代表字母，数字，下划线。<code>a-z</code>、<code>A-Z</code>、<code>0~9</code>、<code>_</code>。</td>
-</tr>
-<tr>
-<td><code>\W</code></td>
-<td>大写的表示与小写的相反，不是字母、不是数字也不是下划线。</td>
-</tr>
-<tr>
-<td><strong><code>\n</code></strong></td>
-<td>代表一个回换行。</td>
-</tr>
-<tr>
-<td><code>\r</code></td>
-<td>代表一个回车。</td>
-</tr>
-<tr>
-<td><code>\f</code></td>
-<td>代表换页。</td>
-</tr>
-<tr>
-<td><code>\t</code></td>
-<td>代表一个<code>Tab</code>。</td>
-</tr>
-<tr>
-<td><code>\s</code></td>
-<td>代表所有的空白符，也就是上面四个：<code>\n</code>、<code>\r</code>、<code>\f</code>、<code>\t</code>。</td>
-</tr>
-<tr>
-<td><code>\S</code></td>
-<td>大写的表示与小写的相反，代表所有不是空白的字符。</td>
-</tr>
-<tr>
-<td><code>\A</code></td>
-<td>代表字符串的开始。</td>
-</tr>
-<tr>
-<td><code>\Z</code></td>
-<td>代表字符串的结束。</td>
-</tr>
-<tr>
-<td><strong><code>^</code></strong></td>
-<td>匹配字符串开始的位置。</td>
-</tr>
-<tr>
-<td><strong><code>$</code></strong></td>
-<td>匹配字符串结束的位置。</td>
-</tr>
-<tr>
-<td><strong><code>.</code></strong></td>
-<td>代表所有的单个字符，除了换行<code>\n</code>,回车<code>\r</code>。</td>
-</tr>
-<tr>
-<td><code>[...]</code></td>
-<td>代表在<code>[]</code>范围内的字符，比如<code>[a-z]</code>就代表<code>a-z</code>的字母。</td>
-</tr>
-<tr>
-<td><code>[^...]</code></td>
-<td>与上一个相反，代表不在<code>[]</code>范围内的字符。</td>
-</tr>
-<tr>
-<td><code>&#123;n&#125;</code></td>
-<td>匹配在<code>&#123;n&#125;</code>前面的东西，比如<code>o&#123;2&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>food</code>中的两个<code>o</code>。</td>
-</tr>
-<tr>
-<td><code>&#123;n,m&#125;</code></td>
-<td>匹配在<code>&#123;n,m&#125;</code>前面的东西，比如<code>o&#123;1,3&#125;</code>将匹配<code>fooooood</code>中的前三个<code>o</code>。</td>
-</tr>
-<tr>
-<td><code>&#123;n, &#125;</code></td>
-<td>匹配在<code>&#123;n,&#125;</code>前面的东西，比如<code>o&#123;2,&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>foooood</code>中的所有<code>o</code>。</td>
-</tr>
-<tr>
-<td><code>*</code></td>
-<td>和<code>&#123;0,&#125;</code>一样，匹配<code>*</code>前面的0次或多次。比如<code>zo*</code>能匹配<code>z</code>、<code>zo</code>以及<code>zoo</code>。</td>
-</tr>
-<tr>
-<td><code>+</code></td>
-<td>和<code>&#123;1,&#125;</code>一样，匹配+前面1次或多次。比如<code>zo+</code>能匹配<code>zo</code>以及<code>zoo</code>但不能匹配<code>z</code></td>
-</tr>
-<tr>
-<td><code>?</code></td>
-<td>和<code>&#123;0,1&#125;</code>一样，匹配<code>?</code>前面0次或1次</td>
-</tr>
-<tr>
-<td><code>()</code></td>
-<td>匹配括号里的内容</td>
-</tr>
-</tbody></table>
-<h2 id="re-match"><a href="#re-match" class="headerlink" title="re.match"></a>re.match</h2><blockquote>
-<p>传入两个参数，第一个是匹配的规则，第二个是需要被过滤的内容</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">content = <span class="string">&#x27;you have 100 bananas.&#x27;</span></span><br><span class="line">res = re.match(<span class="string">&#x27;^yo.*(\d+)\s.*s$&#x27;</span>,content)</span><br><span class="line">print(res.group(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>re.match</tag>
       </tags>
   </entry>
 </search>
