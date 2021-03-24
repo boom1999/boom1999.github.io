@@ -143,7 +143,18 @@
   </div>
    
     </div>
+      
+    <div class="article-entry" itemprop="articleBody">
        
+  <p>较为详细的实验总结，需要的可以借鉴参考</p> 
+      <a class="article-more-link" href="/2021/03/10/%E8%B0%83%E9%A2%91%E6%97%A0%E7%BA%BF%E8%AF%9D%E7%AD%92/"
+        >More...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
 
     <!-- copyright -->
     
@@ -187,7 +198,26 @@
   </div>
    
     </div>
+      
+    <div class="article-entry" itemprop="articleBody">
        
+  <h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><ul>
+<li>Visual Studio 与Nvidia CUDA NSightVSE冲突</li>
+</ul>
+<h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><ul>
+<li>Tab、Ctrl’+C 、 Ctrl’+K 等快捷键失效，智能代码提示不能正常显示，有时不会出现，有时要等四五秒，非常不正常</li>
+</ul>
+<blockquote>
+<p>Setting中检查设置无误，尝试过重启、重置个人配置、重装等均无效<br>很长一段时间没有使用过vs，之前装了比较新的Nvidia CUDA，同时附带的有NSightVSE，也就是设计vs的拓展，问题出在这里</p>
+</blockquote> 
+      <a class="article-more-link" href="/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/"
+        >More...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
 
     <!-- copyright -->
     
@@ -231,7 +261,25 @@
   </div>
    
     </div>
+      
+    <div class="article-entry" itemprop="articleBody">
        
+  <ul>
+<li>留言系统使用Gitalk，最近发现无法使用GitHub账号登陆，出现403</li>
+<li>Error: Request failed with status code 403</li>
+</ul>
+<h3 id="Headers"><a href="#Headers" class="headerlink" title="Headers"></a>Headers</h3><blockquote>
+<p>网络请求403，拿不到token，导致登陆不上<br>Request URL：<a target="_blank" rel="noopener" href="https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token">https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Missing required request header. Must specify one of: origin,x-requested-with</span><br></pre></td></tr></table></figure>
+</blockquote> 
+      <a class="article-more-link" href="/2021/02/23/debug%20Gitalk%20403/"
+        >More...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
 
     <!-- copyright -->
     
@@ -275,7 +323,20 @@
   </div>
    
     </div>
+      
+    <div class="article-entry" itemprop="articleBody">
        
+  <blockquote>
+<p>偶尔会用到正则匹配，下面做一个常用的正则表达式整理以便往后查询</p>
+</blockquote> 
+      <a class="article-more-link" href="/2021/02/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B4%E7%90%86/"
+        >More...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
 
     <!-- copyright -->
     
@@ -319,7 +380,20 @@
   </div>
    
     </div>
+      
+    <div class="article-entry" itemprop="articleBody">
        
+  <blockquote>
+<p>寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页</p>
+</blockquote> 
+      <a class="article-more-link" href="/2021/02/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/"
+        >More...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
 
     <!-- copyright -->
     
@@ -363,7 +437,18 @@
   </div>
    
     </div>
+      
+    <div class="article-entry" itemprop="articleBody">
        
+  <h2 id="机制介绍"><a href="#机制介绍" class="headerlink" title="机制介绍"></a>机制介绍</h2><p><code>hexo d</code>上传部署到Github的其实是hexo编译后的文件静态文件，用于生成网页，不包含源文件，也就是上传<code>.deploy_git</code>中的文件，其他文件，包括<code>source</code>里面的和一些配置、主题文件都不会上传到GitHub，考虑到可能会在不同主机发布，因此将<code>hexo d</code>操作不会上传的文件主动<code>git</code>到另一个分支。</p> 
+      <a class="article-more-link" href="/2021/01/31/hexo_begin/"
+        >More...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
 
     <!-- copyright -->
     
@@ -407,7 +492,26 @@
   </div>
    
     </div>
+      
+    <div class="article-entry" itemprop="articleBody">
        
+  <ul>
+<li>先装python还是先装anaconda?</li>
+<li>Anaconda版本选择与下载</li>
+<li>Anaconda安装</li>
+<li>更换conda镜像源</li>
+<li>Pycharm使用</li>
+<li>Pycharm虚拟环境介绍</li>
+<li>CUDA与cuDNN</li>
+<li>TensorFlow 
+      <a class="article-more-link" href="/2021/01/30/Tensorflow2.4%E4%BF%9D%E5%A7%86%E7%BA%A7%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/"
+        >More...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
 
     <!-- copyright -->
     
@@ -451,7 +555,26 @@
   </div>
    
     </div>
+      
+    <div class="article-entry" itemprop="articleBody">
        
+  <h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位"><a href="#进程是资源分配的最小单位-线程是CPU调度的最小单位" class="headerlink" title="进程是资源分配的最小单位|线程是CPU调度的最小单位"></a>进程是资源分配的最小单位|线程是CPU调度的最小单位</h3><hr>
+<blockquote>
+<p>看了很多资料，解释都比较抽象<br>用一个简答的比喻在形容：进程=高铁，线程=车厢</p>
+</blockquote>
+<ul>
+<li>线程在进程下行进（单纯的车厢无法行动）</li>
+<li>一个进程可以包含多个线程（一辆高铁可以有多个车厢）</li>
+<li>同意进程下不同线程间数据容易共享</li>
+<li>不同进程间数据难以共享</li>
+<li>进程间不会互相影响，一个线程挂掉将导致整个进程挂掉</li>
+<li>进程占用更多资源</li>
+</ul>
+ 
+      <!-- reward -->
+      
+    </div>
+    
 
     <!-- copyright -->
     
@@ -493,7 +616,29 @@
   </div>
    
     </div>
+      
+    <div class="article-entry" itemprop="articleBody">
        
+  <ul>
+<li><p><strong>浙江工业大学信息工程学院单片机实验</strong></p>
+</li>
+<li><p>题：定义一个秒表计数器如R2</p>
+</li>
+</ul>
+<ol>
+<li>在R2的值为1~30秒，输出P1口和P3.0、P3.1实现南北绿灯、东西红灯、人行道东西红灯、南北绿灯，并将R2的值除10，商放在动态LED0，余数放在动态LED1点亮；</li>
+<li>在R2的值为31~35秒，输出P1口和P3.0、P3.1实现南北黄灯、东西红灯、人行道东西红灯、南北红灯，并将R2的值减去30后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
+<li>在R2的值为36~65秒，输出P1口和P3.0、P3.1实现南北红灯、东西绿灯、人行道东西绿灯、南北红灯，并将R2的值减去35后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
+<li>在R2的值为66~70秒，输出P1口和P3.0、P3.1实现南北红灯、东西黄灯、人行道东西红灯、南北红灯，并将R2的值减去65后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
+<li>当R2的值等于71秒时，R2置1，重新开始 
+      <a class="article-more-link" href="/2021/01/12/AT89S51%E4%BA%A4%E9%80%9A%E7%81%AF%E7%B3%BB%E7%BB%9F/"
+        >More...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
 
     <!-- copyright -->
     
@@ -537,7 +682,23 @@
   </div>
    
     </div>
+      
+    <div class="article-entry" itemprop="articleBody">
        
+  <ul>
+<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
+</ul>
+<blockquote>
+<p>包含进制转化和动态显示<br>AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片，转换时间约10uS,控制字分别为94H可调电位器、0A4H光敏电阻、0D4H热敏电阻<br>采用LED（4位）动态显示，千位、百位、十位和个位<br>000H-FFFH的温度数据需要转换成十进制数的仟佰拾个位</p>
+</blockquote> 
+      <a class="article-more-link" href="/2021/01/05/AT89S51%E6%A8%A1%E6%8B%9F%E9%87%87%E9%9B%86AD%E8%BD%AC%E5%8C%96/"
+        >More...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
 
     <!-- copyright -->
     
@@ -922,6 +1083,9 @@
 
     
   </div>
+  <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
+  fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
+  webpushr('setup',{'key':'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script>
 </body>
 
 </html>

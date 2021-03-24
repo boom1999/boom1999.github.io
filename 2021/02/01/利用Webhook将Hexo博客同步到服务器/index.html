@@ -76,7 +76,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">477</span>
+            <span class="post-count">527</span>
         </span>
     </span>
 
@@ -100,8 +100,12 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <ul>
-<li>寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页</li>
+  <blockquote>
+<p>寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页</p>
+</blockquote>
+<span id="more"></span>
+
+<ul>
 <li>前提条件：已有github.io仓库，hexo博客已经上线测试可以使用，已有<code>nginx</code>、<code>git</code>、<code>node</code>等基础，可参考上一篇笔记</li>
 <li>省略了一些次要步骤，域名解析、备案等</li>
 </ul>
@@ -116,7 +120,7 @@
 echo &quot;&quot;
 #输出当前时间
 date --date=&#39;0 days ago&#39; &quot;+%Y-%m-%d %H:%M:%S&quot;
-e   cho &quot;Start&quot;
+echo &quot;Start&quot;
 
 #git项目路径
 gitPath=&quot; &quot;
@@ -154,7 +158,7 @@ fi
 </li>
 <li><p>切换到Github项目的Settings-Webhooks</p>
 </li>
-<li><p><code>Add Webhook</code></p>
+<li><p>Add Webhook</p>
 </li>
 </ul>
 <blockquote>
@@ -168,6 +172,7 @@ fi
 <h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><ol>
 <li>服务器需要开放8888端口，如果使用其他端口同样需要打开</li>
 <li>两者都是表单数据发送时的编码类型<br> application/x-www-form-urlencoded –&gt; key=value&amp;key=value</li>
+<li>一般情况下都会正常同步，如果长时间未update，可能是DNS的问题，可以考虑选择一个连接速度较快的GitHub的ip添加到/etc/hosts并且刷新</li>
 </ol>
  
       <!-- reward -->
@@ -658,6 +663,9 @@ fi
 
     
   </div>
+  <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
+  fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
+  webpushr('setup',{'key':'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script>
 </body>
 
 </html>
