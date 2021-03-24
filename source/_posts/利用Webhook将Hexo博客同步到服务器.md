@@ -9,7 +9,10 @@ categories: blog
 ---
 
 
-- 寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页
+> 寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页
+
+<!--more-->
+
 - 前提条件：已有github.io仓库，hexo博客已经上线测试可以使用，已有`nginx`、`git`、`node`等基础，可参考上一篇笔记
 - 省略了一些次要步骤，域名解析、备案等
 
