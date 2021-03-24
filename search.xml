@@ -14,10 +14,10 @@
 <li>在R2的值为31~35秒，输出P1口和P3.0、P3.1实现南北黄灯、东西红灯、人行道东西红灯、南北红灯，并将R2的值减去30后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
 <li>在R2的值为36~65秒，输出P1口和P3.0、P3.1实现南北红灯、东西绿灯、人行道东西绿灯、南北红灯，并将R2的值减去35后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
 <li>在R2的值为66~70秒，输出P1口和P3.0、P3.1实现南北红灯、东西黄灯、人行道东西红灯、南北红灯，并将R2的值减去65后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
-<li>当R2的值等于71秒时，R2置1，重新开始<span id="more"></span>
-
-</li>
+<li>当R2的值等于71秒时，R2置1，重新开始</li>
 </ol>
+<span id="more"></span>
+
 <blockquote>
 <p>交通灯模块、动态数码管模块，利用定时器、十进制数拆分<br>用 8 根的排线连接单片机 P0 的 JP10 到动态数码管的 J12，用 8 根的排线连接单片机 P1 的 JP8 到 交通灯模块的 JP1<br>单片机的 P22、P23、P24 分别接到 74HC138 模块的A、B、C。JP165 跳线帽一定要拔掉，插在其中一根针上，以免丢掉。<br>南北绿灯30s，红灯30s；黄灯均为5s；东西绿灯25s，红灯35s，<br>人行道不显示倒计时，车道显示倒计时</p>
 </blockquote>
@@ -38,10 +38,10 @@
 <li><p><strong>浙江工业大学信息工程学院单片机实验</strong></p>
 </li>
 <li><p>要求：甲机将内部RAM 30h~4Fh的内容发送给乙机</p>
-<span id="more"></span>
-
 </li>
 </ul>
+<span id="more"></span>
+
 <blockquote>
 <p>通讯双方均采用4800bps波特率进行传送(系统时钟频率为11.0592MHz)，甲机发送数据，乙机接收数据。双机开始通讯时，甲机发送一个呼叫信号“06H”，询问乙机是否可以接收数据；乙机收到呼叫信号后，若同意接收数据则发回“00H”作为应答，否则发“15H”表示暂不能接收数据，甲机只有收到乙机的应答信号“00H”后才可把存放在内部数据存储器的字节内容发送给乙机，否则继续向乙机呼叫，直到乙机同意接收。呼叫成功后甲机依次发送长度字节（1字节）、数据字节（n字节）和校验和字节（1字节），其中校验和为长度字节和数据字节的“累加和”。乙机在成功收到甲机的数据之后，发送“0FH”作为成功应答，否则发送“F0H”作为失败应答。</p>
 </blockquote>
@@ -61,10 +61,10 @@
     <title>定时器解决方案备忘录</title>
     <url>/2020/12/22/AT89S51%E5%AE%9A%E6%97%B6%E5%99%A8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E5%A4%87%E5%BF%98%E5%BD%95/</url>
     <content><![CDATA[<ul>
-<li><strong>浙江工业大学信息工程学院单片机实验</strong><span id="more"></span>
-
-</li>
+<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
 </ul>
+<span id="more"></span>
+
 <blockquote>
 <p>P2.0接LED模块J12的A</p>
 </blockquote>
@@ -220,10 +220,10 @@ CONTINUE_T0:
 <li>Pycharm使用</li>
 <li>Pycharm虚拟环境介绍</li>
 <li>CUDA与cuDNN</li>
-<li>TensorFlow<span id="more"></span>
-
-</li>
+<li>TensorFlow</li>
 </ul>
+<span id="more"></span>
+
 <hr>
 <h2 id="版本介绍"><a href="#版本介绍" class="headerlink" title="版本介绍"></a>版本介绍</h2><blockquote>
 <p>python 3.7.0<br>conda 4.5.11<br>CUDA 11.1<br>Cudatoolkit 11.1.0<br>cuDNN 11.1 v8.0.5<br>tensorflow_gpu-2.4.1<br>Pycharm Professional 2020.3.3</p>
