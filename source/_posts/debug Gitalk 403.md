@@ -18,6 +18,7 @@ copyright: true
 > ``` None
 > Missing required request header. Must specify one of: origin,x-requested-with
 > ```
+
 <!--more-->
 
 ### cors-anywhere ###
