@@ -98,7 +98,8 @@ copyright: true
 
 ![GitMerge][8]
 
-### 将本地Repo上传 ###
+### :computer:Repo上传 ###
+
 - 在Github上新建项目，复制生成项目对应的SSH地址
 
 ![GitDemo][9]
@@ -117,6 +118,7 @@ copyright: true
 ![GitRemote][11]
 
 > 若有提示👇，请参照上文配置SSH Keys
+
 ```
 ERROR: Permission to boom1999/gitdemo.git denied to deploy key
 fatal: Could not read from remote repository.
@@ -124,8 +126,6 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 ```
----
-
 
 <h2 id="CloneRepo">三、从远程clone Repositories到本地</h2>
 
