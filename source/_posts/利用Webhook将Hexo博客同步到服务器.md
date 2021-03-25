@@ -37,7 +37,8 @@ categories: blog
     gitPath=" "
     #git 网址
     gitHttp=" "
-     
+    #延迟高可以加https://ghproxy.com/代理
+
     echo "Web站点路径：$gitPath"
      
     #判断项目路径是否存在
@@ -50,11 +51,12 @@ categories: blog
                 sudo mv gittemp/.git .
                 sudo rm -rf gittemp
         fi
-        #拉取最新的项目文件
+        echo"拉取最新的项目文件"
         sudo git reset --hard origin/master
         sudo git pull origin master
-        #设置目录权限
+        echo"设置目录权限"
         sudo chown -R www:www $gitPath
+        date --date='0 days ago' "+%Y-%m-%d %H:%M:%S"
         echo "End"
         exit
     else

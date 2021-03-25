@@ -14,7 +14,7 @@ copyright: true
 
 - ## [本地Git配置](#LocalGit) ##
     > ### [配置用户信息](#UserInfo) ###
-    > ### [生成SSH Key](#SSh) ###
+    > ### [生成SSH Key](#SSH) ###
 - ## [Upload repositories from :computer:to:cloud:](#UploadRepo) ##
 - ## [Clone repositories from :cloud:to:computer:](#CloneRepo) ##
 - ## [Git基本指令](#GitBasic) ##
