@@ -11,16 +11,22 @@ copyright: true
 :whale:总结Git日常基本操作，不定时添加一些遇到的问题，以及从小白入门连接本地git和github等
 :bell:默认已有Github或Gitee等账号,已下载安装git
 
-
 - ## [本地:computer:Git配置](#LocalGit) ##
+
     > ### [:pushpin:配置用户信息](#UserInfo) ###
+
     > ### [:pushpin:生成SSH Key](#SSH) ###
+
 - ## [Upload repositories from :computer:to:cloud:](#UploadRepo) ##
+
 - ## [Clone repositories from :cloud:to:computer:](#CloneRepo) ##
+
 - ## [:blue_book:Git基本指令汇总](#GitBasic) ##
 
 <!--more-->
+
 ---
+
 <h2 id="LocalGit">一、本地Git配置</h2>
 
 <h3 id="UserInfo">1.1配置用户信息</h3>
@@ -49,6 +55,7 @@ copyright: true
 <h2 id="UploadRepo">二、从本地上传Repositories</h2>
 
 ### :memo:本地创建Repo ###
+
 - 新建目录/选择目录
 - Git bash here 进入命令行操作
     > 新建文件
@@ -63,6 +70,7 @@ copyright: true
 ```至此git仓库初始化结束，默认叫master分支```
 
 ---
+
 - 新建测试（dev）分支
     ` $ git checkout -b dev `
 - 检查git状态
@@ -71,7 +79,7 @@ copyright: true
 ![GitInit][4]
 
 - 使用编辑器在文件夹中编辑内容，测试和执行
-- 提交文件至缓存区(用`git add . `提交目录下所有文件)
+- 提交文件至缓存区(用`git add .`提交目录下所有文件)
     ` $ git add index.md `
 
 ![GitAdd][5]
@@ -104,7 +112,7 @@ copyright: true
 
 ![GitDemo][9]
 
-``` $ git remote add origin git@github.com:boom1999/gitdemo.git  ```
+```$ git remote add origin git@github.com:boom1999/gitdemo.git```
 
 ![GitDemoUpload][10]
 
@@ -119,7 +127,7 @@ copyright: true
 
 > 若有提示👇，请参照上文配置SSH Keys
 
-```
+``` shell
 ERROR: Permission to boom1999/gitdemo.git denied to deploy key
 fatal: Could not read from remote repository.
 
@@ -138,16 +146,19 @@ and the repository exists.
 <h2 id="GitBasic">四、Git基本指令汇总</h2>
 
 - 配置全局个人信息
-```
+
+``` shell
 git config --global user.name "your user name"    
 git config --global user.email "your email address"
 ```
+
 - :dart:More
-``` 
+
+``` shell
 git config --list       //显示所有配置列表
 ls                      //显示目录下可见文件 
 ls -la                  //显示当前目录所有文件包括隐藏文件
-ls | grep *.js      //通过管道筛选所有js文件
+ls | grep *.js          //通过管道筛选所有js文件
 git init                //初始化git仓库 
 git add                 //添加该文件到暂存区 
 git status              //查看当前状态
@@ -166,8 +177,9 @@ git log --graph         //图形化显示提交的
 git reset --hard HEAD^  //所有文件回到上一个版本 
 git reflog              //查看所有的提交 
 git reset --hard xxxxxx //回到指定版本(前5/6位版本号即可) 
-git log --oneline --grep="project"      //查找文件中带有project的文件并显示到一行 
-git reset --mixed HEAD^     //暂存区和历史区回到上一个版本，工作区不变 
+git log --oneline --grep="project"      
+                        //查找文件中带有project的文件并显示到一行 
+git reset --mixed HEAD^ //暂存区和历史区回到上一个版本，工作区不变 
 ```
 
 [1]: https://www.lingzhicheng.cn/usr/file/picture/Git/UserInfo.png
@@ -181,4 +193,3 @@ git reset --mixed HEAD^     //暂存区和历史区回到上一个版本，工�
 [9]: https://www.lingzhicheng.cn/usr/file/picture/Git/GitDemo.png
 [10]: https://www.lingzhicheng.cn/usr/file/picture/Git/GitDemoUpload.png
 [11]: https://www.lingzhicheng.cn/usr/file/picture/Git/GitRemote.png
-
