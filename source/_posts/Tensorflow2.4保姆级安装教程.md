@@ -196,7 +196,7 @@ copyright: true
 
 - 更换tfenv环境的pip源 👉[更换pip清华源参考方法][18]
 
-- pip install tensorflow-gpu
+- pip install -U tensorflow-gpu -i <https://pypi.tuna.tsinghua.edu.cn/simple>
 
 >此处未指定版本，会选择最高的gpu版本安装，若要置顶版本，`tensorflow-gpu=2.x.x`
 > 虽然已经换源，但还是可能出现`These Packages Do Not Match The Hashes From The Requirements File.`
