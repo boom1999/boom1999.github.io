@@ -190,7 +190,7 @@ copyright: true
 
     conda activate tfenv
 
-> 退出环境`conda activate`
+> 退出环境`conda deactivate`
 
 ### 8.3 激活后安装Tensorflow ###
 
