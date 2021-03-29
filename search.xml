@@ -167,6 +167,28 @@ AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片�
       </tags>
   </entry>
   <entry>
+    <title>PSW设置改进中断</title>
+    <url>/2020/12/15/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/</url>
+    <content><![CDATA[<ul>
+<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
+</ul>
+<blockquote>
+<p>中断优先级实验，主程序相邻2个LED灯循环点亮（03H—C0H）1S，外部中断0后静态数码管间隔1S轮流点亮0-F后返回，外部中断1后1个LED灯循环点亮（01H-80H）后返回，外部中断0优先级高于外部中断1，实现中断嵌套</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<blockquote>
+<p>P1接LED的ABCDEF，P3.2接K1，P3.3接K4，P0接静态数码管ABCDEF</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    AJMP    START</span><br><span class="line"></span><br><span class="line">    ORG     0003H</span><br><span class="line">    AJMP    INTT0</span><br><span class="line">    </span><br><span class="line">    ORG     0013H</span><br><span class="line">    AJMP    INTT1</span><br><span class="line">    </span><br><span class="line">    ORG     0100H</span><br><span class="line">START:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    MOV     PSW,#00H</span><br><span class="line">    SETB    EX0</span><br><span class="line">    SETB    IT0</span><br><span class="line">    SETB    EX1</span><br><span class="line">    SETB    IT1</span><br><span class="line">    SETB    EA</span><br><span class="line">    MOV     IP,#01H</span><br><span class="line">    MOV     P3,#0FFH</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">    MOV     R0,#03H</span><br><span class="line">    MOV     R2,#08H</span><br><span class="line">    ACALL   LOOP</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">LOOP:</span><br><span class="line">    MOV     A,R0</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R2,LOOP</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">INTT0:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#08H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.2,Pkey0</span><br><span class="line">    LJMP    RETURN</span><br><span class="line"></span><br><span class="line">INTT1:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#10H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.3,Pkey2</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey0:</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    CJNE    A,#0FFH,Pkey1</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey1:</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    INC     DPTR</span><br><span class="line">    LJMP    Pkey0</span><br><span class="line">Pkey2:</span><br><span class="line">    MOV     R1,#01H</span><br><span class="line">    MOV     R3,#08H</span><br><span class="line">    ACALL   Pkey3</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey3:</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R3,Pkey3</span><br><span class="line">    RET</span><br><span class="line">RETURN:</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H</span><br><span class="line">    DB  80H,90H,88H,83H,0C6H,0A1H,86H,8EH</span><br><span class="line">    DB  0FFH</span><br><span class="line"></span><br><span class="line">D10ms:</span><br><span class="line">    MOV     R7,#25</span><br><span class="line">D4:</span><br><span class="line">    MOV     R6,#200</span><br><span class="line">    DJNZ    R6,$</span><br><span class="line">    DJNZ    R7,D4</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">D1S:</span><br><span class="line">    MOV     R5,#20</span><br><span class="line">D5: MOV     R6,#100</span><br><span class="line">D6: MOV     R7,#248</span><br><span class="line">D7: DJNZ     R7,D7</span><br><span class="line">    DJNZ    R6,D6</span><br><span class="line">    DJNZ    R5,D5</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">    END</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>中断</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Git常用操作</title>
     <url>/2021/03/25/Git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<p>🐳总结Git日常基本操作，不定时添加一些遇到的问题，以及从小白入门连接本地git和github等<br>
@@ -338,28 +360,6 @@ AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片�
       </categories>
       <tags>
         <tag>调试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PSW设置改进中断</title>
-    <url>/2020/12/15/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/</url>
-    <content><![CDATA[<ul>
-<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
-</ul>
-<blockquote>
-<p>中断优先级实验，主程序相邻2个LED灯循环点亮（03H—C0H）1S，外部中断0后静态数码管间隔1S轮流点亮0-F后返回，外部中断1后1个LED灯循环点亮（01H-80H）后返回，外部中断0优先级高于外部中断1，实现中断嵌套</p>
-</blockquote>
-<a id="more"></a>
-<hr>
-<blockquote>
-<p>P1接LED的ABCDEF，P3.2接K1，P3.3接K4，P0接静态数码管ABCDEF</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    AJMP    START</span><br><span class="line"></span><br><span class="line">    ORG     0003H</span><br><span class="line">    AJMP    INTT0</span><br><span class="line">    </span><br><span class="line">    ORG     0013H</span><br><span class="line">    AJMP    INTT1</span><br><span class="line">    </span><br><span class="line">    ORG     0100H</span><br><span class="line">START:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    MOV     PSW,#00H</span><br><span class="line">    SETB    EX0</span><br><span class="line">    SETB    IT0</span><br><span class="line">    SETB    EX1</span><br><span class="line">    SETB    IT1</span><br><span class="line">    SETB    EA</span><br><span class="line">    MOV     IP,#01H</span><br><span class="line">    MOV     P3,#0FFH</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">    MOV     R0,#03H</span><br><span class="line">    MOV     R2,#08H</span><br><span class="line">    ACALL   LOOP</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">LOOP:</span><br><span class="line">    MOV     A,R0</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R2,LOOP</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">INTT0:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#08H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.2,Pkey0</span><br><span class="line">    LJMP    RETURN</span><br><span class="line"></span><br><span class="line">INTT1:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#10H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.3,Pkey2</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey0:</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    CJNE    A,#0FFH,Pkey1</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey1:</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    INC     DPTR</span><br><span class="line">    LJMP    Pkey0</span><br><span class="line">Pkey2:</span><br><span class="line">    MOV     R1,#01H</span><br><span class="line">    MOV     R3,#08H</span><br><span class="line">    ACALL   Pkey3</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey3:</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R3,Pkey3</span><br><span class="line">    RET</span><br><span class="line">RETURN:</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H</span><br><span class="line">    DB  80H,90H,88H,83H,0C6H,0A1H,86H,8EH</span><br><span class="line">    DB  0FFH</span><br><span class="line"></span><br><span class="line">D10ms:</span><br><span class="line">    MOV     R7,#25</span><br><span class="line">D4:</span><br><span class="line">    MOV     R6,#200</span><br><span class="line">    DJNZ    R6,$</span><br><span class="line">    DJNZ    R7,D4</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">D1S:</span><br><span class="line">    MOV     R5,#20</span><br><span class="line">D5: MOV     R6,#100</span><br><span class="line">D6: MOV     R7,#248</span><br><span class="line">D7: DJNZ     R7,D7</span><br><span class="line">    DJNZ    R6,D6</span><br><span class="line">    DJNZ    R5,D5</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">    END</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>AT89S51</category>
-      </categories>
-      <tags>
-        <tag>中断</tag>
       </tags>
   </entry>
   <entry>
@@ -602,6 +602,9 @@ That’s all OK.</p>
 <ul>
 <li>
 <p>更换tfenv环境的pip源 👉<a href="https://mirrors.tuna.tsinghua.edu.cn/help/pypi/">更换pip清华源参考方法</a></p>
+</li>
+<li>
+<p>pip config set global.index-url <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></p>
 </li>
 <li>
 <p>pip install -U tensorflow-gpu -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></p>
