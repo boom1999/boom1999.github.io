@@ -1,19 +1,23 @@
 ---
 title: Modulate and demodulate
 date: 2021-04-21
-tags: 
+tags:
    - modulate
 categories: Matlab, communication simulation 
 copyright: true
 ---
 
-# Modulation and demodulation of signal based on matlab #
+# :pushpin: Modulation and demodulation of signal based on matlab #
 
-## task1 ##
-- A.	Code
+:sunny::clock530::sleeping:
+
+## Eg1 ##
+
+:memo: Code
+
 ``` Matlab
 %% Generate random process.
- 
+
 clear;
 clc;
  
@@ -21,14 +25,14 @@ clc;
 
 % ①Generate a random process y[n]=x1[n]+sin(x2[n]).
 N = 1000;                   % The maximum value of n,sequence length
-M = 50;       		    % Select a sequence of length 101 = M*2+1 
+M = 50;                     % Select a sequence of length 101 = M*2+1 
 Y = zeros(1,N); 
 Ryav = zeros(1,2*M+1);      % 950:1050
 Syav = zeros(1,2*M+1);      % 950:1050
  
 % Take the ensemble average over one hundred realizations.
 for i = 1:100
-    X1 = randn(1,1000);	    % Use 'randn(x,y)' to generate x*y matrix 
+    X1 = randn(1,1000);     % Use 'randn(x,y)' to generate x*y matrix 
     X2 = randn(1,1000);
     for n = 1:N
         Y(n) = X1(n)+sin(X2(n));
@@ -62,26 +66,22 @@ title('Spectrum of y[n]')
 xlabel('Time')
 ```
 
+:chart: Fig
 
-- B.	Figure
- 
-![The mean and variance of y[n].][1]
-<center><font size=2>Fig.1 The mean and variance of y[n].</font></center>
- 
- ![The spectrum and auto-correlation of y[n].][2]
+<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_1_mean_and_var.png"></div>
+
+ ![The spectrum and auto-correlation of y[n]][2]
 <center><font size=2>Fig.2 The spectrum and auto-correlation of y[n].</font></center>
 
-- C.	Discussion
+:grey_question: Discussion
 
-> In this task, I use ‘randn(x,y)’ to generate ‘x*y’ matrix. In order to calculate the autocorrelation and power spectrum of y[n] in the time-average, I take the ensemble average over one hundred realizations, and then take their average. The length of x1[n],x2[n] and y[n] are all N in length.
+> - In this task, I use ‘randn(x,y)’ to generate ‘x*y’ matrix. In order to calculate the autocorrelation and power spectrum of y[n] in the time-average, I take the ensemble average over one hundred realizations, and then take their average. The length of x1[n],x2[n] and y[n] are all N in length.
+> - As we all know, the length of ‘xcorr(y)’ is ‘2*N-1’. For original Ry , m is -999 to 999, so I selected (950:1050) of the intervals. After a hundred stacking, use ‘Ryav=Ryav/100’ and ‘Syav=Syav/100’ to calculate the time-average. I  also use 'mean(Y)' and 'var(Y)' to calculate the mean and variance of y[n].
+> - To judge rodman progress is ergodic or stationary, I compare the time average and statistical average and find that the expectation of y[n] is a constant while its autocorrelation only depends on the time difference. Also, the expectation equals the time-average. So, we can say the random process will go through all the possible states. The conclusion is that the rodman progress y[n] is ergodic and stationary.
 
-> As we all know, the length of ‘xcorr(y)’ is ‘2*N-1’. For original Ry , m is -999 to 999, so I selected (950:1050) of the intervals. After a hundred stacking, use ‘Ryav=Ryav/100’ and ‘Syav=Syav/100’ to calculate the time-average. I  also use 'mean(Y)' and 'var(Y)' to calculate the mean and variance of y[n].
+## Eg2 ##
 
-> To judge rodman progress is ergodic or stationary, I compare the time average and statistical average and find that the expectation of y[n] is a constant while its autocorrelation only depends on the time difference. Also, the expectation equals the time-average. So, we can say the random process will go through all the possible states. The conclusion is that the rodman progress y[n] is ergodic and stationary.
-
-## task2 ##
-
-- A.	Code
+:memo: Code
 
 ``` matlab
 %% Amplitude modulation. Sampling rate Fs=1500Hz.
@@ -92,17 +92,17 @@ clc;
 %% Task(1)
  
 % Initialization.
-t0 = 1;                 	% Signal duration
-Fs = 1500;              	% Sampling rate
-Ts = 1/Fs;              	% Sampling interval
-Fc = 20;                	% Carrier rate
-t = 0:Ts:t0;            	% Time vector
-N = length(t);          	% Length of t
-N0 = 0.0005;            	% Power spectral density of noise
+t0 = 1;                 % Signal duration
+Fs = 1500;              % Sampling rate
+Ts = 1/Fs;              % Sampling interval
+Fc = 20;                % Carrier rate
+t = 0:Ts:t0;            % Time vector
+N = length(t);          % Length of t
+N0 = 0.0005;            % Power spectral density of noise
  
 % Message signal and modulated signal(DSB_AM and USSB_AM).
-m = sin(2*pi*t);        	% Message signal
-c = cos(2*pi*Fc*t);     	% Carrier signal
+m = sin(2*pi*t);        % Message signal
+c = cos(2*pi*Fc*t);     % Carrier signal
 Ac_DSB_AM = 1;
 Ac_USSB_AM = sqrt(2);
  
@@ -282,55 +282,62 @@ title('Spectrum of the Demodulated USSB signal with a much wider band')
 xlabel('Frequency')
 ```
 
-- B.	Figure
+:chart: Fig
 
-![][3]
+<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_power_of_the_modulated_signal_and_message_signal.png" ></div>
 <center><font size=2>Fig.3 The power of the modulated signal and message signal.</font></center>
 
-![][4]
+![The modulated signal and the spectrum.][4]
 <center><font size=2>Fig.4 The modulated signal and the spectrum.</font></center>
 
-![][5]
+<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_pass_band_of_the_low-pass_filter_for_DSB_AM_and_USSB_AM.png"></div>
+
 <center><font size=2>Fig.5 The pass band of the low-pass filter for DSB_AM and USSB_AM.</font></center>
 
-![][6]
+![The demodulated signal and the spectrum.][6]
 <center><font size=2>Fig.6 The demodulated signal and the spectrum.</font></center>
 
-![][7]
+![The modulated signal and demodulated signal with noise.][7]
 <center><font size=2>Fig.7 The modulated signal and demodulated signal with noise.</font></center>
 
-![][8]
+![The demodulated signal and the spectrum(much wider band).][8]
 <center><font size=2>Fig.8 The demodulated signal and the spectrum(much wider band).</font></center>
- 
 
-- C.	Discussion
-> In this task, signal duration is t0=1 , message signal m=sin(2*pi*t), carrier signal c=cos(2*pi*Fc*t), there are two modulation methods DBS_AM and SSB_AM. In the SSB_AM, we use the upper sideband modulation, USSB_AM. 
+:grey_question: Discussion
+
+> In this task, signal duration is t0=1 , message signal m=sin(2*pi*t), carrier signal c=cos(2*pi*Fc*t), there are two modulation methods DBS_AM and SSB_AM. In the SSB_AM, we use the upper sideband modulation, USSB_AM.
 The modulated signals:
-DSB-AM signal : 
-	 	(1.1)
-USSB-AM signal: 
-	 	(1.2)
+
+- DSB-AM signal :
+
+    $s(t) = A_{c}m(t)cos(2\pi f_{c}t)$
+
+- USSB-AM signal:
+
+    $u(t) = {A_{c}\over2}m(t)cos(2\pi f_{c}t)-{A_{c}\over2}{\hat{m}}(t)sin(2\pi f_{c}t)$
 
 > One thing to note is that the   of DSB-AM and USSB-AM are different. The former is 1 and the latter is   . Use ‘sum(abs(m).^2)/N’ to calculate their power (see fig.3). The modulated signal and the spectrum (see fig.4)
 Then demodulating the above signals, I use coherent carrier to demodulate them and then pass them through a low-pass filter with different gains.
-	The demodulated signals:
-DSB-AM signal:
-	 	(1.3)
-USSB-AM signal: 
-	 	(1.4)
+The demodulated signals:
 
-> In order to recover the original signal m(t), one thing is to use a low-pass filter to filter out unwanted components, and the other thing is to choose right gain. To divide the Ac, for the DSB-AM, what needs to be kept is  , and then the gain is obviously  ; For the USSB-AM, what needs to be kept is  , and then the gain is obviously   . As the band of original signal m(t) is f=1, so I set the passband of the low-pass filter to 2Hz (see fig.5) . The cut-off frequency is 2HZ, which is twice the maximum frequency of the original signal, then the original signal is recovered well in both modulation methods (see fig.6).
+- DSB-AM signal:
 
-> In fact, for the noise, all of the frequency in array of ( ,  ) are ok, although the amplitude of the demodulated signal will change due to the constant gain after mixing noise, the original signal is restored almost without distortion (see fit.7).
+    $y(t) = A_{C}cos(2\pi f_{c}t)cos(2\pi f_{c}t) = {A_{c}\over2}m(t)+{A_{c}\over2}m(t)cos(4\pi f_{c}t)$
 
-> If we apply a low-pass filter with a band much wider than necessary, when filtering, it will mix in the high frequency components with the frequency spectrum nearby. The high frequency component is just the continuation of the baseband component at high frequency, if it is not too wide, may we can barely recover the original signal. If the cut-off frequency is set too wide, it may cause signal aliasing and amplitude changes.
- 
+- USSB-AM signal:
+  
+    $y(t) = {A_{c}\over2}m(t)cos^2(2\pi f_{c}t)-{A_{c}\over2}{\hat{m}}(t)sin(2\pi f_{c}t)cos(2\pi f_{c}t) = {A_{c}\over4}m(t)+{A_{c}\over4}cos(4\pi f_{c}t)-{A_{c}\over4}{\hat{m}}(t)sin(4\pi f_{c}t)$
 
- [1]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_1_mean_and_var.png
- [2]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_1_the_spectrum_and_auto-correlation_of_y[n].png
- [3]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/UserInfo.png
- [4]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/UserInfo.png
- [5]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/UserInfo.png
- [6]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/UserInfo.png
- [7]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/UserInfo.png
- [8]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/UserInfo.png
+> - In order to recover the original signal m(t), one thing is to use a low-pass filter to filter out unwanted components, and the other thing is to choose right gain. To divide the Ac, for the DSB-AM, what needs to be kept is  , and then the gain is obviously  ; For the USSB-AM, what needs to be kept is  , and then the gain is obviously   . As the band of original signal m(t) is f=1, so I set the passband of the low-pass filter to 2Hz (see fig.5) . The cut-off frequency is 2HZ, which is twice the maximum frequency of the original signal, then the original signal is recovered well in both modulation methods (see fig.6).
+> - In fact, for the noise, all of the frequency in array of ( ,  ) are ok, although the amplitude of the demodulated signal will change due to the constant gain after mixing noise, the original signal is restored almost without distortion (see fit.7).
+> - If we apply a low-pass filter with a band much wider than necessary, when filtering, it will mix in the high frequency components with the frequency spectrum nearby. The high frequency component is just the continuation of the baseband component at high frequency, if it is not too wide, may we can barely recover the original signal. If the cut-off frequency is set too wide, it may cause signal aliasing and amplitude changes.
+
+<!-- markdownlint-disable-file MD025 MD033 -->
+[1]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_1_mean_and_var.png
+[2]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_1_the_spectrum_and_auto-correlation_of_y[n].png
+[3]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_power_of_the_modulated_signal_and_message_signal.png
+[4]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_modulated_signal_and_the_spectrum.png
+[5]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_pass_band_of_the_low-pass_filter_for_DSB_AM_and_USSB_AM.png
+[6]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_demodulated_signal_and_the_spectrum.png
+[7]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_modulated_signal_and_demodulated_signal_with_noise.png
+[8]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_much_wider_band_the_demodulated_signal_and_the_spectrum.png

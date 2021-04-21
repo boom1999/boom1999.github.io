@@ -48,7 +48,7 @@ copyright: true
 - 添加SSH Key
     > 将提示位置(/c/Users/xxx/.ssh/id_rsa)的公钥（id_rsa.pub）内容复制粘贴至github > setting > SSH and GPG keys> key
     > 注意不要弄混公钥和私钥
-    > 若只在某一个Repo中使用，可在此Repo中setting > Deploy Keys中添加公钥 
+    > 若只在某一个Repo中使用，可在此Repo中setting > Deploy Keys中添加公钥
 
 ![DeployKeys][3]
 
@@ -181,6 +181,8 @@ git log --oneline --grep="project"
                         //查找文件中带有project的文件并显示到一行 
 git reset --mixed HEAD^ //暂存区和历史区回到上一个版本，工作区不变 
 ```
+
+<!-- markdownlint-disable-file MD025 MD028 MD033 -->
 
 [1]: https://www.lingzhicheng.cn/usr/file/picture/Git/UserInfo.png
 [2]: https://www.lingzhicheng.cn/usr/file/picture/Git/SSHKey.png
