@@ -316,7 +316,7 @@ The modulated signals:
 
     $u(t) = {A_{c}\over2}m(t)cos(2\pi f_{c}t)-{A_{c}\over2}{\hat{m}}(t)sin(2\pi f_{c}t)$
 
-> One thing to note is that the   of DSB-AM and USSB-AM are different. The former is 1 and the latter is   . Use ‘sum(abs(m).^2)/N’ to calculate their power (see fig.3). The modulated signal and the spectrum (see fig.4)
+> One thing to note is that the   of DSB-AM and USSB-AM are different. The former is 1 and the latter is $\sqrt{2}$. Use ‘sum(abs(m).^2)/N’ to calculate their power (see fig.3). The modulated signal and the spectrum (see fig.4)
 Then demodulating the above signals, I use coherent carrier to demodulate them and then pass them through a low-pass filter with different gains.
 The demodulated signals:
 
@@ -329,7 +329,7 @@ The demodulated signals:
     $y(t) = {A_{c}\over2}m(t)cos^2(2\pi f_{c}t)-{A_{c}\over2}{\hat{m}}(t)sin(2\pi f_{c}t)cos(2\pi f_{c}t) = {A_{c}\over4}m(t)+{A_{c}\over4}cos(4\pi f_{c}t)-{A_{c}\over4}{\hat{m}}(t)sin(4\pi f_{c}t)$
 
 > - In order to recover the original signal m(t), one thing is to use a low-pass filter to filter out unwanted components, and the other thing is to choose right gain. To divide the Ac, for the DSB-AM, what needs to be kept is  , and then the gain is obviously  ; For the USSB-AM, what needs to be kept is  , and then the gain is obviously   . As the band of original signal m(t) is f=1, so I set the passband of the low-pass filter to 2Hz (see fig.5) . The cut-off frequency is 2HZ, which is twice the maximum frequency of the original signal, then the original signal is recovered well in both modulation methods (see fig.6).
-> - In fact, for the noise, all of the frequency in array of ( ,  ) are ok, although the amplitude of the demodulated signal will change due to the constant gain after mixing noise, the original signal is restored almost without distortion (see fit.7).
+> - In fact, for the noise, all of the frequency in array of ($f_{m}$,$f_{c}$) are ok, although the amplitude of the demodulated signal will change due to the constant gain after mixing noise, the original signal is restored almost without distortion (see fit.7).
 > - If we apply a low-pass filter with a band much wider than necessary, when filtering, it will mix in the high frequency components with the frequency spectrum nearby. The high frequency component is just the continuation of the baseband component at high frequency, if it is not too wide, may we can barely recover the original signal. If the cut-off frequency is set too wide, it may cause signal aliasing and amplitude changes.
 
 <!-- markdownlint-disable-file MD025 MD033 -->
