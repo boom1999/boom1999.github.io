@@ -9,7 +9,7 @@ copyright: true
 
 :pushpin:
 
-### Most communication channels have communication channels, so the only way to transmit signals through such channels is to move the fortunate frequency that carries the message to the frequency band of the channel ###
+### Most communication channels have communication channels, so the only way to transmit signals through such channels is to move the fortunate frequency that carries the message to the frequency band of the channel. ###
 
 :sunny::clock830::sleeping:
 
@@ -23,15 +23,16 @@ copyright: true
 
 ### $A_{m}=(2m-1-M)d,m=1,2,3,...,M$ ###
 
-$$ g_{T}(t)=\left\{
-\begin{aligned}
-\sqrt\frac 2T, 0≤t≤T \\
-0, otherwise \\
-\end{aligned}
-\right.
-$$
+// TODO there need to format.
 
-_where d=1, T=1, fc=5Hz, the mapping rule from the bit pair to m is: 00->1, 01->2,11->3,10->4.
+$ g_{T}(t)=\left\{
+  \begin{aligned}
+  \sqrt\frac 2T, 0≤t≤T \\\\
+  0, otherwise \\\\
+  \end{aligned}
+  \right. $
+
+_Where d=1, T=1, fc=5Hz, the mapping rule from the bit pair to m is: 00->1, 01->2,11->3,10->4.
 (1) If the message bits are 11 00 10 00 01, plot the corresponding 4ASK signal in both time and frequency domain, sampling frequency fs=1000Hz.
 (2) Give the average signal energy per bit, i.e., Eb, for 4ASK.
 (3) Denote SNR as Eb/N0, plot the theoretical SER (symbol error rate) and simulated SER, for SNR=0:2:8 dB._
@@ -121,8 +122,6 @@ hold
 semilogy(SNRindB,theo_err_prb);
 ```
 
----
-
 - Sampling.m
 
 ``` matlab
@@ -143,8 +142,6 @@ for i=0:1:len-1
 end
 ```
 
----
-
 - T2T.m
 
 ``` matlab
@@ -162,8 +159,6 @@ sf=fft(st);
 % Compensation for time shift
 sf=T/N*fftshift(sf).*exp(-j*2*pi*f*t(1));   
 ```
-
----
 
 - smldpe.m
 
@@ -219,8 +214,6 @@ end
 p=numoferr/N;                       % probability of error 
 ```
 
----
-
 - gngauss.m
 
 ``` matlab
@@ -244,8 +237,6 @@ u=rand;                             % another uniform random variable in (0,1)
 gsrv1=m+z*cos(2*pi*u);
 gsrv2=m+z*sin(2*pi*u);
 ```
-
----
 
 - Qfunct.m
 
