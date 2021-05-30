@@ -1,6 +1,6 @@
 ---
-title: Modulate and demodulate
-date: 2021-04-21
+title: ASK and PSK
+date: 2021-05-30
 tags:
    - modulate
 categories: Matlab, communication simulation 
@@ -23,13 +23,13 @@ copyright: true
 
 ### $A_{m}=(2m-1-M)d,m=1,2,3,...,M$ ###
 
-$ g_{T}(t)=\left\{
+$$ g_{T}(t)=\left\{
 \begin{aligned}
 \sqrt\frac 2T, 0≤t≤T \\
 0, otherwise \\
 \end{aligned}
 \right.
-$
+$$
 
 _where d=1, T=1, fc=5Hz, the mapping rule from the bit pair to m is: 00->1, 01->2,11->3,10->4.
 (1) If the message bits are 11 00 10 00 01, plot the corresponding 4ASK signal in both time and frequency domain, sampling frequency fs=1000Hz.
