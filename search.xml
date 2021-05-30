@@ -11,7 +11,7 @@
 <h2 id="📓-4ASK">📓 4ASK</h2>
 <h3 id="u-m-t-A-m-g-T-t-cos-2-pi-f-c-t-m-1-2-3-…-M">$u_{m}(t) = A_{m}g_{T}(t)cos(2\pi f_{c}t),m=1,2,3,…,M$</h3>
 <h3 id="A-m-2m-1-M-d-m-1-2-3-…-M">$A_{m}=(2m-1-M)d,m=1,2,3,…,M$</h3>
-<h3 id="g-T-t-begin-aligned-sqrt-frac-2T-0≤t≤T-0-otherwise-end-aligned">$g_{T}(t)=$ ${\begin{aligned}\sqrt\frac 2T, 0≤t≤T \\ 0, otherwise \\ \end{aligned}$</h3>
+<h3 id="g-T-t-begin-aligned-sqrt-frac-2T-0≤t≤T-0-otherwise-end-aligned">$g_{T}(t)=$ {\begin{aligned}\sqrt\frac 2T, 0≤t≤T \\ 0, otherwise \\ \end{aligned}</h3>
 <p><em>Where d=1, T=1, fc=5Hz, the mapping rule from the bit pair to m is: 00-&gt;1, 01-&gt;2,11-&gt;3,10-&gt;4.<br>
 (1) If the message bits are 11 00 10 00 01, plot the corresponding 4ASK signal in both time and frequency domain, sampling frequency fs=1000Hz.<br>
 (2) Give the average signal energy per bit, i.e., Eb, for 4ASK.<br>
@@ -265,28 +265,6 @@ AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片�
       </tags>
   </entry>
   <entry>
-    <title>PSW设置改进中断</title>
-    <url>/2020/12/15/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/</url>
-    <content><![CDATA[<ul>
-<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
-</ul>
-<blockquote>
-<p>中断优先级实验，主程序相邻2个LED灯循环点亮（03H—C0H）1S，外部中断0后静态数码管间隔1S轮流点亮0-F后返回，外部中断1后1个LED灯循环点亮（01H-80H）后返回，外部中断0优先级高于外部中断1，实现中断嵌套</p>
-</blockquote>
-<a id="more"></a>
-<hr>
-<blockquote>
-<p>P1接LED的ABCDEF，P3.2接K1，P3.3接K4，P0接静态数码管ABCDEF</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    AJMP    START</span><br><span class="line"></span><br><span class="line">    ORG     0003H</span><br><span class="line">    AJMP    INTT0</span><br><span class="line">    </span><br><span class="line">    ORG     0013H</span><br><span class="line">    AJMP    INTT1</span><br><span class="line">    </span><br><span class="line">    ORG     0100H</span><br><span class="line">START:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    MOV     PSW,#00H</span><br><span class="line">    SETB    EX0</span><br><span class="line">    SETB    IT0</span><br><span class="line">    SETB    EX1</span><br><span class="line">    SETB    IT1</span><br><span class="line">    SETB    EA</span><br><span class="line">    MOV     IP,#01H</span><br><span class="line">    MOV     P3,#0FFH</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">    MOV     R0,#03H</span><br><span class="line">    MOV     R2,#08H</span><br><span class="line">    ACALL   LOOP</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">LOOP:</span><br><span class="line">    MOV     A,R0</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R2,LOOP</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">INTT0:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#08H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.2,Pkey0</span><br><span class="line">    LJMP    RETURN</span><br><span class="line"></span><br><span class="line">INTT1:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#10H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.3,Pkey2</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey0:</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    CJNE    A,#0FFH,Pkey1</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey1:</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    INC     DPTR</span><br><span class="line">    LJMP    Pkey0</span><br><span class="line">Pkey2:</span><br><span class="line">    MOV     R1,#01H</span><br><span class="line">    MOV     R3,#08H</span><br><span class="line">    ACALL   Pkey3</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey3:</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R3,Pkey3</span><br><span class="line">    RET</span><br><span class="line">RETURN:</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H</span><br><span class="line">    DB  80H,90H,88H,83H,0C6H,0A1H,86H,8EH</span><br><span class="line">    DB  0FFH</span><br><span class="line"></span><br><span class="line">D10ms:</span><br><span class="line">    MOV     R7,#25</span><br><span class="line">D4:</span><br><span class="line">    MOV     R6,#200</span><br><span class="line">    DJNZ    R6,$</span><br><span class="line">    DJNZ    R7,D4</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">D1S:</span><br><span class="line">    MOV     R5,#20</span><br><span class="line">D5: MOV     R6,#100</span><br><span class="line">D6: MOV     R7,#248</span><br><span class="line">D7: DJNZ     R7,D7</span><br><span class="line">    DJNZ    R6,D6</span><br><span class="line">    DJNZ    R5,D5</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">    END</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>AT89S51</category>
-      </categories>
-      <tags>
-        <tag>中断</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Git常用操作</title>
     <url>/2021/03/25/Git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<p>🐳总结Git日常基本操作，不定时添加一些遇到的问题，以及从小白入门连接本地git和github等<br>
@@ -459,6 +437,28 @@ AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片�
       </categories>
       <tags>
         <tag>调试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PSW设置改进中断</title>
+    <url>/2020/12/15/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/</url>
+    <content><![CDATA[<ul>
+<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
+</ul>
+<blockquote>
+<p>中断优先级实验，主程序相邻2个LED灯循环点亮（03H—C0H）1S，外部中断0后静态数码管间隔1S轮流点亮0-F后返回，外部中断1后1个LED灯循环点亮（01H-80H）后返回，外部中断0优先级高于外部中断1，实现中断嵌套</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<blockquote>
+<p>P1接LED的ABCDEF，P3.2接K1，P3.3接K4，P0接静态数码管ABCDEF</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    AJMP    START</span><br><span class="line"></span><br><span class="line">    ORG     0003H</span><br><span class="line">    AJMP    INTT0</span><br><span class="line">    </span><br><span class="line">    ORG     0013H</span><br><span class="line">    AJMP    INTT1</span><br><span class="line">    </span><br><span class="line">    ORG     0100H</span><br><span class="line">START:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    MOV     PSW,#00H</span><br><span class="line">    SETB    EX0</span><br><span class="line">    SETB    IT0</span><br><span class="line">    SETB    EX1</span><br><span class="line">    SETB    IT1</span><br><span class="line">    SETB    EA</span><br><span class="line">    MOV     IP,#01H</span><br><span class="line">    MOV     P3,#0FFH</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">    MOV     R0,#03H</span><br><span class="line">    MOV     R2,#08H</span><br><span class="line">    ACALL   LOOP</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">LOOP:</span><br><span class="line">    MOV     A,R0</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R2,LOOP</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">INTT0:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#08H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.2,Pkey0</span><br><span class="line">    LJMP    RETURN</span><br><span class="line"></span><br><span class="line">INTT1:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#10H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.3,Pkey2</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey0:</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    CJNE    A,#0FFH,Pkey1</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey1:</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    INC     DPTR</span><br><span class="line">    LJMP    Pkey0</span><br><span class="line">Pkey2:</span><br><span class="line">    MOV     R1,#01H</span><br><span class="line">    MOV     R3,#08H</span><br><span class="line">    ACALL   Pkey3</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey3:</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R3,Pkey3</span><br><span class="line">    RET</span><br><span class="line">RETURN:</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H</span><br><span class="line">    DB  80H,90H,88H,83H,0C6H,0A1H,86H,8EH</span><br><span class="line">    DB  0FFH</span><br><span class="line"></span><br><span class="line">D10ms:</span><br><span class="line">    MOV     R7,#25</span><br><span class="line">D4:</span><br><span class="line">    MOV     R6,#200</span><br><span class="line">    DJNZ    R6,$</span><br><span class="line">    DJNZ    R7,D4</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">D1S:</span><br><span class="line">    MOV     R5,#20</span><br><span class="line">D5: MOV     R6,#100</span><br><span class="line">D6: MOV     R7,#248</span><br><span class="line">D7: DJNZ     R7,D7</span><br><span class="line">    DJNZ    R6,D6</span><br><span class="line">    DJNZ    R5,D5</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">    END</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>中断</tag>
       </tags>
   </entry>
   <entry>
@@ -996,111 +996,6 @@ Request URL：<a href="https://cors-anywhere.herokuapp.com/https://github.com/lo
       </tags>
   </entry>
   <entry>
-    <title>Hexo同步部署再Github和服务器</title>
-    <url>/2021/02/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
-    <content><![CDATA[<blockquote>
-<p>寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页</p>
-</blockquote>
-<a id="more"></a>
-<ul>
-<li>前提条件：已有github.io仓库，hexo博客已经上线测试可以使用，已有<code>nginx</code>、<code>git</code>、<code>node</code>等基础，可参考上一篇笔记</li>
-<li>省略了一些次要步骤，域名解析、备案等</li>
-</ul>
-<hr>
-<h2 id="服务器Webhook部分">服务器Webhook部分</h2>
-<ul>
-<li>利用宝塔平台的Webhook插件</li>
-</ul>
-<blockquote>
-<p>名称随意，实例脚本如下<br>
-gitPath=“/www/wwwroot/YourWebsiteLocation/”<br>
-gitHttp=“<a href="https://github.com/YourGithubName/xxxxxxxx.github.io.git">https://github.com/YourGithubName/xxxxxxxx.github.io.git</a>”<br>
-若失败，可考虑加上<code>sudo</code>使用管理员权限</p>
-</blockquote>
-<pre><code>#!/bin/bash
-echo &quot;&quot;
-#输出当前时间
-date --date='0 days ago' &quot;+%Y-%m-%d %H:%M:%S&quot;
-echo &quot;Start&quot;
-
-#git项目路径
-gitPath=&quot; &quot;
-#git 网址
-gitHttp=&quot; &quot;
-#延迟高可以加https://ghproxy.com/代理
-
-echo &quot;Web站点路径：$gitPath&quot;
- 
-#判断项目路径是否存在
-if [ -d &quot;$gitPath&quot; ]; then
-    cd $gitPath
-    #判断是否存在git目录
-    if [ ! -d &quot;.git&quot; ]; then
-            echo &quot;在该目录下克隆 git&quot;
-            sudo git clone $gitHttp gittemp
-            sudo mv gittemp/.git .
-            sudo rm -rf gittemp
-    fi
-    echo&quot;拉取最新的项目文件&quot;
-    sudo git reset --hard origin/master
-    sudo git pull origin master
-    echo&quot;设置目录权限&quot;
-    sudo chown -R www:www $gitPath
-    date --date='0 days ago' &quot;+%Y-%m-%d %H:%M:%S&quot;
-    echo &quot;End&quot;
-    exit
-else
-    echo &quot;该项目路径不存在&quot;
-    echo &quot;End&quot;
-    exit
-fi
-</code></pre>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook01.png" alt="宝塔Webhook"></p>
-<h2 id="Github设置Webhook">Github设置Webhook</h2>
-<ul>
-<li>
-<p>查看密钥<br>
-<img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook02.png" alt="宝塔Webhook查看密钥"></p>
-</li>
-<li>
-<p>切换到Github项目的Settings-Webhooks</p>
-</li>
-<li>
-<p>Add Webhook</p>
-</li>
-</ul>
-<blockquote>
-<p><strong>Payload URL:</strong> <code>http://服务器ip:8888?hook?access_key=xxxxx</code><br>
-<strong>Content type:</strong> <code>application/json</code><br>
-<strong>Secret:</strong> <code>Key</code><br>
-<strong>Which events would you like to trigger this webhook?</strong><br>
-choose：Just the push event.<br>
-√<strong>Active</strong></p>
-</blockquote>
-<ul>
-<li>测试，本地更改sources后<code>hexo g</code>+<code>hexo d</code></li>
-<li>第一次红了是因为将Github中Webhook的Content type设置成了<code>application/x-www-form-urlencoded</code>，改成<code>application/json</code>通过<br>
-<img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook03.png" alt="Webhook测试"></li>
-</ul>
-<hr>
-<h2 id="Tips">Tips</h2>
-<ol>
-<li>服务器需要开放8888端口，如果使用其他端口同样需要打开</li>
-<li>两者都是表单数据发送时的编码类型<br>
-application/x-www-form-urlencoded --&gt; key=value&amp;key=value</li>
-<li>一般情况下都会正常同步，如果长时间未update，可能是DNS的问题，可以考虑选择一个连接速度较快的GitHub的ip添加到/etc/hosts并且刷新</li>
-</ol>
-]]></content>
-      <categories>
-        <category>blog</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>同步</tag>
-        <tag>webhook</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>正则表达式整理（持续更新）</title>
     <url>/2021/02/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B4%E7%90%86/</url>
     <content><![CDATA[<blockquote>
@@ -1224,6 +1119,111 @@ application/x-www-form-urlencoded --&gt; key=value&amp;key=value</li>
       </categories>
       <tags>
         <tag>re.match</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo同步部署再Github和服务器</title>
+    <url>/2021/02/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
+    <content><![CDATA[<blockquote>
+<p>寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页</p>
+</blockquote>
+<a id="more"></a>
+<ul>
+<li>前提条件：已有github.io仓库，hexo博客已经上线测试可以使用，已有<code>nginx</code>、<code>git</code>、<code>node</code>等基础，可参考上一篇笔记</li>
+<li>省略了一些次要步骤，域名解析、备案等</li>
+</ul>
+<hr>
+<h2 id="服务器Webhook部分">服务器Webhook部分</h2>
+<ul>
+<li>利用宝塔平台的Webhook插件</li>
+</ul>
+<blockquote>
+<p>名称随意，实例脚本如下<br>
+gitPath=“/www/wwwroot/YourWebsiteLocation/”<br>
+gitHttp=“<a href="https://github.com/YourGithubName/xxxxxxxx.github.io.git">https://github.com/YourGithubName/xxxxxxxx.github.io.git</a>”<br>
+若失败，可考虑加上<code>sudo</code>使用管理员权限</p>
+</blockquote>
+<pre><code>#!/bin/bash
+echo &quot;&quot;
+#输出当前时间
+date --date='0 days ago' &quot;+%Y-%m-%d %H:%M:%S&quot;
+echo &quot;Start&quot;
+
+#git项目路径
+gitPath=&quot; &quot;
+#git 网址
+gitHttp=&quot; &quot;
+#延迟高可以加https://ghproxy.com/代理
+
+echo &quot;Web站点路径：$gitPath&quot;
+ 
+#判断项目路径是否存在
+if [ -d &quot;$gitPath&quot; ]; then
+    cd $gitPath
+    #判断是否存在git目录
+    if [ ! -d &quot;.git&quot; ]; then
+            echo &quot;在该目录下克隆 git&quot;
+            sudo git clone $gitHttp gittemp
+            sudo mv gittemp/.git .
+            sudo rm -rf gittemp
+    fi
+    echo&quot;拉取最新的项目文件&quot;
+    sudo git reset --hard origin/master
+    sudo git pull origin master
+    echo&quot;设置目录权限&quot;
+    sudo chown -R www:www $gitPath
+    date --date='0 days ago' &quot;+%Y-%m-%d %H:%M:%S&quot;
+    echo &quot;End&quot;
+    exit
+else
+    echo &quot;该项目路径不存在&quot;
+    echo &quot;End&quot;
+    exit
+fi
+</code></pre>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook01.png" alt="宝塔Webhook"></p>
+<h2 id="Github设置Webhook">Github设置Webhook</h2>
+<ul>
+<li>
+<p>查看密钥<br>
+<img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook02.png" alt="宝塔Webhook查看密钥"></p>
+</li>
+<li>
+<p>切换到Github项目的Settings-Webhooks</p>
+</li>
+<li>
+<p>Add Webhook</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>Payload URL:</strong> <code>http://服务器ip:8888?hook?access_key=xxxxx</code><br>
+<strong>Content type:</strong> <code>application/json</code><br>
+<strong>Secret:</strong> <code>Key</code><br>
+<strong>Which events would you like to trigger this webhook?</strong><br>
+choose：Just the push event.<br>
+√<strong>Active</strong></p>
+</blockquote>
+<ul>
+<li>测试，本地更改sources后<code>hexo g</code>+<code>hexo d</code></li>
+<li>第一次红了是因为将Github中Webhook的Content type设置成了<code>application/x-www-form-urlencoded</code>，改成<code>application/json</code>通过<br>
+<img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook03.png" alt="Webhook测试"></li>
+</ul>
+<hr>
+<h2 id="Tips">Tips</h2>
+<ol>
+<li>服务器需要开放8888端口，如果使用其他端口同样需要打开</li>
+<li>两者都是表单数据发送时的编码类型<br>
+application/x-www-form-urlencoded --&gt; key=value&amp;key=value</li>
+<li>一般情况下都会正常同步，如果长时间未update，可能是DNS的问题，可以考虑选择一个连接速度较快的GitHub的ip添加到/etc/hosts并且刷新</li>
+</ol>
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>同步</tag>
+        <tag>webhook</tag>
       </tags>
   </entry>
   <entry>
