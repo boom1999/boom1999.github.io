@@ -72,6 +72,7 @@ xlabel('Time')
 :chart: Fig
 
 <div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_1_mean_and_var.png"></div>
+<center><font size=2>Fig.1 Myav and Vyav of y[n].</font></center>
 
  ![The spectrum and auto-correlation of y[n]][2]
 <center><font size=2>Fig.2 The spectrum and auto-correlation of y[n].</font></center>
