@@ -36,6 +36,132 @@
       </tags>
   </entry>
   <entry>
+    <title>Modulate and demodulate</title>
+    <url>/2021/04/21/ASK%20and%20PSK/</url>
+    <content><![CDATA[<p>📌</p>
+<h3 id="Most-communication-channels-have-communication-channels-so-the-only-way-to-transmit-signals-through-such-channels-is-to-move-the-fortunate-frequency-that-carries-the-message-to-the-frequency-band-of-the-channel">Most communication channels have communication channels, so the only way to transmit signals through such channels is to move the fortunate frequency that carries the message to the frequency band of the channel</h3>
+<p>☀️🕣😴</p>
+<a id="more"></a>
+<hr>
+<h2 id="📓-4ASK">📓 4ASK</h2>
+<h3 id="u-m-t-A-m-g-T-t-cos-2-pi-f-c-t-m-1-2-3-…-M">$u_{m}(t) = A_{m}g_{T}(t)cos(2\pi f_{c}t),m=1,2,3,…,M$</h3>
+<h3 id="A-m-2m-1-M-d-m-1-2-3-…-M">$A_{m}=(2m-1-M)d,m=1,2,3,…,M$</h3>
+<p>$ g_{T}(t)=\left{<br>
+\begin{aligned}<br>
+\sqrt\frac 2T, 0≤t≤T \<br>
+0, otherwise \<br>
+\end{aligned}<br>
+\right.<br>
+$</p>
+<p><em>where d=1, T=1, fc=5Hz, the mapping rule from the bit pair to m is: 00-&gt;1, 01-&gt;2,11-&gt;3,10-&gt;4.<br>
+(1) If the message bits are 11 00 10 00 01, plot the corresponding 4ASK signal in both time and frequency domain, sampling frequency fs=1000Hz.<br>
+(2) Give the average signal energy per bit, i.e., Eb, for 4ASK.<br>
+(3) Denote SNR as Eb/N0, plot the theoretical SER (symbol error rate) and simulated SER, for SNR=0:2:8 dB.</em></p>
+<h3 id="📝-4ASK-Code">📝 4ASK Code</h3>
+<ul>
+<li>4ASK.m</li>
+</ul>
+<h2 id="code￼0"><figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">%% Consider the following 4ASK modulation, where T=1.</span></span><br><span class="line"> </span><br><span class="line">clear;</span><br><span class="line">clc;</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(1)</span></span><br><span class="line"><span class="comment">% Plot the corresponding 4ASK signal.</span></span><br><span class="line">T = <span class="number">1</span>;                  <span class="comment">% Symbol interval.</span></span><br><span class="line">d = <span class="number">1</span>;</span><br><span class="line">Tb = T/<span class="number">2</span>;               <span class="comment">% Bit interval.</span></span><br><span class="line">m = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>];          <span class="comment">% Equally spaced.</span></span><br><span class="line">M = <span class="number">4</span>;                  <span class="comment">% 4ASK:M=4</span></span><br><span class="line">A_m = (<span class="number">2</span>*m<span class="number">-1</span>-M)*d;      <span class="comment">% The amplitude of the m-th waveform.</span></span><br><span class="line">fc = <span class="number">5</span>;                 <span class="comment">% Carrier frequency.</span></span><br><span class="line">fs = <span class="number">1000</span>;              <span class="comment">% Sampling frequency.</span></span><br><span class="line">gT=<span class="built_in">sqrt</span>(<span class="number">2</span>/T);           <span class="comment">% Transmission pulse.</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Message bits.</span></span><br><span class="line">N = <span class="number">5</span>;</span><br><span class="line">Sig = [<span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span>];</span><br><span class="line"><span class="comment">% Mapping.</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="number">2</span>:<span class="built_in">length</span>(Sig)</span><br><span class="line">    <span class="keyword">if</span>(Sig(<span class="built_in">i</span>)==<span class="number">0</span>&amp;&amp;Sig(<span class="built_in">i</span>+<span class="number">1</span>)==<span class="number">0</span>)</span><br><span class="line">        m(<span class="built_in">fix</span>(<span class="built_in">i</span>/<span class="number">2</span>)+<span class="number">1</span>) = A_m(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">elseif</span>(Sig(<span class="built_in">i</span>)==<span class="number">0</span>&amp;&amp;Sig(<span class="built_in">i</span>+<span class="number">1</span>)==<span class="number">1</span>)</span><br><span class="line">        m(<span class="built_in">fix</span>(<span class="built_in">i</span>/<span class="number">2</span>)+<span class="number">1</span>) = A_m(<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">elseif</span>(Sig(<span class="built_in">i</span>)==<span class="number">1</span>&amp;&amp;Sig(<span class="built_in">i</span>+<span class="number">1</span>)==<span class="number">1</span>)</span><br><span class="line">        m(<span class="built_in">fix</span>(<span class="built_in">i</span>/<span class="number">2</span>)+<span class="number">1</span>) = A_m(<span class="number">3</span>);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        m(<span class="built_in">fix</span>(<span class="built_in">i</span>/<span class="number">2</span>)+<span class="number">1</span>) = A_m(<span class="number">4</span>);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Sampling.</span></span><br><span class="line">[t,x] = Sampling(T,fs,m);</span><br><span class="line"><span class="comment">% Carrier wave.</span></span><br><span class="line">carrier = <span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>*fc*t);</span><br><span class="line"><span class="comment">% ASK modulation.</span></span><br><span class="line">u_m=gT*x.*carrier;</span><br><span class="line"><span class="comment">% T2F.</span></span><br><span class="line">[sf,U_m]=T2F(t,u_m);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Plotting commands follow.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">1</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_m);</span><br><span class="line">title(<span class="string">&#x27;Time domain&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;t/s&#x27;</span>)</span><br><span class="line">ylabel(<span class="string">&#x27;u\_m(t)&#x27;</span>)</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">2</span>);</span><br><span class="line"><span class="built_in">plot</span>(sf,<span class="built_in">abs</span>(U_m));</span><br><span class="line">title(<span class="string">&#x27;Frequency domain&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;f/Hz&#x27;</span>)</span><br><span class="line">ylabel(<span class="string">&#x27;U\_m&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(2)</span></span><br><span class="line"><span class="comment">% Give the average energy per symbol and average energy per bit.</span></span><br><span class="line">Eav = sum(A_m.^<span class="number">2</span>)/<span class="number">4</span>     <span class="comment">% Average energy per symbol.</span></span><br><span class="line">Eb = Eav/<span class="number">2</span>              <span class="comment">% Average energy per bit.</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(3)</span></span><br><span class="line"><span class="comment">% SER.</span></span><br><span class="line"> </span><br><span class="line">SNRindB=<span class="number">0</span>:<span class="number">2</span>:<span class="number">8</span>;          </span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="built_in">length</span>(SNRindB)</span><br><span class="line">  <span class="comment">% Simulated error rate .</span></span><br><span class="line">  smld_err_prb(<span class="built_in">i</span>)=smldpe(SNRindB(<span class="built_in">i</span>));     </span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="built_in">length</span>(SNRindB)</span><br><span class="line">  <span class="comment">% Signal-to-noise ratio.</span></span><br><span class="line">  SNR_per_bit=<span class="built_in">exp</span>(SNRindB(<span class="built_in">i</span>)*<span class="built_in">log</span>(<span class="number">10</span>)/<span class="number">10</span>);  </span><br><span class="line">  <span class="comment">% Theoretical error rate.</span></span><br><span class="line">  theo_err_prb(<span class="built_in">i</span>)=(<span class="number">3</span>/<span class="number">2</span>)*Qfunct(<span class="built_in">sqrt</span>((<span class="number">4</span>/<span class="number">5</span>)*SNR_per_bit));  </span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">% Plotting commands follow.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">3</span>)</span><br><span class="line">semilogy(SNRindB,smld_err_prb,<span class="string">&#x27;*&#x27;</span>);</span><br><span class="line"><span class="built_in">hold</span></span><br><span class="line">semilogy(SNRindB,theo_err_prb);</span><br></pre></td></tr></table></figure></h2>
+<ul>
+<li>Sampling.m</li>
+</ul>
+<h2 id="code￼1"><figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[T,Samp_Sig]</span>=<span class="title">Sampling</span><span class="params">(t,Fs,sig)</span> </span></span><br><span class="line"><span class="comment">% Fucntion Name:Sampling </span></span><br><span class="line"><span class="comment">%Input: Tb,Fs:sig OutPut:Samp_Sig </span></span><br><span class="line"><span class="comment">%When you call the Function ,u input the tiem for a bit,the </span></span><br><span class="line"><span class="comment">%Sampling rate and the source signal,then output the Samplint Signal.</span></span><br><span class="line">Ts=<span class="number">1</span>/Fs;</span><br><span class="line">Sig=sig;</span><br><span class="line">len=<span class="built_in">length</span>(Sig);</span><br><span class="line">T=<span class="number">0</span>:Ts:len*t-Ts;</span><br><span class="line">Samp_Sig=T; </span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">0</span>:<span class="number">1</span>:len<span class="number">-1</span></span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">j</span>=<span class="number">1</span>:<span class="number">1</span>:t/Ts</span><br><span class="line">        Samp_Sig(<span class="built_in">i</span>*t/Ts+<span class="built_in">j</span>)=Sig(<span class="built_in">i</span>+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">end</span>    </span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></h2>
+<ul>
+<li>T2T.m</li>
+</ul>
+<h2 id="code￼2"><figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[f,sf]</span>=<span class="title">T2F</span><span class="params">(t,st)</span></span></span><br><span class="line"><span class="comment">%input is time and the signal vectors</span></span><br><span class="line"><span class="comment">%output is freguency and signal spectrum</span></span><br><span class="line"> </span><br><span class="line">dt=t(<span class="number">2</span>)-t(<span class="number">1</span>);</span><br><span class="line">T=t(<span class="keyword">end</span>)-t(<span class="number">1</span>)+dt;</span><br><span class="line">df=<span class="number">1</span>/T;                     <span class="comment">%smapling rate</span></span><br><span class="line">N=<span class="built_in">length</span>(st);</span><br><span class="line"> </span><br><span class="line">f=-N/<span class="number">2</span>*df:df:(N/<span class="number">2</span><span class="number">-1</span>)*df;    <span class="comment">% Frequency sampling point.</span></span><br><span class="line">sf=fft(st);</span><br><span class="line"><span class="comment">% Compensation for time shift</span></span><br><span class="line">sf=T/N*fftshift(sf).*<span class="built_in">exp</span>(-<span class="built_in">j</span>*<span class="number">2</span>*<span class="built_in">pi</span>*f*t(<span class="number">1</span>));   </span><br></pre></td></tr></table></figure></h2>
+<ul>
+<li>smldpe.m</li>
+</ul>
+<h2 id="code￼3"><figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[p]</span>=<span class="title">smldpe</span><span class="params">(snr_in_dB)</span></span></span><br><span class="line"><span class="comment">% [p]=smldPe(snr_in_dB)</span></span><br><span class="line"><span class="comment">%       SMLDPE  simulates the probability of error for the given</span></span><br><span class="line"><span class="comment">%           snr_in_dB, signal to noise ratio in dB.</span></span><br><span class="line">d=<span class="number">1</span>;</span><br><span class="line">SNR=<span class="built_in">exp</span>(snr_in_dB*<span class="built_in">log</span>(<span class="number">10</span>)/<span class="number">10</span>);      <span class="comment">% signal to noise ratio per bit</span></span><br><span class="line">sgma=<span class="built_in">sqrt</span>((<span class="number">5</span>*d^<span class="number">2</span>)/(<span class="number">4</span>*SNR));         <span class="comment">% sigma, standard deviation of noise</span></span><br><span class="line">N=<span class="number">10000</span>;                            <span class="comment">% number of symbols being simulated</span></span><br><span class="line"><span class="comment">% generation of the quarternary data source follows</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:N</span><br><span class="line">  temp=<span class="built_in">rand</span>;                        <span class="comment">% a uniform random variable over (0,1)</span></span><br><span class="line">  <span class="keyword">if</span> (temp&lt;<span class="number">0.25</span>)</span><br><span class="line">    dsource(<span class="built_in">i</span>)=<span class="number">1</span>;                   <span class="comment">% with probability 1/4, source output is &quot;00&quot;</span></span><br><span class="line">  <span class="keyword">elseif</span> (temp&lt;<span class="number">0.5</span>)</span><br><span class="line">    dsource(<span class="built_in">i</span>)=<span class="number">2</span>;                   <span class="comment">% with probability 1/4, source output is &quot;01&quot;</span></span><br><span class="line">  <span class="keyword">elseif</span> (temp&lt;<span class="number">0.75</span>)</span><br><span class="line">    dsource(<span class="built_in">i</span>)=<span class="number">3</span>;                   <span class="comment">% with probability 1/4, source output is &quot;11&quot;</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    dsource(<span class="built_in">i</span>)=<span class="number">4</span>;                   <span class="comment">% with probability 1/4, source output is &quot;10&quot;</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">% detection, and probability of error calculation</span></span><br><span class="line">numoferr=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:N</span><br><span class="line">  <span class="comment">% The matched filter outputs</span></span><br><span class="line">  <span class="keyword">if</span> (dsource(<span class="built_in">i</span>)==<span class="number">1</span>)</span><br><span class="line">    r=<span class="number">-3</span>*d+gngauss(sgma);           <span class="comment">% if the source output is &quot;00&quot;</span></span><br><span class="line">  <span class="keyword">elseif</span> (dsource(<span class="built_in">i</span>)==<span class="number">2</span>)</span><br><span class="line">    r=-d+gngauss(sgma);             <span class="comment">% if the source output is &quot;01&quot;</span></span><br><span class="line">  <span class="keyword">elseif</span> (dsource(<span class="built_in">i</span>)==<span class="number">3</span>)  </span><br><span class="line">    r=d+gngauss(sgma);              <span class="comment">% if the source output is &quot;11&quot;</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    r=<span class="number">3</span>*d+gngauss(sgma);            <span class="comment">% if the source output is &quot;10&quot;</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="comment">% detector follows</span></span><br><span class="line">  <span class="keyword">if</span> (r&lt;<span class="number">-2</span>*d)</span><br><span class="line">    decis=<span class="number">1</span>;                        <span class="comment">% decision is &quot;00&quot;</span></span><br><span class="line">  <span class="keyword">elseif</span> (r&lt;<span class="number">0</span>)</span><br><span class="line">    decis=<span class="number">2</span>;                        <span class="comment">% decision is &quot;01&quot;</span></span><br><span class="line">  <span class="keyword">elseif</span> (r&lt;<span class="number">2</span>*d)</span><br><span class="line">    decis=<span class="number">3</span>;                        <span class="comment">% decision is &quot;11&quot;</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    decis=<span class="number">4</span>;                        <span class="comment">% decision is &quot;10&quot;</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">if</span> (decis~=dsource(<span class="built_in">i</span>))            <span class="comment">% if it is an error, increase the error counter</span></span><br><span class="line">    numoferr=numoferr+<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">p=numoferr/N;                       <span class="comment">% probability of error </span></span><br></pre></td></tr></table></figure></h2>
+<ul>
+<li>gngauss.m</li>
+</ul>
+<h2 id="code￼4"><figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[gsrv1,gsrv2]</span>=<span class="title">gngauss</span><span class="params">(m,sgma)</span></span></span><br><span class="line"><span class="comment">% [gsrv1,gsrv2]=gngauss(m,sgma)</span></span><br><span class="line"><span class="comment">% [gsrv1,gsrv2]=gngauss(sgma)</span></span><br><span class="line"><span class="comment">% [gsrv1,gsrv2]=gngauss</span></span><br><span class="line"><span class="comment">%       GNGAUSS  generates two independent Gaussian random variables with mean</span></span><br><span class="line"><span class="comment">%           m and standard deviation sgma. If one of the input arguments is missing </span></span><br><span class="line"><span class="comment">%           it takes the mean as 0, and the standard deviation as the given parameter.</span></span><br><span class="line"><span class="comment">%           If neither mean nor the variance is given, it generates two standard</span></span><br><span class="line"><span class="comment">%           Gaussian random variables. </span></span><br><span class="line"><span class="keyword">if</span> nargin == <span class="number">0</span>,</span><br><span class="line">  m=<span class="number">0</span>; sgma=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">elseif</span> nargin == <span class="number">1</span>,</span><br><span class="line">  sgma=m; m=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line">u=<span class="built_in">rand</span>;                             <span class="comment">% a uniform random variable in (0,1)       </span></span><br><span class="line">z=sgma*(<span class="built_in">sqrt</span>(<span class="number">2</span>*<span class="built_in">log</span>(<span class="number">1</span>/(<span class="number">1</span>-u))));      <span class="comment">% a Rayleigh distributed random variable</span></span><br><span class="line">u=<span class="built_in">rand</span>;                             <span class="comment">% another uniform random variable in (0,1)</span></span><br><span class="line">gsrv1=m+z*<span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>*u);</span><br><span class="line">gsrv2=m+z*<span class="built_in">sin</span>(<span class="number">2</span>*<span class="built_in">pi</span>*u);</span><br></pre></td></tr></table></figure></h2>
+<ul>
+<li>Qfunct.m</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[y]</span>=<span class="title">Qfunct</span><span class="params">(x)</span></span></span><br><span class="line"><span class="comment">% [y]=Qfunct(x)</span></span><br><span class="line"><span class="comment">%       QFUNCT  evaluates the Q-function. </span></span><br><span class="line"><span class="comment">%           y = 1/sqrt(2*pi) * integral from x to inf of exp(-t^2/2) dt.</span></span><br><span class="line"><span class="comment">%           y = (1/2) * erfc(x/sqrt(2)).</span></span><br><span class="line">y=(<span class="number">1</span>/<span class="number">2</span>)*<span class="built_in">erfc</span>(x/<span class="built_in">sqrt</span>(<span class="number">2</span>));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="💹-4ASK-Fig">💹 4ASK Fig</h3>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/lab6_1_Time_domain.png" alt="Message bits in Time domain(4ASK)."></p>
+<center><font size=2>Fig.1 Message bits in Time domain(4ASK).</font></center>
+<br><br><br>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/lab6_1_Frequency_domain.png" alt="Fig.2 Message bits in Frequency domain."></p>
+<center><font size=2>Fig.2 Message bits in Frequency domain.</font></center>
+<br><br><br>
+<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/lab6_1_Eb.png" ></div>
+<center><font size=2>Fig.3 The average signal energy per bit.</font></center>
+<br><br><br>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/lab6_1_SNR.png" alt="Fig.4 The theoretical SER and simulated SER"></p>
+<center><font size=2>Fig.4 The theoretical SER and simulated SER</font></center>
+<h3 id="❔-4ASK-Discussion">❔ 4ASK Discussion</h3>
+<blockquote>
+<p>Using carrier wave to transmit information is different from baseband transmission. Carrier-modulated digital transmission moves the frequency of the signal carrying the information to the frequency band of the signal.<br>
+The baseband signal waveform is multiplied by the sine carrier, and the frequency spectrum of the baseband signal is shifted by an amount of fc, and thus the signal is placed in the bandwidth of the channel.<br>
+First map the 10-bit learning sequence to a binary number according to the law, and then change the corresponding amplitude according to the 4ASK mapping relationship. After sampling the baseband signal with fs=1000Hz, it is multiplied by the 5Hz sine carrier, and it is found that only the amplitude has occurred in the time domain. Change, the frequency has shifted in the frequency spectrum.</p>
+</blockquote>
+<h2 id="📘-4PSK">📘 4PSK</h2>
+<h3 id="u-m-t-sqrt-frac-2E-s-Tcos-2-pi-f-c-t-frac-2-pi-m-4-frac-pi-4-m-1-2-3-…-M">$u_{m}(t) = \sqrt \frac {2E_{s}}Tcos(2\pi f_{c}t+\frac{2\pi m}4+\frac \pi 4),m=1,2,3,…,M$</h3>
+<p>where the average signal energy Es=1, T=1, fc=5Hz, and the constellation diagram is:</p>
+<h3 id="s-m-sqrt-E-s-cos-frac-2-pi-m-4-frac-pi-4-sqrt-E-s-sin-frac-2-pi-m-4-frac-pi-4">$s_{m}=(\sqrt{E_{s}}cos(\frac{2\pi m}4+\frac \pi 4),\sqrt{E_{s}}sin(\frac{2\pi m}4+\frac \pi 4))$</h3>
+<p><em>(1) If the message bits are 11 00 10 00 01, plot the corresponding 4PSK signal in both time and frequency domain, sampling frequency fs=1000Hz.<br>
+(2) Plot the constellation diagram of the 4PSK experiencing the AWGN channel with N0=0.5. (You can generate a large number of 4PSK signals and noise samples.)<br>
+(3) Give the BER and SER for N0=0.5, from theoretical calculation and numerical simulation, respectively.</em></p>
+<h3 id="📝-4PSK-Code">📝 4PSK Code</h3>
+<ul>
+<li>4PSK.m</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">%% Consider the following 4PSK modulation.</span></span><br><span class="line"> </span><br><span class="line">clear;</span><br><span class="line">clc;</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(1)</span></span><br><span class="line"><span class="comment">% Plot the corresponding 4PSK signal.</span></span><br><span class="line">T = <span class="number">1</span>;                  <span class="comment">% Symbol interval.</span></span><br><span class="line">Es = <span class="number">1</span>;                 <span class="comment">% Energy of every symbol.</span></span><br><span class="line">Tb = T/<span class="number">2</span>;               <span class="comment">% Bit interval.</span></span><br><span class="line">m = [<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];          <span class="comment">% Equally spaced.</span></span><br><span class="line">M = <span class="number">4</span>;                  <span class="comment">% 4PSK:M=4</span></span><br><span class="line">fc = <span class="number">5</span>;                 <span class="comment">% Carrier frequency.</span></span><br><span class="line">fs = <span class="number">1000</span>;              <span class="comment">% Sampling frequency.</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Message bits.</span></span><br><span class="line">N = <span class="number">5</span>;</span><br><span class="line">Sig = [<span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span>];</span><br><span class="line"><span class="comment">% Mapping.</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="number">2</span>:<span class="built_in">length</span>(Sig)</span><br><span class="line">    <span class="keyword">if</span>(Sig(<span class="built_in">i</span>)==<span class="number">0</span>&amp;&amp;Sig(<span class="built_in">i</span>+<span class="number">1</span>)==<span class="number">0</span>)</span><br><span class="line">        phase_m(<span class="built_in">fix</span>(<span class="built_in">i</span>/<span class="number">2</span>)+<span class="number">1</span>) = m(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">elseif</span>(Sig(<span class="built_in">i</span>)==<span class="number">0</span>&amp;&amp;Sig(<span class="built_in">i</span>+<span class="number">1</span>)==<span class="number">1</span>)</span><br><span class="line">        phase_m(<span class="built_in">fix</span>(<span class="built_in">i</span>/<span class="number">2</span>)+<span class="number">1</span>) = m(<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">elseif</span>(Sig(<span class="built_in">i</span>)==<span class="number">1</span>&amp;&amp;Sig(<span class="built_in">i</span>+<span class="number">1</span>)==<span class="number">1</span>)</span><br><span class="line">        phase_m(<span class="built_in">fix</span>(<span class="built_in">i</span>/<span class="number">2</span>)+<span class="number">1</span>) = m(<span class="number">3</span>);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        phase_m(<span class="built_in">fix</span>(<span class="built_in">i</span>/<span class="number">2</span>)+<span class="number">1</span>) = m(<span class="number">4</span>);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Sampling.</span></span><br><span class="line">[t,x] = Sampling(T,fs,phase_m);</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="number">1</span>:N*T*fs</span><br><span class="line">    u_m(<span class="built_in">i</span>) =<span class="built_in">sqrt</span>(<span class="number">2</span>*Es/T)*<span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>*fc*<span class="built_in">i</span>/fs+<span class="number">2</span>*<span class="built_in">pi</span>*x(<span class="built_in">i</span>)/<span class="number">4</span>+<span class="built_in">pi</span>/<span class="number">4</span>); </span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">% T2F.</span></span><br><span class="line">[sf,U_m]=T2F(t,u_m);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Plotting commands follow.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">1</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_m);</span><br><span class="line">title(<span class="string">&#x27;Time domain&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;t/s&#x27;</span>)</span><br><span class="line">ylabel(<span class="string">&#x27;u\_m(t)&#x27;</span>)</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">2</span>);</span><br><span class="line"><span class="built_in">plot</span>(sf,<span class="built_in">abs</span>(U_m));</span><br><span class="line">title(<span class="string">&#x27;Frequency domain&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;f/Hz&#x27;</span>)</span><br><span class="line">ylabel(<span class="string">&#x27;U\_m&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(2)</span></span><br><span class="line"><span class="comment">% Plot the constellation diagram.</span></span><br><span class="line">N0 = <span class="number">0.5</span>;</span><br><span class="line">nc=<span class="built_in">sqrt</span>(N0/<span class="number">2</span>)*<span class="built_in">randn</span>(<span class="number">5000</span>,<span class="number">1</span>);</span><br><span class="line">ns=<span class="built_in">sqrt</span>(N0/<span class="number">2</span>)*<span class="built_in">randn</span>(<span class="number">5000</span>,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="number">1</span>:N*T*fs</span><br><span class="line">    Sm_x(<span class="built_in">i</span>) = <span class="built_in">sqrt</span>(Es)*<span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>*x(<span class="built_in">i</span>)/<span class="number">4</span>+<span class="built_in">pi</span>/<span class="number">4</span>)+nc(<span class="built_in">i</span>);</span><br><span class="line">    Sm_y(<span class="built_in">i</span>) = <span class="built_in">sqrt</span>(Es)*<span class="built_in">sin</span>(<span class="number">2</span>*<span class="built_in">pi</span>*x(<span class="built_in">i</span>)/<span class="number">4</span>+<span class="built_in">pi</span>/<span class="number">4</span>)+ns(<span class="built_in">i</span>);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Plotting commands follow.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">3</span>)</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="number">1</span>:<span class="number">5000</span></span><br><span class="line">    <span class="keyword">if</span>(x(<span class="built_in">i</span>)==<span class="number">0</span>)</span><br><span class="line">        <span class="built_in">plot</span>(Sm_x(<span class="built_in">i</span>),Sm_y(<span class="built_in">i</span>),<span class="string">&#x27;r*&#x27;</span>)</span><br><span class="line">        <span class="built_in">hold</span> on;</span><br><span class="line">    <span class="keyword">elseif</span>(x(<span class="built_in">i</span>)==<span class="number">1</span>)</span><br><span class="line">        <span class="built_in">plot</span>(Sm_x(<span class="built_in">i</span>),Sm_y(<span class="built_in">i</span>),<span class="string">&#x27;g+&#x27;</span>)</span><br><span class="line">        <span class="built_in">hold</span> on;</span><br><span class="line">    <span class="keyword">elseif</span>(x(<span class="built_in">i</span>)==<span class="number">2</span>)</span><br><span class="line">        <span class="built_in">plot</span>(Sm_x(<span class="built_in">i</span>),Sm_y(<span class="built_in">i</span>),<span class="string">&#x27;b.&#x27;</span>)</span><br><span class="line">        <span class="built_in">hold</span> on;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">plot</span>(Sm_x(<span class="built_in">i</span>),Sm_y(<span class="built_in">i</span>),<span class="string">&#x27;c.&#x27;</span>)</span><br><span class="line">        <span class="built_in">hold</span> on;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    axis square</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">title(<span class="string">&#x27;The constellation diagram of the 4PSK&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(3)</span></span><br><span class="line"><span class="comment">% BER and SER.</span></span><br><span class="line"> </span><br><span class="line">N=<span class="number">100000</span>;</span><br><span class="line">Eb=Es/<span class="number">2</span>;</span><br><span class="line">SNR = Eb/N0;</span><br><span class="line">sgma=<span class="built_in">sqrt</span>(Es/SNR/<span class="number">2</span>);            <span class="comment">% noise variance</span></span><br><span class="line"><span class="comment">% The signal mapping.</span></span><br><span class="line">s00=[<span class="number">1</span> <span class="number">1</span>];</span><br><span class="line">s01=[<span class="number">-1</span> <span class="number">1</span>];</span><br><span class="line">s11=[<span class="number">-1</span> <span class="number">-1</span>];</span><br><span class="line">s10=[<span class="number">1</span> <span class="number">-1</span>];</span><br><span class="line"><span class="comment">% Generation of the data source.</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:N</span><br><span class="line">  temp=<span class="built_in">rand</span>;                <span class="comment">% a uniform random variable between 0 and 1</span></span><br><span class="line">  <span class="keyword">if</span> (temp&lt;<span class="number">0.25</span>)            <span class="comment">% With probability 1/4, source output is &quot;00.&quot;</span></span><br><span class="line">    dsource1(<span class="built_in">i</span>)=<span class="number">0</span>;</span><br><span class="line">    dsource2(<span class="built_in">i</span>)=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">elseif</span> (temp&lt;<span class="number">0.5</span>)         <span class="comment">% With probability 1/4, source output is &quot;01.&quot;</span></span><br><span class="line">    dsource1(<span class="built_in">i</span>)=<span class="number">0</span>;</span><br><span class="line">    dsource2(<span class="built_in">i</span>)=<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">elseif</span> (temp&lt;<span class="number">0.75</span>)        <span class="comment">% With probability 1/4, source output is &quot;11.&quot;</span></span><br><span class="line">    dsource1(<span class="built_in">i</span>)=<span class="number">1</span>;  </span><br><span class="line">    dsource2(<span class="built_in">i</span>)=<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">else</span>                      <span class="comment">% With probability 1/4, source output is &quot;10.&quot;</span></span><br><span class="line">    dsource1(<span class="built_in">i</span>)=<span class="number">1</span>;</span><br><span class="line">    dsource2(<span class="built_in">i</span>)=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">% Detection and the probability of error calculation.</span></span><br><span class="line">numofsymbolerror=<span class="number">0</span>;</span><br><span class="line">numofbiterror=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:N</span><br><span class="line">  <span class="comment">% The received signal at the detector, for the ith symbol, is:</span></span><br><span class="line">  n(<span class="number">1</span>)=gngauss(sgma);         </span><br><span class="line">  n(<span class="number">2</span>)=gngauss(sgma);</span><br><span class="line">  <span class="keyword">if</span> ((dsource1(<span class="built_in">i</span>)==<span class="number">0</span>) &amp;&amp; (dsource2(<span class="built_in">i</span>)==<span class="number">0</span>))</span><br><span class="line">    r=s00+n;</span><br><span class="line">  <span class="keyword">elseif</span> ((dsource1(<span class="built_in">i</span>)==<span class="number">0</span>) &amp;&amp; (dsource2(<span class="built_in">i</span>)==<span class="number">1</span>))</span><br><span class="line">    r=s01+n;</span><br><span class="line">  <span class="keyword">elseif</span> ((dsource1(<span class="built_in">i</span>)==<span class="number">1</span>) &amp;&amp; (dsource2(<span class="built_in">i</span>)==<span class="number">1</span>))</span><br><span class="line">    r=s11+n;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    r=s10+n;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="comment">% The correlation metrics are computed below.</span></span><br><span class="line">  c00=<span class="built_in">dot</span>(r,s00);</span><br><span class="line">  c01=<span class="built_in">dot</span>(r,s01);</span><br><span class="line">  c11=<span class="built_in">dot</span>(r,s11);</span><br><span class="line">  c10=<span class="built_in">dot</span>(r,s10);</span><br><span class="line">  <span class="comment">% The decision on the ith symbol is made next.</span></span><br><span class="line">  c_max=<span class="built_in">max</span>([c00 c01 c11 c10]);</span><br><span class="line">  <span class="keyword">if</span> (c00==c_max)</span><br><span class="line">    decis1=<span class="number">0</span>; decis2=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">elseif</span> (c01==c_max)</span><br><span class="line">    decis1=<span class="number">0</span>; decis2=<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">elseif</span> (c11==c_max)</span><br><span class="line">    decis1=<span class="number">1</span>; decis2=<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    decis1=<span class="number">1</span>; decis2=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="comment">% Increment the error counter, if the decision is not correct.</span></span><br><span class="line">  symbolerror=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> (decis1~=dsource1(<span class="built_in">i</span>))</span><br><span class="line">    numofbiterror=numofbiterror+<span class="number">1</span>;</span><br><span class="line">    symbolerror=<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">if</span> (decis2~=dsource2(<span class="built_in">i</span>))</span><br><span class="line">    numofbiterror=numofbiterror+<span class="number">1</span>;</span><br><span class="line">    symbolerror=<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">if</span> (symbolerror==<span class="number">1</span>)</span><br><span class="line">    numofsymbolerror = numofsymbolerror+<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">% Since there are totally N symbols.</span></span><br><span class="line">ps=numofsymbolerror/N</span><br><span class="line"><span class="comment">% Since 2N bits are transmitted.</span></span><br><span class="line">pb=numofbiterror/(<span class="number">2</span>*N)</span><br><span class="line"> </span><br><span class="line">theo_err_prb=Qfunct(<span class="built_in">sqrt</span>(<span class="number">2</span>*SNR))    <span class="comment">% Theoretical bit-error rate.</span></span><br><span class="line">theo_err_sym=theo_err_prb*<span class="number">2</span>         <span class="comment">% Theoretical symbol-error rate.</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="💹-4PSK-Fig">💹 4PSK Fig</h3>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/lab6_2_Time_domain.png" alt="Fig.5 Message bits in Time domain(4PSK)."></p>
+<center><font size=2>Fig.5 Message bits in Time domain(4PSK).</font></center>
+<br><br><br>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/lab6_2_Frequency_domain.png" alt="Fig.6 Message bits in Frequency domain(4PSK)."></p>
+<center><font size=2>Fig.6 Message bits in Frequency domain(4PSK).</font></center>
+<br><br><br>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/lab6_2_Constellation_diagram.png" alt="Fig.7 The constellation diagram of the 4PSK."></p>
+<center><font size=2>Fig.7 The constellation diagram of the 4PSK.</font></center>
+<br><br><br>
+<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/lab6_2_theoretical_calculation_and_numerical_simulation.png" ></div>
+<center><font size=2>Fig.8 BER and SER(theoretical calculation and numerical simulation).</font></center>
+<h3 id="❔-4PSK-Discussion">❔ 4PSK Discussion</h3>
+<blockquote>
+<p>In carrier phase modulation, the signal to be transmitted through a communication channel is embedded in the phase of the carrier, and the information sequence is binary-coded and mapped to the corresponding phase. Each piece of data corresponds to a phase. The amplitude does not change, but it changes. Initial phase.<br>
+When the phase of the two bits of information undergoes a sudden change, the time-domain waveform will also undergo a sudden change. The reason is the discontinuity of the phase, which may cause bit errors during demodulation.<br>
+In the constellation diagram, we can see that the PSK signal will drift due to noise. If the noise is too large, a large number of signals will drift to other phase points, causing an increase in the bit error rate.</p>
+</blockquote>
+<!-- markdownlint-disable-file MD025 MD033 -->
+]]></content>
+      <categories>
+        <category>Matlab, communication simulation</category>
+      </categories>
+      <tags>
+        <tag>modulate</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PSW设置改进中断</title>
+    <url>/2020/12/15/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/</url>
+    <content><![CDATA[<ul>
+<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
+</ul>
+<blockquote>
+<p>中断优先级实验，主程序相邻2个LED灯循环点亮（03H—C0H）1S，外部中断0后静态数码管间隔1S轮流点亮0-F后返回，外部中断1后1个LED灯循环点亮（01H-80H）后返回，外部中断0优先级高于外部中断1，实现中断嵌套</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<blockquote>
+<p>P1接LED的ABCDEF，P3.2接K1，P3.3接K4，P0接静态数码管ABCDEF</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    AJMP    START</span><br><span class="line"></span><br><span class="line">    ORG     0003H</span><br><span class="line">    AJMP    INTT0</span><br><span class="line">    </span><br><span class="line">    ORG     0013H</span><br><span class="line">    AJMP    INTT1</span><br><span class="line">    </span><br><span class="line">    ORG     0100H</span><br><span class="line">START:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    MOV     PSW,#00H</span><br><span class="line">    SETB    EX0</span><br><span class="line">    SETB    IT0</span><br><span class="line">    SETB    EX1</span><br><span class="line">    SETB    IT1</span><br><span class="line">    SETB    EA</span><br><span class="line">    MOV     IP,#01H</span><br><span class="line">    MOV     P3,#0FFH</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">    MOV     R0,#03H</span><br><span class="line">    MOV     R2,#08H</span><br><span class="line">    ACALL   LOOP</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">LOOP:</span><br><span class="line">    MOV     A,R0</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R2,LOOP</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">INTT0:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#08H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.2,Pkey0</span><br><span class="line">    LJMP    RETURN</span><br><span class="line"></span><br><span class="line">INTT1:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#10H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.3,Pkey2</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey0:</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    CJNE    A,#0FFH,Pkey1</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey1:</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    INC     DPTR</span><br><span class="line">    LJMP    Pkey0</span><br><span class="line">Pkey2:</span><br><span class="line">    MOV     R1,#01H</span><br><span class="line">    MOV     R3,#08H</span><br><span class="line">    ACALL   Pkey3</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey3:</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R3,Pkey3</span><br><span class="line">    RET</span><br><span class="line">RETURN:</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H</span><br><span class="line">    DB  80H,90H,88H,83H,0C6H,0A1H,86H,8EH</span><br><span class="line">    DB  0FFH</span><br><span class="line"></span><br><span class="line">D10ms:</span><br><span class="line">    MOV     R7,#25</span><br><span class="line">D4:</span><br><span class="line">    MOV     R6,#200</span><br><span class="line">    DJNZ    R6,$</span><br><span class="line">    DJNZ    R7,D4</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">D1S:</span><br><span class="line">    MOV     R5,#20</span><br><span class="line">D5: MOV     R6,#100</span><br><span class="line">D6: MOV     R7,#248</span><br><span class="line">D7: DJNZ     R7,D7</span><br><span class="line">    DJNZ    R6,D6</span><br><span class="line">    DJNZ    R5,D5</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">    END</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>中断</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Dual_computer_communication</title>
     <url>/2020/12/29/AT89S51%E5%8F%8C%E6%9C%BA%E9%80%9A%E4%BF%A1/</url>
     <content><![CDATA[<ul>
@@ -167,25 +293,88 @@ AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片�
       </tags>
   </entry>
   <entry>
-    <title>PSW设置改进中断</title>
-    <url>/2020/12/15/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/</url>
-    <content><![CDATA[<ul>
-<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
-</ul>
-<blockquote>
-<p>中断优先级实验，主程序相邻2个LED灯循环点亮（03H—C0H）1S，外部中断0后静态数码管间隔1S轮流点亮0-F后返回，外部中断1后1个LED灯循环点亮（01H-80H）后返回，外部中断0优先级高于外部中断1，实现中断嵌套</p>
-</blockquote>
+    <title>Modulate and demodulate</title>
+    <url>/2021/04/21/Modulate%20and%20demodulate/</url>
+    <content><![CDATA[<h1>📌 Modulation and demodulation of signal based on matlab</h1>
+<p>☀️🕠😴</p>
 <a id="more"></a>
 <hr>
+<h2 id="Eg1">Eg1</h2>
+<p>📝 Code</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">%% Generate random process.</span></span><br><span class="line"></span><br><span class="line">clear;</span><br><span class="line">clc;</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(1)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% ①Generate a random process y[n]=x1[n]+sin(x2[n]).</span></span><br><span class="line">N = <span class="number">1000</span>;                   <span class="comment">% The maximum value of n,sequence length</span></span><br><span class="line">M = <span class="number">50</span>;                     <span class="comment">% Select a sequence of length 101 = M*2+1 </span></span><br><span class="line">Y = <span class="built_in">zeros</span>(<span class="number">1</span>,N); </span><br><span class="line">Ryav = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="number">2</span>*M+<span class="number">1</span>);      <span class="comment">% 950:1050</span></span><br><span class="line">Syav = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="number">2</span>*M+<span class="number">1</span>);      <span class="comment">% 950:1050</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Take the ensemble average over one hundred realizations.</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span>:<span class="number">100</span></span><br><span class="line">    X1 = <span class="built_in">randn</span>(<span class="number">1</span>,<span class="number">1000</span>);     <span class="comment">% Use &#x27;randn(x,y)&#x27; to generate x*y matrix </span></span><br><span class="line">    X2 = <span class="built_in">randn</span>(<span class="number">1</span>,<span class="number">1000</span>);</span><br><span class="line">    <span class="keyword">for</span> n = <span class="number">1</span>:N</span><br><span class="line">        Y(n) = X1(n)+<span class="built_in">sin</span>(X2(n));</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    Ry = xcorr(Y,<span class="string">&#x27;unbiased&#x27;</span>);       <span class="comment">% Autocorrelation of &#123;Yn&#125;</span></span><br><span class="line">    Ry = Ry(<span class="number">950</span>:<span class="number">1050</span>);              <span class="comment">% Original Ry, m is -999 to 999(2*N-1)</span></span><br><span class="line">    Sy = fftshift(<span class="built_in">abs</span>(fft(Ry)));    <span class="comment">% Power spectrum of &#123;Yn&#125;</span></span><br><span class="line">    Ryav=Ryav+Ry;                   <span class="comment">% 100 times</span></span><br><span class="line">    Syav=Syav+Sy;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">Ryav=Ryav/<span class="number">100</span>;                      <span class="comment">% Time-average</span></span><br><span class="line">Syav=Syav/<span class="number">100</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(2)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% ① the mean and variance of y[n].</span></span><br><span class="line"><span class="comment">% Use &#x27;mean(Y)&#x27; and &#x27;var(Y)&#x27; to calculate the mean and variance of y[n].</span></span><br><span class="line">Myav = <span class="built_in">mean</span>(Y)</span><br><span class="line">Vyav = var(Y)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(3)</span></span><br><span class="line"><span class="comment">% ① the spectrum and auto-correlation of y[n].</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">1</span>)</span><br><span class="line">subplot(<span class="number">121</span>)</span><br><span class="line"><span class="built_in">plot</span>(-M:M,Ryav);</span><br><span class="line">title(<span class="string">&#x27;Auto-correction of y[n]&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">122</span>)</span><br><span class="line"><span class="built_in">plot</span>(<span class="number">-0.5</span>:<span class="number">0.01</span>:<span class="number">0.5</span>,Syav);</span><br><span class="line">title(<span class="string">&#x27;Spectrum of y[n]&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>💹 Fig</p>
+<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_1_mean_and_var.png"></div>
+<center><font size=2>Fig.1 Myav and Vyav of y[n].</font></center>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_1_the_spectrum_and_auto-correlation_of_y%5Bn%5D.png" alt="The spectrum and auto-correlation of y[n]"></p>
+<center><font size=2>Fig.2 The spectrum and auto-correlation of y[n].</font></center>
+<p>❔ Discussion</p>
 <blockquote>
-<p>P1接LED的ABCDEF，P3.2接K1，P3.3接K4，P0接静态数码管ABCDEF</p>
+<ul>
+<li>In this task, I use ‘randn(x,y)’ to generate ‘x*y’ matrix. In order to calculate the autocorrelation and power spectrum of y[n] in the time-average, I take the ensemble average over one hundred realizations, and then take their average. The length of x1[n],x2[n] and y[n] are all N in length.</li>
+<li>As we all know, the length of ‘xcorr(y)’ is ‘2*N-1’. For original Ry , m is -999 to 999, so I selected (950:1050) of the intervals. After a hundred stacking, use ‘Ryav=Ryav/100’ and ‘Syav=Syav/100’ to calculate the time-average. I  also use ‘mean(Y)’ and ‘var(Y)’ to calculate the mean and variance of y[n].</li>
+<li>To judge rodman progress is ergodic or stationary, I compare the time average and statistical average and find that the expectation of y[n] is a constant while its autocorrelation only depends on the time difference. Also, the expectation equals the time-average. So, we can say the random process will go through all the possible states. The conclusion is that the rodman progress y[n] is ergodic and stationary.</li>
+</ul>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    AJMP    START</span><br><span class="line"></span><br><span class="line">    ORG     0003H</span><br><span class="line">    AJMP    INTT0</span><br><span class="line">    </span><br><span class="line">    ORG     0013H</span><br><span class="line">    AJMP    INTT1</span><br><span class="line">    </span><br><span class="line">    ORG     0100H</span><br><span class="line">START:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    MOV     PSW,#00H</span><br><span class="line">    SETB    EX0</span><br><span class="line">    SETB    IT0</span><br><span class="line">    SETB    EX1</span><br><span class="line">    SETB    IT1</span><br><span class="line">    SETB    EA</span><br><span class="line">    MOV     IP,#01H</span><br><span class="line">    MOV     P3,#0FFH</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">    MOV     R0,#03H</span><br><span class="line">    MOV     R2,#08H</span><br><span class="line">    ACALL   LOOP</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">LOOP:</span><br><span class="line">    MOV     A,R0</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R2,LOOP</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">INTT0:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#08H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.2,Pkey0</span><br><span class="line">    LJMP    RETURN</span><br><span class="line"></span><br><span class="line">INTT1:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#10H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.3,Pkey2</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey0:</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    CJNE    A,#0FFH,Pkey1</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey1:</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    INC     DPTR</span><br><span class="line">    LJMP    Pkey0</span><br><span class="line">Pkey2:</span><br><span class="line">    MOV     R1,#01H</span><br><span class="line">    MOV     R3,#08H</span><br><span class="line">    ACALL   Pkey3</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey3:</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R3,Pkey3</span><br><span class="line">    RET</span><br><span class="line">RETURN:</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H</span><br><span class="line">    DB  80H,90H,88H,83H,0C6H,0A1H,86H,8EH</span><br><span class="line">    DB  0FFH</span><br><span class="line"></span><br><span class="line">D10ms:</span><br><span class="line">    MOV     R7,#25</span><br><span class="line">D4:</span><br><span class="line">    MOV     R6,#200</span><br><span class="line">    DJNZ    R6,$</span><br><span class="line">    DJNZ    R7,D4</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">D1S:</span><br><span class="line">    MOV     R5,#20</span><br><span class="line">D5: MOV     R6,#100</span><br><span class="line">D6: MOV     R7,#248</span><br><span class="line">D7: DJNZ     R7,D7</span><br><span class="line">    DJNZ    R6,D6</span><br><span class="line">    DJNZ    R5,D5</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">    END</span><br></pre></td></tr></table></figure>]]></content>
+<h2 id="Eg2">Eg2</h2>
+<p>📝 Code</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">%% Amplitude modulation. Sampling rate Fs=1500Hz.</span></span><br><span class="line"> </span><br><span class="line">clear;</span><br><span class="line">clc;</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(1)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Initialization.</span></span><br><span class="line">t0 = <span class="number">1</span>;                 <span class="comment">% Signal duration</span></span><br><span class="line">Fs = <span class="number">1500</span>;              <span class="comment">% Sampling rate</span></span><br><span class="line">Ts = <span class="number">1</span>/Fs;              <span class="comment">% Sampling interval</span></span><br><span class="line">Fc = <span class="number">20</span>;                <span class="comment">% Carrier rate</span></span><br><span class="line">t = <span class="number">0</span>:Ts:t0;            <span class="comment">% Time vector</span></span><br><span class="line">N = <span class="built_in">length</span>(t);          <span class="comment">% Length of t</span></span><br><span class="line">N0 = <span class="number">0.0005</span>;            <span class="comment">% Power spectral density of noise</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Message signal and modulated signal(DSB_AM and USSB_AM).</span></span><br><span class="line">m = <span class="built_in">sin</span>(<span class="number">2</span>*<span class="built_in">pi</span>*t);        <span class="comment">% Message signal</span></span><br><span class="line">c = <span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>*Fc*t);     <span class="comment">% Carrier signal</span></span><br><span class="line">Ac_DSB_AM = <span class="number">1</span>;</span><br><span class="line">Ac_USSB_AM = <span class="built_in">sqrt</span>(<span class="number">2</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% DBS_AM modulated signal.</span></span><br><span class="line">u_dsb = Ac_DSB_AM*m.*c;</span><br><span class="line"><span class="comment">% SSB_AM modulated signal.</span></span><br><span class="line">u_ussb = <span class="number">1</span>/<span class="number">2</span>*Ac_USSB_AM*<span class="built_in">real</span>(hilbert(m).*<span class="built_in">exp</span>(<span class="number">1</span><span class="built_in">i</span>*<span class="number">2</span>*<span class="built_in">pi</span>*Fc*t));</span><br><span class="line"><span class="comment">% &quot;equal to &quot; u_ussb = 1/2*Ac_USSB_AM*cos(2*pi*(Fc+1)*t).</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Time domain to frequency domain).</span></span><br><span class="line">[~,M] = T2F(t,m); </span><br><span class="line">[~,U_DSB] = T2F(t,u_dsb);</span><br><span class="line">[df1,U_USSB] = T2F(t,u_ussb);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% ① Calculate the power of the modulated signal and message signal.</span></span><br><span class="line">m_power = sum(<span class="built_in">abs</span>(m).^<span class="number">2</span>)/N</span><br><span class="line">dsb_power = sum(<span class="built_in">abs</span>(u_dsb).^<span class="number">2</span>)/N</span><br><span class="line">ussb_power = sum(<span class="built_in">abs</span>(u_ussb).^<span class="number">2</span>)/N</span><br><span class="line"> </span><br><span class="line"><span class="comment">% ② Plot the modulated signal and the spectrum.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">1</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_dsb)</span><br><span class="line">title(<span class="string">&#x27;DSB Signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_ussb)</span><br><span class="line">title(<span class="string">&#x27;USSB Signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,<span class="built_in">abs</span>(U_DSB))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Modulated DSB Signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,<span class="built_in">abs</span>(U_USSB))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Modulated USSB Signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(2)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Demodulate the above signals.</span></span><br><span class="line"><span class="comment">% Coherent carrier mixing.</span></span><br><span class="line">y_dsb = u_dsb.*c;</span><br><span class="line">y_ussb = u_ussb.*c;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Time domain to frequency domain).</span></span><br><span class="line">[~,Y_DSB]=T2F(t,y_dsb);</span><br><span class="line">[df1,Y_USSB]=T2F(t,y_ussb);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Initialization of lowpass filter.</span></span><br><span class="line">H_DSB = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="built_in">length</span>(df1));</span><br><span class="line">H_USSB = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="built_in">length</span>(df1));</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="built_in">length</span>(df1)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">abs</span>(df1(<span class="built_in">i</span>))&lt;<span class="number">2</span></span><br><span class="line">        H_DSB(<span class="built_in">i</span>)=<span class="number">2</span>*Ac_DSB_AM;</span><br><span class="line">        H_USSB(<span class="built_in">i</span>)=<span class="number">2</span>*Ac_USSB_AM;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Lowpass filter filtering(Spectrum of the filter output).</span></span><br><span class="line">DEM_DSB=H_DSB.*Y_DSB;</span><br><span class="line">DEM_USSB=H_USSB.*Y_USSB;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Frequency domain to time domain).</span></span><br><span class="line">[~,dem_w_dsb]=F2T(df1,DEM_DSB);</span><br><span class="line">[dt1,dem_w_ussb]=F2T(df1,DEM_USSB);</span><br><span class="line">dem_w_dsb=dem_w_dsb(<span class="number">1</span>:<span class="built_in">length</span>(t));</span><br><span class="line">dem_w_ussb=dem_w_ussb(<span class="number">1</span>:<span class="built_in">length</span>(t));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% ① The pass band of the low-pass filter for DSB_AM and USSB_AM.</span></span><br><span class="line">passband_dsb = <span class="number">2</span>*<span class="number">1</span></span><br><span class="line">passband_ussb = <span class="number">2</span>*<span class="number">1</span></span><br><span class="line"><span class="comment">% ② Plot the demodulated signal and the spectrum.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">2</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_w_dsb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated DSB signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_w_ussb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated USSB signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,(<span class="built_in">abs</span>(DEM_DSB)))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Demodulated DSB signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,(<span class="built_in">abs</span>(DEM_USSB)))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Demodulated USSB signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(3)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Add the thermal noise.</span></span><br><span class="line">noise = <span class="built_in">randn</span>(<span class="number">1</span>,<span class="built_in">length</span>(t))*<span class="built_in">sqrt</span>(N0/<span class="number">2</span>*Fs);</span><br><span class="line">u_n_dsb = u_dsb + noise;</span><br><span class="line">u_n_ussb = u_ussb + noise;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Coherent carrier mixing.</span></span><br><span class="line">y_n_dsb = u_n_dsb.*c;</span><br><span class="line">y_n_ussb = u_n_ussb.*c;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Time domain to frequency domain).</span></span><br><span class="line">[~,Y_N_DSB]=T2F(t,y_n_dsb);</span><br><span class="line">[df1,Y_N_USSB]=T2F(t,y_n_ussb);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Lowpass filter filtering(Spectrum of the filter output).</span></span><br><span class="line"><span class="comment">% Filters have been initialized already.</span></span><br><span class="line">DEM_N_DSB=H_DSB.*Y_N_DSB;</span><br><span class="line">DEM_N_USSB=H_USSB.*Y_N_USSB;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Frequency domain to time domain).</span></span><br><span class="line">[~,dem_n_dsb]=F2T(df1,DEM_N_DSB);</span><br><span class="line">[dt1,dem_n_ussb]=F2T(df1,DEM_N_USSB);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% ①Plot the modulated signal and demodulated signal(time domain).</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">3</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_n_dsb)</span><br><span class="line">title(<span class="string">&#x27;Modulated DSB signal with noise&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_n_ussb)</span><br><span class="line">title(<span class="string">&#x27;Modulated USSB signal with noise&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_n_dsb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated DSB signal with noise&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_n_ussb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated USSB signal with noise&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(4)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% What is the disadvantage</span></span><br><span class="line"><span class="comment">% if we apply a low-pass filter with a band much wider than necessary?</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Initialization of lowpass filter much wider than necessary.</span></span><br><span class="line">H_W_DSB = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="built_in">length</span>(df1));</span><br><span class="line">H_W_USSB = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="built_in">length</span>(df1));</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="built_in">length</span>(df1)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">abs</span>(df1(<span class="built_in">i</span>))&lt;<span class="number">200</span>      <span class="comment">% 200 &gt;&gt; 2</span></span><br><span class="line">        H_W_DSB(<span class="built_in">i</span>)=<span class="number">2</span>*Ac_DSB_AM;</span><br><span class="line">        H_W_USSB(<span class="built_in">i</span>)=<span class="number">2</span>*Ac_USSB_AM;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Lowpass filter filtering(Spectrum of the filter output).</span></span><br><span class="line">DEM_W_DSB=H_W_DSB.*Y_DSB;</span><br><span class="line">DEM_W_USSB=H_W_USSB.*Y_USSB;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Frequency domain to time domain).</span></span><br><span class="line">[~,dem_w_dsb]=F2T(df1,DEM_W_DSB);</span><br><span class="line">[dt1,dem_w_ussb]=F2T(df1,DEM_W_USSB);</span><br><span class="line">dem_w_dsb=dem_w_dsb(<span class="number">1</span>:<span class="built_in">length</span>(t));</span><br><span class="line">dem_w_ussb=dem_w_ussb(<span class="number">1</span>:<span class="built_in">length</span>(t));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% The demodulated signal and the spectrum.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">4</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>) </span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_w_dsb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated DSB signal with a much wider band&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_w_ussb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated USSB signal with a much wider band&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,(<span class="built_in">abs</span>(DEM_DSB)))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Demodulated DSB signal with a much wider band&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,(<span class="built_in">abs</span>(DEM_USSB)))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Demodulated USSB signal with a much wider band&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>💹 Fig</p>
+<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_power_of_the_modulated_signal_and_message_signal.png" ></div>
+<center><font size=2>Fig.3 The power of the modulated signal and message signal.</font></center>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_modulated_signal_and_the_spectrum.png" alt="The modulated signal and the spectrum."></p>
+<center><font size=2>Fig.4 The modulated signal and the spectrum.</font></center>
+<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_pass_band_of_the_low-pass_filter_for_DSB_AM_and_USSB_AM.png"></div>
+<center><font size=2>Fig.5 The pass band of the low-pass filter for DSB_AM and USSB_AM.</font></center>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_demodulated_signal_and_the_spectrum.png" alt="The demodulated signal and the spectrum."></p>
+<center><font size=2>Fig.6 The demodulated signal and the spectrum.</font></center>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_modulated_signal_and_demodulated_signal_with_noise.png" alt="The modulated signal and demodulated signal with noise."></p>
+<center><font size=2>Fig.7 The modulated signal and demodulated signal with noise.</font></center>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_much_wider_band_the_demodulated_signal_and_the_spectrum.png" alt="The demodulated signal and the spectrum(much wider band)."></p>
+<center><font size=2>Fig.8 The demodulated signal and the spectrum(much wider band).</font></center>
+<p>❔ Discussion</p>
+<blockquote>
+<p>In this task, signal duration is t0=1 , message signal m=sin(2<em>pi</em>t), carrier signal c=cos(2<em>pi</em>Fc*t), there are two modulation methods DBS_AM and SSB_AM. In the SSB_AM, we use the upper sideband modulation, USSB_AM.<br>
+The modulated signals:</p>
+</blockquote>
+<ul>
+<li>
+<p>DSB-AM signal :</p>
+<p>$s(t) = A_{c}m(t)cos(2\pi f_{c}t)$</p>
+</li>
+<li>
+<p>USSB-AM signal:</p>
+<p>$u(t) = {A_{c}\over2}m(t)cos(2\pi f_{c}t)-{A_{c}\over2}{\hat{m}}(t)sin(2\pi f_{c}t)$</p>
+</li>
+</ul>
+<blockquote>
+<p>One thing to note is that the   of DSB-AM and USSB-AM are different. The former is 1 and the latter is $\sqrt{2}$. Use ‘sum(abs(m).^2)/N’ to calculate their power (see fig.3). The modulated signal and the spectrum (see fig.4)<br>
+Then demodulating the above signals, I use coherent carrier to demodulate them and then pass them through a low-pass filter with different gains.<br>
+The demodulated signals:</p>
+</blockquote>
+<ul>
+<li>
+<p>DSB-AM signal:</p>
+<p>$y(t) = A_{C}cos(2\pi f_{c}t)cos(2\pi f_{c}t) = {A_{c}\over2}m(t)+{A_{c}\over2}m(t)cos(4\pi f_{c}t)$</p>
+</li>
+<li>
+<p>USSB-AM signal:</p>
+<p>$y(t) = {A_{c}\over2}m(t)cos^2(2\pi f_{c}t)-{A_{c}\over2}{\hat{m}}(t)sin(2\pi f_{c}t)cos(2\pi f_{c}t) = {A_{c}\over4}m(t)+{A_{c}\over4}cos(4\pi f_{c}t)-{A_{c}\over4}{\hat{m}}(t)sin(4\pi f_{c}t)$</p>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>In order to recover the original signal m(t), one thing is to use a low-pass filter to filter out unwanted components, and the other thing is to choose right gain. To divide the Ac, for the DSB-AM, what needs to be kept is  , and then the gain is obviously  ; For the USSB-AM, what needs to be kept is  , and then the gain is obviously   . As the band of original signal m(t) is f=1, so I set the passband of the low-pass filter to 2Hz (see fig.5) . The cut-off frequency is 2HZ, which is twice the maximum frequency of the original signal, then the original signal is recovered well in both modulation methods (see fig.6).</li>
+<li>In fact, for the noise, all of the frequency in array of ($f_{m}$,$f_{c}$) are ok, although the amplitude of the demodulated signal will change due to the constant gain after mixing noise, the original signal is restored almost without distortion (see fit.7).</li>
+<li>If we apply a low-pass filter with a band much wider than necessary, when filtering, it will mix in the high frequency components with the frequency spectrum nearby. The high frequency component is just the continuation of the baseband component at high frequency, if it is not too wide, may we can barely recover the original signal. If the cut-off frequency is set too wide, it may cause signal aliasing and amplitude changes.</li>
+</ul>
+</blockquote>
+<!-- markdownlint-disable-file MD025 MD033 -->
+]]></content>
       <categories>
-        <category>AT89S51</category>
+        <category>Matlab, communication simulation</category>
       </categories>
       <tags>
-        <tag>中断</tag>
+        <tag>modulate</tag>
       </tags>
   </entry>
   <entry>
@@ -342,165 +531,6 @@ AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片�
       <tags>
         <tag>Git</tag>
         <tag>Github</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Keil调试代码优化问题</title>
-    <url>/2020/12/08/Keil5%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<ul>
-<li>
-<p>在使用Keil进行调试的过程中，有的时候你可能会发现有几行代码怎么也得不到执行，下断点也会变成灰色感叹号。甚至有时候在做条件判断的时候，明明两个不相等的值却被判定为相等。</p>
-</li>
-<li>
-<p>这是因为Keil对我们的代码进行了<strong>优化</strong>处理，将优化等级降低计科解决问题。<img src="https://www.lingzhicheng.cn/usr/file/picture/Keil/Keil_optimism.png" alt="请输入图片描述"></p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>AT89S51</category>
-      </categories>
-      <tags>
-        <tag>调试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Modulate and demodulate</title>
-    <url>/2021/04/21/Modulate%20and%20demodulate/</url>
-    <content><![CDATA[<h1>📌 Modulation and demodulation of signal based on matlab</h1>
-<p>☀️🕠😴</p>
-<a id="more"></a>
-<hr>
-<h2 id="Eg1">Eg1</h2>
-<p>📝 Code</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">%% Generate random process.</span></span><br><span class="line"></span><br><span class="line">clear;</span><br><span class="line">clc;</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(1)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% ①Generate a random process y[n]=x1[n]+sin(x2[n]).</span></span><br><span class="line">N = <span class="number">1000</span>;                   <span class="comment">% The maximum value of n,sequence length</span></span><br><span class="line">M = <span class="number">50</span>;                     <span class="comment">% Select a sequence of length 101 = M*2+1 </span></span><br><span class="line">Y = <span class="built_in">zeros</span>(<span class="number">1</span>,N); </span><br><span class="line">Ryav = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="number">2</span>*M+<span class="number">1</span>);      <span class="comment">% 950:1050</span></span><br><span class="line">Syav = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="number">2</span>*M+<span class="number">1</span>);      <span class="comment">% 950:1050</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Take the ensemble average over one hundred realizations.</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span>:<span class="number">100</span></span><br><span class="line">    X1 = <span class="built_in">randn</span>(<span class="number">1</span>,<span class="number">1000</span>);     <span class="comment">% Use &#x27;randn(x,y)&#x27; to generate x*y matrix </span></span><br><span class="line">    X2 = <span class="built_in">randn</span>(<span class="number">1</span>,<span class="number">1000</span>);</span><br><span class="line">    <span class="keyword">for</span> n = <span class="number">1</span>:N</span><br><span class="line">        Y(n) = X1(n)+<span class="built_in">sin</span>(X2(n));</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    Ry = xcorr(Y,<span class="string">&#x27;unbiased&#x27;</span>);       <span class="comment">% Autocorrelation of &#123;Yn&#125;</span></span><br><span class="line">    Ry = Ry(<span class="number">950</span>:<span class="number">1050</span>);              <span class="comment">% Original Ry, m is -999 to 999(2*N-1)</span></span><br><span class="line">    Sy = fftshift(<span class="built_in">abs</span>(fft(Ry)));    <span class="comment">% Power spectrum of &#123;Yn&#125;</span></span><br><span class="line">    Ryav=Ryav+Ry;                   <span class="comment">% 100 times</span></span><br><span class="line">    Syav=Syav+Sy;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">Ryav=Ryav/<span class="number">100</span>;                      <span class="comment">% Time-average</span></span><br><span class="line">Syav=Syav/<span class="number">100</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(2)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% ① the mean and variance of y[n].</span></span><br><span class="line"><span class="comment">% Use &#x27;mean(Y)&#x27; and &#x27;var(Y)&#x27; to calculate the mean and variance of y[n].</span></span><br><span class="line">Myav = <span class="built_in">mean</span>(Y)</span><br><span class="line">Vyav = var(Y)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(3)</span></span><br><span class="line"><span class="comment">% ① the spectrum and auto-correlation of y[n].</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">1</span>)</span><br><span class="line">subplot(<span class="number">121</span>)</span><br><span class="line"><span class="built_in">plot</span>(-M:M,Ryav);</span><br><span class="line">title(<span class="string">&#x27;Auto-correction of y[n]&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">122</span>)</span><br><span class="line"><span class="built_in">plot</span>(<span class="number">-0.5</span>:<span class="number">0.01</span>:<span class="number">0.5</span>,Syav);</span><br><span class="line">title(<span class="string">&#x27;Spectrum of y[n]&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>💹 Fig</p>
-<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_1_mean_and_var.png"></div>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_1_the_spectrum_and_auto-correlation_of_y%5Bn%5D.png" alt="The spectrum and auto-correlation of y[n]"></p>
-<center><font size=2>Fig.2 The spectrum and auto-correlation of y[n].</font></center>
-<p>❔ Discussion</p>
-<blockquote>
-<ul>
-<li>In this task, I use ‘randn(x,y)’ to generate ‘x*y’ matrix. In order to calculate the autocorrelation and power spectrum of y[n] in the time-average, I take the ensemble average over one hundred realizations, and then take their average. The length of x1[n],x2[n] and y[n] are all N in length.</li>
-<li>As we all know, the length of ‘xcorr(y)’ is ‘2*N-1’. For original Ry , m is -999 to 999, so I selected (950:1050) of the intervals. After a hundred stacking, use ‘Ryav=Ryav/100’ and ‘Syav=Syav/100’ to calculate the time-average. I  also use ‘mean(Y)’ and ‘var(Y)’ to calculate the mean and variance of y[n].</li>
-<li>To judge rodman progress is ergodic or stationary, I compare the time average and statistical average and find that the expectation of y[n] is a constant while its autocorrelation only depends on the time difference. Also, the expectation equals the time-average. So, we can say the random process will go through all the possible states. The conclusion is that the rodman progress y[n] is ergodic and stationary.</li>
-</ul>
-</blockquote>
-<h2 id="Eg2">Eg2</h2>
-<p>📝 Code</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">%% Amplitude modulation. Sampling rate Fs=1500Hz.</span></span><br><span class="line"> </span><br><span class="line">clear;</span><br><span class="line">clc;</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(1)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Initialization.</span></span><br><span class="line">t0 = <span class="number">1</span>;                 <span class="comment">% Signal duration</span></span><br><span class="line">Fs = <span class="number">1500</span>;              <span class="comment">% Sampling rate</span></span><br><span class="line">Ts = <span class="number">1</span>/Fs;              <span class="comment">% Sampling interval</span></span><br><span class="line">Fc = <span class="number">20</span>;                <span class="comment">% Carrier rate</span></span><br><span class="line">t = <span class="number">0</span>:Ts:t0;            <span class="comment">% Time vector</span></span><br><span class="line">N = <span class="built_in">length</span>(t);          <span class="comment">% Length of t</span></span><br><span class="line">N0 = <span class="number">0.0005</span>;            <span class="comment">% Power spectral density of noise</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Message signal and modulated signal(DSB_AM and USSB_AM).</span></span><br><span class="line">m = <span class="built_in">sin</span>(<span class="number">2</span>*<span class="built_in">pi</span>*t);        <span class="comment">% Message signal</span></span><br><span class="line">c = <span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>*Fc*t);     <span class="comment">% Carrier signal</span></span><br><span class="line">Ac_DSB_AM = <span class="number">1</span>;</span><br><span class="line">Ac_USSB_AM = <span class="built_in">sqrt</span>(<span class="number">2</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% DBS_AM modulated signal.</span></span><br><span class="line">u_dsb = Ac_DSB_AM*m.*c;</span><br><span class="line"><span class="comment">% SSB_AM modulated signal.</span></span><br><span class="line">u_ussb = <span class="number">1</span>/<span class="number">2</span>*Ac_USSB_AM*<span class="built_in">real</span>(hilbert(m).*<span class="built_in">exp</span>(<span class="number">1</span><span class="built_in">i</span>*<span class="number">2</span>*<span class="built_in">pi</span>*Fc*t));</span><br><span class="line"><span class="comment">% &quot;equal to &quot; u_ussb = 1/2*Ac_USSB_AM*cos(2*pi*(Fc+1)*t).</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Time domain to frequency domain).</span></span><br><span class="line">[~,M] = T2F(t,m); </span><br><span class="line">[~,U_DSB] = T2F(t,u_dsb);</span><br><span class="line">[df1,U_USSB] = T2F(t,u_ussb);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% ① Calculate the power of the modulated signal and message signal.</span></span><br><span class="line">m_power = sum(<span class="built_in">abs</span>(m).^<span class="number">2</span>)/N</span><br><span class="line">dsb_power = sum(<span class="built_in">abs</span>(u_dsb).^<span class="number">2</span>)/N</span><br><span class="line">ussb_power = sum(<span class="built_in">abs</span>(u_ussb).^<span class="number">2</span>)/N</span><br><span class="line"> </span><br><span class="line"><span class="comment">% ② Plot the modulated signal and the spectrum.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">1</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_dsb)</span><br><span class="line">title(<span class="string">&#x27;DSB Signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_ussb)</span><br><span class="line">title(<span class="string">&#x27;USSB Signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,<span class="built_in">abs</span>(U_DSB))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Modulated DSB Signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,<span class="built_in">abs</span>(U_USSB))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Modulated USSB Signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(2)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Demodulate the above signals.</span></span><br><span class="line"><span class="comment">% Coherent carrier mixing.</span></span><br><span class="line">y_dsb = u_dsb.*c;</span><br><span class="line">y_ussb = u_ussb.*c;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Time domain to frequency domain).</span></span><br><span class="line">[~,Y_DSB]=T2F(t,y_dsb);</span><br><span class="line">[df1,Y_USSB]=T2F(t,y_ussb);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Initialization of lowpass filter.</span></span><br><span class="line">H_DSB = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="built_in">length</span>(df1));</span><br><span class="line">H_USSB = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="built_in">length</span>(df1));</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="built_in">length</span>(df1)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">abs</span>(df1(<span class="built_in">i</span>))&lt;<span class="number">2</span></span><br><span class="line">        H_DSB(<span class="built_in">i</span>)=<span class="number">2</span>*Ac_DSB_AM;</span><br><span class="line">        H_USSB(<span class="built_in">i</span>)=<span class="number">2</span>*Ac_USSB_AM;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Lowpass filter filtering(Spectrum of the filter output).</span></span><br><span class="line">DEM_DSB=H_DSB.*Y_DSB;</span><br><span class="line">DEM_USSB=H_USSB.*Y_USSB;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Frequency domain to time domain).</span></span><br><span class="line">[~,dem_w_dsb]=F2T(df1,DEM_DSB);</span><br><span class="line">[dt1,dem_w_ussb]=F2T(df1,DEM_USSB);</span><br><span class="line">dem_w_dsb=dem_w_dsb(<span class="number">1</span>:<span class="built_in">length</span>(t));</span><br><span class="line">dem_w_ussb=dem_w_ussb(<span class="number">1</span>:<span class="built_in">length</span>(t));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% ① The pass band of the low-pass filter for DSB_AM and USSB_AM.</span></span><br><span class="line">passband_dsb = <span class="number">2</span>*<span class="number">1</span></span><br><span class="line">passband_ussb = <span class="number">2</span>*<span class="number">1</span></span><br><span class="line"><span class="comment">% ② Plot the demodulated signal and the spectrum.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">2</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_w_dsb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated DSB signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_w_ussb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated USSB signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,(<span class="built_in">abs</span>(DEM_DSB)))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Demodulated DSB signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,(<span class="built_in">abs</span>(DEM_USSB)))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Demodulated USSB signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(3)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Add the thermal noise.</span></span><br><span class="line">noise = <span class="built_in">randn</span>(<span class="number">1</span>,<span class="built_in">length</span>(t))*<span class="built_in">sqrt</span>(N0/<span class="number">2</span>*Fs);</span><br><span class="line">u_n_dsb = u_dsb + noise;</span><br><span class="line">u_n_ussb = u_ussb + noise;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Coherent carrier mixing.</span></span><br><span class="line">y_n_dsb = u_n_dsb.*c;</span><br><span class="line">y_n_ussb = u_n_ussb.*c;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Time domain to frequency domain).</span></span><br><span class="line">[~,Y_N_DSB]=T2F(t,y_n_dsb);</span><br><span class="line">[df1,Y_N_USSB]=T2F(t,y_n_ussb);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Lowpass filter filtering(Spectrum of the filter output).</span></span><br><span class="line"><span class="comment">% Filters have been initialized already.</span></span><br><span class="line">DEM_N_DSB=H_DSB.*Y_N_DSB;</span><br><span class="line">DEM_N_USSB=H_USSB.*Y_N_USSB;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Frequency domain to time domain).</span></span><br><span class="line">[~,dem_n_dsb]=F2T(df1,DEM_N_DSB);</span><br><span class="line">[dt1,dem_n_ussb]=F2T(df1,DEM_N_USSB);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% ①Plot the modulated signal and demodulated signal(time domain).</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">3</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_n_dsb)</span><br><span class="line">title(<span class="string">&#x27;Modulated DSB signal with noise&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_n_ussb)</span><br><span class="line">title(<span class="string">&#x27;Modulated USSB signal with noise&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_n_dsb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated DSB signal with noise&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_n_ussb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated USSB signal with noise&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(4)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% What is the disadvantage</span></span><br><span class="line"><span class="comment">% if we apply a low-pass filter with a band much wider than necessary?</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Initialization of lowpass filter much wider than necessary.</span></span><br><span class="line">H_W_DSB = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="built_in">length</span>(df1));</span><br><span class="line">H_W_USSB = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="built_in">length</span>(df1));</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="built_in">length</span>(df1)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">abs</span>(df1(<span class="built_in">i</span>))&lt;<span class="number">200</span>      <span class="comment">% 200 &gt;&gt; 2</span></span><br><span class="line">        H_W_DSB(<span class="built_in">i</span>)=<span class="number">2</span>*Ac_DSB_AM;</span><br><span class="line">        H_W_USSB(<span class="built_in">i</span>)=<span class="number">2</span>*Ac_USSB_AM;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Lowpass filter filtering(Spectrum of the filter output).</span></span><br><span class="line">DEM_W_DSB=H_W_DSB.*Y_DSB;</span><br><span class="line">DEM_W_USSB=H_W_USSB.*Y_USSB;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Frequency domain to time domain).</span></span><br><span class="line">[~,dem_w_dsb]=F2T(df1,DEM_W_DSB);</span><br><span class="line">[dt1,dem_w_ussb]=F2T(df1,DEM_W_USSB);</span><br><span class="line">dem_w_dsb=dem_w_dsb(<span class="number">1</span>:<span class="built_in">length</span>(t));</span><br><span class="line">dem_w_ussb=dem_w_ussb(<span class="number">1</span>:<span class="built_in">length</span>(t));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% The demodulated signal and the spectrum.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">4</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>) </span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_w_dsb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated DSB signal with a much wider band&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_w_ussb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated USSB signal with a much wider band&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,(<span class="built_in">abs</span>(DEM_DSB)))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Demodulated DSB signal with a much wider band&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,(<span class="built_in">abs</span>(DEM_USSB)))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Demodulated USSB signal with a much wider band&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>💹 Fig</p>
-<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_power_of_the_modulated_signal_and_message_signal.png" ></div>
-<center><font size=2>Fig.3 The power of the modulated signal and message signal.</font></center>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_modulated_signal_and_the_spectrum.png" alt="The modulated signal and the spectrum."></p>
-<center><font size=2>Fig.4 The modulated signal and the spectrum.</font></center>
-<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_pass_band_of_the_low-pass_filter_for_DSB_AM_and_USSB_AM.png"></div>
-<center><font size=2>Fig.5 The pass band of the low-pass filter for DSB_AM and USSB_AM.</font></center>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_demodulated_signal_and_the_spectrum.png" alt="The demodulated signal and the spectrum."></p>
-<center><font size=2>Fig.6 The demodulated signal and the spectrum.</font></center>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_modulated_signal_and_demodulated_signal_with_noise.png" alt="The modulated signal and demodulated signal with noise."></p>
-<center><font size=2>Fig.7 The modulated signal and demodulated signal with noise.</font></center>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_much_wider_band_the_demodulated_signal_and_the_spectrum.png" alt="The demodulated signal and the spectrum(much wider band)."></p>
-<center><font size=2>Fig.8 The demodulated signal and the spectrum(much wider band).</font></center>
-<p>❔ Discussion</p>
-<blockquote>
-<p>In this task, signal duration is t0=1 , message signal m=sin(2<em>pi</em>t), carrier signal c=cos(2<em>pi</em>Fc*t), there are two modulation methods DBS_AM and SSB_AM. In the SSB_AM, we use the upper sideband modulation, USSB_AM.<br>
-The modulated signals:</p>
-</blockquote>
-<ul>
-<li>
-<p>DSB-AM signal :</p>
-<p>$s(t) = A_{c}m(t)cos(2\pi f_{c}t)$</p>
-</li>
-<li>
-<p>USSB-AM signal:</p>
-<p>$u(t) = {A_{c}\over2}m(t)cos(2\pi f_{c}t)-{A_{c}\over2}{\hat{m}}(t)sin(2\pi f_{c}t)$</p>
-</li>
-</ul>
-<blockquote>
-<p>One thing to note is that the   of DSB-AM and USSB-AM are different. The former is 1 and the latter is $\sqrt{2}$. Use ‘sum(abs(m).^2)/N’ to calculate their power (see fig.3). The modulated signal and the spectrum (see fig.4)<br>
-Then demodulating the above signals, I use coherent carrier to demodulate them and then pass them through a low-pass filter with different gains.<br>
-The demodulated signals:</p>
-</blockquote>
-<ul>
-<li>
-<p>DSB-AM signal:</p>
-<p>$y(t) = A_{C}cos(2\pi f_{c}t)cos(2\pi f_{c}t) = {A_{c}\over2}m(t)+{A_{c}\over2}m(t)cos(4\pi f_{c}t)$</p>
-</li>
-<li>
-<p>USSB-AM signal:</p>
-<p>$y(t) = {A_{c}\over2}m(t)cos^2(2\pi f_{c}t)-{A_{c}\over2}{\hat{m}}(t)sin(2\pi f_{c}t)cos(2\pi f_{c}t) = {A_{c}\over4}m(t)+{A_{c}\over4}cos(4\pi f_{c}t)-{A_{c}\over4}{\hat{m}}(t)sin(4\pi f_{c}t)$</p>
-</li>
-</ul>
-<blockquote>
-<ul>
-<li>In order to recover the original signal m(t), one thing is to use a low-pass filter to filter out unwanted components, and the other thing is to choose right gain. To divide the Ac, for the DSB-AM, what needs to be kept is  , and then the gain is obviously  ; For the USSB-AM, what needs to be kept is  , and then the gain is obviously   . As the band of original signal m(t) is f=1, so I set the passband of the low-pass filter to 2Hz (see fig.5) . The cut-off frequency is 2HZ, which is twice the maximum frequency of the original signal, then the original signal is recovered well in both modulation methods (see fig.6).</li>
-<li>In fact, for the noise, all of the frequency in array of ($f_{m}$,$f_{c}$) are ok, although the amplitude of the demodulated signal will change due to the constant gain after mixing noise, the original signal is restored almost without distortion (see fit.7).</li>
-<li>If we apply a low-pass filter with a band much wider than necessary, when filtering, it will mix in the high frequency components with the frequency spectrum nearby. The high frequency component is just the continuation of the baseband component at high frequency, if it is not too wide, may we can barely recover the original signal. If the cut-off frequency is set too wide, it may cause signal aliasing and amplitude changes.</li>
-</ul>
-</blockquote>
-<!-- markdownlint-disable-file MD025 MD033 -->
-]]></content>
-      <categories>
-        <category>Matlab, communication simulation</category>
-      </categories>
-      <tags>
-        <tag>modulate</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Process or Thread</title>
-    <url>/2021/01/20/Process%20or%20Thread/</url>
-    <content><![CDATA[<h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位">进程是资源分配的最小单位|线程是CPU调度的最小单位</h3>
-<hr>
-<blockquote>
-<p>看了很多资料，解释都比较抽象<br>
-用一个简答的比喻在形容：进程=高铁，线程=车厢</p>
-</blockquote>
-<ul>
-<li>线程在进程下行进（单纯的车厢无法行动）</li>
-<li>一个进程可以包含多个线程（一辆高铁可以有多个车厢）</li>
-<li>同意进程下不同线程间数据容易共享</li>
-<li>不同进程间数据难以共享</li>
-<li>进程间不会互相影响，一个线程挂掉将导致整个进程挂掉</li>
-<li>进程占用更多资源</li>
-</ul>
-]]></content>
-      <categories>
-        <category>总结</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>VS2019代码提示延迟很高，部分快捷键无法使用的问题</title>
-    <url>/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h3 id="原因">原因</h3>
-<ul>
-<li>Visual Studio 与Nvidia CUDA NSightVSE冲突</li>
-</ul>
-<h3 id="现象">现象</h3>
-<ul>
-<li>Tab、Ctrl’+C 、 Ctrl’+K 等快捷键失效，智能代码提示不能正常显示，有时不会出现，有时要等四五秒，非常不正常</li>
-</ul>
-<blockquote>
-<p>Setting中检查设置无误，尝试过重启、重置个人配置、重装等均无效<br>
-很长一段时间没有使用过vs，之前装了比较新的Nvidia CUDA，同时附带的有NSightVSE，也就是设计vs的拓展，问题出在这里</p>
-</blockquote>
-<a id="more"></a>
-<h3 id="解决方法">解决方法</h3>
-<blockquote>
-<p>卸载NSightVSE或者其他Nvidia和vs相关的拓展，重启vs后生效<br>
-正常情况搜索NsightVSE会出现四个，保留下列三个即可，版本仅供参考，可能其他版本不会出现如上问题。<br>
-Nvidia CUDA Nsight NVTX 11.1<br>
-Nvidia Nsight Compute 2020.2.0<br>
-Nvidia Nsight Systems 2020.3.4</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>总结</category>
-      </categories>
-      <tags>
-        <tag>debug</tag>
-        <tag>Nvidia CUDA</tag>
-        <tag>Visual Studio</tag>
       </tags>
   </entry>
   <entry>
@@ -741,6 +771,47 @@ sess.close()
       </tags>
   </entry>
   <entry>
+    <title>Keil调试代码优化问题</title>
+    <url>/2020/12/08/Keil5%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<ul>
+<li>
+<p>在使用Keil进行调试的过程中，有的时候你可能会发现有几行代码怎么也得不到执行，下断点也会变成灰色感叹号。甚至有时候在做条件判断的时候，明明两个不相等的值却被判定为相等。</p>
+</li>
+<li>
+<p>这是因为Keil对我们的代码进行了<strong>优化</strong>处理，将优化等级降低计科解决问题。<img src="https://www.lingzhicheng.cn/usr/file/picture/Keil/Keil_optimism.png" alt="请输入图片描述"></p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>调试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Process or Thread</title>
+    <url>/2021/01/20/Process%20or%20Thread/</url>
+    <content><![CDATA[<h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位">进程是资源分配的最小单位|线程是CPU调度的最小单位</h3>
+<hr>
+<blockquote>
+<p>看了很多资料，解释都比较抽象<br>
+用一个简答的比喻在形容：进程=高铁，线程=车厢</p>
+</blockquote>
+<ul>
+<li>线程在进程下行进（单纯的车厢无法行动）</li>
+<li>一个进程可以包含多个线程（一辆高铁可以有多个车厢）</li>
+<li>同意进程下不同线程间数据容易共享</li>
+<li>不同进程间数据难以共享</li>
+<li>进程间不会互相影响，一个线程挂掉将导致整个进程挂掉</li>
+<li>进程占用更多资源</li>
+</ul>
+]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
+  </entry>
+  <entry>
     <title>debug Gitalk 403</title>
     <url>/2021/02/23/debug%20Gitalk%20403/</url>
     <content><![CDATA[<ul>
@@ -787,218 +858,37 @@ Request URL：<a href="https://cors-anywhere.herokuapp.com/https://github.com/lo
       </tags>
   </entry>
   <entry>
-    <title>Hexo_begin</title>
-    <url>/2021/01/31/hexo_begin/</url>
-    <content><![CDATA[<h2 id="机制介绍">机制介绍</h2>
-<p><code>hexo d</code>上传部署到Github的其实是hexo编译后的文件静态文件，用于生成网页，不包含源文件，也就是上传<code>.deploy_git</code>中的文件，其他文件，包括<code>source</code>里面的和一些配置、主题文件都不会上传到GitHub，考虑到可能会在不同主机发布，因此将<code>hexo d</code>操作不会上传的文件主动<code>git</code>到另一个分支。</p>
-<a id="more"></a>
-<hr>
-<h2 id="新建备份分支">新建备份分支</h2>
-<ol>
-<li>
-<p>首先在Github上新建一个<code>hexo_backup</code>分支并且设置为默认分支，以便在每次同步的时候不用指定分支，比较方便，用于备份源文件。</p>
-</li>
-<li>
-<p>在本地<code>blog_local</code>目录下<code>git clone git@github.com:boom1999/boom1999.github.io.git</code>,此时由于默认分支为hexo_backup，所以只是clone了hexo_backup。在clone下的目录里将<code>.git</code>以外的文件全部删除，将源文件（包括<code>.gitignore</code>）全部复制过来。（<code>.deploy_git</code>不需要，这是生成的静态文件，也就是会push到master分支中的文件）。如果没有<code>.gitignore</code>，忽略push这部分文件，请手动添加：</p>
-<pre><code> .DS_Store
- Thumbs.db
- db.json
- *.log
- node_modules/
- public/
- .deploy*/
-</code></pre>
-</li>
-<li>
-<p>将源文件push到hexo_backup分支,上传后GitHub上的hexo_backup分支备份完成</p>
-<pre><code> git add .
- git commit –m &quot;your commit&quot;
- git push 
-</code></pre>
-</li>
-</ol>
-<hr>
-<h2 id="更换环境操作">更换环境操作</h2>
+    <title>VS2019代码提示延迟很高，部分快捷键无法使用的问题</title>
+    <url>/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h3 id="原因">原因</h3>
 <ul>
-<li>
-<p>创建一个新的<code>blog_local</code>文件夹</p>
-</li>
-<li>
-<p>安装<code>git</code>和<code>nodejs</code></p>
-</li>
-<li>
-<p>设置git全局邮箱和用户名</p>
-<pre><code>  git config --global user.name &quot;yourgithubname&quot;
-  git config --global user.email &quot;yourgithubemail&quot;
-</code></pre>
-</li>
-<li>
-<p>设置<code>ssh key</code></p>
-<pre><code>  ssh-keygen -t rsa -C &quot;youremail&quot;
-  #生成后公钥添加到GitHub仓库中
-  #验证是否成功
-  ssh -T git@github.com
-</code></pre>
-</li>
-<li>
-<p>安装hexo（不需要hexo init，因为整体框架会被clone下来）</p>
-<pre><code>  npm install hexo-cli -g
-  #或者局部安装
-  npm install hexo
-</code></pre>
-</li>
-<li>
-<p><code>clone</code>到本地操作</p>
-<pre><code>  git clone git@github.com:boom1999/boom1999.github.io.git
-</code></pre>
-</li>
-<li>
-<p>进入本地文件</p>
-<pre><code>  cd boom1999.github.io
-  npm install
-</code></pre>
-</li>
-<li>
-<p>安装名为<code>hexo-deployer-git</code>的部署器插件，通过该插件就能实现一键部署</p>
-<pre><code>  npm install hexo-deployer-git --save
-</code></pre>
-</li>
-<li>
-<p>添加新文件<code>source/_posts</code>，生成，部署</p>
-<pre><code>  hexo g
-  hexo d
-</code></pre>
-</li>
+<li>Visual Studio 与Nvidia CUDA NSightVSE冲突</li>
 </ul>
-<h3 id="Tips">Tips</h3>
+<h3 id="现象">现象</h3>
 <ul>
-<li>
-<p>每次写完不要忘了备份源文件</p>
-<pre><code>  git add .
-  git commit –m &quot;your commit&quot;
-  git push 
-</code></pre>
-</li>
-<li>
-<p>如果是在已经目前使用的机器，如在其他机器上更新过，每次<strong>使用前</strong>只要远端同步一下就行<code>git pull</code></p>
-</li>
-</ul>
-<hr>
-<ul>
-<li><code>2021/01/30测试通过</code></li>
-<li>下一步准备部署到自己的服务器，GitHub作备份用</li>
-</ul>
-]]></content>
-      <categories>
-        <category>blog</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo同步部署再Github和服务器</title>
-    <url>/2021/02/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
-    <content><![CDATA[<blockquote>
-<p>寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页</p>
-</blockquote>
-<a id="more"></a>
-<ul>
-<li>前提条件：已有github.io仓库，hexo博客已经上线测试可以使用，已有<code>nginx</code>、<code>git</code>、<code>node</code>等基础，可参考上一篇笔记</li>
-<li>省略了一些次要步骤，域名解析、备案等</li>
-</ul>
-<hr>
-<h2 id="服务器Webhook部分">服务器Webhook部分</h2>
-<ul>
-<li>利用宝塔平台的Webhook插件</li>
+<li>Tab、Ctrl’+C 、 Ctrl’+K 等快捷键失效，智能代码提示不能正常显示，有时不会出现，有时要等四五秒，非常不正常</li>
 </ul>
 <blockquote>
-<p>名称随意，实例脚本如下<br>
-gitPath=“/www/wwwroot/YourWebsiteLocation/”<br>
-gitHttp=“<a href="https://github.com/YourGithubName/xxxxxxxx.github.io.git">https://github.com/YourGithubName/xxxxxxxx.github.io.git</a>”<br>
-若失败，可考虑加上<code>sudo</code>使用管理员权限</p>
+<p>Setting中检查设置无误，尝试过重启、重置个人配置、重装等均无效<br>
+很长一段时间没有使用过vs，之前装了比较新的Nvidia CUDA，同时附带的有NSightVSE，也就是设计vs的拓展，问题出在这里</p>
 </blockquote>
-<pre><code>#!/bin/bash
-echo &quot;&quot;
-#输出当前时间
-date --date='0 days ago' &quot;+%Y-%m-%d %H:%M:%S&quot;
-echo &quot;Start&quot;
-
-#git项目路径
-gitPath=&quot; &quot;
-#git 网址
-gitHttp=&quot; &quot;
-#延迟高可以加https://ghproxy.com/代理
-
-echo &quot;Web站点路径：$gitPath&quot;
- 
-#判断项目路径是否存在
-if [ -d &quot;$gitPath&quot; ]; then
-    cd $gitPath
-    #判断是否存在git目录
-    if [ ! -d &quot;.git&quot; ]; then
-            echo &quot;在该目录下克隆 git&quot;
-            sudo git clone $gitHttp gittemp
-            sudo mv gittemp/.git .
-            sudo rm -rf gittemp
-    fi
-    echo&quot;拉取最新的项目文件&quot;
-    sudo git reset --hard origin/master
-    sudo git pull origin master
-    echo&quot;设置目录权限&quot;
-    sudo chown -R www:www $gitPath
-    date --date='0 days ago' &quot;+%Y-%m-%d %H:%M:%S&quot;
-    echo &quot;End&quot;
-    exit
-else
-    echo &quot;该项目路径不存在&quot;
-    echo &quot;End&quot;
-    exit
-fi
-</code></pre>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook01.png" alt="宝塔Webhook"></p>
-<h2 id="Github设置Webhook">Github设置Webhook</h2>
-<ul>
-<li>
-<p>查看密钥<br>
-<img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook02.png" alt="宝塔Webhook查看密钥"></p>
-</li>
-<li>
-<p>切换到Github项目的Settings-Webhooks</p>
-</li>
-<li>
-<p>Add Webhook</p>
-</li>
-</ul>
+<a id="more"></a>
+<h3 id="解决方法">解决方法</h3>
 <blockquote>
-<p><strong>Payload URL:</strong> <code>http://服务器ip:8888?hook?access_key=xxxxx</code><br>
-<strong>Content type:</strong> <code>application/json</code><br>
-<strong>Secret:</strong> <code>Key</code><br>
-<strong>Which events would you like to trigger this webhook?</strong><br>
-choose：Just the push event.<br>
-√<strong>Active</strong></p>
+<p>卸载NSightVSE或者其他Nvidia和vs相关的拓展，重启vs后生效<br>
+正常情况搜索NsightVSE会出现四个，保留下列三个即可，版本仅供参考，可能其他版本不会出现如上问题。<br>
+Nvidia CUDA Nsight NVTX 11.1<br>
+Nvidia Nsight Compute 2020.2.0<br>
+Nvidia Nsight Systems 2020.3.4</p>
 </blockquote>
-<ul>
-<li>测试，本地更改sources后<code>hexo g</code>+<code>hexo d</code></li>
-<li>第一次红了是因为将Github中Webhook的Content type设置成了<code>application/x-www-form-urlencoded</code>，改成<code>application/json</code>通过<br>
-<img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook03.png" alt="Webhook测试"></li>
-</ul>
-<hr>
-<h2 id="Tips">Tips</h2>
-<ol>
-<li>服务器需要开放8888端口，如果使用其他端口同样需要打开</li>
-<li>两者都是表单数据发送时的编码类型<br>
-application/x-www-form-urlencoded --&gt; key=value&amp;key=value</li>
-<li>一般情况下都会正常同步，如果长时间未update，可能是DNS的问题，可以考虑选择一个连接速度较快的GitHub的ip添加到/etc/hosts并且刷新</li>
-</ol>
 ]]></content>
       <categories>
-        <category>blog</category>
+        <category>总结</category>
       </categories>
       <tags>
-        <tag>hexo</tag>
-        <tag>同步</tag>
-        <tag>webhook</tag>
+        <tag>debug</tag>
+        <tag>Nvidia CUDA</tag>
+        <tag>Visual Studio</tag>
       </tags>
   </entry>
   <entry>
@@ -1125,6 +1015,111 @@ application/x-www-form-urlencoded --&gt; key=value&amp;key=value</li>
       </categories>
       <tags>
         <tag>re.match</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo同步部署再Github和服务器</title>
+    <url>/2021/02/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
+    <content><![CDATA[<blockquote>
+<p>寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页</p>
+</blockquote>
+<a id="more"></a>
+<ul>
+<li>前提条件：已有github.io仓库，hexo博客已经上线测试可以使用，已有<code>nginx</code>、<code>git</code>、<code>node</code>等基础，可参考上一篇笔记</li>
+<li>省略了一些次要步骤，域名解析、备案等</li>
+</ul>
+<hr>
+<h2 id="服务器Webhook部分">服务器Webhook部分</h2>
+<ul>
+<li>利用宝塔平台的Webhook插件</li>
+</ul>
+<blockquote>
+<p>名称随意，实例脚本如下<br>
+gitPath=“/www/wwwroot/YourWebsiteLocation/”<br>
+gitHttp=“<a href="https://github.com/YourGithubName/xxxxxxxx.github.io.git">https://github.com/YourGithubName/xxxxxxxx.github.io.git</a>”<br>
+若失败，可考虑加上<code>sudo</code>使用管理员权限</p>
+</blockquote>
+<pre><code>#!/bin/bash
+echo &quot;&quot;
+#输出当前时间
+date --date='0 days ago' &quot;+%Y-%m-%d %H:%M:%S&quot;
+echo &quot;Start&quot;
+
+#git项目路径
+gitPath=&quot; &quot;
+#git 网址
+gitHttp=&quot; &quot;
+#延迟高可以加https://ghproxy.com/代理
+
+echo &quot;Web站点路径：$gitPath&quot;
+ 
+#判断项目路径是否存在
+if [ -d &quot;$gitPath&quot; ]; then
+    cd $gitPath
+    #判断是否存在git目录
+    if [ ! -d &quot;.git&quot; ]; then
+            echo &quot;在该目录下克隆 git&quot;
+            sudo git clone $gitHttp gittemp
+            sudo mv gittemp/.git .
+            sudo rm -rf gittemp
+    fi
+    echo&quot;拉取最新的项目文件&quot;
+    sudo git reset --hard origin/master
+    sudo git pull origin master
+    echo&quot;设置目录权限&quot;
+    sudo chown -R www:www $gitPath
+    date --date='0 days ago' &quot;+%Y-%m-%d %H:%M:%S&quot;
+    echo &quot;End&quot;
+    exit
+else
+    echo &quot;该项目路径不存在&quot;
+    echo &quot;End&quot;
+    exit
+fi
+</code></pre>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook01.png" alt="宝塔Webhook"></p>
+<h2 id="Github设置Webhook">Github设置Webhook</h2>
+<ul>
+<li>
+<p>查看密钥<br>
+<img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook02.png" alt="宝塔Webhook查看密钥"></p>
+</li>
+<li>
+<p>切换到Github项目的Settings-Webhooks</p>
+</li>
+<li>
+<p>Add Webhook</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>Payload URL:</strong> <code>http://服务器ip:8888?hook?access_key=xxxxx</code><br>
+<strong>Content type:</strong> <code>application/json</code><br>
+<strong>Secret:</strong> <code>Key</code><br>
+<strong>Which events would you like to trigger this webhook?</strong><br>
+choose：Just the push event.<br>
+√<strong>Active</strong></p>
+</blockquote>
+<ul>
+<li>测试，本地更改sources后<code>hexo g</code>+<code>hexo d</code></li>
+<li>第一次红了是因为将Github中Webhook的Content type设置成了<code>application/x-www-form-urlencoded</code>，改成<code>application/json</code>通过<br>
+<img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook03.png" alt="Webhook测试"></li>
+</ul>
+<hr>
+<h2 id="Tips">Tips</h2>
+<ol>
+<li>服务器需要开放8888端口，如果使用其他端口同样需要打开</li>
+<li>两者都是表单数据发送时的编码类型<br>
+application/x-www-form-urlencoded --&gt; key=value&amp;key=value</li>
+<li>一般情况下都会正常同步，如果长时间未update，可能是DNS的问题，可以考虑选择一个连接速度较快的GitHub的ip添加到/etc/hosts并且刷新</li>
+</ol>
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>同步</tag>
+        <tag>webhook</tag>
       </tags>
   </entry>
   <entry>
@@ -1328,6 +1323,116 @@ R5和R6之间的电压值为V=4.094V，接近4V，达到预期值<br>
         <tag>高频电路</tag>
         <tag>PCB</tag>
         <tag>无线</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo_begin</title>
+    <url>/2021/01/31/hexo_begin/</url>
+    <content><![CDATA[<h2 id="机制介绍">机制介绍</h2>
+<p><code>hexo d</code>上传部署到Github的其实是hexo编译后的文件静态文件，用于生成网页，不包含源文件，也就是上传<code>.deploy_git</code>中的文件，其他文件，包括<code>source</code>里面的和一些配置、主题文件都不会上传到GitHub，考虑到可能会在不同主机发布，因此将<code>hexo d</code>操作不会上传的文件主动<code>git</code>到另一个分支。</p>
+<a id="more"></a>
+<hr>
+<h2 id="新建备份分支">新建备份分支</h2>
+<ol>
+<li>
+<p>首先在Github上新建一个<code>hexo_backup</code>分支并且设置为默认分支，以便在每次同步的时候不用指定分支，比较方便，用于备份源文件。</p>
+</li>
+<li>
+<p>在本地<code>blog_local</code>目录下<code>git clone git@github.com:boom1999/boom1999.github.io.git</code>,此时由于默认分支为hexo_backup，所以只是clone了hexo_backup。在clone下的目录里将<code>.git</code>以外的文件全部删除，将源文件（包括<code>.gitignore</code>）全部复制过来。（<code>.deploy_git</code>不需要，这是生成的静态文件，也就是会push到master分支中的文件）。如果没有<code>.gitignore</code>，忽略push这部分文件，请手动添加：</p>
+<pre><code> .DS_Store
+ Thumbs.db
+ db.json
+ *.log
+ node_modules/
+ public/
+ .deploy*/
+</code></pre>
+</li>
+<li>
+<p>将源文件push到hexo_backup分支,上传后GitHub上的hexo_backup分支备份完成</p>
+<pre><code> git add .
+ git commit –m &quot;your commit&quot;
+ git push 
+</code></pre>
+</li>
+</ol>
+<hr>
+<h2 id="更换环境操作">更换环境操作</h2>
+<ul>
+<li>
+<p>创建一个新的<code>blog_local</code>文件夹</p>
+</li>
+<li>
+<p>安装<code>git</code>和<code>nodejs</code></p>
+</li>
+<li>
+<p>设置git全局邮箱和用户名</p>
+<pre><code>  git config --global user.name &quot;yourgithubname&quot;
+  git config --global user.email &quot;yourgithubemail&quot;
+</code></pre>
+</li>
+<li>
+<p>设置<code>ssh key</code></p>
+<pre><code>  ssh-keygen -t rsa -C &quot;youremail&quot;
+  #生成后公钥添加到GitHub仓库中
+  #验证是否成功
+  ssh -T git@github.com
+</code></pre>
+</li>
+<li>
+<p>安装hexo（不需要hexo init，因为整体框架会被clone下来）</p>
+<pre><code>  npm install hexo-cli -g
+  #或者局部安装
+  npm install hexo
+</code></pre>
+</li>
+<li>
+<p><code>clone</code>到本地操作</p>
+<pre><code>  git clone git@github.com:boom1999/boom1999.github.io.git
+</code></pre>
+</li>
+<li>
+<p>进入本地文件</p>
+<pre><code>  cd boom1999.github.io
+  npm install
+</code></pre>
+</li>
+<li>
+<p>安装名为<code>hexo-deployer-git</code>的部署器插件，通过该插件就能实现一键部署</p>
+<pre><code>  npm install hexo-deployer-git --save
+</code></pre>
+</li>
+<li>
+<p>添加新文件<code>source/_posts</code>，生成，部署</p>
+<pre><code>  hexo g
+  hexo d
+</code></pre>
+</li>
+</ul>
+<h3 id="Tips">Tips</h3>
+<ul>
+<li>
+<p>每次写完不要忘了备份源文件</p>
+<pre><code>  git add .
+  git commit –m &quot;your commit&quot;
+  git push 
+</code></pre>
+</li>
+<li>
+<p>如果是在已经目前使用的机器，如在其他机器上更新过，每次<strong>使用前</strong>只要远端同步一下就行<code>git pull</code></p>
+</li>
+</ul>
+<hr>
+<ul>
+<li><code>2021/01/30测试通过</code></li>
+<li>下一步准备部署到自己的服务器，GitHub作备份用</li>
+</ul>
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
       </tags>
   </entry>
 </search>
