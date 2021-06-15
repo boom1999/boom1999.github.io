@@ -4,7 +4,6 @@ date: 2021-06-15
 tags:
    - modulate
 categories: Matlab, communication simulation 
-copyright: true
 ---
 
 :pushpin:
@@ -81,11 +80,11 @@ s = rng(211);       % Set RNG state for repeatability
  
 numFFT = 1024;           % Number of FFT points
 numRBs = 50;             % Number of resource blocks
-rbSize = 12;               % Number of subcarriers per resource block
-cpLen = 72;               % Cyclic prefix length in samples
+rbSize = 12;             % Number of subcarriers per resource block
+cpLen = 72;              % Cyclic prefix length in samples
  
-bitsPerSubCarrier = 8;       % 2: QPSK, 4: 16QAM, 6: 64QAM, 8: 256QAM
-snrdB = 18;               % SNR in dB
+bitsPerSubCarrier = 8;   % 2: QPSK, 4: 16QAM, 6: 64QAM, 8: 256QAM
+snrdB = 18;              % SNR in dB
  
 toneOffset = 2.5;        % Tone offset or excess bandwidth (in subcarriers)
 L = 513;                 % Filter length (=filterOrder+1), odd
