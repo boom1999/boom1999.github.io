@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>交通灯系统</title>
+    <url>/2021/01/12/AT89S51%E4%BA%A4%E9%80%9A%E7%81%AF%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<ul>
+<li>
+<p><strong>浙江工业大学信息工程学院单片机实验</strong></p>
+</li>
+<li>
+<p>题：定义一个秒表计数器如R2</p>
+</li>
+</ul>
+<ol>
+<li>在R2的值为1~30秒，输出P1口和P3.0、P3.1实现南北绿灯、东西红灯、人行道东西红灯、南北绿灯，并将R2的值除10，商放在动态LED0，余数放在动态LED1点亮；</li>
+<li>在R2的值为31~35秒，输出P1口和P3.0、P3.1实现南北黄灯、东西红灯、人行道东西红灯、南北红灯，并将R2的值减去30后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
+<li>在R2的值为36~65秒，输出P1口和P3.0、P3.1实现南北红灯、东西绿灯、人行道东西绿灯、南北红灯，并将R2的值减去35后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
+<li>在R2的值为66~70秒，输出P1口和P3.0、P3.1实现南北红灯、东西黄灯、人行道东西红灯、南北红灯，并将R2的值减去65后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
+<li>当R2的值等于71秒时，R2置1，重新开始</li>
+</ol>
+<a id="more"></a>
+<blockquote>
+<p>交通灯模块、动态数码管模块，利用定时器、十进制数拆分<br>
+用 8 根的排线连接单片机 P0 的 JP10 到动态数码管的 J12，用 8 根的排线连接单片机 P1 的 JP8 到 交通灯模块的 JP1<br>
+单片机的 P22、P23、P24 分别接到 74HC138 模块的A、B、C。JP165 跳线帽一定要拔掉，插在其中一根针上，以免丢掉。<br>
+南北绿灯30s，红灯30s；黄灯均为5s；东西绿灯25s，红灯35s，<br>
+人行道不显示倒计时，车道显示倒计时</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">RESET:</span><br><span class="line">    AJMP    MAIN</span><br><span class="line">    ORG     000BH           &#x2F;&#x2F;定时器中断0入口</span><br><span class="line">    AJMP    INTI0</span><br><span class="line">    ORG     0100H</span><br><span class="line"></span><br><span class="line">MAIN:</span><br><span class="line">    MOV     SP,#60H         &#x2F;&#x2F;计时工作方式1</span><br><span class="line">    MOV     TMOD,#01H</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">                            &#x2F;&#x2F;12MHz，机器周期1μs，需要10000个计数，初值&#x3D;65536-10000&#x3D;55536&#x3D;D8F0H</span><br><span class="line">    MOV     TH0,#0D8H</span><br><span class="line">    MOV     TL0,#0F0H</span><br><span class="line">    SETB    ET0             &#x2F;&#x2F;开放T0中断和总中断</span><br><span class="line">    SETB    EA</span><br><span class="line">    SETB    TR0             &#x2F;&#x2F;启动T0</span><br><span class="line">    MOV     R0,#01          &#x2F;&#x2F;计数器初值为01</span><br><span class="line">    MOV     30H,#00H        &#x2F;&#x2F;定时器超时一百次，达到64h即一秒</span><br><span class="line">    MOV     31H,#30         &#x2F;&#x2F;南北方向红黄绿时间，30，5，30</span><br><span class="line">    MOV     32H,#35         &#x2F;&#x2F;东西方向红黄绿时间，35，5，25</span><br><span class="line">    MOV     P1,#11001101B   &#x2F;&#x2F;110东西红&#39;011南北绿&#39;01人行南北绿</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    LJMP    DISPLAY</span><br><span class="line"></span><br><span class="line">CALCU:</span><br><span class="line">&#x2F;***********南北方向倒计时计算********************&#x2F;</span><br><span class="line">    MOV     R1,#10          &#x2F;&#x2F;除数为10</span><br><span class="line">    MOV     A,31H           &#x2F;&#x2F;倒计时数字放到A</span><br><span class="line">    MOV     B,R1            &#x2F;&#x2F;除数10放到B</span><br><span class="line">    DIV     AB              &#x2F;&#x2F;A为商，B为余数</span><br><span class="line">    MOV     R4,A            &#x2F;&#x2F;R4存放商</span><br><span class="line">    MOV     R5,B            &#x2F;&#x2F;R5存放余数</span><br><span class="line">&#x2F;***********东西方向倒计时计算********************&#x2F;</span><br><span class="line">    MOV     R1,#10          &#x2F;&#x2F;除数为10</span><br><span class="line">    MOV     A,32H           &#x2F;&#x2F;倒计时数字放到A</span><br><span class="line">    MOV     B,R1            &#x2F;&#x2F;除数10放到B</span><br><span class="line">    DIV     AB              &#x2F;&#x2F;A为商，B为余数</span><br><span class="line">    MOV     R6,A            &#x2F;&#x2F;R6存放商</span><br><span class="line">    MOV     R7,B            &#x2F;&#x2F;R7存放余数</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">DISPLAY:</span><br><span class="line">&#x2F;***********南北方向倒计时显示********************&#x2F;</span><br><span class="line">    CLR     P2.2</span><br><span class="line">    CLR     P2.3</span><br><span class="line">    CLR     P2.4</span><br><span class="line">    MOV     A,R4            &#x2F;&#x2F;LED0输出商</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D04MS</span><br><span class="line">    </span><br><span class="line">    SETB    P2.2</span><br><span class="line">    MOV     A,R5            &#x2F;&#x2F;LED1输出余数</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">&#x2F;***********东西方向倒计时显示********************&#x2F;</span><br><span class="line">    CLR     P2.2</span><br><span class="line">    CLR     P2.3</span><br><span class="line">    SETB    P2.4</span><br><span class="line">    LCALL   D04MS </span><br><span class="line">    MOV     A,R6            &#x2F;&#x2F;LED4输出商</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D04MS</span><br><span class="line">    </span><br><span class="line">    SETB    P2.2</span><br><span class="line">    MOV     A,R7            &#x2F;&#x2F;LED5输出余数</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">&#x2F;*********************************************&#x2F;</span><br><span class="line">    JNB     TF0,DISPLAY     &#x2F;&#x2F;wait for TF0</span><br><span class="line"></span><br><span class="line">INTI0:</span><br><span class="line">    PUSH    PSW             &#x2F;&#x2F;保护状态字寄存器</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    CLR     EA              &#x2F;&#x2F;关闭总中断</span><br><span class="line">    MOV     TH0,#0D8H       &#x2F;&#x2F;定时10ms</span><br><span class="line">    MOV     TL0,#0F0H</span><br><span class="line">    INC     30H</span><br><span class="line">    MOV     A,30H</span><br><span class="line">    CJNE    A,#100,OUT</span><br><span class="line">    MOV     30H,#00H        &#x2F;&#x2F;定时器超时一百次，达到64h即一秒</span><br><span class="line">    INC     R0              &#x2F;&#x2F;计数器+1</span><br><span class="line">    DEC     31H</span><br><span class="line">    DEC     32H</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;***********四种状态互相转变********************&#x2F;</span><br><span class="line">JMP5SN:</span><br><span class="line">    CJNE    R0,#31,JMP30EW</span><br><span class="line">    MOV     P1,#11010110B   &#x2F;&#x2F;110东西红&#39;101南北黄&#39;10人行南北红</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    MOV     31H,#5</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP30EW:</span><br><span class="line">    CJNE    R0,#36,JMP5EW</span><br><span class="line">    MOV     P1,#01111010B   &#x2F;&#x2F;011东西绿&#39;110南北红&#39;10人行南北红</span><br><span class="line">    SETB    P3.0            &#x2F;&#x2F;01人行东西绿</span><br><span class="line">    CLR     P3.1</span><br><span class="line">    MOV     31H,#30</span><br><span class="line">    MOV     32H,#25</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP5EW:</span><br><span class="line">    CJNE    R0,#66,JMP30SN</span><br><span class="line">    MOV     P1,#10111010B   &#x2F;&#x2F;101东西黄&#39;110南北红&#39;10人行南北红</span><br><span class="line">    SETB    P3.0            &#x2F;&#x2F;01人行东西绿</span><br><span class="line">    CLR     P3.1</span><br><span class="line">    MOV     32H,#5</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP30SN:</span><br><span class="line">    CJNE    R0,#71,OUT</span><br><span class="line">    MOV     R0,#1</span><br><span class="line">    MOV     P1,#11001101B   &#x2F;&#x2F;110东西红&#39;011南北绿&#39;01人行南北绿</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    MOV     31H,#30</span><br><span class="line">    MOV     32H,#35</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line"></span><br><span class="line">OUT:</span><br><span class="line">    SETB    EA              &#x2F;&#x2F;开总中断</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW             &#x2F;&#x2F;保护状态字寄存器</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">D04MS:                      &#x2F;&#x2F;延时0.4ms</span><br><span class="line">    MOV     R3,#2</span><br><span class="line">D1: MOV     R2,#10</span><br><span class="line">D2: DJNZ    R2,D2</span><br><span class="line">    DJNZ    R3,D1</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  3FH,06H,5BH,4FH,66H,6DH,7DH,07H &#x2F;&#x2F;共阴极0~9</span><br><span class="line">    DB  7FH,6FH</span><br><span class="line">    DB  00H</span><br><span class="line"></span><br><span class="line">END</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>中断</tag>
+        <tag>汇编</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ASK and PSK</title>
     <url>/2021/05/30/ASK%20and%20PSK/</url>
     <content><![CDATA[<p>📌</p>
@@ -102,41 +137,6 @@ In the constellation diagram, we can see that the PSK signal will drift due to n
       </categories>
       <tags>
         <tag>modulate</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>交通灯系统</title>
-    <url>/2021/01/12/AT89S51%E4%BA%A4%E9%80%9A%E7%81%AF%E7%B3%BB%E7%BB%9F/</url>
-    <content><![CDATA[<ul>
-<li>
-<p><strong>浙江工业大学信息工程学院单片机实验</strong></p>
-</li>
-<li>
-<p>题：定义一个秒表计数器如R2</p>
-</li>
-</ul>
-<ol>
-<li>在R2的值为1~30秒，输出P1口和P3.0、P3.1实现南北绿灯、东西红灯、人行道东西红灯、南北绿灯，并将R2的值除10，商放在动态LED0，余数放在动态LED1点亮；</li>
-<li>在R2的值为31~35秒，输出P1口和P3.0、P3.1实现南北黄灯、东西红灯、人行道东西红灯、南北红灯，并将R2的值减去30后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
-<li>在R2的值为36~65秒，输出P1口和P3.0、P3.1实现南北红灯、东西绿灯、人行道东西绿灯、南北红灯，并将R2的值减去35后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
-<li>在R2的值为66~70秒，输出P1口和P3.0、P3.1实现南北红灯、东西黄灯、人行道东西红灯、南北红灯，并将R2的值减去65后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
-<li>当R2的值等于71秒时，R2置1，重新开始</li>
-</ol>
-<a id="more"></a>
-<blockquote>
-<p>交通灯模块、动态数码管模块，利用定时器、十进制数拆分<br>
-用 8 根的排线连接单片机 P0 的 JP10 到动态数码管的 J12，用 8 根的排线连接单片机 P1 的 JP8 到 交通灯模块的 JP1<br>
-单片机的 P22、P23、P24 分别接到 74HC138 模块的A、B、C。JP165 跳线帽一定要拔掉，插在其中一根针上，以免丢掉。<br>
-南北绿灯30s，红灯30s；黄灯均为5s；东西绿灯25s，红灯35s，<br>
-人行道不显示倒计时，车道显示倒计时</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">RESET:</span><br><span class="line">    AJMP    MAIN</span><br><span class="line">    ORG     000BH           &#x2F;&#x2F;定时器中断0入口</span><br><span class="line">    AJMP    INTI0</span><br><span class="line">    ORG     0100H</span><br><span class="line"></span><br><span class="line">MAIN:</span><br><span class="line">    MOV     SP,#60H         &#x2F;&#x2F;计时工作方式1</span><br><span class="line">    MOV     TMOD,#01H</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">                            &#x2F;&#x2F;12MHz，机器周期1μs，需要10000个计数，初值&#x3D;65536-10000&#x3D;55536&#x3D;D8F0H</span><br><span class="line">    MOV     TH0,#0D8H</span><br><span class="line">    MOV     TL0,#0F0H</span><br><span class="line">    SETB    ET0             &#x2F;&#x2F;开放T0中断和总中断</span><br><span class="line">    SETB    EA</span><br><span class="line">    SETB    TR0             &#x2F;&#x2F;启动T0</span><br><span class="line">    MOV     R0,#01          &#x2F;&#x2F;计数器初值为01</span><br><span class="line">    MOV     30H,#00H        &#x2F;&#x2F;定时器超时一百次，达到64h即一秒</span><br><span class="line">    MOV     31H,#30         &#x2F;&#x2F;南北方向红黄绿时间，30，5，30</span><br><span class="line">    MOV     32H,#35         &#x2F;&#x2F;东西方向红黄绿时间，35，5，25</span><br><span class="line">    MOV     P1,#11001101B   &#x2F;&#x2F;110东西红&#39;011南北绿&#39;01人行南北绿</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    LJMP    DISPLAY</span><br><span class="line"></span><br><span class="line">CALCU:</span><br><span class="line">&#x2F;***********南北方向倒计时计算********************&#x2F;</span><br><span class="line">    MOV     R1,#10          &#x2F;&#x2F;除数为10</span><br><span class="line">    MOV     A,31H           &#x2F;&#x2F;倒计时数字放到A</span><br><span class="line">    MOV     B,R1            &#x2F;&#x2F;除数10放到B</span><br><span class="line">    DIV     AB              &#x2F;&#x2F;A为商，B为余数</span><br><span class="line">    MOV     R4,A            &#x2F;&#x2F;R4存放商</span><br><span class="line">    MOV     R5,B            &#x2F;&#x2F;R5存放余数</span><br><span class="line">&#x2F;***********东西方向倒计时计算********************&#x2F;</span><br><span class="line">    MOV     R1,#10          &#x2F;&#x2F;除数为10</span><br><span class="line">    MOV     A,32H           &#x2F;&#x2F;倒计时数字放到A</span><br><span class="line">    MOV     B,R1            &#x2F;&#x2F;除数10放到B</span><br><span class="line">    DIV     AB              &#x2F;&#x2F;A为商，B为余数</span><br><span class="line">    MOV     R6,A            &#x2F;&#x2F;R6存放商</span><br><span class="line">    MOV     R7,B            &#x2F;&#x2F;R7存放余数</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">DISPLAY:</span><br><span class="line">&#x2F;***********南北方向倒计时显示********************&#x2F;</span><br><span class="line">    CLR     P2.2</span><br><span class="line">    CLR     P2.3</span><br><span class="line">    CLR     P2.4</span><br><span class="line">    MOV     A,R4            &#x2F;&#x2F;LED0输出商</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D04MS</span><br><span class="line">    </span><br><span class="line">    SETB    P2.2</span><br><span class="line">    MOV     A,R5            &#x2F;&#x2F;LED1输出余数</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">&#x2F;***********东西方向倒计时显示********************&#x2F;</span><br><span class="line">    CLR     P2.2</span><br><span class="line">    CLR     P2.3</span><br><span class="line">    SETB    P2.4</span><br><span class="line">    LCALL   D04MS </span><br><span class="line">    MOV     A,R6            &#x2F;&#x2F;LED4输出商</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D04MS</span><br><span class="line">    </span><br><span class="line">    SETB    P2.2</span><br><span class="line">    MOV     A,R7            &#x2F;&#x2F;LED5输出余数</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">&#x2F;*********************************************&#x2F;</span><br><span class="line">    JNB     TF0,DISPLAY     &#x2F;&#x2F;wait for TF0</span><br><span class="line"></span><br><span class="line">INTI0:</span><br><span class="line">    PUSH    PSW             &#x2F;&#x2F;保护状态字寄存器</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    CLR     EA              &#x2F;&#x2F;关闭总中断</span><br><span class="line">    MOV     TH0,#0D8H       &#x2F;&#x2F;定时10ms</span><br><span class="line">    MOV     TL0,#0F0H</span><br><span class="line">    INC     30H</span><br><span class="line">    MOV     A,30H</span><br><span class="line">    CJNE    A,#100,OUT</span><br><span class="line">    MOV     30H,#00H        &#x2F;&#x2F;定时器超时一百次，达到64h即一秒</span><br><span class="line">    INC     R0              &#x2F;&#x2F;计数器+1</span><br><span class="line">    DEC     31H</span><br><span class="line">    DEC     32H</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;***********四种状态互相转变********************&#x2F;</span><br><span class="line">JMP5SN:</span><br><span class="line">    CJNE    R0,#31,JMP30EW</span><br><span class="line">    MOV     P1,#11010110B   &#x2F;&#x2F;110东西红&#39;101南北黄&#39;10人行南北红</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    MOV     31H,#5</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP30EW:</span><br><span class="line">    CJNE    R0,#36,JMP5EW</span><br><span class="line">    MOV     P1,#01111010B   &#x2F;&#x2F;011东西绿&#39;110南北红&#39;10人行南北红</span><br><span class="line">    SETB    P3.0            &#x2F;&#x2F;01人行东西绿</span><br><span class="line">    CLR     P3.1</span><br><span class="line">    MOV     31H,#30</span><br><span class="line">    MOV     32H,#25</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP5EW:</span><br><span class="line">    CJNE    R0,#66,JMP30SN</span><br><span class="line">    MOV     P1,#10111010B   &#x2F;&#x2F;101东西黄&#39;110南北红&#39;10人行南北红</span><br><span class="line">    SETB    P3.0            &#x2F;&#x2F;01人行东西绿</span><br><span class="line">    CLR     P3.1</span><br><span class="line">    MOV     32H,#5</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP30SN:</span><br><span class="line">    CJNE    R0,#71,OUT</span><br><span class="line">    MOV     R0,#1</span><br><span class="line">    MOV     P1,#11001101B   &#x2F;&#x2F;110东西红&#39;011南北绿&#39;01人行南北绿</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    MOV     31H,#30</span><br><span class="line">    MOV     32H,#35</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line"></span><br><span class="line">OUT:</span><br><span class="line">    SETB    EA              &#x2F;&#x2F;开总中断</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW             &#x2F;&#x2F;保护状态字寄存器</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">D04MS:                      &#x2F;&#x2F;延时0.4ms</span><br><span class="line">    MOV     R3,#2</span><br><span class="line">D1: MOV     R2,#10</span><br><span class="line">D2: DJNZ    R2,D2</span><br><span class="line">    DJNZ    R3,D1</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  3FH,06H,5BH,4FH,66H,6DH,7DH,07H &#x2F;&#x2F;共阴极0~9</span><br><span class="line">    DB  7FH,6FH</span><br><span class="line">    DB  00H</span><br><span class="line"></span><br><span class="line">END</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>AT89S51</category>
-      </categories>
-      <tags>
-        <tag>中断</tag>
-        <tag>汇编</tag>
       </tags>
   </entry>
   <entry>
@@ -271,28 +271,6 @@ AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片�
       </tags>
   </entry>
   <entry>
-    <title>PSW设置改进中断</title>
-    <url>/2020/12/15/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/</url>
-    <content><![CDATA[<ul>
-<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
-</ul>
-<blockquote>
-<p>中断优先级实验，主程序相邻2个LED灯循环点亮（03H—C0H）1S，外部中断0后静态数码管间隔1S轮流点亮0-F后返回，外部中断1后1个LED灯循环点亮（01H-80H）后返回，外部中断0优先级高于外部中断1，实现中断嵌套</p>
-</blockquote>
-<a id="more"></a>
-<hr>
-<blockquote>
-<p>P1接LED的ABCDEF，P3.2接K1，P3.3接K4，P0接静态数码管ABCDEF</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    AJMP    START</span><br><span class="line"></span><br><span class="line">    ORG     0003H</span><br><span class="line">    AJMP    INTT0</span><br><span class="line">    </span><br><span class="line">    ORG     0013H</span><br><span class="line">    AJMP    INTT1</span><br><span class="line">    </span><br><span class="line">    ORG     0100H</span><br><span class="line">START:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    MOV     PSW,#00H</span><br><span class="line">    SETB    EX0</span><br><span class="line">    SETB    IT0</span><br><span class="line">    SETB    EX1</span><br><span class="line">    SETB    IT1</span><br><span class="line">    SETB    EA</span><br><span class="line">    MOV     IP,#01H</span><br><span class="line">    MOV     P3,#0FFH</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">    MOV     R0,#03H</span><br><span class="line">    MOV     R2,#08H</span><br><span class="line">    ACALL   LOOP</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">LOOP:</span><br><span class="line">    MOV     A,R0</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R2,LOOP</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">INTT0:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#08H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.2,Pkey0</span><br><span class="line">    LJMP    RETURN</span><br><span class="line"></span><br><span class="line">INTT1:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#10H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.3,Pkey2</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey0:</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    CJNE    A,#0FFH,Pkey1</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey1:</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    INC     DPTR</span><br><span class="line">    LJMP    Pkey0</span><br><span class="line">Pkey2:</span><br><span class="line">    MOV     R1,#01H</span><br><span class="line">    MOV     R3,#08H</span><br><span class="line">    ACALL   Pkey3</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey3:</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R3,Pkey3</span><br><span class="line">    RET</span><br><span class="line">RETURN:</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H</span><br><span class="line">    DB  80H,90H,88H,83H,0C6H,0A1H,86H,8EH</span><br><span class="line">    DB  0FFH</span><br><span class="line"></span><br><span class="line">D10ms:</span><br><span class="line">    MOV     R7,#25</span><br><span class="line">D4:</span><br><span class="line">    MOV     R6,#200</span><br><span class="line">    DJNZ    R6,$</span><br><span class="line">    DJNZ    R7,D4</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">D1S:</span><br><span class="line">    MOV     R5,#20</span><br><span class="line">D5: MOV     R6,#100</span><br><span class="line">D6: MOV     R7,#248</span><br><span class="line">D7: DJNZ     R7,D7</span><br><span class="line">    DJNZ    R6,D6</span><br><span class="line">    DJNZ    R5,D5</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">    END</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>AT89S51</category>
-      </categories>
-      <tags>
-        <tag>中断</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>F-OFDM vs OFDM</title>
     <url>/2021/06/15/F-OFDM%20vs%20OFDM/</url>
     <content><![CDATA[<p>📌</p>
@@ -382,6 +360,28 @@ AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片�
       </categories>
       <tags>
         <tag>modulate</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PSW设置改进中断</title>
+    <url>/2020/12/15/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/</url>
+    <content><![CDATA[<ul>
+<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
+</ul>
+<blockquote>
+<p>中断优先级实验，主程序相邻2个LED灯循环点亮（03H—C0H）1S，外部中断0后静态数码管间隔1S轮流点亮0-F后返回，外部中断1后1个LED灯循环点亮（01H-80H）后返回，外部中断0优先级高于外部中断1，实现中断嵌套</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<blockquote>
+<p>P1接LED的ABCDEF，P3.2接K1，P3.3接K4，P0接静态数码管ABCDEF</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    AJMP    START</span><br><span class="line"></span><br><span class="line">    ORG     0003H</span><br><span class="line">    AJMP    INTT0</span><br><span class="line">    </span><br><span class="line">    ORG     0013H</span><br><span class="line">    AJMP    INTT1</span><br><span class="line">    </span><br><span class="line">    ORG     0100H</span><br><span class="line">START:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    MOV     PSW,#00H</span><br><span class="line">    SETB    EX0</span><br><span class="line">    SETB    IT0</span><br><span class="line">    SETB    EX1</span><br><span class="line">    SETB    IT1</span><br><span class="line">    SETB    EA</span><br><span class="line">    MOV     IP,#01H</span><br><span class="line">    MOV     P3,#0FFH</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">    MOV     R0,#03H</span><br><span class="line">    MOV     R2,#08H</span><br><span class="line">    ACALL   LOOP</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">LOOP:</span><br><span class="line">    MOV     A,R0</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R2,LOOP</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">INTT0:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#08H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.2,Pkey0</span><br><span class="line">    LJMP    RETURN</span><br><span class="line"></span><br><span class="line">INTT1:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#10H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.3,Pkey2</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey0:</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    CJNE    A,#0FFH,Pkey1</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey1:</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    INC     DPTR</span><br><span class="line">    LJMP    Pkey0</span><br><span class="line">Pkey2:</span><br><span class="line">    MOV     R1,#01H</span><br><span class="line">    MOV     R3,#08H</span><br><span class="line">    ACALL   Pkey3</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey3:</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R3,Pkey3</span><br><span class="line">    RET</span><br><span class="line">RETURN:</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H</span><br><span class="line">    DB  80H,90H,88H,83H,0C6H,0A1H,86H,8EH</span><br><span class="line">    DB  0FFH</span><br><span class="line"></span><br><span class="line">D10ms:</span><br><span class="line">    MOV     R7,#25</span><br><span class="line">D4:</span><br><span class="line">    MOV     R6,#200</span><br><span class="line">    DJNZ    R6,$</span><br><span class="line">    DJNZ    R7,D4</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">D1S:</span><br><span class="line">    MOV     R5,#20</span><br><span class="line">D5: MOV     R6,#100</span><br><span class="line">D6: MOV     R7,#248</span><br><span class="line">D7: DJNZ     R7,D7</span><br><span class="line">    DJNZ    R6,D6</span><br><span class="line">    DJNZ    R5,D5</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">    END</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>中断</tag>
       </tags>
   </entry>
   <entry>
@@ -643,28 +643,6 @@ The demodulated signals:</p>
       <tags>
         <tag>modulate</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Process or Thread</title>
-    <url>/2021/01/20/Process%20or%20Thread/</url>
-    <content><![CDATA[<h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位">进程是资源分配的最小单位|线程是CPU调度的最小单位</h3>
-<hr>
-<blockquote>
-<p>看了很多资料，解释都比较抽象<br>
-用一个简答的比喻在形容：进程=高铁，线程=车厢</p>
-</blockquote>
-<ul>
-<li>线程在进程下行进（单纯的车厢无法行动）</li>
-<li>一个进程可以包含多个线程（一辆高铁可以有多个车厢）</li>
-<li>同意进程下不同线程间数据容易共享</li>
-<li>不同进程间数据难以共享</li>
-<li>进程间不会互相影响，一个线程挂掉将导致整个进程挂掉</li>
-<li>进程占用更多资源</li>
-</ul>
-]]></content>
-      <categories>
-        <category>总结</category>
-      </categories>
   </entry>
   <entry>
     <title>Tensorflow2.4保姆级安装教程</title>
@@ -938,6 +916,74 @@ Nvidia Nsight Systems 2020.3.4</p>
       </tags>
   </entry>
   <entry>
+    <title>Process or Thread</title>
+    <url>/2021/01/20/Process%20or%20Thread/</url>
+    <content><![CDATA[<h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位">进程是资源分配的最小单位|线程是CPU调度的最小单位</h3>
+<hr>
+<blockquote>
+<p>看了很多资料，解释都比较抽象<br>
+用一个简答的比喻在形容：进程=高铁，线程=车厢</p>
+</blockquote>
+<ul>
+<li>线程在进程下行进（单纯的车厢无法行动）</li>
+<li>一个进程可以包含多个线程（一辆高铁可以有多个车厢）</li>
+<li>同意进程下不同线程间数据容易共享</li>
+<li>不同进程间数据难以共享</li>
+<li>进程间不会互相影响，一个线程挂掉将导致整个进程挂掉</li>
+<li>进程占用更多资源</li>
+</ul>
+]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>debug Gitalk 403</title>
+    <url>/2021/02/23/debug%20Gitalk%20403/</url>
+    <content><![CDATA[<ul>
+<li>留言系统使用Gitalk，最近发现无法使用GitHub账号登陆，出现403</li>
+<li>Error: Request failed with status code 403</li>
+</ul>
+<h3 id="Headers">Headers</h3>
+<blockquote>
+<p>网络请求403，拿不到token，导致登陆不上<br>
+Request URL：<a href="https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token">https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Missing required request header. Must specify one of: origin,x-requested-with</span><br></pre></td></tr></table></figure>
+</blockquote>
+<a id="more"></a>
+<h3 id="cors-anywhere">cors-anywhere</h3>
+<blockquote>
+<p>开源框架解决跨域问题的反向代理</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CORS Anywhere is a NodeJS proxy which adds CORS headers to the proxied request.</span><br><span class="line"></span><br><span class="line">The url to proxy is literally taken from the path, validated and proxied. The protocol part of the proxied URI is optional, and defaults to &quot;http&quot;. If port 443 is specified, the protocol defaults to &quot;https&quot;.</span><br><span class="line"></span><br><span class="line">This package does not put any restrictions on the http methods or headers, except for cookies. Requesting user credentials is disallowed. The app can be configured to require a header for proxying a request, for example to avoid a direct visit from the browser.</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="more">more</h3>
+<blockquote>
+<p>看上去像是被滥用，然后从2021.1.31后用户必须手动获得这个网站的访问权限后才能使用，这也就是为什么最近登陆不上了</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Public demo server (cors-anywhere.herokuapp.com) will be very limited by January 2021, 31st</span><br><span class="line">The demo server of CORS Anywhere (cors-anywhere.herokuapp.com) is meant to be a demo of this project. But abuse has become so common that the platform where the demo is hosted (Heroku) has asked me to shut down the server, despite efforts to counter the abuse (rate limits in #45 and #164, and blocking other forms of requests). Downtime becomes increasingly frequent (e.g. recently #300, #299, #295, #294, #287) due to abuse and its popularity.</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="Gitalk-Document">Gitalk Document</h3>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;const gitalk &#x3D; new Gitalk(&#123;</span><br><span class="line"> clientID: &#39;GitHub Application Client ID&#39;,</span><br><span class="line"> clientSecret: &#39;GitHub Application Client Secret&#39;,</span><br><span class="line"> repo: &#39;GitHub repo&#39;,      &#x2F;&#x2F; The repository of store comments,</span><br><span class="line"> owner: &#39;GitHub repo owner&#39;,</span><br><span class="line"> admin: [&#39;GitHub repo owner and collaborators, only these guys can initialize github issues&#39;],</span><br><span class="line"> id: location.pathname,      &#x2F;&#x2F; Ensure uniqueness and length less than 50</span><br><span class="line"> distractionFreeMode: false  &#x2F;&#x2F; Facebook-like distraction free mode</span><br><span class="line">&gt;&#125;)</span><br><span class="line"></span><br><span class="line">&gt;gitalk.render(&#39;gitalk-container&#39;)</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="add">add</h3>
+<blockquote>
+<p>在gitalk相应js文件中添加</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">proxy: &#39;&lt;%- theme.gitalk.proxy %&gt;&#39;</span><br></pre></td></tr></table></figure>
+<p>在配置文件中添加</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">proxy: https:&#x2F;&#x2F;netnr-proxy.cloudno.de&#x2F;https:&#x2F;&#x2F;github.com&#x2F;login&#x2F;oauth&#x2F;access_token</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>重新部署</p>
+</blockquote>
+<hr>
+<p>暂时采用了Issue中找到的可替代的cors，表示感谢.</p>
+]]></content>
+      <categories>
+        <category>Gitalk, plug-in</category>
+      </categories>
+      <tags>
+        <tag>debug</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo同步部署再Github和服务器</title>
     <url>/2021/02/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
     <content><![CDATA[<blockquote>
@@ -1043,49 +1089,113 @@ application/x-www-form-urlencoded --&gt; key=value&amp;key=value</li>
       </tags>
   </entry>
   <entry>
-    <title>debug Gitalk 403</title>
-    <url>/2021/02/23/debug%20Gitalk%20403/</url>
-    <content><![CDATA[<ul>
-<li>留言系统使用Gitalk，最近发现无法使用GitHub账号登陆，出现403</li>
-<li>Error: Request failed with status code 403</li>
-</ul>
-<h3 id="Headers">Headers</h3>
-<blockquote>
-<p>网络请求403，拿不到token，导致登陆不上<br>
-Request URL：<a href="https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token">https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token</a></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Missing required request header. Must specify one of: origin,x-requested-with</span><br></pre></td></tr></table></figure>
-</blockquote>
+    <title>Hexo_begin</title>
+    <url>/2021/01/31/hexo_begin/</url>
+    <content><![CDATA[<h2 id="机制介绍">机制介绍</h2>
+<p><code>hexo d</code>上传部署到Github的其实是hexo编译后的文件静态文件，用于生成网页，不包含源文件，也就是上传<code>.deploy_git</code>中的文件，其他文件，包括<code>source</code>里面的和一些配置、主题文件都不会上传到GitHub，考虑到可能会在不同主机发布，因此将<code>hexo d</code>操作不会上传的文件主动<code>git</code>到另一个分支。</p>
 <a id="more"></a>
-<h3 id="cors-anywhere">cors-anywhere</h3>
-<blockquote>
-<p>开源框架解决跨域问题的反向代理</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CORS Anywhere is a NodeJS proxy which adds CORS headers to the proxied request.</span><br><span class="line"></span><br><span class="line">The url to proxy is literally taken from the path, validated and proxied. The protocol part of the proxied URI is optional, and defaults to &quot;http&quot;. If port 443 is specified, the protocol defaults to &quot;https&quot;.</span><br><span class="line"></span><br><span class="line">This package does not put any restrictions on the http methods or headers, except for cookies. Requesting user credentials is disallowed. The app can be configured to require a header for proxying a request, for example to avoid a direct visit from the browser.</span><br></pre></td></tr></table></figure>
-</blockquote>
-<h3 id="more">more</h3>
-<blockquote>
-<p>看上去像是被滥用，然后从2021.1.31后用户必须手动获得这个网站的访问权限后才能使用，这也就是为什么最近登陆不上了</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Public demo server (cors-anywhere.herokuapp.com) will be very limited by January 2021, 31st</span><br><span class="line">The demo server of CORS Anywhere (cors-anywhere.herokuapp.com) is meant to be a demo of this project. But abuse has become so common that the platform where the demo is hosted (Heroku) has asked me to shut down the server, despite efforts to counter the abuse (rate limits in #45 and #164, and blocking other forms of requests). Downtime becomes increasingly frequent (e.g. recently #300, #299, #295, #294, #287) due to abuse and its popularity.</span><br></pre></td></tr></table></figure>
-</blockquote>
-<h3 id="Gitalk-Document">Gitalk Document</h3>
-<blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;const gitalk &#x3D; new Gitalk(&#123;</span><br><span class="line"> clientID: &#39;GitHub Application Client ID&#39;,</span><br><span class="line"> clientSecret: &#39;GitHub Application Client Secret&#39;,</span><br><span class="line"> repo: &#39;GitHub repo&#39;,      &#x2F;&#x2F; The repository of store comments,</span><br><span class="line"> owner: &#39;GitHub repo owner&#39;,</span><br><span class="line"> admin: [&#39;GitHub repo owner and collaborators, only these guys can initialize github issues&#39;],</span><br><span class="line"> id: location.pathname,      &#x2F;&#x2F; Ensure uniqueness and length less than 50</span><br><span class="line"> distractionFreeMode: false  &#x2F;&#x2F; Facebook-like distraction free mode</span><br><span class="line">&gt;&#125;)</span><br><span class="line"></span><br><span class="line">&gt;gitalk.render(&#39;gitalk-container&#39;)</span><br></pre></td></tr></table></figure>
-</blockquote>
-<h3 id="add">add</h3>
-<blockquote>
-<p>在gitalk相应js文件中添加</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">proxy: &#39;&lt;%- theme.gitalk.proxy %&gt;&#39;</span><br></pre></td></tr></table></figure>
-<p>在配置文件中添加</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">proxy: https:&#x2F;&#x2F;netnr-proxy.cloudno.de&#x2F;https:&#x2F;&#x2F;github.com&#x2F;login&#x2F;oauth&#x2F;access_token</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>重新部署</p>
-</blockquote>
 <hr>
-<p>暂时采用了Issue中找到的可替代的cors，表示感谢.</p>
+<h2 id="新建备份分支">新建备份分支</h2>
+<ol>
+<li>
+<p>首先在Github上新建一个<code>hexo_backup</code>分支并且设置为默认分支，以便在每次同步的时候不用指定分支，比较方便，用于备份源文件。</p>
+</li>
+<li>
+<p>在本地<code>blog_local</code>目录下<code>git clone git@github.com:boom1999/boom1999.github.io.git</code>,此时由于默认分支为hexo_backup，所以只是clone了hexo_backup。在clone下的目录里将<code>.git</code>以外的文件全部删除，将源文件（包括<code>.gitignore</code>）全部复制过来。（<code>.deploy_git</code>不需要，这是生成的静态文件，也就是会push到master分支中的文件）。如果没有<code>.gitignore</code>，忽略push这部分文件，请手动添加：</p>
+<pre><code> .DS_Store
+ Thumbs.db
+ db.json
+ *.log
+ node_modules/
+ public/
+ .deploy*/
+</code></pre>
+</li>
+<li>
+<p>将源文件push到hexo_backup分支,上传后GitHub上的hexo_backup分支备份完成</p>
+<pre><code> git add .
+ git commit –m &quot;your commit&quot;
+ git push 
+</code></pre>
+</li>
+</ol>
+<hr>
+<h2 id="更换环境操作">更换环境操作</h2>
+<ul>
+<li>
+<p>创建一个新的<code>blog_local</code>文件夹</p>
+</li>
+<li>
+<p>安装<code>git</code>和<code>nodejs</code></p>
+</li>
+<li>
+<p>设置git全局邮箱和用户名</p>
+<pre><code>  git config --global user.name &quot;yourgithubname&quot;
+  git config --global user.email &quot;yourgithubemail&quot;
+</code></pre>
+</li>
+<li>
+<p>设置<code>ssh key</code></p>
+<pre><code>  ssh-keygen -t rsa -C &quot;youremail&quot;
+  #生成后公钥添加到GitHub仓库中
+  #验证是否成功
+  ssh -T git@github.com
+</code></pre>
+</li>
+<li>
+<p>安装hexo（不需要hexo init，因为整体框架会被clone下来）</p>
+<pre><code>  npm install hexo-cli -g
+  #或者局部安装
+  npm install hexo
+</code></pre>
+</li>
+<li>
+<p><code>clone</code>到本地操作</p>
+<pre><code>  git clone git@github.com:boom1999/boom1999.github.io.git
+</code></pre>
+</li>
+<li>
+<p>进入本地文件</p>
+<pre><code>  cd boom1999.github.io
+  npm install
+</code></pre>
+</li>
+<li>
+<p>安装名为<code>hexo-deployer-git</code>的部署器插件，通过该插件就能实现一键部署</p>
+<pre><code>  npm install hexo-deployer-git --save
+</code></pre>
+</li>
+<li>
+<p>添加新文件<code>source/_posts</code>，生成，部署</p>
+<pre><code>  hexo g
+  hexo d
+</code></pre>
+</li>
+</ul>
+<h3 id="Tips">Tips</h3>
+<ul>
+<li>
+<p>每次写完不要忘了备份源文件</p>
+<pre><code>  git add .
+  git commit –m &quot;your commit&quot;
+  git push 
+</code></pre>
+</li>
+<li>
+<p>如果是在已经目前使用的机器，如在其他机器上更新过，每次<strong>使用前</strong>只要远端同步一下就行<code>git pull</code></p>
+</li>
+</ul>
+<hr>
+<ul>
+<li><code>2021/01/30测试通过</code></li>
+<li>下一步准备部署到自己的服务器，GitHub作备份用</li>
+</ul>
 ]]></content>
       <categories>
-        <category>Gitalk, plug-in</category>
+        <category>blog</category>
       </categories>
       <tags>
-        <tag>debug</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -1212,116 +1322,6 @@ Request URL：<a href="https://cors-anywhere.herokuapp.com/https://github.com/lo
       </categories>
       <tags>
         <tag>re.match</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo_begin</title>
-    <url>/2021/01/31/hexo_begin/</url>
-    <content><![CDATA[<h2 id="机制介绍">机制介绍</h2>
-<p><code>hexo d</code>上传部署到Github的其实是hexo编译后的文件静态文件，用于生成网页，不包含源文件，也就是上传<code>.deploy_git</code>中的文件，其他文件，包括<code>source</code>里面的和一些配置、主题文件都不会上传到GitHub，考虑到可能会在不同主机发布，因此将<code>hexo d</code>操作不会上传的文件主动<code>git</code>到另一个分支。</p>
-<a id="more"></a>
-<hr>
-<h2 id="新建备份分支">新建备份分支</h2>
-<ol>
-<li>
-<p>首先在Github上新建一个<code>hexo_backup</code>分支并且设置为默认分支，以便在每次同步的时候不用指定分支，比较方便，用于备份源文件。</p>
-</li>
-<li>
-<p>在本地<code>blog_local</code>目录下<code>git clone git@github.com:boom1999/boom1999.github.io.git</code>,此时由于默认分支为hexo_backup，所以只是clone了hexo_backup。在clone下的目录里将<code>.git</code>以外的文件全部删除，将源文件（包括<code>.gitignore</code>）全部复制过来。（<code>.deploy_git</code>不需要，这是生成的静态文件，也就是会push到master分支中的文件）。如果没有<code>.gitignore</code>，忽略push这部分文件，请手动添加：</p>
-<pre><code> .DS_Store
- Thumbs.db
- db.json
- *.log
- node_modules/
- public/
- .deploy*/
-</code></pre>
-</li>
-<li>
-<p>将源文件push到hexo_backup分支,上传后GitHub上的hexo_backup分支备份完成</p>
-<pre><code> git add .
- git commit –m &quot;your commit&quot;
- git push 
-</code></pre>
-</li>
-</ol>
-<hr>
-<h2 id="更换环境操作">更换环境操作</h2>
-<ul>
-<li>
-<p>创建一个新的<code>blog_local</code>文件夹</p>
-</li>
-<li>
-<p>安装<code>git</code>和<code>nodejs</code></p>
-</li>
-<li>
-<p>设置git全局邮箱和用户名</p>
-<pre><code>  git config --global user.name &quot;yourgithubname&quot;
-  git config --global user.email &quot;yourgithubemail&quot;
-</code></pre>
-</li>
-<li>
-<p>设置<code>ssh key</code></p>
-<pre><code>  ssh-keygen -t rsa -C &quot;youremail&quot;
-  #生成后公钥添加到GitHub仓库中
-  #验证是否成功
-  ssh -T git@github.com
-</code></pre>
-</li>
-<li>
-<p>安装hexo（不需要hexo init，因为整体框架会被clone下来）</p>
-<pre><code>  npm install hexo-cli -g
-  #或者局部安装
-  npm install hexo
-</code></pre>
-</li>
-<li>
-<p><code>clone</code>到本地操作</p>
-<pre><code>  git clone git@github.com:boom1999/boom1999.github.io.git
-</code></pre>
-</li>
-<li>
-<p>进入本地文件</p>
-<pre><code>  cd boom1999.github.io
-  npm install
-</code></pre>
-</li>
-<li>
-<p>安装名为<code>hexo-deployer-git</code>的部署器插件，通过该插件就能实现一键部署</p>
-<pre><code>  npm install hexo-deployer-git --save
-</code></pre>
-</li>
-<li>
-<p>添加新文件<code>source/_posts</code>，生成，部署</p>
-<pre><code>  hexo g
-  hexo d
-</code></pre>
-</li>
-</ul>
-<h3 id="Tips">Tips</h3>
-<ul>
-<li>
-<p>每次写完不要忘了备份源文件</p>
-<pre><code>  git add .
-  git commit –m &quot;your commit&quot;
-  git push 
-</code></pre>
-</li>
-<li>
-<p>如果是在已经目前使用的机器，如在其他机器上更新过，每次<strong>使用前</strong>只要远端同步一下就行<code>git pull</code></p>
-</li>
-</ul>
-<hr>
-<ul>
-<li><code>2021/01/30测试通过</code></li>
-<li>下一步准备部署到自己的服务器，GitHub作备份用</li>
-</ul>
-]]></content>
-      <categories>
-        <category>blog</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
