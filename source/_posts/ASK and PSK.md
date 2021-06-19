@@ -3,7 +3,7 @@ title: ASK and PSK
 date: 2021-05-30
 tags:
    - modulate
-categories: Matlab, communication simulation 
+categories: Matlab
 copyright: true
 ---
 

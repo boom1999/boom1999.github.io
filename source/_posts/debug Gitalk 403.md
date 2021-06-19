@@ -3,7 +3,7 @@ title: debug Gitalk 403
 date: 2021-02-23
 tags: 
    - debug
-categories: Gitalk, plug-in
+categories: Gitalk
 copyright: true
 ---
 

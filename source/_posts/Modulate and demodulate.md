@@ -3,7 +3,7 @@ title: Modulate and demodulate
 date: 2021-04-21
 tags:
    - modulate
-categories: Matlab, communication simulation 
+categories: Matlab
 copyright: true
 ---
 
