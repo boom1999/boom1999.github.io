@@ -196,6 +196,13 @@
 <li>
 <p><code>A(1,1)</code>、<code>A(:,1)</code>、<code>A(1,:)</code>、<code>A(:,:)</code></p>
 </li>
+<li>
+<p><code>[1+2*1i,3+4*1i]'</code>和<code>[1+2*1i,3+4*1i].'</code>都表示矩阵的转置,实数情况下<code>A'</code>和<code>A.'</code>没有区别；复数情况下<code>A'</code>会产生<code>A</code>的转置共轭矩阵，<code>A.'</code>产生普通的转置矩阵。</p>
+<blockquote>
+<p><code>[1+2*1i,3+4*1i]'=[1-2*1i;3-4*1i]</code><br>
+<code>[1+2*1i,3+4*1i].'=[1+2*1i;3+4*1i]</code></p>
+</blockquote>
+</li>
 </ol>
 <ul>
 <li>
