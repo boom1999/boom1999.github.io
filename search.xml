@@ -822,28 +822,6 @@ The demodulated signals:</p>
       </tags>
   </entry>
   <entry>
-    <title>Process or Thread</title>
-    <url>/2021/01/20/Process%20or%20Thread/</url>
-    <content><![CDATA[<h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位">进程是资源分配的最小单位|线程是CPU调度的最小单位</h3>
-<hr>
-<blockquote>
-<p>看了很多资料，解释都比较抽象<br>
-用一个简答的比喻在形容：进程=高铁，线程=车厢</p>
-</blockquote>
-<ul>
-<li>线程在进程下行进（单纯的车厢无法行动）</li>
-<li>一个进程可以包含多个线程（一辆高铁可以有多个车厢）</li>
-<li>同意进程下不同线程间数据容易共享</li>
-<li>不同进程间数据难以共享</li>
-<li>进程间不会互相影响，一个线程挂掉将导致整个进程挂掉</li>
-<li>进程占用更多资源</li>
-</ul>
-]]></content>
-      <categories>
-        <category>总结</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Tensorflow2.4保姆级安装教程</title>
     <url>/2021/01/30/Tensorflow2.4%E4%BF%9D%E5%A7%86%E7%BA%A7%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<ul>
@@ -1703,5 +1681,27 @@ R5和R6之间的电压值为V=4.094V，接近4V，达到预期值<br>
         <tag>PCB</tag>
         <tag>无线</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Process or Thread</title>
+    <url>/2021/01/20/Process%20or%20Thread/</url>
+    <content><![CDATA[<h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位">进程是资源分配的最小单位|线程是CPU调度的最小单位</h3>
+<hr>
+<blockquote>
+<p>看了很多资料，解释都比较抽象<br>
+用一个简答的比喻在形容：进程=高铁，线程=车厢</p>
+</blockquote>
+<ul>
+<li>线程在进程下行进（单纯的车厢无法行动）</li>
+<li>一个进程可以包含多个线程（一辆高铁可以有多个车厢）</li>
+<li>同意进程下不同线程间数据容易共享</li>
+<li>不同进程间数据难以共享</li>
+<li>进程间不会互相影响，一个线程挂掉将导致整个进程挂掉</li>
+<li>进程占用更多资源</li>
+</ul>
+]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
   </entry>
 </search>
