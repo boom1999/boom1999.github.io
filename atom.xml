@@ -6,7 +6,7 @@
   <link href="https://www.lingzhicheng.cn/atom.xml" rel="self"/>
   
   <link href="https://www.lingzhicheng.cn/"/>
-  <updated>2021-06-15T00:00:00.000Z</updated>
+  <updated>2021-06-19T00:00:00.000Z</updated>
   <id>https://www.lingzhicheng.cn/</id>
   
   <author>
@@ -15,6 +15,39 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Matlab sort out</title>
+    <link href="https://www.lingzhicheng.cn/2021/06/19/Matlab%20sort%20out/"/>
+    <id>https://www.lingzhicheng.cn/2021/06/19/Matlab%20sort%20out/</id>
+    <published>2021-06-19T00:00:00.000Z</published>
+    <updated>2021-06-19T00:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="1-Basics">1.Basics</h2><ul><li><h3 id="Scalars">Scalars</h3></li></ul><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">10</span></span><br><span class="line">a = <span class="number">10</span>+<span class="number">1</span><span class="built_in">i</span>       <span class="comment">% 推荐使用1i</span></span><br></pre></td></tr></table></figure><ul><li><h3 id="Vectors">Vectors</h3></li></ul><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span> <span class="number">3</span> <span class="number">5</span>]     <span class="comment">% 1行3列</span></span><br><span class="line">a = [<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>]     <span class="comment">% 使用,与否效果相同</span></span><br><span class="line">a = <span class="number">1</span>:<span class="number">2</span>:<span class="number">7</span>       <span class="comment">% begin:step:end</span></span><br><span class="line">a = [<span class="number">1</span>;<span class="number">3</span>;<span class="number">5</span>]     <span class="comment">% 3行1列</span></span><br></pre></td></tr></table></figure><ul><li><h3 id="Matrices">Matrices</h3></li></ul><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>;<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>;<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>] <span class="comment">% 三行三列矩阵</span></span><br></pre></td></tr></table></figure><ul><li><h3 id="Operations">Operations</h3></li></ul><ol><li><p><code>*</code> 和<code>.*</code>的区别<br><font size=2></p><blockquote><p>在进行数值运算和数值乘矩阵运算，两者无区别，<code>a*b=a.*b; a*B=a.*B; B*a=B.*a</code>（其中小写字母表示数值，大写字母表示矩阵，下同）。<br>在处理矩阵乘矩阵时，<code>*</code>表示普通的矩阵乘法，要求前面矩阵的列数等于后面矩阵的行数；<code>.*</code>表示两个矩阵对应元素相乘，要求两个矩阵行数列数都相等。<br></font></p></blockquote> <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]*[<span class="number">1</span>,<span class="number">2</span>;<span class="number">3</span>,<span class="number">4</span>;<span class="number">5</span>,<span class="number">6</span>]       <span class="comment">% 矩阵乘法</span></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"><span class="number">22</span>    <span class="number">28</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].*[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]            <span class="comment">% 矩阵点乘</span></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"><span class="number">4</span>    <span class="number">10</span>    <span class="number">18</span></span><br></pre></td></tr></table></figure></li><li><p><code>/</code> 和<code>./</code>的区别<br><font size=2></p><blockquote><p>数值运行时，这两种没有区别，<code>a/b=a./b</code><br>数值与矩阵运算，数值在前时只能用<code>./</code>;数值在后时<code>a/b=a./b</code><br>矩阵与矩阵，<code>A/B</code>可以看作是<code>A*inv(B)</code>;<code>A./B</code>表示A矩阵和B矩阵对应元素相除，需要矩阵维度保持一致。<br>另外有<code>\</code>和<code>.\</code>表示前除，类似小学时候详细区的分除和被除运算，一般习惯不使用这种。<br></font></p></blockquote> <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; [<span class="number">4</span>,<span class="number">5</span>]/[<span class="number">1</span>,<span class="number">2</span>;<span class="number">3</span>,<span class="number">4</span>]                    <span class="comment">% 矩阵除法</span></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"><span class="number">-0.5000</span>    <span class="number">1.5000</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]./[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]                   <span class="comment">% 矩阵点除</span></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"><span class="number">4.0000</span>    <span class="number">2.5000</span>    <span class="number">2.0000</span></span><br></pre></td></tr></table></figure></li><li><p><code>A(1,1)</code>、<code>A(:,1)</code>、<code>A(1,:)</code>、<code>A(:,:)</code></p></li></ol><ul><li><h3 id="Special-number">Special number</h3><p><code>pi</code><br><code>Inf</code>、<code>inf</code>:infinity,i.e.,1/0<br><code>NaN</code>、<code>nan</code>:not a number,e.g.,0/0<br><code>eps</code>:accuracy of the matlab,eps= 2-52 ≈ 2.2204×10-16</p></li><li><h3 id="General-functions">General functions</h3><ul><li><p>Trigonometric functions:<br><code>cos(x)</code>、<code>sin(x)</code>、<code>tan(x)</code></p></li><li><p>Complex:<br>z = a+bi = $re^{i\theta}$<br><code>real(z)</code>、<code>imag(z)</code>、<code>abs(z)</code>、<code>angle(z)</code>、<code>conj(z)</code></p></li><li><p>Exponetial and logarithm functions</p><table><thead><tr><th>Name</th><th>Description</th><th>Name</th><th>Description</th></tr></thead><tbody><tr><td><code>exp(x)</code></td><td>$e^{x}$</td><td><code>log1p(x)</code></td><td>ln(1+x)</td></tr><tr><td><code>pow2(x)</code></td><td>$2^{x}$</td><td><code>log2(x)</code></td><td>$log_{2}{x}$</td></tr><tr><td><code>log(x)</code></td><td>lnx</td><td><code>log10(x)</code></td><td>$log_{10}{x}$、$lg(x)$</td></tr></tbody></table></li><li><p>Array and matrix</p><table><thead><tr><th>Name</th><th>Description</th><th>Name</th><th>Description</th></tr></thead><tbody><tr><td><code>ones</code></td><td>All one</td><td><code>zeros</code></td><td>All zeros</td></tr><tr><td><code>length</code></td><td>length</td><td><code>size</code></td><td>Dimension of array</td></tr><tr><td><code>sum</code></td><td>sum</td><td><code>mean</code></td><td>Mean of array</td></tr><tr><td><code>reshape</code></td><td>Reshape the array</td><td><code>sort</code></td><td>Sort the array</td></tr><tr><td><code>min</code></td><td>minmum</td><td><code>max</code></td><td>maxmum</td></tr></tbody></table></li><li><p>Rounding functions<br><code>round</code>、<code>fix</code>、<code>floor</code>、<code>ceil</code></p></li><li><p>Figure plotting<br><code>plot()</code>、<code>subplot(n,m,i)</code>、<code>figure(i)</code>、<code>xlabel()</code>、<code>ylabel()</code><br><code>title()</code>、<code>legend()</code>、<code>hold on</code>、<code>grid on</code>、<code>semilogy()</code>…</p></li><li><p>Function format<br><code>function [outputs]=function_name(inputs)</code></p></li></ul></li></ul><!-- markdownlint-disable-file MD033 -->]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;1-Basics&quot;&gt;1.Basics&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h3 id=&quot;Scalars&quot;&gt;Scalars&lt;/h3&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight matlab&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td</summary>
+        
+      
+    
+    
+    
+    <category term="Matlab" scheme="https://www.lingzhicheng.cn/categories/Matlab/"/>
+    
+    
+    <category term="sort out" scheme="https://www.lingzhicheng.cn/tags/sort-out/"/>
+    
+  </entry>
   
   <entry>
     <title>F-OFDM vs OFDM</title>
