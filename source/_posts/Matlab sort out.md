@@ -436,6 +436,13 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
     - Detector `r<0`?  `decis=0`or`decis=1`
     - Error counter `decis!=dsource`?  `numoferr+=1`
 
+- ### Constellation diagram ###
+
+  - $x_1=\sqrt{E}+n_1$
+  - $n_1=\sqrt{\frac{N_0}{2}}*randn(100,1)$
+  - $x_0=\sqrt{E}+n_0$
+  - $n_0=\sqrt{\frac{N_0}{2}}*randn(100,1)$
+
 ## 5.Baseband signal transmission II ##
 
 - ### ex5 ###
