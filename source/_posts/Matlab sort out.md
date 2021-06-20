@@ -327,10 +327,79 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
 
 ## 3.Randon process and analog modulation ##
 
-- ### ex3 ###
+> For a random process $x(t)$, for an arbitrary $t_1$，$x(t_1)$ is a random variable.
 
-  - ex3.1
-    - ex3.1.1
+- ### Variables and Distributions ###
+  
+  Function:$F_x(x)=Pr(X\leq x)$
+  - Probability density function:$p(x)=\frac{dF_x(x)}{dx}$
+  - Expectation:$E[X]=\int_{-\infty}^{+\infty}xp(x)dx$
+  - Moment:$E[X^n] =\int_{-\infty}^{+\infty} x^n p(x)dx$
+  - Variance:$E[(X-m_x)^2] =E[X^2] -m_x^2$
+
+- ### Ergodicity and Stationary ###
+
+  - Ergodicity
+    <font size=2>
+    >1.The expectation of x(t) is a constant.
+    `mean(x)=constant`
+    >2.Its autocorrelation only depends on the time difference.
+    `Ry is autocorrelation of {Yn}.`
+    `After 100 times, Ry is has nothing to do with time.`
+    </font>
+
+  - Stationary
+    <font size=2>
+    >1.The expectation of x(t) equals the time-average. An abtirary realization of the random process will go through all the possible states.
+    If one line has 1000 components, use `mean` to calculate expectation.
+    Use the first component of each line, the `mean` of one row is time-average.
+    </font>
+
+  - <a href="https://www.lingzhicheng.cn/2021/04/21/Modulate%20and%20demodulate" target="_blank">e.g. Modulate and demodulate</a>
+
+- ### Analog modulation ###
+
+  - Amplitude modulation(mainly)
+    `m(t)`means the message signal.
+    - DSB-Am
+
+    | Time-domain | Frequency-domain |
+    |:-------:|:-------:|
+    |  $s(t)=A_{c}m(t)cos(2\pi{f_c}t)$  |  $S(f)=\frac{A_c}{2}[M(f-{f_c})+M(f+{f_c})]$  |
+
+    - Conventional AM
+
+    | Time-domain | Frequency-domain |
+    |:-------:|:-------:|
+    |  $s(t)=A_{c}(1+am(t))cos(2\pi{f_c}t)$  |  $S(f)=\frac{A_c}{2}[\delta (f-{f_c})+aM(f-{f_c})+aM(f+{f_c})]$  |
+
+    - SSB-AM(T-domain)
+    $s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)\pm \frac{A_{c}}{2}m(t)sin(2\pi{f_c}t)$
+    **matlab code：$hilbert(m)=m(t)+j\hat{m}(t)$**
+
+    | U_SSB | L_SSB |
+    |:-------:|:-------:|
+    |  $s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)-\frac{A_{c}}{2}\hat{m}(t)sin(2\pi{f_c}t)$  |  $s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)+\frac{A_{c}}{2}\hat{m}(t)sin(2\pi{f_c}t)$  |
+    |  $\frac{A_{c}}{2}Re[(m(t)+j\hat{m}(t))e^{j2\pi f_c t}]$  |  $\frac{A_{c}}{2}Re[(m(t)+j\hat{m}(t))e^{-j2\pi f_c t}]$  |
+
+    - e.g.:ear:
+
+    ``` matlab
+    Fs = 1500;              % Sampling rate
+    Ts = 1/Fs;              % Sampling interval
+    Fc = 20;                % Carrier rate
+    t = 0:Ts:1;             % Time vector
+    
+    m = sin(2*pi*t);        % Message signal
+    c = cos(2*pi*Fc*t);     % Carrier signal
+    Ac_DSB_AM = 1;
+    Ac_USSB_AM = sqrt(2);
+
+    % DBS_AM modulated signal.
+    u_dsb = Ac_DSB_AM*m.*c;
+    % SSB_AM modulated signal.
+    u_ussb = 1/2*Ac_USSB_AM*real(hilbert(m).*exp(1i*2*pi*Fc*t));
+    ```
 
 ## 4.Baseband signal transmission I ##
 

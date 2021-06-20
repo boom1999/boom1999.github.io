@@ -32,23 +32,27 @@ M = 50;                     % Select a sequence of length 101 = M*2+1
 Y = zeros(1,N); 
 Ryav = zeros(1,2*M+1);      % 950:1050
 Syav = zeros(1,2*M+1);      % 950:1050
+Myav = 0;
+Vyav = 0;
  
 % Take the ensemble average over one hundred realizations.
-for i = 1:100
-    X1 = randn(1,1000);     % Use 'randn(x,y)' to generate x*y matrix 
-    X2 = randn(1,1000);
+for i = 1:2*M
+    X1 = randn(1,N);     % Use 'randn(x,y)' to generate x*y matrix 
+    X2 = randn(1,N);
     for n = 1:N
         Y(n) = X1(n)+sin(X2(n));
     end
     Ry = xcorr(Y,'unbiased');       % Autocorrelation of {Yn}
-    Ry = Ry(950:1050);              % Original Ry, m is -999 to 999(2*N-1)
+    Ry = Ry(N-M:N+M);               % Original Ry, m is -999 to 999(2*N-1)
     Sy = fftshift(abs(fft(Ry)));    % Power spectrum of {Yn}
     Ryav=Ryav+Ry;                   % 100 times
     Syav=Syav+Sy;
+    Myav_time=Myav+mean(Y(1));
 end
 Ryav=Ryav/100;                      % Time-average
 Syav=Syav/100;
- 
+Myav_time=Myav_time/(2*M)
+
 %% Task(2)
  
 % ① the mean and variance of y[n].
