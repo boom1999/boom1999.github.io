@@ -6,7 +6,7 @@ tags:
 categories: Matlab
 ---
 
-### Personal matlab sort out about communication simulations finally. ###
+### Personal matlab sort out about communication simulations finally ###
 
 <!--more-->
 

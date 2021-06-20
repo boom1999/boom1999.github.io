@@ -9,7 +9,7 @@ copyright: true
 
 :pushpin:
 
-### Most communication channels have communication channels, so the only way to transmit signals through such channels is to move the fortunate frequency that carries the message to the frequency band of the channel. ###
+### Most communication channels have communication channels, so the only way to transmit signals through such channels is to move the fortunate frequency that carries the message to the frequency band of the channel ###
 
 :sunny::clock830::sleeping:
 
