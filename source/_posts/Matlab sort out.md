@@ -8,6 +8,7 @@ categories: Matlab
 
 Personal matlab sort out finally.
 <!--more-->
+
 ## 1.Basics ##
 
 - ### Scalars ###
@@ -237,15 +238,19 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
   
   | T2F | F2T |
   |:-------:|:-------:|
-  |  $X(f)=\int_{-\infty}^{+\infty}x(t)e^{-j2\pi ft}dt$  |  $x(t)=\int_{-\infty}^{+\infty}X(f)e^{j2\pi ft}df$  |
+  |  $X(f)=\int_{-\infty}^{+\infty}x(t) e^{-j2\pi ft}dt$  |  $x(t)=\int_{-\infty}^{+\infty}X(f) e^{j2\pi ft}df$  |
   - Discrete-time, discrete-frequency: DFT / FFT
+  
+  | T2F | F2T |
+  |:-------:|:-------:|
+  |  $X(k)=\sum_{n=0}^{N-1}x(n) e^{-j\frac{2pi}{N}nk}$  |  $x(t)=\frac{1}{N}\sum_{n=0}^{N-1}X(k) e^{j\frac{2pi}{N}nk}$  |
 
 - ### Energy and Power ###
   
   - Energy
     - T-domain
     $x[n]=x(n\Delta t)$
-    $E=\int_{-\infty}^{+\infty}|x(t)|^2dt\approx\sum_{n=0}^Mx[n]·x^*[n]·\Delta t$
+    $E=\int_{-\infty}^{+\infty} |x(t)|^2dt \approx\sum_{n=0}^M x[n]·x^*[n]·\Delta t$
 
     ``` matlab
     % E=sum(x.*conj(x))*dt;
@@ -254,7 +259,7 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
 
     - F-domain
     $X[k]=X(k\Delta f)$
-    $E=\int_{-\infty}^{+\infty}|X(f)|^2df\approx\sum_{k=0}^{k-1}X[k]·X^*[k]·\Delta f$
+    $E=\int_{-\infty}^{+\infty} |X(f)|^2df \approx\sum_{k=0}^{k-1} X[k]·X^*[k]·\Delta f$
 
     ``` matlab
     % E=sum(x.*conj(x))*df;
@@ -263,7 +268,7 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
 
   - Power
     - T-domain
-    $P=\lim_{T\rightarrow\infty}\frac{1}{T}\int_0^T|x(t)|^2dt\approx\frac{1}{N}\sum_{n=0}^{N-1}|x[n]|^2$
+    $P=\lim_{T\rightarrow\infty}\frac{1}{T}\int_0^T |x(t)|^2dt \approx\frac{1}{N}\sum_{n=0}^{N-1} |x[n]|^2$
 
     ``` matlab
     % P=sum(x.*conj(x))/N;
@@ -272,7 +277,7 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
 
     - F-domain
     _$X_Tf$ is the spectrum of x(t) within [0,T]_
-    $P=\lim_{T\rightarrow\infty}\frac{1}{T}\int_{-\infty}^{+\infty}|X_T(f)|^2df\approx\frac{1}{N}\sum_{k=0}^{K-1}|X[k]|^2\Delta f$
+    $P=\lim_{T\rightarrow\infty}\frac{1}{T}\int_{-\infty}^{+\infty} |X_T(f)|^2df \approx\frac{1}{N}\sum_{k=0}^{K-1} |X[k]|^2\Delta f$
 
     ``` matlab
     % P=sum(x.*conj(x))*df/T;
@@ -283,7 +288,7 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
   
   - Autocorrelation
     $x[n]=x(n\Delta t)$
-    $R(\tau)=\int_{-\infty}^{+\infty}x(t)x^*(t+\tau)dt\approx\sum_{n=0}^Mx[n]·x^*[n+\tau]·\Delta t$
+    $R(\tau)=\int_{-\infty}^{+\infty} x(t)x^* (t+\tau)dt \approx\sum_{n=0}^M x[n]·x^*[n+\tau]·\Delta t$
     $R_T(\tau)=\lim_{T\rightarrow\infty}\frac{R(\tau)}{T}$
 
     ```matlab
