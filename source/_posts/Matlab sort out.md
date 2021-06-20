@@ -6,7 +6,7 @@ tags:
 categories: Matlab
 ---
 
-### Personal matlab sort out finally ###
+### Personal matlab sort out about communication simulations finally. ###
 
 <!--more-->
 
@@ -327,7 +327,7 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
 
 ## 3.Randon process and analog modulation ##
 
-> For a random process $x(t)$, for an arbitrary $t_1$，$x(t_1)$ is a random variable.
+For a random process $x(t)$, for an arbitrary $t_1$，$x(t_1)$ is a random variable.
 
 - ### Variables and Distributions ###
   
@@ -401,11 +401,11 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
     u_ussb = 1/2*Ac_USSB_AM*real(hilbert(m).*exp(1i*2*pi*Fc*t));
     ```
 
-## 4.Baseband signal transmission I ##
+## 4.Baseband signal transmission ##
 
-> AWGN：add white gauss noise
-> Two optimum receivers for AWGN: signal correlator and matched filter.
-> For AWGN, the noise ni is Gaussian distributed with mean of zero and variance of $\frac{EN_0}{2}$
+AWGN：add white gauss noise
+Two optimum receivers for AWGN: signal correlator and matched filter.
+For AWGN, the noise ni is Gaussian distributed with mean of zero and variance of $\frac{EN_0}{2}$.
 
 - ### Binary modulations ###
   
@@ -443,16 +443,52 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
   - $x_0=\sqrt{E}+n_0$
   - $n_0=\sqrt{\frac{N_0}{2}}*randn(100,1)$
 
-## 5.Baseband signal transmission II ##
+## 5.Pulse Amplitude Modulation(PAM) ##
+
+- ### Theoretical symbol error rate ###
+
+  - $P_M=\frac{2(M-1)}{M}Q(\sqrt{\frac{6(log_{2}M)E_{avb}}{(M^2{-}1)N_0}})$
+  - `SNR=exp(snr_in_dB*log(10)/10)`equals to`SNR=10^(snr_in_dB/10)`
+
+- ### Bit error rate and energy ###
+  
+  - `smld_err_pb=smld_err_p/M`
+  - Energy(M-PAM)(N symbols)
+    $E_{av}=\frac{1}{N}\sum_{k=1}^{N}\int_{0}^{T}s_{k}^{2}(t)dt$
+    $E=\frac{E_{av}}{M}$
+
+    ``` matlab
+    %% 8PAM,M=3;there is 8 symbols.
+    Eav = sum(Am.^2)/8      % Average energy per symbol.
+    E = Eav/3               % Average energy per bit.
+    ```
+
+- ### Raised-cosine and ISI ###
+  
+  - RC
+    - $x_{rc}(t)=\frac{sin(\pi t/T_s)}{\pi t/T_s}\frac{cos(\alpha \pi t/T_s))}{1-4\alpha ^2 t^2 /T_s^2}$
+  - ISI
+    - $x(nT)=
+      \begin{cases}
+        1, & n=0 \\\\
+        0, & others
+      \end{cases} $
+    - F-domain：$\sum_{m=-\infty}^{+\infty}X(f+\frac{m}{T})=T$
+  - Under a band-limited noiseless channel, the larger the passband, the smoother the signal.
+    - <a href="" target="_blank">e.g. Band-limited noiseless channel</a>
+
+## 6.Digital Transmission via carrier modulation ##
 
 - ### ex5 ###
 
-## 6.Digital Transmission via carrier modulation I ##
-
-- ### ex6 ###
-
-## 7.Digital Transmission via carrier modulation II ##
+## 7.ASK PSK ##
 
 - ### ex7 ###
+
+## 8.Quadrature Amplitude Modulation(QAM) ##
+
+## 9.FSK ##
+
+- ### ex89###
 
 <!-- markdownlint-disable-file MD033 -->

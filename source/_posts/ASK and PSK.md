@@ -23,14 +23,11 @@ copyright: true
 
 ### $A_{m}=(2m-1-M)d,m=1,2,3,...,M$ ###
 
-// TODO there need to format.
-
-$ g_{T}(t)=\left\{
-  \begin{aligned}
+$ g_{T}(t)=
+  \begin{cases}
   \sqrt\frac 2T, 0≤t≤T \\\\
   0, otherwise \\\\
-  \end{aligned}
-  \right. $
+  \end{cases} $
 
 _Where d=1, T=1, fc=5Hz, the mapping rule from the bit pair to m is: 00->1, 01->2,11->3,10->4.
 (1) If the message bits are 11 00 10 00 01, plot the corresponding 4ASK signal in both time and frequency domain, sampling frequency fs=1000Hz.
