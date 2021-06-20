@@ -76,7 +76,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">624</span>
+            <span class="post-count">1.2k</span>
         </span>
     </span>
 
@@ -85,7 +85,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">3 分钟</span>
+            <span class="post-count">6 分钟</span>
         </span>
     </span>
 </div>
@@ -180,30 +180,30 @@ z = a+bi = $re^{i\theta}$<br>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Description</th>
-<th>Name</th>
-<th>Description</th>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Description</th>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>exp(x)</code></td>
-<td>$e^{x}$</td>
-<td><code>log1p(x)</code></td>
-<td>ln(1+x)</td>
+<td style="text-align:center"><code>exp(x)</code></td>
+<td style="text-align:center">$e^{x}$</td>
+<td style="text-align:center"><code>log1p(x)</code></td>
+<td style="text-align:center">ln(1+x)</td>
 </tr>
 <tr>
-<td><code>pow2(x)</code></td>
-<td>$2^{x}$</td>
-<td><code>log2(x)</code></td>
-<td>$log_{2}{x}$</td>
+<td style="text-align:center"><code>pow2(x)</code></td>
+<td style="text-align:center">$2^{x}$</td>
+<td style="text-align:center"><code>log2(x)</code></td>
+<td style="text-align:center">$log_{2}{x}$</td>
 </tr>
 <tr>
-<td><code>log(x)</code></td>
-<td>lnx</td>
-<td><code>log10(x)</code></td>
-<td>$log_{10}{x}$、$lg(x)$</td>
+<td style="text-align:center"><code>log(x)</code></td>
+<td style="text-align:center">lnx</td>
+<td style="text-align:center"><code>log10(x)</code></td>
+<td style="text-align:center">$log_{10}{x}$、$lg(x)$</td>
 </tr>
 </tbody>
 </table>
@@ -213,42 +213,42 @@ z = a+bi = $re^{i\theta}$<br>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Description</th>
-<th>Name</th>
-<th>Description</th>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Description</th>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>ones</code></td>
-<td>All one</td>
-<td><code>zeros</code></td>
-<td>All zeros</td>
+<td style="text-align:center"><code>ones</code></td>
+<td style="text-align:center">All one</td>
+<td style="text-align:center"><code>zeros</code></td>
+<td style="text-align:center">All zeros</td>
 </tr>
 <tr>
-<td><code>length</code></td>
-<td>length</td>
-<td><code>size</code></td>
-<td>Dimension of array</td>
+<td style="text-align:center"><code>length</code></td>
+<td style="text-align:center">length</td>
+<td style="text-align:center"><code>size</code></td>
+<td style="text-align:center">Dimension of array</td>
 </tr>
 <tr>
-<td><code>sum</code></td>
-<td>sum</td>
-<td><code>mean</code></td>
-<td>Mean of array</td>
+<td style="text-align:center"><code>sum</code></td>
+<td style="text-align:center">sum</td>
+<td style="text-align:center"><code>mean</code></td>
+<td style="text-align:center">Mean of array</td>
 </tr>
 <tr>
-<td><code>reshape</code></td>
-<td>Reshape the array</td>
-<td><code>sort</code></td>
-<td>Sort the array</td>
+<td style="text-align:center"><code>reshape</code></td>
+<td style="text-align:center">Reshape the array</td>
+<td style="text-align:center"><code>sort</code></td>
+<td style="text-align:center">Sort the array</td>
 </tr>
 <tr>
-<td><code>min</code></td>
-<td>minmum</td>
-<td><code>max</code></td>
-<td>maxmum</td>
+<td style="text-align:center"><code>min</code></td>
+<td style="text-align:center">minmum</td>
+<td style="text-align:center"><code>max</code></td>
+<td style="text-align:center">maxmum</td>
 </tr>
 </tbody>
 </table>
@@ -267,6 +267,221 @@ z = a+bi = $re^{i\theta}$<br>
 <code>function [outputs]=function_name(inputs)</code></p>
 </li>
 </ul>
+</li>
+</ul>
+<h2 id="2-Signals-and-linear-systems">2.Signals and linear systems</h2>
+<ul>
+<li>
+<h3 id="Basic-sequence">Basic sequence</h3>
+<ul>
+<li>Implulse signal and sequence</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">t = <span class="number">-5</span>:<span class="number">0.01</span>:<span class="number">5</span>;</span><br><span class="line">y = (t==<span class="number">0</span>);</span><br><span class="line">subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>);</span><br><span class="line"><span class="built_in">plot</span>(t, y, <span class="string">&#x27;r’);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">n = -5:5;</span></span><br><span class="line"><span class="string">x = (n==0);</span></span><br><span class="line"><span class="string">subplot(1,2,2);</span></span><br><span class="line"><span class="string">stem(n, x);</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Step signal and sequence</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">t =<span class="number">-5</span>:<span class="number">0.01</span>:<span class="number">5</span>;</span><br><span class="line">y=(t&gt;=<span class="number">0</span>);</span><br><span class="line">subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>);</span><br><span class="line"><span class="built_in">plot</span>(t, y, <span class="string">&#x27;r&#x27;</span>)</span><br><span class="line"></span><br><span class="line">n = <span class="number">-5</span>:<span class="number">5</span>;</span><br><span class="line">x = (n&gt;=<span class="number">0</span>);</span><br><span class="line">subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>);</span><br><span class="line">stem(n, x);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Real exponential sequence<br>
+x(n)=$a^n$, $\forall n$,  $a\in R$</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">n=[ns:nf];</span><br><span class="line">x=a.^n;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Exponential sequence<br>
+x(n)=$e^{(\delta +j\omega)n}$</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">n=[ns:nf];</span><br><span class="line">x=<span class="built_in">exp</span>((delta+jw)*n);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Sinine, cosine sequence<br>
+$x(n)=cos(\omega n+\theta)$</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">n=[ns:nf];</span><br><span class="line">x=<span class="built_in">cos</span>(w*n+sita);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Other signal generation functions</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Description</th>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>sawtooth</code></td>
+<td style="text-align:center">Sawtooth or triangle wave</td>
+<td style="text-align:center"><code>pulstran</code></td>
+<td style="text-align:center">Pulse train</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>square</code></td>
+<td style="text-align:center">Square wave</td>
+<td style="text-align:center"><code>rectpule</code></td>
+<td style="text-align:center">Aperiod squre wave</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>sinc</code></td>
+<td style="text-align:center">Sinc wave</td>
+<td style="text-align:center"><code>tripuls</code></td>
+<td style="text-align:center">Aperiod triangle wave</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<h3 id="Signal-Operations">Signal Operations</h3>
+<ul>
+<li>Moving<br>
+y(n)=x(n-m)</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y(n)=x(n-m)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Periodic extension<br>
+$y(n)=x((n))_{M}$</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y(n)=x(<span class="built_in">mod</span>(n,M)+<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Flipping<br>
+y(n)=x(-n)</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y=<span class="built_in">fliplr</span>(x)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Correlation with two sequences<br>
+$y(m)=\sum^n x_1(n+m)x_2^*(n)$</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y=xcorr(x1,x2)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Cummulative sum<br>
+$y(n)=\sum_{i=1}^n x(i)$</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y=cumsum(x)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Convolution of two sequences<br>
+$y(n)=x_1(n)*x_2(n)=\sum^mx_1(m)x_x(n-m)$</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y=conv(x1,x2)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Convolution of two <em>continuous-time</em> signals：<br>
+$f(t)=\int_{-\infty}^{+\infty}f_1(\tau)f_2(t-\tau)d\tau$<br>
+$f(t)=\sum_{k=-\infty}^{+\infty}f_1(k\Delta)f_2(t-k\Delta)\Delta$</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y=conv(x1,x2)*dt</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<h3 id="Fourier-transform">Fourier transform</h3>
+<ul>
+<li>Continuous-time，continuous-frequency：FT</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">T2F</th>
+<th style="text-align:center">F2T</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$X(f)=\int_{-\infty}<sup>{+\infty}x(t)e</sup>{-j2\pi ft}dt$</td>
+<td style="text-align:center">$x(t)=\int_{-\infty}<sup>{+\infty}X(f)e</sup>{j2\pi ft}df$</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Discrete-time, discrete-frequency: DFT / FFT</li>
+</ul>
+</li>
+<li>
+<h3 id="Energy-and-Power">Energy and Power</h3>
+<ul>
+<li>
+<p>Energy</p>
+<ul>
+<li>T-domain<br>
+$x[n]=x(n\Delta t)$<br>
+$E=\int_{-\infty}<sup>{+\infty}|x(t)|</sup>2dt\approx\sum_{n=0}<sup>Mx[n]·x</sup>*[n]·\Delta t$</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% E=sum(x.*conj(x))*dt;</span></span><br><span class="line">E=sum(<span class="built_in">abs</span>(x).^<span class="number">2</span>)*dt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>F-domain<br>
+$X[k]=X(k\Delta f)$<br>
+$E=\int_{-\infty}<sup>{+\infty}|X(f)|</sup>2df\approx\sum_{k=0}<sup>{k-1}X[k]·X</sup>*[k]·\Delta f$</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% E=sum(x.*conj(x))*df;</span></span><br><span class="line">E=sum(<span class="built_in">abs</span>(x).^<span class="number">2</span>)*df;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>Power</p>
+<ul>
+<li>T-domain<br>
+$P=\lim_{T\rightarrow\infty}\frac{1}{T}\int_0<sup>T|x(t)|</sup>2dt\approx\frac{1}{N}\sum_{n=0}<sup>{N-1}|x[n]|</sup>2$</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% P=sum(x.*conj(x))/N;</span></span><br><span class="line">P=sum(<span class="built_in">abs</span>(x).^<span class="number">2</span>)/N;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>F-domain<br>
+<em>$X_Tf$ is the spectrum of x(t) within [0,T]</em><br>
+$P=\lim_{T\rightarrow\infty}\frac{1}{T}\int_{-\infty}<sup>{+\infty}|X_T(f)|</sup>2df\approx\frac{1}{N}\sum_{k=0}<sup>{K-1}|X[k]|</sup>2\Delta f$</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% P=sum(x.*conj(x))*df/T;</span></span><br><span class="line">P=sum(<span class="built_in">abs</span>(x).^<span class="number">2</span>)*df/T;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<h3 id="Autocorrelation-and-Power-spectral-density-PSD">Autocorrelation and Power spectral density(PSD)</h3>
+<ul>
+<li>
+<p>Autocorrelation<br>
+$x[n]=x(n\Delta t)$<br>
+$R(\tau)=\int_{-\infty}<sup>{+\infty}x(t)x</sup><em>(t+\tau)dt\approx\sum_{n=0}<sup>Mx[n]·x</sup></em>[n+\tau]·\Delta t$<br>
+$R_T(\tau)=\lim_{T\rightarrow\infty}\frac{R(\tau)}{T}$</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">R(tau)=sum(x(t).*<span class="built_in">conj</span>(x(t+tau))*dt/(N*dt);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>PSD<br>
+$P_T(f)=\lim_{T\rightarrow\infty}\frac{|X_T(f)|^2}{T}$</p>
+</li>
+<li>
+<p>Wiener-Khinchin theorem<br>
+$FT(R_T(\tau))=P_T(f)$</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-Randon-process-and-analog-modulation">3.Randon process and analog modulation</h2>
+<ul>
+<li>
+<h3 id="ex3">ex3</h3>
+<ul>
+<li>ex3.1
+<ul>
+<li>ex3.1.1</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-Baseband-signal-transmission-I">4.Baseband signal transmission I</h2>
+<ul>
+<li>
+<h3 id="ex4">ex4</h3>
+</li>
+</ul>
+<h2 id="5-Baseband-signal-transmission-II">5.Baseband signal transmission II</h2>
+<ul>
+<li>
+<h3 id="ex5">ex5</h3>
+</li>
+</ul>
+<h2 id="6-Digital-Transmission-via-carrier-modulation-I">6.Digital Transmission via carrier modulation I</h2>
+<ul>
+<li>
+<h3 id="ex6">ex6</h3>
+</li>
+</ul>
+<h2 id="7-Digital-Transmission-via-carrier-modulation-II">7.Digital Transmission via carrier modulation II</h2>
+<ul>
+<li>
+<h3 id="ex7">ex7</h3>
 </li>
 </ul>
 <!-- markdownlint-disable-file MD033 -->
