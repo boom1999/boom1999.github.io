@@ -76,7 +76,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.3k</span>
+            <span class="post-count">1.8k</span>
         </span>
     </span>
 
@@ -85,7 +85,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">7 分钟</span>
+            <span class="post-count">10 分钟</span>
         </span>
     </span>
 </div>
@@ -100,7 +100,7 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>Personal matlab sort out finally.</p>
+  <h3 id="Personal-matlab-sort-out-finally">Personal matlab sort out finally</h3>
 <a id="more"></a>
 <h2 id="1-Basics">1.Basics</h2>
 <ul>
@@ -410,6 +410,7 @@ $f(t)=\sum_{k=-\infty}^{+\infty}f_1(k\Delta)f_2(t-k\Delta)\Delta$</li>
 </li>
 <li>
 <h3 id="Energy-and-Power">Energy and Power</h3>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dt=t(<span class="number">2</span>)-t(<span class="number">1</span>);</span><br><span class="line">df=f(<span class="number">2</span>)-f(<span class="number">1</span>);</span><br><span class="line">N=<span class="built_in">length</span>(t);</span><br><span class="line">T=t(<span class="keyword">end</span>)-t(<span class="number">1</span>)+dt;   <span class="comment">% T=N*dt</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>
 <p>Energy</p>
@@ -450,7 +451,7 @@ $P=\lim_{T\rightarrow\infty}\frac{1}{T}\int_{-\infty}^{+\infty} |X_T(f)|^2df \ap
 $x[n]=x(n\Delta t)$<br>
 $R(\tau)=\int_{-\infty}^{+\infty} x(t)x^* (t+\tau)dt \approx\sum_{n=0}^M x[n]·x^*[n+\tau]·\Delta t$<br>
 $R_T(\tau)=\lim_{T\rightarrow\infty}\frac{R(\tau)}{T}$</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">R(tau)=sum(x(t).*<span class="built_in">conj</span>(x(t+tau))*dt/(N*dt);</span><br></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">R(tau)=sum(x(t).*<span class="built_in">conj</span>(x(t+tau))*dt/(N*dt);</span><br><span class="line"></span><br><span class="line"><span class="comment">%% or</span></span><br><span class="line">R=xcorr(x);</span><br><span class="line">R=R*Ts/T;   <span class="comment">% R=R/N</span></span><br></pre></td></tr></table></figure>
 </li>
 <li>
 <p>PSD<br>
@@ -462,16 +463,129 @@ $FT(R_T(\tau))=P_T(f)$</p>
 </li>
 </ul>
 </li>
-</ul>
-<h2 id="3-Randon-process-and-analog-modulation">3.Randon process and analog modulation</h2>
+<li>
+<h3 id="Component">Component</h3>
 <ul>
 <li>
-<h3 id="ex3">ex3</h3>
-<ul>
-<li>ex3.1
-<ul>
-<li>ex3.1.1</li>
+<p>hilbert change<br>
+通过希尔伯特变换，返回的实部是本身即同向分量(quardature component)，虚部是延迟90°后的信号即正交分量(in-phase component)</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">x_a = hilbert(x);</span><br><span class="line">fc = <span class="number">50</span>;                        <span class="comment">% Carrier fc=50Hz</span></span><br><span class="line">x_l = x_a.*<span class="built_in">exp</span>(<span class="number">-1</span><span class="built_in">i</span>*<span class="number">2</span>*<span class="built_in">pi</span>*fc*t);  <span class="comment">% Lowpass equivalent</span></span><br><span class="line">x_i = <span class="built_in">real</span>(x_l);                <span class="comment">% In-phase component</span></span><br><span class="line">x_q = <span class="built_in">imag</span>(x_l);                <span class="comment">% Quadrature component</span></span><br></pre></td></tr></table></figure>
+</li>
 </ul>
+</li>
+</ul>
+<h2 id="3-Randon-process-and-analog-modulation">3.Randon process and analog modulation</h2>
+<blockquote>
+<p>For a random process $x(t)$, for an arbitrary $t_1$，$x(t_1)$ is a random variable.</p>
+</blockquote>
+<ul>
+<li>
+<h3 id="Variables-and-Distributions">Variables and Distributions</h3>
+<p>Function:$F_x(x)=Pr(X\leq x)$</p>
+<ul>
+<li>Probability density function:$p(x)=\frac{dF_x(x)}{dx}$</li>
+<li>Expectation:$E[X]=\int_{-\infty}^{+\infty}xp(x)dx$</li>
+<li>Moment:$E[X^n] =\int_{-\infty}^{+\infty} x^n p(x)dx$</li>
+<li>Variance:$E[(X-m_x)^2] =E[X^2] -m_x^2$</li>
+</ul>
+</li>
+<li>
+<h3 id="Ergodicity-and-Stationary">Ergodicity and Stationary</h3>
+<ul>
+<li>
+<p>Ergodicity<br>
+<font size=2></p>
+<blockquote>
+<p>1.The expectation of x(t) is a constant.<br>
+<code>mean(x)=constant</code><br>
+2.Its autocorrelation only depends on the time difference.<br>
+<code>Ry is autocorrelation of &#123;Yn&#125;.</code><br>
+<code>After 100 times, Ry is has nothing to do with time.</code><br>
+</font></p>
+</blockquote>
+</li>
+<li>
+<p>Stationary<br>
+<font size=2></p>
+<blockquote>
+<p>1.The expectation of x(t) equals the time-average. An abtirary realization of the random process will go through all the possible states.<br>
+If one line has 1000 components, use <code>mean</code> to calculate expectation.<br>
+Use the first component of each line, the <code>mean</code> of one row is time-average.<br>
+</font></p>
+</blockquote>
+</li>
+<li>
+<p><a href="https://www.lingzhicheng.cn/2021/04/21/Modulate%20and%20demodulate" target="_blank">e.g. Modulate and demodulate</a></p>
+</li>
+</ul>
+</li>
+<li>
+<h3 id="Analog-modulation">Analog modulation</h3>
+<ul>
+<li>
+<p>Amplitude modulation(mainly)<br>
+<code>m(t)</code>means the message signal.</p>
+<ul>
+<li>DSB-Am</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Time-domain</th>
+<th style="text-align:center">Frequency-domain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$s(t)=A_{c}m(t)cos(2\pi{f_c}t)$</td>
+<td style="text-align:center">$S(f)=\frac{A_c}{2}[M(f-{f_c})+M(f+{f_c})]$</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Conventional AM</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Time-domain</th>
+<th style="text-align:center">Frequency-domain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$s(t)=A_{c}(1+am(t))cos(2\pi{f_c}t)$</td>
+<td style="text-align:center">$S(f)=\frac{A_c}{2}[\delta (f-{f_c})+aM(f-{f_c})+aM(f+{f_c})]$</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>SSB-AM(T-domain)<br>
+$s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)\pm \frac{A_{c}}{2}m(t)sin(2\pi{f_c}t)$<br>
+<strong>matlab code：$hilbert(m)=m(t)+j\hat{m}(t)$</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">U_SSB</th>
+<th style="text-align:center">L_SSB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)-\frac{A_{c}}{2}\hat{m}(t)sin(2\pi{f_c}t)$</td>
+<td style="text-align:center">$s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)+\frac{A_{c}}{2}\hat{m}(t)sin(2\pi{f_c}t)$</td>
+</tr>
+<tr>
+<td style="text-align:center">$\frac{A_{c}}{2}Re[(m(t)+j\hat{m}(t))e^{j2\pi f_c t}]$</td>
+<td style="text-align:center">$\frac{A_{c}}{2}Re[(m(t)+j\hat{m}(t))e^{-j2\pi f_c t}]$</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>e.g.👂</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Fs = <span class="number">1500</span>;              <span class="comment">% Sampling rate</span></span><br><span class="line">Ts = <span class="number">1</span>/Fs;              <span class="comment">% Sampling interval</span></span><br><span class="line">Fc = <span class="number">20</span>;                <span class="comment">% Carrier rate</span></span><br><span class="line">t = <span class="number">0</span>:Ts:<span class="number">1</span>;             <span class="comment">% Time vector</span></span><br><span class="line"></span><br><span class="line">m = <span class="built_in">sin</span>(<span class="number">2</span>*<span class="built_in">pi</span>*t);        <span class="comment">% Message signal</span></span><br><span class="line">c = <span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>*Fc*t);     <span class="comment">% Carrier signal</span></span><br><span class="line">Ac_DSB_AM = <span class="number">1</span>;</span><br><span class="line">Ac_USSB_AM = <span class="built_in">sqrt</span>(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% DBS_AM modulated signal.</span></span><br><span class="line">u_dsb = Ac_DSB_AM*m.*c;</span><br><span class="line"><span class="comment">% SSB_AM modulated signal.</span></span><br><span class="line">u_ussb = <span class="number">1</span>/<span class="number">2</span>*Ac_USSB_AM*<span class="built_in">real</span>(hilbert(m).*<span class="built_in">exp</span>(<span class="number">1</span><span class="built_in">i</span>*<span class="number">2</span>*<span class="built_in">pi</span>*Fc*t));</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
