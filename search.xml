@@ -1112,6 +1112,15 @@ For AWGN, the noise ni is Gaussian distributed with mean of zero and variance of
 </li>
 </ul>
 </li>
+<li>
+<h3 id="Constellation-diagram">Constellation diagram</h3>
+<ul>
+<li>$x_1=\sqrt{E}+n_1$</li>
+<li>$n_1=\sqrt{\frac{N_0}{2}}*randn(100,1)$</li>
+<li>$x_0=\sqrt{E}+n_0$</li>
+<li>$n_0=\sqrt{\frac{N_0}{2}}*randn(100,1)$</li>
+</ul>
+</li>
 </ul>
 <h2 id="5-Baseband-signal-transmission-II">5.Baseband signal transmission II</h2>
 <ul>
@@ -1224,6 +1233,28 @@ The demodulated signals:</p>
       <tags>
         <tag>modulate</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Process or Thread</title>
+    <url>/2021/01/20/Process%20or%20Thread/</url>
+    <content><![CDATA[<h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位">进程是资源分配的最小单位|线程是CPU调度的最小单位</h3>
+<hr>
+<blockquote>
+<p>看了很多资料，解释都比较抽象<br>
+用一个简答的比喻在形容：进程=高铁，线程=车厢</p>
+</blockquote>
+<ul>
+<li>线程在进程下行进（单纯的车厢无法行动）</li>
+<li>一个进程可以包含多个线程（一辆高铁可以有多个车厢）</li>
+<li>同意进程下不同线程间数据容易共享</li>
+<li>不同进程间数据难以共享</li>
+<li>进程间不会互相影响，一个线程挂掉将导致整个进程挂掉</li>
+<li>进程占用更多资源</li>
+</ul>
+]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
   </entry>
   <entry>
     <title>Tensorflow2.4保姆级安装教程</title>
@@ -1461,28 +1492,6 @@ sess.close()
         <tag>安装教程</tag>
         <tag>tensorflow</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Process or Thread</title>
-    <url>/2021/01/20/Process%20or%20Thread/</url>
-    <content><![CDATA[<h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位">进程是资源分配的最小单位|线程是CPU调度的最小单位</h3>
-<hr>
-<blockquote>
-<p>看了很多资料，解释都比较抽象<br>
-用一个简答的比喻在形容：进程=高铁，线程=车厢</p>
-</blockquote>
-<ul>
-<li>线程在进程下行进（单纯的车厢无法行动）</li>
-<li>一个进程可以包含多个线程（一辆高铁可以有多个车厢）</li>
-<li>同意进程下不同线程间数据容易共享</li>
-<li>不同进程间数据难以共享</li>
-<li>进程间不会互相影响，一个线程挂掉将导致整个进程挂掉</li>
-<li>进程占用更多资源</li>
-</ul>
-]]></content>
-      <categories>
-        <category>总结</category>
-      </categories>
   </entry>
   <entry>
     <title>VS2019代码提示延迟很高，部分快捷键无法使用的问题</title>
