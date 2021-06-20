@@ -167,34 +167,6 @@ In the constellation diagram, we can see that the PSK signal will drift due to n
       </tags>
   </entry>
   <entry>
-    <title>模拟采集AD转化</title>
-    <url>/2021/01/05/AT89S51%E6%A8%A1%E6%8B%9F%E9%87%87%E9%9B%86AD%E8%BD%AC%E5%8C%96/</url>
-    <content><![CDATA[<ul>
-<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
-</ul>
-<blockquote>
-<p>包含进制转化和动态显示<br>
-AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片，转换时间约10uS,控制字分别为94H可调电位器、0A4H光敏电阻、0D4H热敏电阻<br>
-采用LED（4位）动态显示，千位、百位、十位和个位<br>
-000H-FFFH的温度数据需要转换成十进制数的仟佰拾个位</p>
-</blockquote>
-<a id="more"></a>
-<hr>
-<blockquote>
-<p>连接单片机的 JP10 到动态数码管的 J12<br>
-分别连接单片机的 P20、P21、P22 到 74HC138 模块的 A、B、C。<br>
-分别连接单片机的 P34、P35、P36、P37 到AD/DA模块的 DI、CS、CLK、DO。<br>
-将NE555 模块的跳线帽 J11 跳开，跳线帽安装在其中一根上，以免丢掉。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">    ORG     0200H</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    ACALL   AD_CHANGE</span><br><span class="line">    </span><br><span class="line">    MOV     DPTR,#D_table   &#x2F;&#x2F;动态显示四位</span><br><span class="line">    </span><br><span class="line">    MOV     A,#00H          &#x2F;&#x2F;38译码器动态显示四位</span><br><span class="line">    MOV     A,R0            &#x2F;&#x2F;放个位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#03</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R1            &#x2F;&#x2F;放十位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#02</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R2            &#x2F;&#x2F;放百位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#01</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R3            &#x2F;&#x2F;放千位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#00</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line">    </span><br><span class="line">    MOV     P0,#00H</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">AD_CHANGE:                  &#x2F;&#x2F;获取AD转换结果，共12位，串行读入单片机内，用SPI总线</span><br><span class="line">    INC     R7</span><br><span class="line">DELL: </span><br><span class="line">    DJNZ    R6,DELL</span><br><span class="line">    CJNE    R7,#0FFH,RETURN</span><br><span class="line">    MOV     R7,#00H</span><br><span class="line">    MOV     R6,#0FFH</span><br><span class="line">    </span><br><span class="line">    MOV     R0,#0d4H        &#x2F;&#x2F;R0控制字  0X94或0XB4电位，0XD4热敏，0XA4光敏</span><br><span class="line">    CLR     P3.5            &#x2F;&#x2F;片选CS为低电平，选中XPT2046</span><br><span class="line">    CLR     P3.6            &#x2F;&#x2F;时钟脚I&#x2F;O CLOCK位低电平</span><br><span class="line">    MOV     R2,#08H         &#x2F;&#x2F;设置循环读入的次数为8</span><br><span class="line">    MOV     A,R0            &#x2F;&#x2F;下一次转换的命令从R0送入A</span><br><span class="line">LOOP0:</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     P3.4,C</span><br><span class="line">    CLR     P3.6</span><br><span class="line">    NOP</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    NOP</span><br><span class="line">    DJNZ    R2,LOOP0</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     R2,#04H</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">LOOP1:</span><br><span class="line">    MOV     C,P3.7          &#x2F;&#x2F;读入上一次的转换结果中的1位</span><br><span class="line">    RRC     A               &#x2F;&#x2F;带进位位的循环右移</span><br><span class="line">    </span><br><span class="line">    SETB    P3.6            &#x2F;&#x2F;一个CLK时钟</span><br><span class="line">    NOP</span><br><span class="line">    CLR     P3.6</span><br><span class="line">    NOP</span><br><span class="line">    </span><br><span class="line">    DJNZ    R2,LOOP1        &#x2F;&#x2F;是否完成8次转换结果读入和命令输出？未完成则继续</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    MOV     R1,A            &#x2F;&#x2F;R1存高4位数据</span><br><span class="line">    MOV     A,#00H          &#x2F;&#x2F;A清“0”</span><br><span class="line">    MOV     R2,#08H         &#x2F;&#x2F;设置R2循环次数为8，为移入8位数据准备</span><br><span class="line">LOOP2:</span><br><span class="line">    MOV     C,P3.7          &#x2F;&#x2F;读入上一次的转换结果中的1位</span><br><span class="line">    RRC     A               &#x2F;&#x2F;带进位位的循环右移</span><br><span class="line"></span><br><span class="line">    CLR     P3.6            &#x2F;&#x2F;一个CLK时钟</span><br><span class="line">    NOP</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    NOP</span><br><span class="line">    </span><br><span class="line">    DJNZ    R2,LOOP2        &#x2F;&#x2F;是否完成8次转换结果读入和命令输出？未完成则继续</span><br><span class="line">    </span><br><span class="line">    SWAP    A</span><br><span class="line">    MOV     R0,A            &#x2F;&#x2F;R0存低8位</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    LJMP    DATA_HEX_DEC</span><br><span class="line">RETURN:</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">DATA_HEX_DEC:               &#x2F;&#x2F;将获取的12位2进制数转换为十进制存在R3 R2 R1 R0；千位 百位 十位 个位里 #R0--&gt;TL0 #R1--&gt;TH0</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    ANL     A,#0FH</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    CLR     A</span><br><span class="line">    </span><br><span class="line">    MOV     R2,A            &#x2F;&#x2F;先清零</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    MOV     R4,A</span><br><span class="line">    MOV     R5,#16          &#x2F;&#x2F;共转换十六位数 </span><br><span class="line">LOOP:</span><br><span class="line">    CLR     C</span><br><span class="line">    MOV     A,R0            &#x2F;&#x2F;从待转换数的高端移出一位到Cy</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R1</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R4            &#x2F;&#x2F;送到BCD码的低端</span><br><span class="line">    ADDC    A,R4            &#x2F;&#x2F;带进位的自身相加，相当于左移一位</span><br><span class="line">    DA      A               &#x2F;&#x2F;十进制调整，变成BCD码</span><br><span class="line">    MOV     R4,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R3</span><br><span class="line">    ADDC    A,R3</span><br><span class="line">    DA      A</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R2</span><br><span class="line">    ADDC    A,R2</span><br><span class="line">    MOV     R2,A</span><br><span class="line">    </span><br><span class="line">    DJNZ    R5,LOOP</span><br><span class="line">&#x2F;&#x2F;已经把TH1 TL1中的数字，转换成BCD码，送到了R2 R3 R4</span><br><span class="line">&#x2F;&#x2F;*************************************************&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F;分别存入 R3 R2 R1 R0；千位 百位 十位 个位</span><br><span class="line">    MOV     A,R4</span><br><span class="line">    MOV     B,#16</span><br><span class="line">    DIV     AB</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    MOV     R0,B</span><br><span class="line"></span><br><span class="line">    MOV     A,R2</span><br><span class="line">    MOV     R4,A</span><br><span class="line"></span><br><span class="line">    MOV     A,R3</span><br><span class="line">    MOV     B,#16</span><br><span class="line">    DIV     AB</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    MOV     R2,B</span><br><span class="line">    RET </span><br><span class="line">    </span><br><span class="line">Delay:                      &#x2F;&#x2F;定时0.4ms</span><br><span class="line">        MOV     30H,#10</span><br><span class="line">DEL0:   MOV     31H,#1</span><br><span class="line">DEL1:   MOV     32H,#20</span><br><span class="line">DEL2:   DJNZ    32H,DEL2</span><br><span class="line">        DJNZ    31H,DEL1</span><br><span class="line">        DJNZ    30H,DEL0</span><br><span class="line">      </span><br><span class="line">    RET  </span><br><span class="line">    </span><br><span class="line">D_table:</span><br><span class="line">    DB 3FH,06H,5BH,4FH,66H,6DH,7DH,07H,7FH,6FH  &#x2F;&#x2F;共阴极0~9</span><br><span class="line"></span><br><span class="line">    END</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>AT89S51</category>
-      </categories>
-      <tags>
-        <tag>AD转化</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>定时器解决方案备忘录</title>
     <url>/2020/12/22/AT89S51%E5%AE%9A%E6%97%B6%E5%99%A8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E5%A4%87%E5%BF%98%E5%BD%95/</url>
     <content><![CDATA[<ul>
@@ -271,6 +243,34 @@ CONTINUE_T0:
       </tags>
   </entry>
   <entry>
+    <title>模拟采集AD转化</title>
+    <url>/2021/01/05/AT89S51%E6%A8%A1%E6%8B%9F%E9%87%87%E9%9B%86AD%E8%BD%AC%E5%8C%96/</url>
+    <content><![CDATA[<ul>
+<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
+</ul>
+<blockquote>
+<p>包含进制转化和动态显示<br>
+AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片，转换时间约10uS,控制字分别为94H可调电位器、0A4H光敏电阻、0D4H热敏电阻<br>
+采用LED（4位）动态显示，千位、百位、十位和个位<br>
+000H-FFFH的温度数据需要转换成十进制数的仟佰拾个位</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<blockquote>
+<p>连接单片机的 JP10 到动态数码管的 J12<br>
+分别连接单片机的 P20、P21、P22 到 74HC138 模块的 A、B、C。<br>
+分别连接单片机的 P34、P35、P36、P37 到AD/DA模块的 DI、CS、CLK、DO。<br>
+将NE555 模块的跳线帽 J11 跳开，跳线帽安装在其中一根上，以免丢掉。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">    ORG     0200H</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    ACALL   AD_CHANGE</span><br><span class="line">    </span><br><span class="line">    MOV     DPTR,#D_table   &#x2F;&#x2F;动态显示四位</span><br><span class="line">    </span><br><span class="line">    MOV     A,#00H          &#x2F;&#x2F;38译码器动态显示四位</span><br><span class="line">    MOV     A,R0            &#x2F;&#x2F;放个位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#03</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R1            &#x2F;&#x2F;放十位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#02</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R2            &#x2F;&#x2F;放百位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#01</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R3            &#x2F;&#x2F;放千位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#00</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line">    </span><br><span class="line">    MOV     P0,#00H</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">AD_CHANGE:                  &#x2F;&#x2F;获取AD转换结果，共12位，串行读入单片机内，用SPI总线</span><br><span class="line">    INC     R7</span><br><span class="line">DELL: </span><br><span class="line">    DJNZ    R6,DELL</span><br><span class="line">    CJNE    R7,#0FFH,RETURN</span><br><span class="line">    MOV     R7,#00H</span><br><span class="line">    MOV     R6,#0FFH</span><br><span class="line">    </span><br><span class="line">    MOV     R0,#0d4H        &#x2F;&#x2F;R0控制字  0X94或0XB4电位，0XD4热敏，0XA4光敏</span><br><span class="line">    CLR     P3.5            &#x2F;&#x2F;片选CS为低电平，选中XPT2046</span><br><span class="line">    CLR     P3.6            &#x2F;&#x2F;时钟脚I&#x2F;O CLOCK位低电平</span><br><span class="line">    MOV     R2,#08H         &#x2F;&#x2F;设置循环读入的次数为8</span><br><span class="line">    MOV     A,R0            &#x2F;&#x2F;下一次转换的命令从R0送入A</span><br><span class="line">LOOP0:</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     P3.4,C</span><br><span class="line">    CLR     P3.6</span><br><span class="line">    NOP</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    NOP</span><br><span class="line">    DJNZ    R2,LOOP0</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     R2,#04H</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">LOOP1:</span><br><span class="line">    MOV     C,P3.7          &#x2F;&#x2F;读入上一次的转换结果中的1位</span><br><span class="line">    RRC     A               &#x2F;&#x2F;带进位位的循环右移</span><br><span class="line">    </span><br><span class="line">    SETB    P3.6            &#x2F;&#x2F;一个CLK时钟</span><br><span class="line">    NOP</span><br><span class="line">    CLR     P3.6</span><br><span class="line">    NOP</span><br><span class="line">    </span><br><span class="line">    DJNZ    R2,LOOP1        &#x2F;&#x2F;是否完成8次转换结果读入和命令输出？未完成则继续</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    MOV     R1,A            &#x2F;&#x2F;R1存高4位数据</span><br><span class="line">    MOV     A,#00H          &#x2F;&#x2F;A清“0”</span><br><span class="line">    MOV     R2,#08H         &#x2F;&#x2F;设置R2循环次数为8，为移入8位数据准备</span><br><span class="line">LOOP2:</span><br><span class="line">    MOV     C,P3.7          &#x2F;&#x2F;读入上一次的转换结果中的1位</span><br><span class="line">    RRC     A               &#x2F;&#x2F;带进位位的循环右移</span><br><span class="line"></span><br><span class="line">    CLR     P3.6            &#x2F;&#x2F;一个CLK时钟</span><br><span class="line">    NOP</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    NOP</span><br><span class="line">    </span><br><span class="line">    DJNZ    R2,LOOP2        &#x2F;&#x2F;是否完成8次转换结果读入和命令输出？未完成则继续</span><br><span class="line">    </span><br><span class="line">    SWAP    A</span><br><span class="line">    MOV     R0,A            &#x2F;&#x2F;R0存低8位</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    LJMP    DATA_HEX_DEC</span><br><span class="line">RETURN:</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">DATA_HEX_DEC:               &#x2F;&#x2F;将获取的12位2进制数转换为十进制存在R3 R2 R1 R0；千位 百位 十位 个位里 #R0--&gt;TL0 #R1--&gt;TH0</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    ANL     A,#0FH</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    CLR     A</span><br><span class="line">    </span><br><span class="line">    MOV     R2,A            &#x2F;&#x2F;先清零</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    MOV     R4,A</span><br><span class="line">    MOV     R5,#16          &#x2F;&#x2F;共转换十六位数 </span><br><span class="line">LOOP:</span><br><span class="line">    CLR     C</span><br><span class="line">    MOV     A,R0            &#x2F;&#x2F;从待转换数的高端移出一位到Cy</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R1</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R4            &#x2F;&#x2F;送到BCD码的低端</span><br><span class="line">    ADDC    A,R4            &#x2F;&#x2F;带进位的自身相加，相当于左移一位</span><br><span class="line">    DA      A               &#x2F;&#x2F;十进制调整，变成BCD码</span><br><span class="line">    MOV     R4,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R3</span><br><span class="line">    ADDC    A,R3</span><br><span class="line">    DA      A</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R2</span><br><span class="line">    ADDC    A,R2</span><br><span class="line">    MOV     R2,A</span><br><span class="line">    </span><br><span class="line">    DJNZ    R5,LOOP</span><br><span class="line">&#x2F;&#x2F;已经把TH1 TL1中的数字，转换成BCD码，送到了R2 R3 R4</span><br><span class="line">&#x2F;&#x2F;*************************************************&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F;分别存入 R3 R2 R1 R0；千位 百位 十位 个位</span><br><span class="line">    MOV     A,R4</span><br><span class="line">    MOV     B,#16</span><br><span class="line">    DIV     AB</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    MOV     R0,B</span><br><span class="line"></span><br><span class="line">    MOV     A,R2</span><br><span class="line">    MOV     R4,A</span><br><span class="line"></span><br><span class="line">    MOV     A,R3</span><br><span class="line">    MOV     B,#16</span><br><span class="line">    DIV     AB</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    MOV     R2,B</span><br><span class="line">    RET </span><br><span class="line">    </span><br><span class="line">Delay:                      &#x2F;&#x2F;定时0.4ms</span><br><span class="line">        MOV     30H,#10</span><br><span class="line">DEL0:   MOV     31H,#1</span><br><span class="line">DEL1:   MOV     32H,#20</span><br><span class="line">DEL2:   DJNZ    32H,DEL2</span><br><span class="line">        DJNZ    31H,DEL1</span><br><span class="line">        DJNZ    30H,DEL0</span><br><span class="line">      </span><br><span class="line">    RET  </span><br><span class="line">    </span><br><span class="line">D_table:</span><br><span class="line">    DB 3FH,06H,5BH,4FH,66H,6DH,7DH,07H,7FH,6FH  &#x2F;&#x2F;共阴极0~9</span><br><span class="line"></span><br><span class="line">    END</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>AD转化</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>PSW设置改进中断</title>
     <url>/2020/12/15/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/</url>
     <content><![CDATA[<ul>
@@ -290,162 +290,6 @@ CONTINUE_T0:
       </categories>
       <tags>
         <tag>中断</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git常用操作</title>
-    <url>/2021/03/25/Git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<p>🐳总结Git日常基本操作，不定时添加一些遇到的问题，以及从小白入门连接本地git和github等<br>
-🔔默认已有Github或Gitee等账号,已下载安装git</p>
-<ul>
-<li>
-<h2 id="本地💻Git配置"><a href="#LocalGit">本地💻Git配置</a></h2>
-<blockquote>
-<h3 id="📌配置用户信息"><a href="#UserInfo">📌配置用户信息</a></h3>
-</blockquote>
-<blockquote>
-<h3 id="📌生成SSH-Key"><a href="#SSH">📌生成SSH Key</a></h3>
-</blockquote>
-</li>
-<li>
-<h2 id="Upload-repositories-from-💻to☁️"><a href="#UploadRepo">Upload repositories from 💻to☁️</a></h2>
-</li>
-<li>
-<h2 id="Clone-repositories-from-☁️to💻"><a href="#CloneRepo">Clone repositories from ☁️to💻</a></h2>
-</li>
-<li>
-<h2 id="📘Git基本指令汇总"><a href="#GitBasic">📘Git基本指令汇总</a></h2>
-</li>
-</ul>
-<a id="more"></a>
-<hr>
-<h2 id="LocalGit">一、本地Git配置</h2>
-<h3 id="UserInfo">1.1配置用户信息</h3>
-<ul>
-<li>Git bash here<br>
-<code>$ git config --global user.name &quot;boom1999&quot;</code><br>
-<code>$ git config --global user.email &quot;lingzhicheng@zjut.edu.cn&quot;</code><br>
-<code>$ git config --list</code></li>
-</ul>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/UserInfo.png" alt="UserInfo"></p>
-<h3 id="SSH">1.2生成SSH Key</h3>
-<ul>
-<li>Git bash here<br>
-<code>$ ssh-keygen -t rsa -C &quot;lingzhicheng@zjut.edu.cn&quot;</code></li>
-</ul>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/SSHKey.png" alt="SSHKey"></p>
-<ul>
-<li>添加SSH Key
-<blockquote>
-<p>将提示位置(/c/Users/xxx/.ssh/id_rsa)的公钥（id_rsa.pub）内容复制粘贴至github &gt; setting &gt; SSH and GPG keys&gt; key<br>
-注意不要弄混公钥和私钥<br>
-若只在某一个Repo中使用，可在此Repo中setting &gt; Deploy Keys中添加公钥</p>
-</blockquote>
-</li>
-</ul>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/DeployKeys.png" alt="DeployKeys"></p>
-<h2 id="UploadRepo">二、从本地上传Repositories</h2>
-<h3 id="📝本地创建Repo">📝本地创建Repo</h3>
-<ul>
-<li>新建目录/选择目录</li>
-<li>Git bash here 进入命令行操作
-<blockquote>
-<p>新建文件<br>
-<code>$ mkdir 文件名</code><br>
-进入文件夹<br>
-<code>$ cd 文件名</code></p>
-</blockquote>
-</li>
-<li>初始化git仓库<br>
-<code>$ git init</code></li>
-<li>查看文件内容检查是否配置成功<br>
-<code>$ ls -la</code></li>
-</ul>
-<p><code>至此git仓库初始化结束，默认叫master分支</code></p>
-<hr>
-<ul>
-<li>新建测试（dev）分支<br>
-<code>$ git checkout -b dev</code></li>
-<li>检查git状态<br>
-<code>$ git status</code></li>
-</ul>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/GitInit.png" alt="GitInit"></p>
-<ul>
-<li>使用编辑器在文件夹中编辑内容，测试和执行</li>
-<li>提交文件至缓存区(用<code>git add .</code>提交目录下所有文件)<br>
-<code>$ git add index.md</code></li>
-</ul>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/GitAdd.png" alt="GitAdd"></p>
-<ul>
-<li>撤销缓存内容<br>
-<code>$ git rm --cached index.md</code></li>
-</ul>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/GitRm.png" alt="GitRm"></p>
-<ul>
-<li>发布版本<br>
-<code>$ git commit -m 'This is a commit.'</code></li>
-<li>查看版本日志（–graph）<br>
-<code>$ git log</code></li>
-</ul>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/GitCommit.png" alt="GitCommit"></p>
-<ul>
-<li>将测试分支合并到主分支
-<blockquote>
-<p>切换回主分支<br>
-<code>$ git checkout master</code><br>
-执行合并操作<br>
-<code>$ git merge dev</code><br>
-删除dev分支<br>
-<code>$ git branch -d dev</code></p>
-</blockquote>
-</li>
-</ul>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/GitMerge.png" alt="GitMerge"></p>
-<h3 id="💻Repo上传">💻Repo上传</h3>
-<ul>
-<li>在Github上新建项目，复制生成项目对应的SSH地址</li>
-</ul>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/GitDemo.png" alt="GitDemo"></p>
-<p><code>$ git remote add origin git@github.com:boom1999/gitdemo.git</code></p>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/GitDemoUpload.png" alt="GitDemoUpload"></p>
-<ul>
-<li>第一次推送本地分支(+u将本地和远程分支关联)<br>
-<code>$ git push -u origin master</code></li>
-<li>以后推送本地分支<br>
-<code>$ git push origin master</code></li>
-<li>推送其他分支（如dev）<br>
-<code>$ git push origin dev</code></li>
-</ul>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/GitRemote.png" alt="GitRemote"></p>
-<blockquote>
-<p>若有提示👇，请参照上文配置SSH Keys</p>
-</blockquote>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ERROR: Permission to boom1999/gitdemo.git denied to deploy key</span><br><span class="line">fatal: Could not read from remote repository.</span><br><span class="line"></span><br><span class="line">Please make sure you have the correct access rights</span><br><span class="line">and the repository exists.</span><br></pre></td></tr></table></figure>
-<h2 id="CloneRepo">三、从远程clone Repositories到本地</h2>
-<ul>
-<li>这是第二种方式，即现在GitHub上创建项目，或从已有的项目clone到另一台机器。</li>
-<li>在Github上新建项目，复制生成项目对应的SSH地址<br>
-<code>$ git clone git@github.com:boom1999/gitdemo.git</code><br>
-<code>$ cd gitdemo</code><br>
-<code>$ ls -la</code></li>
-</ul>
-<h2 id="GitBasic">四、Git基本指令汇总</h2>
-<ul>
-<li>配置全局个人信息</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;your user name&quot;    </span><br><span class="line">git config --global user.email &quot;your email address&quot;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>🎯More</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --list       //显示所有配置列表</span><br><span class="line">ls                      //显示目录下可见文件 </span><br><span class="line">ls -la                  //显示当前目录所有文件包括隐藏文件</span><br><span class="line">ls | grep *.js          //通过管道筛选所有js文件</span><br><span class="line">git init                //初始化git仓库 </span><br><span class="line">git add                 //添加该文件到暂存区 </span><br><span class="line">git status              //查看当前状态</span><br><span class="line">git rm --cached         //从暂存区移除到工作区 </span><br><span class="line">git add .               //添加所有的文件到暂存区 </span><br><span class="line">git commit . -m &quot;&quot;      //将缓存区的内容提交到历史区(&quot;-m&quot;表示不跳到另一个页面)  </span><br><span class="line">git commit .            //添加所有文件到历史区 </span><br><span class="line">git checkout            //将工作区的修改撤销；取回暂存区的文件 </span><br><span class="line">git status -s           //查看哪些文件被更改过 </span><br><span class="line">git log                 //查看提交历史 </span><br><span class="line">git diff                //查看工作区和暂存区文件的区别 </span><br><span class="line">git diff --cached       //查看暂存区和历史区的区别 </span><br><span class="line">git diff HEAD           //查看工作区与上一个版本的不同（更改文件后不提交到历史区可用该命令查看）  </span><br><span class="line">git log --oneline       //提交显示到一行 </span><br><span class="line">git log --graph         //图形化显示提交的 </span><br><span class="line">git reset --hard HEAD^  //所有文件回到上一个版本 </span><br><span class="line">git reflog              //查看所有的提交 </span><br><span class="line">git reset --hard xxxxxx //回到指定版本(前5/6位版本号即可) </span><br><span class="line">git log --oneline --grep=&quot;project&quot;      </span><br><span class="line">                        //查找文件中带有project的文件并显示到一行 </span><br><span class="line">git reset --mixed HEAD^ //暂存区和历史区回到上一个版本，工作区不变 </span><br></pre></td></tr></table></figure>
-<!-- markdownlint-disable-file MD025 MD028 MD033 -->
-]]></content>
-      <categories>
-        <category>总结</category>
-      </categories>
-      <tags>
-        <tag>Git</tag>
-        <tag>Github</tag>
       </tags>
   </entry>
   <entry>
@@ -558,28 +402,6 @@ CONTINUE_T0:
       <tags>
         <tag>调试</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Process or Thread</title>
-    <url>/2021/01/20/Process%20or%20Thread/</url>
-    <content><![CDATA[<h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位">进程是资源分配的最小单位|线程是CPU调度的最小单位</h3>
-<hr>
-<blockquote>
-<p>看了很多资料，解释都比较抽象<br>
-用一个简答的比喻在形容：进程=高铁，线程=车厢</p>
-</blockquote>
-<ul>
-<li>线程在进程下行进（单纯的车厢无法行动）</li>
-<li>一个进程可以包含多个线程（一辆高铁可以有多个车厢）</li>
-<li>同意进程下不同线程间数据容易共享</li>
-<li>不同进程间数据难以共享</li>
-<li>进程间不会互相影响，一个线程挂掉将导致整个进程挂掉</li>
-<li>进程占用更多资源</li>
-</ul>
-]]></content>
-      <categories>
-        <category>总结</category>
-      </categories>
   </entry>
   <entry>
     <title>Matlab sort out</title>
@@ -1065,6 +887,28 @@ The demodulated signals:</p>
       </tags>
   </entry>
   <entry>
+    <title>Process or Thread</title>
+    <url>/2021/01/20/Process%20or%20Thread/</url>
+    <content><![CDATA[<h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位">进程是资源分配的最小单位|线程是CPU调度的最小单位</h3>
+<hr>
+<blockquote>
+<p>看了很多资料，解释都比较抽象<br>
+用一个简答的比喻在形容：进程=高铁，线程=车厢</p>
+</blockquote>
+<ul>
+<li>线程在进程下行进（单纯的车厢无法行动）</li>
+<li>一个进程可以包含多个线程（一辆高铁可以有多个车厢）</li>
+<li>同意进程下不同线程间数据容易共享</li>
+<li>不同进程间数据难以共享</li>
+<li>进程间不会互相影响，一个线程挂掉将导致整个进程挂掉</li>
+<li>进程占用更多资源</li>
+</ul>
+]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
+  </entry>
+  <entry>
     <title>VS2019代码提示延迟很高，部分快捷键无法使用的问题</title>
     <url>/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h3 id="原因">原因</h3>
@@ -1096,243 +940,6 @@ Nvidia Nsight Systems 2020.3.4</p>
         <tag>debug</tag>
         <tag>Nvidia CUDA</tag>
         <tag>Visual Studio</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Tensorflow2.4保姆级安装教程</title>
-    <url>/2021/01/30/Tensorflow2.4%E4%BF%9D%E5%A7%86%E7%BA%A7%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<ul>
-<li>先装python还是先装anaconda?</li>
-<li>Anaconda版本选择与下载</li>
-<li>Anaconda安装</li>
-<li>更换conda镜像源</li>
-<li>Pycharm使用</li>
-<li>Pycharm虚拟环境介绍</li>
-<li>CUDA与cuDNN</li>
-<li>TensorFlow</li>
-</ul>
-<a id="more"></a>
-<hr>
-<h2 id="版本介绍">版本介绍</h2>
-<blockquote>
-<p>python 3.7.0<br>
-conda 4.5.11<br>
-CUDA 11.1<br>
-Cudatoolkit 11.1.0<br>
-cuDNN 11.1 v8.0.5<br>
-tensorflow_gpu-2.4.1<br>
-Pycharm Professional 2020.3.3</p>
-</blockquote>
-<hr>
-<h2 id="写在最前面">写在最前面</h2>
-<blockquote>
-<p>下面列举了一些常见问题，请务必注意</p>
-</blockquote>
-<ul>
-<li>国外源速度慢导致连接断开（请参考下文<strong>更换pip源和conda源</strong>）</li>
-<li>版本对应问题（请勿安装过高版本的Anaconda，会导致python版本过高，Tensorflow不支持，至本文发布为止最高支持到python3.8，Tensorflow_CPU的安装较为简单，故演示了GPU-2.4.1）</li>
-</ul>
-<blockquote>
-<p>笔者在开始前已经有了python3.6.8，但实际上可以直接跳过，anaconda自带python<br>
-<a href="https://www.python.org/downloads/">Python Download</a></p>
-<p>鉴于目前网上教程采用的版本比较混乱，故此次保姆级教程采用了较新的版本并通过测试</p>
-<p>保姆级教程：尽可能详细的列出具体步骤，但省略了一些作者认为比较简单的操作：如何打开命令行、命令行基本操作、如何使用Pycharm、软件的基本安装流程、环境变量的手动配置等。</p>
-<p><strong>如果仍然无法解决您的问题</strong><br>
-建议1：转身立马退坑<br>
-建议2：<a href="https://www.google.com.hk/">点击这里</a></p>
-</blockquote>
-<hr>
-<h2 id="1-前言：先装python还是先装anaconda">1.前言：先装python还是先装anaconda</h2>
-<blockquote>
-<p><strong>装anaconda，就不需要单独装python了</strong></p>
-<p>anaconda 是一个python的发行版，包括了python和很多常见的软件库,和一个包管理器conda，集成了很多关于python科学计算的第三方库，主要是安装方便，而python是一个编译器，如果不使用anaconda，那么安装起来会比较痛苦，各个库之间的依赖性就很难连接的很好。</p>
-</blockquote>
-<h2 id="2-Anaconda版本选择与下载">2.Anaconda版本选择与下载</h2>
-<h3 id="方法一">方法一</h3>
-<blockquote>
-<p><strong>官网下载:</strong> 不推荐，不会开飞机的话速度慢并且容易断<br>
-<a href="https://www.anaconda.com/products/individual">Anaconda官网</a></p>
-</blockquote>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda.png" alt="Anaconda官网"></p>
-<h3 id="方法二">方法二</h3>
-<blockquote>
-<p><strong>国内镜像源:</strong> 可以用清华源、中科大源…<br>
-<a href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive">Anaconda清华源</a></p>
-</blockquote>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_tsinghua.png" alt="Anaconda清华源"></p>
-<h3 id="版本选择">版本选择</h3>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_python.png" alt="请输入图片描述"></p>
-<h2 id="3-Anaconda安装">3.Anaconda安装</h2>
-<blockquote>
-<p><strong>比较容易</strong>，一路next和skip，包括自动添加到环境变量等操作，可以直接装到C盘可以避免一些后续问题，笔者这里选择装到了E://Anaconda3 <strong>等待安装完毕即可</strong><br>
-若没有勾选<code>Add Anaconda to the system Path environment variable</code>，需要手动添加环境变量，比较简单；此处勾选了所以忽略</p>
-</blockquote>
-<h3 id="验证是否安装完成-conda-info">验证是否安装完成 conda info</h3>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_complete.png" alt="验证是否安装完成 conda info"></p>
-<h3 id="Anaconda-Navigator是否可用">Anaconda Navigator是否可用</h3>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_navigator.png" alt="Anaconda Navigator是否可用"></p>
-<blockquote>
-<p>至此，Python 3.7.0 + Anaconda3-5.3.1安装完成</p>
-</blockquote>
-<hr>
-<h2 id="4-更换conda镜像源">4.更换conda镜像源</h2>
-<ul>
-<li>
-<p>可以在Anaconda Navigator中的channel直接更换</p>
-</li>
-<li>
-<p>也可以在Anaconda Prompt中更换镜像源<br>
-<code>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</code><br>
-<code>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/</code><br>
-<code>conda config --set show_channel_urls yes</code></p>
-</li>
-<li>
-<p>查看是否已经更换好通道<br>
-<code>conda config --show channels</code><br>
-<img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Change_channel.png" alt="Change_channel"></p>
-</li>
-</ul>
-<h2 id="5-Pycharm使用">5.Pycharm使用</h2>
-<blockquote>
-<p>Jetbrains全家桶：US $649.00/Year，当然建议使用edu邮箱获取，申请教育版邮箱认证即可（可能需要不定时验证信息），建议安装<strong>Toolbox</strong>方便更新以及使用</p>
-<p><a href="https://www.jetbrains.com">附上<strong>Jetbrains</strong>链接</a></p>
-<p><em>针对浙工大学生邮箱：Jetbrains的验证邮件容易出现在e邮的<strong>拦截队列</strong>中，收不到confirm email可以在拦截队列中找到</em></p>
-<p>如果比较困难，可以尝试装中文插件 File-&gt;Settings-&gt;Plugins-&gt;Chinese (Simplified) Language Pack EAP  当然<strong>不建议</strong>这样使用，<strong>汉化</strong>的翻译可能存在偏差</p>
-</blockquote>
-<h2 id="6-Pycharm虚拟环境介绍">6. Pycharm虚拟环境介绍</h2>
-<blockquote>
-<p>Pycharm采用虚拟的环境，配置是可以采用为项目新建Python解释器或者使用原有的环境</p>
-</blockquote>
-<ol>
-<li>Inherit global site-packages<br>
-继承本地的库，如果需要重复安装第三方库，可以勾上这个</li>
-<li>Make available to all projects<br>
-可以使别的工程项目可以使用此工程的环境</li>
-</ol>
-<blockquote>
-<p>区别：创建Virtualenv Environment 或者 Conda Environment<br>
-若要在服务器上远程运行，配置SSH interpreter，并且在Tools-&gt;Deploment-&gt;Configuration中配置主机即可，后续有机会再详细展开…</p>
-</blockquote>
-<h2 id="7-CUDA和cuDNN">7. CUDA和cuDNN</h2>
-<blockquote>
-<p>检测目前安装了哪些环境<br>
-cmd: <code>conda info --envs</code></p>
-<p>检查目前有哪些版本的python可以安装<br>
-cmd：<code>conda search --full-name python</code></p>
-<p>检查目前有哪些版本的Tensorflow可以安装<br>
-cmd：<code>conda search --full -name tensorflow</code></p>
-<p>查看依赖关系<br>
-cmd：<code>conda info tensorflow</code></p>
-<p><strong>在这之前，检查Nvidia驱动支持的CUDA版本，此处安装的是Tensorflow2.4.1，需要CUDA11.0或及以上版本</strong></p>
-</blockquote>
-<ul>
-<li><a href="https://tensorflow.google.cn/install/source_windows?hl=cn#gpu">查看Tensorflow和CUDA对应版本</a>（版本一定要对应）</li>
-</ul>
-<blockquote>
-<p><code>nvidia-smin</code>命令行查看CUDA Version （当前显卡驱动最高支持的CUDA版本）</p>
-</blockquote>
-<ul>
-<li><a href="https://developer.nvidia.com/cuda-toolkit-archive">Nvidia官网下载Cudatoolkit</a>（下载速度慢可以复制链接到迅雷下载）</li>
-</ul>
-<blockquote>
-<p>一路安装下来即可，安装过程中已经自动添加了环境变量<br>
-cmd：<code>nvcc -V</code>返回CUDA版本信息，如果<strong>nvcc命令无法识别则表示安装失败</strong></p>
-</blockquote>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/nvcc%20-V.png" alt="CUDA版本信息"></p>
-<ul>
-<li><a href="https://developer.nvidia.com/rdp/cudnn-archive">Nvidia官网下载cuDNN</a>（下载速度慢可以复制链接到迅雷下载）</li>
-</ul>
-<blockquote>
-<p>只要把cuDNN文件复制到CUDA的对应文件夹里就可以，即所谓的插入式设计，cuDNN是CUDA的扩展计算库，不会对CUDA造成其他影响。<br>
-复制后，手动将CUDA相对路径下的/bin和/lib/x64添加到环境变量CUDA_PATH</p>
-</blockquote>
-<ul>
-<li><strong>测试CUDA</strong></li>
-</ul>
-<blockquote>
-<p>cmd：<code>cd /d C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1\extras\demo_suite</code></p>
-</blockquote>
-<ul>
-<li><strong>测试<code>deviceQuery.exe</code></strong></li>
-</ul>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/CUDA_test0.png" alt="CUDA_deviceQuery"></p>
-<ul>
-<li><strong>测试<code>bandwidthTest.exe</code></strong></li>
-</ul>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/CUDA_test1.png" alt="CUDA_bandwidthTest"></p>
-<blockquote>
-<p>都返回Result = PASS<br>
-That’s all OK.</p>
-</blockquote>
-<h2 id="8-TensorFlow">8. TensorFlow</h2>
-<h3 id="8-1-创建环境">8.1 创建环境</h3>
-<pre><code>conda create -name tfenv python=3.7.0
-</code></pre>
-<blockquote>
-<p>由于之前已经更换了清华源，由于网络问题造成的错误率大大降低，但仍然可能被中断<br>
-用<code>conda info --envs</code>检查一下是否装好了tfenv环境</p>
-</blockquote>
-<h3 id="8-2-激活环境">8.2 激活环境</h3>
-<pre><code>conda activate tfenv
-</code></pre>
-<blockquote>
-<p>退出环境<code>conda deactivate</code></p>
-</blockquote>
-<h3 id="8-3-激活后安装Tensorflow">8.3 激活后安装Tensorflow</h3>
-<ul>
-<li>
-<p>更换tfenv环境的pip源 👉<a href="https://mirrors.tuna.tsinghua.edu.cn/help/pypi/">更换pip清华源参考方法</a></p>
-</li>
-<li>
-<p>pip config set global.index-url <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></p>
-</li>
-<li>
-<p>pip install -U tensorflow-gpu -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></p>
-</li>
-</ul>
-<blockquote>
-<p>此处未指定版本，会选择最高的gpu版本安装，若要置顶版本，<code>tensorflow-gpu=2.x.x</code><br>
-虽然已经换源，但还是可能出现<code>These Packages Do Not Match The Hashes From The Requirements File.</code><br>
-解决方案：在pip时，添加&quot;–upgrade&quot;参数（<strong>实测有效</strong>）。<br>
-几分钟后👉<strong>安装成功</strong></p>
-</blockquote>
-<h3 id="8-4-激活后测试Tensorflow">8.4 激活后测试Tensorflow</h3>
-<ul>
-<li>
-<p>输出包含GPU信息的日志</p>
-<p>import tensorflow as tf<br>
-tf.test.is_gpu_available()<br>
-tf.test.gpu_device_name()</p>
-</li>
-</ul>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Prompt_test.png" alt="Prompt_test"></p>
-<h3 id="8-5-Pycharm测试Tensorflow">8.5 Pycharm测试Tensorflow</h3>
-<ul>
-<li>添加安装有Tensorflow的环境作为工程的python解释器</li>
-</ul>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Pycharm_test0.png" alt="Anaconda官网.png"></p>
-<pre><code>import tensorflow as tf
-tf.compat.v1.disable_eager_execution()
-greeting = tf.constant('Hello Tensorflow!')
-sess = tf.compat.v1.Session()
-result = sess.run(greeting)
-print(result)
-sess.close()
-</code></pre>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Pycharm_test1.png" alt="Pycharm中测试"></p>
-<hr>
-<blockquote>
-<p>至此，所有安装和配置完成，<strong>版本对应</strong>问题非常重要，如果出现装错了版本请尝试<strong>彻底卸载</strong>后重装<br>
-为了更有针对性，本文采用了较新的版本，请务必在安装前选择<strong>合适的版本</strong><br>
-如果提示确实dll动态链接库，请尝试手动下载，貌似采用CUDA11.1可能会遇到这种情况，并且有部分人认为11.1中有未知错误并且不推荐使用，但在安装过程中并未发现，或许之后遇到了会继续补充</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Tensorflow</category>
-      </categories>
-      <tags>
-        <tag>安装教程</tag>
-        <tag>tensorflow</tag>
       </tags>
   </entry>
   <entry>
@@ -1923,6 +1530,399 @@ R5和R6之间的电压值为V=4.094V，接近4V，达到预期值<br>
         <tag>高频电路</tag>
         <tag>PCB</tag>
         <tag>无线</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git常用操作</title>
+    <url>/2021/03/25/Git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<p>🐳总结Git日常基本操作，不定时添加一些遇到的问题，以及从小白入门连接本地git和github等<br>
+🔔默认已有Github或Gitee等账号,已下载安装git</p>
+<ul>
+<li>
+<h2 id="本地💻Git配置"><a href="#LocalGit">本地💻Git配置</a></h2>
+<blockquote>
+<h3 id="📌配置用户信息"><a href="#UserInfo">📌配置用户信息</a></h3>
+</blockquote>
+<blockquote>
+<h3 id="📌生成SSH-Key"><a href="#SSH">📌生成SSH Key</a></h3>
+</blockquote>
+</li>
+<li>
+<h2 id="Upload-repositories-from-💻to☁️"><a href="#UploadRepo">Upload repositories from 💻to☁️</a></h2>
+</li>
+<li>
+<h2 id="Clone-repositories-from-☁️to💻"><a href="#CloneRepo">Clone repositories from ☁️to💻</a></h2>
+</li>
+<li>
+<h2 id="📘Git基本指令汇总"><a href="#GitBasic">📘Git基本指令汇总</a></h2>
+</li>
+</ul>
+<a id="more"></a>
+<hr>
+<h2 id="LocalGit">一、本地Git配置</h2>
+<h3 id="UserInfo">1.1配置用户信息</h3>
+<ul>
+<li>Git bash here<br>
+<code>$ git config --global user.name &quot;boom1999&quot;</code><br>
+<code>$ git config --global user.email &quot;lingzhicheng@zjut.edu.cn&quot;</code><br>
+<code>$ git config --list</code></li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/UserInfo.png" alt="UserInfo"></p>
+<h3 id="SSH">1.2生成SSH Key</h3>
+<ul>
+<li>Git bash here<br>
+<code>$ ssh-keygen -t rsa -C &quot;lingzhicheng@zjut.edu.cn&quot;</code></li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/SSHKey.png" alt="SSHKey"></p>
+<ul>
+<li>添加SSH Key
+<blockquote>
+<p>将提示位置(/c/Users/xxx/.ssh/id_rsa)的公钥（id_rsa.pub）内容复制粘贴至github &gt; setting &gt; SSH and GPG keys&gt; key<br>
+注意不要弄混公钥和私钥<br>
+若只在某一个Repo中使用，可在此Repo中setting &gt; Deploy Keys中添加公钥</p>
+</blockquote>
+</li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/DeployKeys.png" alt="DeployKeys"></p>
+<h2 id="UploadRepo">二、从本地上传Repositories</h2>
+<h3 id="📝本地创建Repo">📝本地创建Repo</h3>
+<ul>
+<li>新建目录/选择目录</li>
+<li>Git bash here 进入命令行操作
+<blockquote>
+<p>新建文件<br>
+<code>$ mkdir 文件名</code><br>
+进入文件夹<br>
+<code>$ cd 文件名</code></p>
+</blockquote>
+</li>
+<li>初始化git仓库<br>
+<code>$ git init</code></li>
+<li>查看文件内容检查是否配置成功<br>
+<code>$ ls -la</code></li>
+</ul>
+<p><code>至此git仓库初始化结束，默认叫master分支</code></p>
+<hr>
+<ul>
+<li>新建测试（dev）分支<br>
+<code>$ git checkout -b dev</code></li>
+<li>检查git状态<br>
+<code>$ git status</code></li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/GitInit.png" alt="GitInit"></p>
+<ul>
+<li>使用编辑器在文件夹中编辑内容，测试和执行</li>
+<li>提交文件至缓存区(用<code>git add .</code>提交目录下所有文件)<br>
+<code>$ git add index.md</code></li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/GitAdd.png" alt="GitAdd"></p>
+<ul>
+<li>撤销缓存内容<br>
+<code>$ git rm --cached index.md</code></li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/GitRm.png" alt="GitRm"></p>
+<ul>
+<li>发布版本<br>
+<code>$ git commit -m 'This is a commit.'</code></li>
+<li>查看版本日志（–graph）<br>
+<code>$ git log</code></li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/GitCommit.png" alt="GitCommit"></p>
+<ul>
+<li>将测试分支合并到主分支
+<blockquote>
+<p>切换回主分支<br>
+<code>$ git checkout master</code><br>
+执行合并操作<br>
+<code>$ git merge dev</code><br>
+删除dev分支<br>
+<code>$ git branch -d dev</code></p>
+</blockquote>
+</li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/GitMerge.png" alt="GitMerge"></p>
+<h3 id="💻Repo上传">💻Repo上传</h3>
+<ul>
+<li>在Github上新建项目，复制生成项目对应的SSH地址</li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/GitDemo.png" alt="GitDemo"></p>
+<p><code>$ git remote add origin git@github.com:boom1999/gitdemo.git</code></p>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/GitDemoUpload.png" alt="GitDemoUpload"></p>
+<ul>
+<li>第一次推送本地分支(+u将本地和远程分支关联)<br>
+<code>$ git push -u origin master</code></li>
+<li>以后推送本地分支<br>
+<code>$ git push origin master</code></li>
+<li>推送其他分支（如dev）<br>
+<code>$ git push origin dev</code></li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Git/GitRemote.png" alt="GitRemote"></p>
+<blockquote>
+<p>若有提示👇，请参照上文配置SSH Keys</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ERROR: Permission to boom1999/gitdemo.git denied to deploy key</span><br><span class="line">fatal: Could not read from remote repository.</span><br><span class="line"></span><br><span class="line">Please make sure you have the correct access rights</span><br><span class="line">and the repository exists.</span><br></pre></td></tr></table></figure>
+<h2 id="CloneRepo">三、从远程clone Repositories到本地</h2>
+<ul>
+<li>这是第二种方式，即现在GitHub上创建项目，或从已有的项目clone到另一台机器。</li>
+<li>在Github上新建项目，复制生成项目对应的SSH地址<br>
+<code>$ git clone git@github.com:boom1999/gitdemo.git</code><br>
+<code>$ cd gitdemo</code><br>
+<code>$ ls -la</code></li>
+</ul>
+<h2 id="GitBasic">四、Git基本指令汇总</h2>
+<ul>
+<li>配置全局个人信息</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;your user name&quot;    </span><br><span class="line">git config --global user.email &quot;your email address&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>🎯More</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --list       //显示所有配置列表</span><br><span class="line">ls                      //显示目录下可见文件 </span><br><span class="line">ls -la                  //显示当前目录所有文件包括隐藏文件</span><br><span class="line">ls | grep *.js          //通过管道筛选所有js文件</span><br><span class="line">git init                //初始化git仓库 </span><br><span class="line">git add                 //添加该文件到暂存区 </span><br><span class="line">git status              //查看当前状态</span><br><span class="line">git rm --cached         //从暂存区移除到工作区 </span><br><span class="line">git add .               //添加所有的文件到暂存区 </span><br><span class="line">git commit . -m &quot;&quot;      //将缓存区的内容提交到历史区(&quot;-m&quot;表示不跳到另一个页面)  </span><br><span class="line">git commit .            //添加所有文件到历史区 </span><br><span class="line">git checkout            //将工作区的修改撤销；取回暂存区的文件 </span><br><span class="line">git status -s           //查看哪些文件被更改过 </span><br><span class="line">git log                 //查看提交历史 </span><br><span class="line">git diff                //查看工作区和暂存区文件的区别 </span><br><span class="line">git diff --cached       //查看暂存区和历史区的区别 </span><br><span class="line">git diff HEAD           //查看工作区与上一个版本的不同（更改文件后不提交到历史区可用该命令查看）  </span><br><span class="line">git log --oneline       //提交显示到一行 </span><br><span class="line">git log --graph         //图形化显示提交的 </span><br><span class="line">git reset --hard HEAD^  //所有文件回到上一个版本 </span><br><span class="line">git reflog              //查看所有的提交 </span><br><span class="line">git reset --hard xxxxxx //回到指定版本(前5/6位版本号即可) </span><br><span class="line">git log --oneline --grep=&quot;project&quot;      </span><br><span class="line">                        //查找文件中带有project的文件并显示到一行 </span><br><span class="line">git reset --mixed HEAD^ //暂存区和历史区回到上一个版本，工作区不变 </span><br></pre></td></tr></table></figure>
+<!-- markdownlint-disable-file MD025 MD028 MD033 -->
+]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+        <tag>Github</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Tensorflow2.4保姆级安装教程</title>
+    <url>/2021/01/30/Tensorflow2.4%E4%BF%9D%E5%A7%86%E7%BA%A7%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<ul>
+<li>先装python还是先装anaconda?</li>
+<li>Anaconda版本选择与下载</li>
+<li>Anaconda安装</li>
+<li>更换conda镜像源</li>
+<li>Pycharm使用</li>
+<li>Pycharm虚拟环境介绍</li>
+<li>CUDA与cuDNN</li>
+<li>TensorFlow</li>
+</ul>
+<a id="more"></a>
+<hr>
+<h2 id="版本介绍">版本介绍</h2>
+<blockquote>
+<p>python 3.7.0<br>
+conda 4.5.11<br>
+CUDA 11.1<br>
+Cudatoolkit 11.1.0<br>
+cuDNN 11.1 v8.0.5<br>
+tensorflow_gpu-2.4.1<br>
+Pycharm Professional 2020.3.3</p>
+</blockquote>
+<hr>
+<h2 id="写在最前面">写在最前面</h2>
+<blockquote>
+<p>下面列举了一些常见问题，请务必注意</p>
+</blockquote>
+<ul>
+<li>国外源速度慢导致连接断开（请参考下文<strong>更换pip源和conda源</strong>）</li>
+<li>版本对应问题（请勿安装过高版本的Anaconda，会导致python版本过高，Tensorflow不支持，至本文发布为止最高支持到python3.8，Tensorflow_CPU的安装较为简单，故演示了GPU-2.4.1）</li>
+</ul>
+<blockquote>
+<p>笔者在开始前已经有了python3.6.8，但实际上可以直接跳过，anaconda自带python<br>
+<a href="https://www.python.org/downloads/">Python Download</a></p>
+<p>鉴于目前网上教程采用的版本比较混乱，故此次保姆级教程采用了较新的版本并通过测试</p>
+<p>保姆级教程：尽可能详细的列出具体步骤，但省略了一些作者认为比较简单的操作：如何打开命令行、命令行基本操作、如何使用Pycharm、软件的基本安装流程、环境变量的手动配置等。</p>
+<p><strong>如果仍然无法解决您的问题</strong><br>
+建议1：转身立马退坑<br>
+建议2：<a href="https://www.google.com.hk/">点击这里</a></p>
+</blockquote>
+<hr>
+<h2 id="1-前言：先装python还是先装anaconda">1.前言：先装python还是先装anaconda</h2>
+<blockquote>
+<p><strong>装anaconda，就不需要单独装python了</strong></p>
+<p>anaconda 是一个python的发行版，包括了python和很多常见的软件库,和一个包管理器conda，集成了很多关于python科学计算的第三方库，主要是安装方便，而python是一个编译器，如果不使用anaconda，那么安装起来会比较痛苦，各个库之间的依赖性就很难连接的很好。</p>
+</blockquote>
+<h2 id="2-Anaconda版本选择与下载">2.Anaconda版本选择与下载</h2>
+<h3 id="方法一">方法一</h3>
+<blockquote>
+<p><strong>官网下载:</strong> 不推荐，不会开飞机的话速度慢并且容易断<br>
+<a href="https://www.anaconda.com/products/individual">Anaconda官网</a></p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda.png" alt="Anaconda官网"></p>
+<h3 id="方法二">方法二</h3>
+<blockquote>
+<p><strong>国内镜像源:</strong> 可以用清华源、中科大源…<br>
+<a href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive">Anaconda清华源</a></p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_tsinghua.png" alt="Anaconda清华源"></p>
+<h3 id="版本选择">版本选择</h3>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_python.png" alt="请输入图片描述"></p>
+<h2 id="3-Anaconda安装">3.Anaconda安装</h2>
+<blockquote>
+<p><strong>比较容易</strong>，一路next和skip，包括自动添加到环境变量等操作，可以直接装到C盘可以避免一些后续问题，笔者这里选择装到了E://Anaconda3 <strong>等待安装完毕即可</strong><br>
+若没有勾选<code>Add Anaconda to the system Path environment variable</code>，需要手动添加环境变量，比较简单；此处勾选了所以忽略</p>
+</blockquote>
+<h3 id="验证是否安装完成-conda-info">验证是否安装完成 conda info</h3>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_complete.png" alt="验证是否安装完成 conda info"></p>
+<h3 id="Anaconda-Navigator是否可用">Anaconda Navigator是否可用</h3>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_navigator.png" alt="Anaconda Navigator是否可用"></p>
+<blockquote>
+<p>至此，Python 3.7.0 + Anaconda3-5.3.1安装完成</p>
+</blockquote>
+<hr>
+<h2 id="4-更换conda镜像源">4.更换conda镜像源</h2>
+<ul>
+<li>
+<p>可以在Anaconda Navigator中的channel直接更换</p>
+</li>
+<li>
+<p>也可以在Anaconda Prompt中更换镜像源<br>
+<code>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</code><br>
+<code>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/</code><br>
+<code>conda config --set show_channel_urls yes</code></p>
+</li>
+<li>
+<p>查看是否已经更换好通道<br>
+<code>conda config --show channels</code><br>
+<img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Change_channel.png" alt="Change_channel"></p>
+</li>
+</ul>
+<h2 id="5-Pycharm使用">5.Pycharm使用</h2>
+<blockquote>
+<p>Jetbrains全家桶：US $649.00/Year，当然建议使用edu邮箱获取，申请教育版邮箱认证即可（可能需要不定时验证信息），建议安装<strong>Toolbox</strong>方便更新以及使用</p>
+<p><a href="https://www.jetbrains.com">附上<strong>Jetbrains</strong>链接</a></p>
+<p><em>针对浙工大学生邮箱：Jetbrains的验证邮件容易出现在e邮的<strong>拦截队列</strong>中，收不到confirm email可以在拦截队列中找到</em></p>
+<p>如果比较困难，可以尝试装中文插件 File-&gt;Settings-&gt;Plugins-&gt;Chinese (Simplified) Language Pack EAP  当然<strong>不建议</strong>这样使用，<strong>汉化</strong>的翻译可能存在偏差</p>
+</blockquote>
+<h2 id="6-Pycharm虚拟环境介绍">6. Pycharm虚拟环境介绍</h2>
+<blockquote>
+<p>Pycharm采用虚拟的环境，配置是可以采用为项目新建Python解释器或者使用原有的环境</p>
+</blockquote>
+<ol>
+<li>Inherit global site-packages<br>
+继承本地的库，如果需要重复安装第三方库，可以勾上这个</li>
+<li>Make available to all projects<br>
+可以使别的工程项目可以使用此工程的环境</li>
+</ol>
+<blockquote>
+<p>区别：创建Virtualenv Environment 或者 Conda Environment<br>
+若要在服务器上远程运行，配置SSH interpreter，并且在Tools-&gt;Deploment-&gt;Configuration中配置主机即可，后续有机会再详细展开…</p>
+</blockquote>
+<h2 id="7-CUDA和cuDNN">7. CUDA和cuDNN</h2>
+<blockquote>
+<p>检测目前安装了哪些环境<br>
+cmd: <code>conda info --envs</code></p>
+<p>检查目前有哪些版本的python可以安装<br>
+cmd：<code>conda search --full-name python</code></p>
+<p>检查目前有哪些版本的Tensorflow可以安装<br>
+cmd：<code>conda search --full -name tensorflow</code></p>
+<p>查看依赖关系<br>
+cmd：<code>conda info tensorflow</code></p>
+<p><strong>在这之前，检查Nvidia驱动支持的CUDA版本，此处安装的是Tensorflow2.4.1，需要CUDA11.0或及以上版本</strong></p>
+</blockquote>
+<ul>
+<li><a href="https://tensorflow.google.cn/install/source_windows?hl=cn#gpu">查看Tensorflow和CUDA对应版本</a>（版本一定要对应）</li>
+</ul>
+<blockquote>
+<p><code>nvidia-smin</code>命令行查看CUDA Version （当前显卡驱动最高支持的CUDA版本）</p>
+</blockquote>
+<ul>
+<li><a href="https://developer.nvidia.com/cuda-toolkit-archive">Nvidia官网下载Cudatoolkit</a>（下载速度慢可以复制链接到迅雷下载）</li>
+</ul>
+<blockquote>
+<p>一路安装下来即可，安装过程中已经自动添加了环境变量<br>
+cmd：<code>nvcc -V</code>返回CUDA版本信息，如果<strong>nvcc命令无法识别则表示安装失败</strong></p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/nvcc%20-V.png" alt="CUDA版本信息"></p>
+<ul>
+<li><a href="https://developer.nvidia.com/rdp/cudnn-archive">Nvidia官网下载cuDNN</a>（下载速度慢可以复制链接到迅雷下载）</li>
+</ul>
+<blockquote>
+<p>只要把cuDNN文件复制到CUDA的对应文件夹里就可以，即所谓的插入式设计，cuDNN是CUDA的扩展计算库，不会对CUDA造成其他影响。<br>
+复制后，手动将CUDA相对路径下的/bin和/lib/x64添加到环境变量CUDA_PATH</p>
+</blockquote>
+<ul>
+<li><strong>测试CUDA</strong></li>
+</ul>
+<blockquote>
+<p>cmd：<code>cd /d C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1\extras\demo_suite</code></p>
+</blockquote>
+<ul>
+<li><strong>测试<code>deviceQuery.exe</code></strong></li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/CUDA_test0.png" alt="CUDA_deviceQuery"></p>
+<ul>
+<li><strong>测试<code>bandwidthTest.exe</code></strong></li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/CUDA_test1.png" alt="CUDA_bandwidthTest"></p>
+<blockquote>
+<p>都返回Result = PASS<br>
+That’s all OK.</p>
+</blockquote>
+<h2 id="8-TensorFlow">8. TensorFlow</h2>
+<h3 id="8-1-创建环境">8.1 创建环境</h3>
+<pre><code>conda create -name tfenv python=3.7.0
+</code></pre>
+<blockquote>
+<p>由于之前已经更换了清华源，由于网络问题造成的错误率大大降低，但仍然可能被中断<br>
+用<code>conda info --envs</code>检查一下是否装好了tfenv环境</p>
+</blockquote>
+<h3 id="8-2-激活环境">8.2 激活环境</h3>
+<pre><code>conda activate tfenv
+</code></pre>
+<blockquote>
+<p>退出环境<code>conda deactivate</code></p>
+</blockquote>
+<h3 id="8-3-激活后安装Tensorflow">8.3 激活后安装Tensorflow</h3>
+<ul>
+<li>
+<p>更换tfenv环境的pip源 👉<a href="https://mirrors.tuna.tsinghua.edu.cn/help/pypi/">更换pip清华源参考方法</a></p>
+</li>
+<li>
+<p>pip config set global.index-url <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></p>
+</li>
+<li>
+<p>pip install -U tensorflow-gpu -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></p>
+</li>
+</ul>
+<blockquote>
+<p>此处未指定版本，会选择最高的gpu版本安装，若要置顶版本，<code>tensorflow-gpu=2.x.x</code><br>
+虽然已经换源，但还是可能出现<code>These Packages Do Not Match The Hashes From The Requirements File.</code><br>
+解决方案：在pip时，添加&quot;–upgrade&quot;参数（<strong>实测有效</strong>）。<br>
+几分钟后👉<strong>安装成功</strong></p>
+</blockquote>
+<h3 id="8-4-激活后测试Tensorflow">8.4 激活后测试Tensorflow</h3>
+<ul>
+<li>
+<p>输出包含GPU信息的日志</p>
+<p>import tensorflow as tf<br>
+tf.test.is_gpu_available()<br>
+tf.test.gpu_device_name()</p>
+</li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Prompt_test.png" alt="Prompt_test"></p>
+<h3 id="8-5-Pycharm测试Tensorflow">8.5 Pycharm测试Tensorflow</h3>
+<ul>
+<li>添加安装有Tensorflow的环境作为工程的python解释器</li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Pycharm_test0.png" alt="Anaconda官网.png"></p>
+<pre><code>import tensorflow as tf
+tf.compat.v1.disable_eager_execution()
+greeting = tf.constant('Hello Tensorflow!')
+sess = tf.compat.v1.Session()
+result = sess.run(greeting)
+print(result)
+sess.close()
+</code></pre>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Pycharm_test1.png" alt="Pycharm中测试"></p>
+<hr>
+<blockquote>
+<p>至此，所有安装和配置完成，<strong>版本对应</strong>问题非常重要，如果出现装错了版本请尝试<strong>彻底卸载</strong>后重装<br>
+为了更有针对性，本文采用了较新的版本，请务必在安装前选择<strong>合适的版本</strong><br>
+如果提示确实dll动态链接库，请尝试手动下载，貌似采用CUDA11.1可能会遇到这种情况，并且有部分人认为11.1中有未知错误并且不推荐使用，但在安装过程中并未发现，或许之后遇到了会继续补充</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Tensorflow</category>
+      </categories>
+      <tags>
+        <tag>安装教程</tag>
+        <tag>tensorflow</tag>
       </tags>
   </entry>
 </search>

@@ -200,13 +200,6 @@
   </url>
   
   <url>
-    <loc>https://www.lingzhicheng.cn/tags/AD%E8%BD%AC%E5%8C%96/</loc>
-    <lastmod>2021-06-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.lingzhicheng.cn/tags/%E5%AE%9A%E6%97%B6%E5%99%A8/</loc>
     <lastmod>2021-06-20</lastmod>
     <changefreq>daily</changefreq>
@@ -214,14 +207,7 @@
   </url>
   
   <url>
-    <loc>https://www.lingzhicheng.cn/tags/Git/</loc>
-    <lastmod>2021-06-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.lingzhicheng.cn/tags/Github/</loc>
+    <loc>https://www.lingzhicheng.cn/tags/AD%E8%BD%AC%E5%8C%96/</loc>
     <lastmod>2021-06-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -257,20 +243,6 @@
   
   <url>
     <loc>https://www.lingzhicheng.cn/tags/Visual-Studio/</loc>
-    <lastmod>2021-06-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.lingzhicheng.cn/tags/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</loc>
-    <lastmod>2021-06-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.lingzhicheng.cn/tags/tensorflow/</loc>
     <lastmod>2021-06-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -325,6 +297,34 @@
     <priority>0.6</priority>
   </url>
   
+  <url>
+    <loc>https://www.lingzhicheng.cn/tags/Git/</loc>
+    <lastmod>2021-06-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.lingzhicheng.cn/tags/Github/</loc>
+    <lastmod>2021-06-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.lingzhicheng.cn/tags/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</loc>
+    <lastmod>2021-06-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.lingzhicheng.cn/tags/tensorflow/</loc>
+    <lastmod>2021-06-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
 
   
   <url>
@@ -349,13 +349,6 @@
   </url>
   
   <url>
-    <loc>https://www.lingzhicheng.cn/categories/Tensorflow/</loc>
-    <lastmod>2021-06-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.lingzhicheng.cn/categories/Gitalk/</loc>
     <lastmod>2021-06-20</lastmod>
     <changefreq>daily</changefreq>
@@ -371,6 +364,13 @@
   
   <url>
     <loc>https://www.lingzhicheng.cn/categories/python/</loc>
+    <lastmod>2021-06-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.lingzhicheng.cn/categories/Tensorflow/</loc>
     <lastmod>2021-06-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
