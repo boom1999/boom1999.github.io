@@ -6,7 +6,8 @@ tags:
 categories: Matlab
 ---
 
-Personal matlab sort out finally.
+### Personal matlab sort out finally ###
+
 <!--more-->
 
 ## 1.Basics ##
@@ -246,7 +247,14 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
   |  $X(k)=\sum_{n=0}^{N-1}x(n) e^{-j\frac{2pi}{N}nk}$  |  $x(t)=\frac{1}{N}\sum_{n=0}^{N-1}X(k) e^{j\frac{2pi}{N}nk}$  |
 
 - ### Energy and Power ###
-  
+
+  ``` matlab
+  dt=t(2)-t(1);
+  df=f(2)-f(1);
+  N=length(t);
+  T=t(end)-t(1)+dt;   % T=N*dt
+  ```
+
   - Energy
     - T-domain
     $x[n]=x(n\Delta t)$
@@ -293,12 +301,29 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
 
     ```matlab
     R(tau)=sum(x(t).*conj(x(t+tau))*dt/(N*dt);
+    
+    %% or
+    R=xcorr(x);
+    R=R*Ts/T;   % R=R/N
     ```
 
   - PSD
     $P_T(f)=\lim_{T\rightarrow\infty}\frac{|X_T(f)|^2}{T}$
   - Wiener-Khinchin theorem
     $FT(R_T(\tau))=P_T(f)$
+
+- ### Component ###
+
+  - hilbert change
+    通过希尔伯特变换，返回的实部是本身即同向分量(quardature component)，虚部是延迟90°后的信号即正交分量(in-phase component)
+
+    ``` matlab
+    x_a = hilbert(x);
+    fc = 50;                        % Carrier fc=50Hz
+    x_l = x_a.*exp(-1i*2*pi*fc*t);  % Lowpass equivalent
+    x_i = real(x_l);                % In-phase component
+    x_q = imag(x_l);                % Quadrature component
+    ```
 
 ## 3.Randon process and analog modulation ##
 
