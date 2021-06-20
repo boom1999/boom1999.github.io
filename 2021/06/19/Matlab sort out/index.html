@@ -76,7 +76,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.2k</span>
+            <span class="post-count">1.3k</span>
         </span>
     </span>
 
@@ -85,7 +85,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">6 分钟</span>
+            <span class="post-count">7 分钟</span>
         </span>
     </span>
 </div>
@@ -385,14 +385,28 @@ $f(t)=\sum_{k=-\infty}^{+\infty}f_1(k\Delta)f_2(t-k\Delta)\Delta$</li>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">$X(f)=\int_{-\infty}<sup>{+\infty}x(t)e</sup>{-j2\pi ft}dt$</td>
-<td style="text-align:center">$x(t)=\int_{-\infty}<sup>{+\infty}X(f)e</sup>{j2\pi ft}df$</td>
+<td style="text-align:center">$X(f)=\int_{-\infty}^{+\infty}x(t) e^{-j2\pi ft}dt$</td>
+<td style="text-align:center">$x(t)=\int_{-\infty}^{+\infty}X(f) e^{j2\pi ft}df$</td>
 </tr>
 </tbody>
 </table>
 <ul>
 <li>Discrete-time, discrete-frequency: DFT / FFT</li>
 </ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">T2F</th>
+<th style="text-align:center">F2T</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$X(k)=\sum_{n=0}^{N-1}x(n) e^{-j\frac{2pi}{N}nk}$</td>
+<td style="text-align:center">$x(t)=\frac{1}{N}\sum_{n=0}^{N-1}X(k) e^{j\frac{2pi}{N}nk}$</td>
+</tr>
+</tbody>
+</table>
 </li>
 <li>
 <h3 id="Energy-and-Power">Energy and Power</h3>
@@ -402,13 +416,13 @@ $f(t)=\sum_{k=-\infty}^{+\infty}f_1(k\Delta)f_2(t-k\Delta)\Delta$</li>
 <ul>
 <li>T-domain<br>
 $x[n]=x(n\Delta t)$<br>
-$E=\int_{-\infty}<sup>{+\infty}|x(t)|</sup>2dt\approx\sum_{n=0}<sup>Mx[n]·x</sup>*[n]·\Delta t$</li>
+$E=\int_{-\infty}^{+\infty} |x(t)|^2dt \approx\sum_{n=0}^M x[n]·x^*[n]·\Delta t$</li>
 </ul>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% E=sum(x.*conj(x))*dt;</span></span><br><span class="line">E=sum(<span class="built_in">abs</span>(x).^<span class="number">2</span>)*dt;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>F-domain<br>
 $X[k]=X(k\Delta f)$<br>
-$E=\int_{-\infty}<sup>{+\infty}|X(f)|</sup>2df\approx\sum_{k=0}<sup>{k-1}X[k]·X</sup>*[k]·\Delta f$</li>
+$E=\int_{-\infty}^{+\infty} |X(f)|^2df \approx\sum_{k=0}^{k-1} X[k]·X^*[k]·\Delta f$</li>
 </ul>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% E=sum(x.*conj(x))*df;</span></span><br><span class="line">E=sum(<span class="built_in">abs</span>(x).^<span class="number">2</span>)*df;</span><br></pre></td></tr></table></figure>
 </li>
@@ -416,13 +430,13 @@ $E=\int_{-\infty}<sup>{+\infty}|X(f)|</sup>2df\approx\sum_{k=0}<sup>{k-1}X[k]·X
 <p>Power</p>
 <ul>
 <li>T-domain<br>
-$P=\lim_{T\rightarrow\infty}\frac{1}{T}\int_0<sup>T|x(t)|</sup>2dt\approx\frac{1}{N}\sum_{n=0}<sup>{N-1}|x[n]|</sup>2$</li>
+$P=\lim_{T\rightarrow\infty}\frac{1}{T}\int_0^T |x(t)|^2dt \approx\frac{1}{N}\sum_{n=0}^{N-1} |x[n]|^2$</li>
 </ul>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% P=sum(x.*conj(x))/N;</span></span><br><span class="line">P=sum(<span class="built_in">abs</span>(x).^<span class="number">2</span>)/N;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>F-domain<br>
 <em>$X_Tf$ is the spectrum of x(t) within [0,T]</em><br>
-$P=\lim_{T\rightarrow\infty}\frac{1}{T}\int_{-\infty}<sup>{+\infty}|X_T(f)|</sup>2df\approx\frac{1}{N}\sum_{k=0}<sup>{K-1}|X[k]|</sup>2\Delta f$</li>
+$P=\lim_{T\rightarrow\infty}\frac{1}{T}\int_{-\infty}^{+\infty} |X_T(f)|^2df \approx\frac{1}{N}\sum_{k=0}^{K-1} |X[k]|^2\Delta f$</li>
 </ul>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% P=sum(x.*conj(x))*df/T;</span></span><br><span class="line">P=sum(<span class="built_in">abs</span>(x).^<span class="number">2</span>)*df/T;</span><br></pre></td></tr></table></figure>
 </li>
@@ -434,7 +448,7 @@ $P=\lim_{T\rightarrow\infty}\frac{1}{T}\int_{-\infty}<sup>{+\infty}|X_T(f)|</sup
 <li>
 <p>Autocorrelation<br>
 $x[n]=x(n\Delta t)$<br>
-$R(\tau)=\int_{-\infty}<sup>{+\infty}x(t)x</sup><em>(t+\tau)dt\approx\sum_{n=0}<sup>Mx[n]·x</sup></em>[n+\tau]·\Delta t$<br>
+$R(\tau)=\int_{-\infty}^{+\infty} x(t)x^* (t+\tau)dt \approx\sum_{n=0}^M x[n]·x^*[n+\tau]·\Delta t$<br>
 $R_T(\tau)=\lim_{T\rightarrow\infty}\frac{R(\tau)}{T}$</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">R(tau)=sum(x(t).*<span class="built_in">conj</span>(x(t+tau))*dt/(N*dt);</span><br></pre></td></tr></table></figure>
 </li>
