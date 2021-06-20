@@ -76,7 +76,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.8k</span>
+            <span class="post-count">2k</span>
         </span>
     </span>
 
@@ -85,7 +85,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">10 分钟</span>
+            <span class="post-count">11 分钟</span>
         </span>
     </span>
 </div>
@@ -591,9 +591,64 @@ $s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)\pm \frac{A_{c}}{2}m(t)sin(2\pi{f_c}t)$<
 </li>
 </ul>
 <h2 id="4-Baseband-signal-transmission-I">4.Baseband signal transmission I</h2>
+<blockquote>
+<p>AWGN：add white gauss noise<br>
+Two optimum receivers for AWGN: signal correlator and matched filter.<br>
+For AWGN, the noise ni is Gaussian distributed with mean of zero and variance of $\frac{EN_0}{2}$</p>
+</blockquote>
 <ul>
 <li>
-<h3 id="ex4">ex4</h3>
+<h3 id="Binary-modulations">Binary modulations</h3>
+<ul>
+<li>Received signal
+<ul>
+<li>$r(t)=s_i(t)+n(t)，0\leq t \leq T_b，i=0,1$</li>
+<li>Determine whether a 0 or 1 was transmitted.</li>
+</ul>
+</li>
+<li>Signal correlator
+<ul>
+<li>$r_0=\int_0^{T_b}r(t)s_0(t)dt=E+n_0$</li>
+<li>$r_1=\int_0^{T_b}r(t)s_1(t)dt=n_1$</li>
+</ul>
+</li>
+<li>Match filter
+<ul>
+<li>Sample at $t=T_b$</li>
+<li>$h_i(t)=s_i(T_{b}-t)，0\leq t \leq T_b，i=0,1$</li>
+</ul>
+</li>
+<li>Detector
+<ul>
+<li>The detector observe the correlator or matched filter output and decides on whether the transmitted signal waveform is either $s_0(t)$ or $s_1(t)$.</li>
+<li>Comparing $r_0$ or $r_1$. If $r_0&gt;r_1$, it decides 0 is transmitted.</li>
+<li>$P_e=Q(\frac{E}{\delta})=Q(\frac{E}{\sqrt{\frac{EN_0}{2}}})=Q(\sqrt{\frac{2E}{N_0}})$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h3 id="Other-binary-modulations">Other binary modulations</h3>
+<ul>
+<li>Antipodal signal
+<ul>
+<li>$P_e(\alpha_{opt})=Q(\frac{\frac{E}{2}}{\delta})=Q(\frac{\frac{E}{2}}{\sqrt{\frac{EN_0}{2}}})=Q(\sqrt{\frac{E}{2N_0}})$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h3 id="Monto-Carlo-simulation">Monto Carlo simulation</h3>
+<ul>
+<li>Source output <code>dsource=0</code>or<code>dsource=1</code></li>
+<li>Detection
+<ul>
+<li>Match filter output <code>r=E+gngauss(sgma)</code>or<code>r=-E+gngauss(sgma)</code></li>
+<li>Detector <code>r&lt;0</code>?  <code>decis=0</code>or<code>decis=1</code></li>
+<li>Error counter <code>decis!=dsource</code>?  <code>numoferr+=1</code></li>
+</ul>
+</li>
+</ul>
 </li>
 </ul>
 <h2 id="5-Baseband-signal-transmission-II">5.Baseband signal transmission II</h2>

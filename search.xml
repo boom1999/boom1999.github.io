@@ -1053,9 +1053,64 @@ $s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)\pm \frac{A_{c}}{2}m(t)sin(2\pi{f_c}t)$<
 </li>
 </ul>
 <h2 id="4-Baseband-signal-transmission-I">4.Baseband signal transmission I</h2>
+<blockquote>
+<p>AWGN：add white gauss noise<br>
+Two optimum receivers for AWGN: signal correlator and matched filter.<br>
+For AWGN, the noise ni is Gaussian distributed with mean of zero and variance of $\frac{EN_0}{2}$</p>
+</blockquote>
 <ul>
 <li>
-<h3 id="ex4">ex4</h3>
+<h3 id="Binary-modulations">Binary modulations</h3>
+<ul>
+<li>Received signal
+<ul>
+<li>$r(t)=s_i(t)+n(t)，0\leq t \leq T_b，i=0,1$</li>
+<li>Determine whether a 0 or 1 was transmitted.</li>
+</ul>
+</li>
+<li>Signal correlator
+<ul>
+<li>$r_0=\int_0^{T_b}r(t)s_0(t)dt=E+n_0$</li>
+<li>$r_1=\int_0^{T_b}r(t)s_1(t)dt=n_1$</li>
+</ul>
+</li>
+<li>Match filter
+<ul>
+<li>Sample at $t=T_b$</li>
+<li>$h_i(t)=s_i(T_{b}-t)，0\leq t \leq T_b，i=0,1$</li>
+</ul>
+</li>
+<li>Detector
+<ul>
+<li>The detector observe the correlator or matched filter output and decides on whether the transmitted signal waveform is either $s_0(t)$ or $s_1(t)$.</li>
+<li>Comparing $r_0$ or $r_1$. If $r_0&gt;r_1$, it decides 0 is transmitted.</li>
+<li>$P_e=Q(\frac{E}{\delta})=Q(\frac{E}{\sqrt{\frac{EN_0}{2}}})=Q(\sqrt{\frac{2E}{N_0}})$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h3 id="Other-binary-modulations">Other binary modulations</h3>
+<ul>
+<li>Antipodal signal
+<ul>
+<li>$P_e(\alpha_{opt})=Q(\frac{\frac{E}{2}}{\delta})=Q(\frac{\frac{E}{2}}{\sqrt{\frac{EN_0}{2}}})=Q(\sqrt{\frac{E}{2N_0}})$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h3 id="Monto-Carlo-simulation">Monto Carlo simulation</h3>
+<ul>
+<li>Source output <code>dsource=0</code>or<code>dsource=1</code></li>
+<li>Detection
+<ul>
+<li>Match filter output <code>r=E+gngauss(sgma)</code>or<code>r=-E+gngauss(sgma)</code></li>
+<li>Detector <code>r&lt;0</code>?  <code>decis=0</code>or<code>decis=1</code></li>
+<li>Error counter <code>decis!=dsource</code>?  <code>numoferr+=1</code></li>
+</ul>
+</li>
+</ul>
 </li>
 </ul>
 <h2 id="5-Baseband-signal-transmission-II">5.Baseband signal transmission II</h2>
@@ -1191,6 +1246,40 @@ The demodulated signals:</p>
       <categories>
         <category>总结</category>
       </categories>
+  </entry>
+  <entry>
+    <title>VS2019代码提示延迟很高，部分快捷键无法使用的问题</title>
+    <url>/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h3 id="原因">原因</h3>
+<ul>
+<li>Visual Studio 与Nvidia CUDA NSightVSE冲突</li>
+</ul>
+<h3 id="现象">现象</h3>
+<ul>
+<li>Tab、Ctrl’+C 、 Ctrl’+K 等快捷键失效，智能代码提示不能正常显示，有时不会出现，有时要等四五秒，非常不正常</li>
+</ul>
+<blockquote>
+<p>Setting中检查设置无误，尝试过重启、重置个人配置、重装等均无效<br>
+很长一段时间没有使用过vs，之前装了比较新的Nvidia CUDA，同时附带的有NSightVSE，也就是设计vs的拓展，问题出在这里</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="解决方法">解决方法</h3>
+<blockquote>
+<p>卸载NSightVSE或者其他Nvidia和vs相关的拓展，重启vs后生效<br>
+正常情况搜索NsightVSE会出现四个，保留下列三个即可，版本仅供参考，可能其他版本不会出现如上问题。<br>
+Nvidia CUDA Nsight NVTX 11.1<br>
+Nvidia Nsight Compute 2020.2.0<br>
+Nvidia Nsight Systems 2020.3.4</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
+      <tags>
+        <tag>debug</tag>
+        <tag>Nvidia CUDA</tag>
+        <tag>Visual Studio</tag>
+      </tags>
   </entry>
   <entry>
     <title>Tensorflow2.4保姆级安装教程</title>
@@ -1427,40 +1516,6 @@ sess.close()
       <tags>
         <tag>安装教程</tag>
         <tag>tensorflow</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>VS2019代码提示延迟很高，部分快捷键无法使用的问题</title>
-    <url>/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h3 id="原因">原因</h3>
-<ul>
-<li>Visual Studio 与Nvidia CUDA NSightVSE冲突</li>
-</ul>
-<h3 id="现象">现象</h3>
-<ul>
-<li>Tab、Ctrl’+C 、 Ctrl’+K 等快捷键失效，智能代码提示不能正常显示，有时不会出现，有时要等四五秒，非常不正常</li>
-</ul>
-<blockquote>
-<p>Setting中检查设置无误，尝试过重启、重置个人配置、重装等均无效<br>
-很长一段时间没有使用过vs，之前装了比较新的Nvidia CUDA，同时附带的有NSightVSE，也就是设计vs的拓展，问题出在这里</p>
-</blockquote>
-<a id="more"></a>
-<h3 id="解决方法">解决方法</h3>
-<blockquote>
-<p>卸载NSightVSE或者其他Nvidia和vs相关的拓展，重启vs后生效<br>
-正常情况搜索NsightVSE会出现四个，保留下列三个即可，版本仅供参考，可能其他版本不会出现如上问题。<br>
-Nvidia CUDA Nsight NVTX 11.1<br>
-Nvidia Nsight Compute 2020.2.0<br>
-Nvidia Nsight Systems 2020.3.4</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>总结</category>
-      </categories>
-      <tags>
-        <tag>debug</tag>
-        <tag>Nvidia CUDA</tag>
-        <tag>Visual Studio</tag>
       </tags>
   </entry>
   <entry>
