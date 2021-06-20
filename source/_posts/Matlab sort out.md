@@ -389,7 +389,7 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
     Ts = 1/Fs;              % Sampling interval
     Fc = 20;                % Carrier rate
     t = 0:Ts:1;             % Time vector
-    
+
     m = sin(2*pi*t);        % Message signal
     c = cos(2*pi*Fc*t);     % Carrier signal
     Ac_DSB_AM = 1;
@@ -403,7 +403,38 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
 
 ## 4.Baseband signal transmission I ##
 
-- ### ex4 ###
+> AWGN：add white gauss noise
+> Two optimum receivers for AWGN: signal correlator and matched filter.
+> For AWGN, the noise ni is Gaussian distributed with mean of zero and variance of $\frac{EN_0}{2}$
+
+- ### Binary modulations ###
+  
+  - Received signal
+    - $r(t)=s_i(t)+n(t)，0\leq t \leq T_b，i=0,1$
+    - Determine whether a 0 or 1 was transmitted.
+  - Signal correlator
+    - $r_0=\int_0^{T_b}r(t)s_0(t)dt=E+n_0$
+    - $r_1=\int_0^{T_b}r(t)s_1(t)dt=n_1$
+  - Match filter
+    - Sample at $t=T_b$
+    - $h_i(t)=s_i(T_{b}-t)，0\leq t \leq T_b，i=0,1$
+  - Detector
+    - The detector observe the correlator or matched filter output and decides on whether the transmitted signal waveform is either $s_0(t)$ or $s_1(t)$.
+    - Comparing $r_0$ or $r_1$. If $r_0>r_1$, it decides 0 is transmitted.
+    - $P_e=Q(\frac{E}{\delta})=Q(\frac{E}{\sqrt{\frac{EN_0}{2}}})=Q(\sqrt{\frac{2E}{N_0}})$
+
+- ### Other binary modulations ###
+
+  - Antipodal signal
+    - $P_e(\alpha_{opt})=Q(\frac{\frac{E}{2}}{\delta})=Q(\frac{\frac{E}{2}}{\sqrt{\frac{EN_0}{2}}})=Q(\sqrt{\frac{E}{2N_0}})$
+
+- ### Monto Carlo simulation ###
+
+  - Source output `dsource=0`or`dsource=1`
+  - Detection
+    - Match filter output `r=E+gngauss(sgma)`or`r=-E+gngauss(sgma)`
+    - Detector `r<0`?  `decis=0`or`decis=1`
+    - Error counter `decis!=dsource`?  `numoferr+=1`
 
 ## 5.Baseband signal transmission II ##
 
