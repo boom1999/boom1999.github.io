@@ -76,7 +76,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2k</span>
+            <span class="post-count">2.2k</span>
         </span>
     </span>
 
@@ -85,7 +85,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">11 分钟</span>
+            <span class="post-count">12 分钟</span>
         </span>
     </span>
 </div>
@@ -100,7 +100,7 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h3 id="Personal-matlab-sort-out-finally">Personal matlab sort out finally</h3>
+  <h3 id="Personal-matlab-sort-out-about-communication-simulations-finally">Personal matlab sort out about communication simulations finally</h3>
 <a id="more"></a>
 <h2 id="1-Basics">1.Basics</h2>
 <ul>
@@ -475,9 +475,7 @@ $FT(R_T(\tau))=P_T(f)$</p>
 </li>
 </ul>
 <h2 id="3-Randon-process-and-analog-modulation">3.Randon process and analog modulation</h2>
-<blockquote>
 <p>For a random process $x(t)$, for an arbitrary $t_1$，$x(t_1)$ is a random variable.</p>
-</blockquote>
 <ul>
 <li>
 <h3 id="Variables-and-Distributions">Variables and Distributions</h3>
@@ -590,12 +588,10 @@ $s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)\pm \frac{A_{c}}{2}m(t)sin(2\pi{f_c}t)$<
 </ul>
 </li>
 </ul>
-<h2 id="4-Baseband-signal-transmission-I">4.Baseband signal transmission I</h2>
-<blockquote>
+<h2 id="4-Baseband-signal-transmission">4.Baseband signal transmission</h2>
 <p>AWGN：add white gauss noise<br>
 Two optimum receivers for AWGN: signal correlator and matched filter.<br>
-For AWGN, the noise ni is Gaussian distributed with mean of zero and variance of $\frac{EN_0}{2}$</p>
-</blockquote>
+For AWGN, the noise ni is Gaussian distributed with mean of zero and variance of $\frac{EN_0}{2}$.</p>
 <ul>
 <li>
 <h3 id="Binary-modulations">Binary modulations</h3>
@@ -660,22 +656,72 @@ For AWGN, the noise ni is Gaussian distributed with mean of zero and variance of
 </ul>
 </li>
 </ul>
-<h2 id="5-Baseband-signal-transmission-II">5.Baseband signal transmission II</h2>
+<h2 id="5-Pulse-Amplitude-Modulation-PAM">5.Pulse Amplitude Modulation(PAM)</h2>
+<ul>
+<li>
+<h3 id="Theoretical-symbol-error-rate">Theoretical symbol error rate</h3>
+<ul>
+<li>$P_M=\frac{2(M-1)}{M}Q(\sqrt{\frac{6(log_{2}M)E_{avb}}{(M^2{-}1)N_0}})$</li>
+<li><code>SNR=exp(snr_in_dB*log(10)/10)</code>equals to<code>SNR=10^(snr_in_dB/10)</code></li>
+</ul>
+</li>
+<li>
+<h3 id="Bit-error-rate-and-energy">Bit error rate and energy</h3>
+<ul>
+<li>
+<p><code>smld_err_pb=smld_err_p/M</code></p>
+</li>
+<li>
+<p>Energy(M-PAM)(N symbols)<br>
+$E_{av}=\frac{1}{N}\sum_{k=1}<sup>{N}\int_{0}</sup>{T}s_{k}^{2}(t)dt$<br>
+$E=\frac{E_{av}}{M}$</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% 8PAM,M=3;there is 8 symbols.</span></span><br><span class="line">Eav = sum(Am.^<span class="number">2</span>)/<span class="number">8</span>      <span class="comment">% Average energy per symbol.</span></span><br><span class="line">E = Eav/<span class="number">3</span>               <span class="comment">% Average energy per bit.</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<h3 id="Raised-cosine-and-ISI">Raised-cosine and ISI</h3>
+<ul>
+<li>RC
+<ul>
+<li>$x_{rc}(t)=\frac{sin(\pi t/T_s)}{\pi t/T_s}\frac{cos(\alpha \pi t/T_s))}{1-4\alpha ^2 t^2 /T_s^2}$</li>
+</ul>
+</li>
+<li>ISI
+<ul>
+<li>$x(nT)=<br>
+\begin{cases}<br>
+1, &amp; n=0 \\<br>
+0, &amp; others<br>
+\end{cases} $</li>
+<li>F-domain：$\sum_{m=-\infty}^{+\infty}X(f+\frac{m}{T})=T$</li>
+</ul>
+</li>
+<li>Under a band-limited noiseless channel, the larger the passband, the smoother the signal.
+<ul>
+<li><a href="" target="_blank">e.g. Band-limited noiseless channel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-Digital-Transmission-via-carrier-modulation">6.Digital Transmission via carrier modulation</h2>
 <ul>
 <li>
 <h3 id="ex5">ex5</h3>
 </li>
 </ul>
-<h2 id="6-Digital-Transmission-via-carrier-modulation-I">6.Digital Transmission via carrier modulation I</h2>
-<ul>
-<li>
-<h3 id="ex6">ex6</h3>
-</li>
-</ul>
-<h2 id="7-Digital-Transmission-via-carrier-modulation-II">7.Digital Transmission via carrier modulation II</h2>
+<h2 id="7-ASK-PSK">7.ASK PSK</h2>
 <ul>
 <li>
 <h3 id="ex7">ex7</h3>
+</li>
+</ul>
+<h2 id="8-Quadrature-Amplitude-Modulation-QAM">8.Quadrature Amplitude Modulation(QAM)</h2>
+<h2 id="9-FSK">9.FSK</h2>
+<ul>
+<li>
+<h3 id="ex89">ex89###</h3>
 </li>
 </ul>
 <!-- markdownlint-disable-file MD033 -->
