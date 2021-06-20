@@ -271,6 +271,120 @@ AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片�
       </tags>
   </entry>
   <entry>
+    <title>PSW设置改进中断</title>
+    <url>/2020/12/15/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/</url>
+    <content><![CDATA[<ul>
+<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
+</ul>
+<blockquote>
+<p>中断优先级实验，主程序相邻2个LED灯循环点亮（03H—C0H）1S，外部中断0后静态数码管间隔1S轮流点亮0-F后返回，外部中断1后1个LED灯循环点亮（01H-80H）后返回，外部中断0优先级高于外部中断1，实现中断嵌套</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<blockquote>
+<p>P1接LED的ABCDEF，P3.2接K1，P3.3接K4，P0接静态数码管ABCDEF</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    AJMP    START</span><br><span class="line"></span><br><span class="line">    ORG     0003H</span><br><span class="line">    AJMP    INTT0</span><br><span class="line">    </span><br><span class="line">    ORG     0013H</span><br><span class="line">    AJMP    INTT1</span><br><span class="line">    </span><br><span class="line">    ORG     0100H</span><br><span class="line">START:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    MOV     PSW,#00H</span><br><span class="line">    SETB    EX0</span><br><span class="line">    SETB    IT0</span><br><span class="line">    SETB    EX1</span><br><span class="line">    SETB    IT1</span><br><span class="line">    SETB    EA</span><br><span class="line">    MOV     IP,#01H</span><br><span class="line">    MOV     P3,#0FFH</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">    MOV     R0,#03H</span><br><span class="line">    MOV     R2,#08H</span><br><span class="line">    ACALL   LOOP</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">LOOP:</span><br><span class="line">    MOV     A,R0</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R2,LOOP</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">INTT0:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#08H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.2,Pkey0</span><br><span class="line">    LJMP    RETURN</span><br><span class="line"></span><br><span class="line">INTT1:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#10H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.3,Pkey2</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey0:</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    CJNE    A,#0FFH,Pkey1</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey1:</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    INC     DPTR</span><br><span class="line">    LJMP    Pkey0</span><br><span class="line">Pkey2:</span><br><span class="line">    MOV     R1,#01H</span><br><span class="line">    MOV     R3,#08H</span><br><span class="line">    ACALL   Pkey3</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey3:</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R3,Pkey3</span><br><span class="line">    RET</span><br><span class="line">RETURN:</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H</span><br><span class="line">    DB  80H,90H,88H,83H,0C6H,0A1H,86H,8EH</span><br><span class="line">    DB  0FFH</span><br><span class="line"></span><br><span class="line">D10ms:</span><br><span class="line">    MOV     R7,#25</span><br><span class="line">D4:</span><br><span class="line">    MOV     R6,#200</span><br><span class="line">    DJNZ    R6,$</span><br><span class="line">    DJNZ    R7,D4</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">D1S:</span><br><span class="line">    MOV     R5,#20</span><br><span class="line">D5: MOV     R6,#100</span><br><span class="line">D6: MOV     R7,#248</span><br><span class="line">D7: DJNZ     R7,D7</span><br><span class="line">    DJNZ    R6,D6</span><br><span class="line">    DJNZ    R5,D5</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">    END</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>中断</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>F-OFDM vs OFDM</title>
+    <url>/2021/06/15/F-OFDM%20vs%20OFDM/</url>
+    <content><![CDATA[<p>📌</p>
+<h3 id="Divide-the-OFDM-cattier-bandwidth-into-multiple-sub-bands-with-different-parameters-and-filter-the-sub-bands-and-try-to-leave-as-few-isolation-bands-as-possible-between-the-sub-bands">Divide the OFDM cattier bandwidth into multiple sub bands with different parameters, and filter the sub bands, and try to leave as few isolation bands as possible between the sub bands</h3>
+<p>🌞🕒😴</p>
+<a id="more"></a>
+<hr>
+<h2 id="📚-Abstract">📚 Abstract</h2>
+<ul>
+<li><em>With the launch of the 3GPP 5G standard, the 5G sky has gradually disappeared, and the bright stars of the candidate technology have dazzled us, and the 5G serialized new air interface technology proposed by Huawei is undoubtedly the brightest star among them. F-OFDM can realize the slicing of the physical layer of the air interface and is backward compatible with the LTE 4G system, and can meet the needs of future 5G development.</em></li>
+</ul>
+<h2 id="📘-OFDM-vs-F-OFDM">📘 OFDM vs F-OFDM</h2>
+<ul>
+<li><em>OFDM modulates high-rate data to mutually orthogonal sub-carriers through serial/parallel conversion, and introduces cyclic prefixes, which better solves the headache of inter-symbol interference. But the main problem of OFDM is not flexible enough.</em></li>
+<li><em>For example, the Internet of vehicles service with millisecond delay requires extremely short time-domain symbol and TTI; in the multi-connection scenario of the Internet of things, the amount of data transmitted by a single sensor is extremely low, but the requirements for the number of overall connections of the system are very high. It is necessary to configure a relatively narrow subcarrier spacing in the frequency domain. These flexible requirements cannot be met by OFDM technology.</em></li>
+<li><em>We can understand the time-frequency resources of the system as a carriage. If the OFDM scheme is adopted for decoration, the train can only provide fixed-size hard seats (sub-carrier spacing). Everyone, regardless of fat or thin, rich or not, can only sitting on a hard seat of the same size, this situation is obviously not humane enough. For 5G, we hope that the seats and spaces can be flexibly customized according to the height, short, fat and thin of passengers. Hard seats, soft seats, sleepers, boxes…you can adjust them whatever you wang. This the adaptive harmony train, and F-OFDM technology is based on this idea.</em></li>
+<li><em>F-OFDM can provide different sub-carrier spacing and numerology to meet the time-frequency resource requirements of different services. F-OFDM greatly reduces out-of-band leakage by optimizing the filter design, and the guard band overhead between different sub bands can be reduced to about 1%, which not only greatly improves the efficiency of spectrum utilization, but also, it’s possible to provides opportunities for future use of fragmented spectrum.</em></li>
+<li><em>In general, on the basis of inheriting all the advantages of OFDM (high spectrum utilization, adaptive MIMO, etc.), F-OFDM overcomes some inherent shortcomings of OFDM, and further improves flexibility and spectrum utilization efficiency basic technology to realize 5G air interface slicing.</em></li>
+</ul>
+<h2 id="📗-Benefits-or-advantages-of-F-OFDM">📗 Benefits or advantages of F-OFDM</h2>
+<ol>
+<li>Efficient utilization of spectrum.</li>
+<li>It suppresses out of band emission and hence guard band consumption can be reduced to minimum level.</li>
+<li>Optimized numerology can be applied to suit the needs of certain type of services within each sub bands.</li>
+<li>Possibility to incorporate other waveforms such as GFDM, FBMC, UFMC etc.</li>
+<li>Backward and forward compatibility.</li>
+<li>Using sub band-based filtering, global synchronization requirement is being relaxed. Hence inter-sub-band asynchronous transmission can be supported.</li>
+</ol>
+<h2 id="📙-Drawbacks-or-disadvantages-of-F-FDOM">📙 Drawbacks or disadvantages of F-FDOM</h2>
+<ol>
+<li>The F-OFDM requires additional pair of transmit and receiver filters in transmitter and receiver chain respectively compare to conventional OFDM.</li>
+<li>Like OFDM, CP can also be used in filter-based waveforms such as UFMC, F-OFDM to protect signal from SIS.</li>
+<li>Since full-band filtering cannot remove any SIS, it exists in F-OFDM similar to standard OFDM.</li>
+</ol>
+<h2 id="📖-Understanding-of-this-example">📖 Understanding of this example</h2>
+<ul>
+<li><em>This example compares Filtered-OFDM modulation with generic Cyclic Prefix OFDM (CP-OFDM) modulation. For F-OFDM, a well-designed filter is applied to the time domain OFDM symbol to improve the out-of-band radiation of the sub-band signal, while maintaining the complex-domain orthogonality of OFDM symbols. This example also models Filtered-OFDM modulation with configurable parameters. It highlights the filter design technique and the basic transmit/receive processing.</em></li>
+<li><em>A filter with a rectangular frequency response, i.e. a sinc impulse response, meets these criteria. To make this causal, the low-pass filter is realized using a window, which, effectively truncates the impulse response and offers smooth transitions to zero on both ends.</em></li>
+<li><em>In F-OFDM, the sub-band CP-OFDM signal is passed through the designed filter. As the filter’s passband corresponds to the signal’s bandwidth, only the few subcarriers close to the edge are affected. A key consideration is that the filter length can be allowed to exceed the cyclic prefix length for F-OFDM. The inter-symbol interference incurred is minimized due to the filter design using windowing (with soft truncation).</em></li>
+<li><em>Transmit-end processing operations are shown in the following F-OFDM transmitter diagram.</em></li>
+<li><em>The example next highlights the basic receive processing for F-OFDM for a single OFDM symbol. The received signal is passed through a matched filter, followed by the normal CP-OFDM receiver. It accounts for both the filtering ramp-up and latency prior to the FFT operation.</em></li>
+<li><em>No fading channel is considered in this example but noise is added to the received signal to achieve the desired SNR.</em></li>
+</ul>
+<h2 id="📕-Conclusion">📕 Conclusion</h2>
+<ul>
+<li><em>Comparing the plots of the spectral densities for CP-OFDM and F-OFDM schemes, F-OFDM has lower sidelobes. This allows a higher utilization of the allocated spectrum, leading to increased spectral efficiency.</em></li>
+<li><em>When we design F-OFDM filter, appropriate filtering for F-OFDM satisfies the following criteria:</em></li>
+</ul>
+<blockquote>
+<ol>
+<li>Should have a flat passband over the subcarriers in the sub-band.</li>
+<li>Should have a sharp transition band to minimize guard-bands.</li>
+<li>Should have sufficient stop-band attenuation.</li>
+</ol>
+</blockquote>
+<ul>
+<li><em>Universal Filtered Multi-Carrier (UFMC) modulation scheme is another approach to sub-band filtered OFDM. For more information, see the UFMC vs. OFDM Modulation example. This F-OFDM example uses a single sub-band while the UFMC example uses multiple sub-bands.</em></li>
+<li><em>F-OFDM and UFMC both use time-domain filtering with subtle differences in the way the filter is designed and applied. For UFMC, the length of filter is constrained to be equal to the cyclic-prefix length, while for F-OFDM, it can exceed the CP length.</em></li>
+<li><em>For F-OFDM, the filter design leads to a slight loss in orthogonality (strictly speaking) which affects only the edge subcarriers.</em></li>
+</ul>
+<h2 id="📝-Code">📝 Code</h2>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">%% F-OFDM vs. OFDM Modulation</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line">s = rng(<span class="number">211</span>);       <span class="comment">% Set RNG state for repeatability</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">%% System Parameters</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"><span class="comment">% Define system parameters for the example. These parameters can be</span></span><br><span class="line"><span class="comment">% modified to explore their impact on the system.</span></span><br><span class="line"> </span><br><span class="line">numFFT = <span class="number">1024</span>;           <span class="comment">% Number of FFT points</span></span><br><span class="line">numRBs = <span class="number">50</span>;             <span class="comment">% Number of resource blocks</span></span><br><span class="line">rbSize = <span class="number">12</span>;             <span class="comment">% Number of subcarriers per resource block</span></span><br><span class="line">cpLen = <span class="number">72</span>;              <span class="comment">% Cyclic prefix length in samples</span></span><br><span class="line"> </span><br><span class="line">bitsPerSubCarrier = <span class="number">8</span>;   <span class="comment">% 2: QPSK, 4: 16QAM, 6: 64QAM, 8: 256QAM</span></span><br><span class="line">snrdB = <span class="number">18</span>;              <span class="comment">% SNR in dB</span></span><br><span class="line"> </span><br><span class="line">toneOffset = <span class="number">2.5</span>;        <span class="comment">% Tone offset or excess bandwidth (in subcarriers)</span></span><br><span class="line">L = <span class="number">513</span>;                 <span class="comment">% Filter length (=filterOrder+1), odd</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Filtered-OFDM Filter Design</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line">numDataCarriers = numRBs*rbSize;    <span class="comment">% number of data subcarriers in subband</span></span><br><span class="line">halfFilt = <span class="built_in">floor</span>(L/<span class="number">2</span>);</span><br><span class="line">n = -halfFilt:halfFilt;  </span><br><span class="line"> </span><br><span class="line"><span class="comment">% Sinc function prototype filter</span></span><br><span class="line">pb = sinc((numDataCarriers+<span class="number">2</span>*toneOffset).*n./numFFT);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Sinc truncation window</span></span><br><span class="line">w = (<span class="number">0.5</span>*(<span class="number">1</span>+<span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>.*n/(L<span class="number">-1</span>)))).^<span class="number">0.6</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Normalized lowpass filter coefficients</span></span><br><span class="line">fnum = (pb.*w)/sum(pb.*w);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Filter impulse response</span></span><br><span class="line">h = fvtool(fnum, <span class="string">&#x27;Analysis&#x27;</span>, <span class="string">&#x27;impulse&#x27;</span>, ...</span><br><span class="line">    <span class="string">&#x27;NormalizedFrequency&#x27;</span>, <span class="string">&#x27;off&#x27;</span>, <span class="string">&#x27;Fs&#x27;</span>, <span class="number">15.36e6</span>);</span><br><span class="line">h.CurrentAxes.XLabel.String = <span class="string">&#x27;Time (\mus)&#x27;</span>;</span><br><span class="line">h.FigureToolbar = <span class="string">&#x27;off&#x27;</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Use dsp filter objects for filtering</span></span><br><span class="line">filtTx = dsp.FIRFilter(<span class="string">&#x27;Structure&#x27;</span>, <span class="string">&#x27;Direct form symmetric&#x27;</span>, ...</span><br><span class="line">    <span class="string">&#x27;Numerator&#x27;</span>, fnum);</span><br><span class="line">filtRx = clone(filtTx); <span class="comment">% Matched filter for the Rx</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% QAM Symbol mapper</span></span><br><span class="line">qamMapper = comm.RectangularQAMModulator( ...</span><br><span class="line">    <span class="string">&#x27;ModulationOrder&#x27;</span>, <span class="number">2</span>^bitsPerSubCarrier, <span class="string">&#x27;BitInput&#x27;</span>, <span class="built_in">true</span>, ...</span><br><span class="line">    <span class="string">&#x27;NormalizationMethod&#x27;</span>, <span class="string">&#x27;Average power&#x27;</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% F-OFDM Transmit Processing</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Set up a figure for spectrum plot</span></span><br><span class="line">hFig = <span class="built_in">figure</span>(<span class="string">&#x27;Position&#x27;</span>, figposition([<span class="number">46</span> <span class="number">50</span> <span class="number">30</span> <span class="number">30</span>]));</span><br><span class="line">axis([<span class="number">-0.5</span> <span class="number">0.5</span> <span class="number">-200</span> <span class="number">-20</span>]);</span><br><span class="line"><span class="built_in">hold</span> on; </span><br><span class="line">grid on</span><br><span class="line">xlabel(<span class="string">&#x27;Normalized frequency&#x27;</span>);</span><br><span class="line">ylabel(<span class="string">&#x27;PSD (dBW/Hz)&#x27;</span>)</span><br><span class="line">title([<span class="string">&#x27;F-OFDM, &#x27;</span> num2str(numRBs) <span class="string">&#x27; Resource blocks, &#x27;</span>  ...</span><br><span class="line">    num2str(rbSize) <span class="string">&#x27; Subcarriers each&#x27;</span>])</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Generate data symbols</span></span><br><span class="line">bitsIn = randi([<span class="number">0</span> <span class="number">1</span>], bitsPerSubCarrier*numDataCarriers, <span class="number">1</span>);</span><br><span class="line">symbolsIn = qamMapper(bitsIn);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Pack data into an OFDM symbol </span></span><br><span class="line">offset = (numFFT-numDataCarriers)/<span class="number">2</span>; <span class="comment">% for band center</span></span><br><span class="line">symbolsInOFDM = [<span class="built_in">zeros</span>(offset,<span class="number">1</span>); symbolsIn; ...</span><br><span class="line">                 <span class="built_in">zeros</span>(numFFT-offset-numDataCarriers,<span class="number">1</span>)];</span><br><span class="line">ifftOut = ifft(ifftshift(symbolsInOFDM));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Prepend cyclic prefix</span></span><br><span class="line">txSigOFDM = [ifftOut(<span class="keyword">end</span>-cpLen+<span class="number">1</span>:<span class="keyword">end</span>); ifftOut]; </span><br><span class="line"> </span><br><span class="line"><span class="comment">% Filter, with zero-padding to flush tail. Get the transmit signal</span></span><br><span class="line">txSigFOFDM = filtTx([txSigOFDM; <span class="built_in">zeros</span>(L<span class="number">-1</span>,<span class="number">1</span>)]);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Plot power spectral density (PSD) </span></span><br><span class="line">[psd,f] = periodogram(txSigFOFDM, rectwin(<span class="built_in">length</span>(txSigFOFDM)), ...</span><br><span class="line">                      numFFT*<span class="number">2</span>, <span class="number">1</span>, <span class="string">&#x27;centered&#x27;</span>); </span><br><span class="line"><span class="built_in">plot</span>(f,<span class="number">10</span>*<span class="built_in">log10</span>(psd)); </span><br><span class="line"> </span><br><span class="line"><span class="comment">% Compute peak-to-average-power ratio (PAPR)</span></span><br><span class="line">PAPR = comm.CCDF(<span class="string">&#x27;PAPROutputPort&#x27;</span>, <span class="built_in">true</span>, <span class="string">&#x27;PowerUnits&#x27;</span>, <span class="string">&#x27;dBW&#x27;</span>);</span><br><span class="line">[~,~,paprFOFDM] = PAPR(txSigFOFDM);</span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;Peak-to-Average-Power-Ratio for F-OFDM = &#x27;</span> num2str(paprFOFDM) <span class="string">&#x27; dB&#x27;</span>]);</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% OFDM Modulation with Corresponding Parameters</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Plot power spectral density (PSD) for OFDM signal</span></span><br><span class="line">[psd,f] = periodogram(txSigOFDM, rectwin(<span class="built_in">length</span>(txSigOFDM)), numFFT*<span class="number">2</span>, ...</span><br><span class="line">                      <span class="number">1</span>, <span class="string">&#x27;centered&#x27;</span>); </span><br><span class="line">hFig1 = <span class="built_in">figure</span>(<span class="string">&#x27;Position&#x27;</span>, figposition([<span class="number">46</span> <span class="number">15</span> <span class="number">30</span> <span class="number">30</span>])); </span><br><span class="line"><span class="built_in">plot</span>(f,<span class="number">10</span>*<span class="built_in">log10</span>(psd)); </span><br><span class="line">grid on</span><br><span class="line">axis([<span class="number">-0.5</span> <span class="number">0.5</span> <span class="number">-100</span> <span class="number">-20</span>]);</span><br><span class="line">xlabel(<span class="string">&#x27;Normalized frequency&#x27;</span>); </span><br><span class="line">ylabel(<span class="string">&#x27;PSD (dBW/Hz)&#x27;</span>)</span><br><span class="line">title([<span class="string">&#x27;OFDM, &#x27;</span> num2str(numRBs*rbSize) <span class="string">&#x27; Subcarriers&#x27;</span>])</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Compute peak-to-average-power ratio (PAPR)</span></span><br><span class="line">PAPR2 = comm.CCDF(<span class="string">&#x27;PAPROutputPort&#x27;</span>, <span class="built_in">true</span>, <span class="string">&#x27;PowerUnits&#x27;</span>, <span class="string">&#x27;dBW&#x27;</span>);</span><br><span class="line">[~,~,paprOFDM] = PAPR2(txSigOFDM);</span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;Peak-to-Average-Power-Ratio for OFDM = &#x27;</span> num2str(paprOFDM) <span class="string">&#x27; dB&#x27;</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">%% F-OFDM Receiver with No Channel</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Add WGN</span></span><br><span class="line">rxSig = awgn(txSigFOFDM, snrdB, <span class="string">&#x27;measured&#x27;</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">%%</span></span><br><span class="line"><span class="comment">% Receive processing operations are shown in the following F-OFDM receiver</span></span><br><span class="line"><span class="comment">% diagram.</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Receive matched filter</span></span><br><span class="line">rxSigFilt = filtRx(rxSig);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Account for filter delay </span></span><br><span class="line">rxSigFiltSync = rxSigFilt(L:<span class="keyword">end</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Remove cyclic prefix</span></span><br><span class="line">rxSymbol = rxSigFiltSync(cpLen+<span class="number">1</span>:<span class="keyword">end</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Perform FFT </span></span><br><span class="line">RxSymbols = fftshift(fft(rxSymbol));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Select data subcarriers</span></span><br><span class="line">dataRxSymbols = RxSymbols(offset+(<span class="number">1</span>:numDataCarriers));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Plot received symbols constellation</span></span><br><span class="line"><span class="keyword">switch</span> bitsPerSubCarrier</span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span>  <span class="comment">% QPSK</span></span><br><span class="line">        refConst = qammod((<span class="number">0</span>:<span class="number">3</span>).&#x27;, <span class="number">4</span>, <span class="string">&#x27;UnitAveragePower&#x27;</span>, <span class="built_in">true</span>);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">4</span>  <span class="comment">% 16QAM</span></span><br><span class="line">        refConst = qammod((<span class="number">0</span>:<span class="number">15</span>).&#x27;, <span class="number">16</span>,<span class="string">&#x27;UnitAveragePower&#x27;</span>, <span class="built_in">true</span>);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">6</span>  <span class="comment">% 64QAM</span></span><br><span class="line">        refConst = qammod((<span class="number">0</span>:<span class="number">63</span>).&#x27;, <span class="number">64</span>,<span class="string">&#x27;UnitAveragePower&#x27;</span>, <span class="built_in">true</span>);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">8</span>  <span class="comment">% 256QAM</span></span><br><span class="line">        refConst = qammod((<span class="number">0</span>:<span class="number">255</span>).&#x27;, <span class="number">256</span>,<span class="string">&#x27;UnitAveragePower&#x27;</span>, <span class="built_in">true</span>);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">constDiagRx = comm.ConstellationDiagram( ...</span><br><span class="line">    <span class="string">&#x27;ShowReferenceConstellation&#x27;</span>, <span class="built_in">true</span>, ...</span><br><span class="line">    <span class="string">&#x27;ReferenceConstellation&#x27;</span>, refConst, ...</span><br><span class="line">    <span class="string">&#x27;Position&#x27;</span>, figposition([<span class="number">20</span> <span class="number">15</span> <span class="number">25</span> <span class="number">30</span>]), ...</span><br><span class="line">    <span class="string">&#x27;MeasurementInterval&#x27;</span>, <span class="built_in">length</span>(dataRxSymbols), ...</span><br><span class="line">    <span class="string">&#x27;Title&#x27;</span>, <span class="string">&#x27;F-OFDM Demodulated Symbols&#x27;</span>, ...</span><br><span class="line">    <span class="string">&#x27;Name&#x27;</span>, <span class="string">&#x27;F-OFDM Reception&#x27;</span>, ...</span><br><span class="line">    <span class="string">&#x27;XLimits&#x27;</span>, [<span class="number">-1.5</span> <span class="number">1.5</span>], <span class="string">&#x27;YLimits&#x27;</span>, [<span class="number">-1.5</span> <span class="number">1.5</span>]);</span><br><span class="line">constDiagRx(dataRxSymbols);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Channel equalization is not necessary here as no channel is modeled</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Demapping and BER computation</span></span><br><span class="line">qamDemod = comm.RectangularQAMDemodulator(<span class="string">&#x27;ModulationOrder&#x27;</span>, ...</span><br><span class="line">    <span class="number">2</span>^bitsPerSubCarrier, <span class="string">&#x27;BitOutput&#x27;</span>, <span class="built_in">true</span>, ...</span><br><span class="line">    <span class="string">&#x27;NormalizationMethod&#x27;</span>, <span class="string">&#x27;Average power&#x27;</span>);</span><br><span class="line">BER = comm.ErrorRate;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Perform hard decision and measure errors</span></span><br><span class="line">rxBits = qamDemod(dataRxSymbols);</span><br><span class="line">ber = BER(bitsIn, rxBits);</span><br><span class="line"> </span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;F-OFDM Reception, BER = &#x27;</span> num2str(ber(<span class="number">1</span>)) <span class="string">&#x27; at SNR = &#x27;</span> ...</span><br><span class="line">    num2str(snrdB) <span class="string">&#x27; dB&#x27;</span>]);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Restore RNG state</span></span><br><span class="line">rng(s);</span><br></pre></td></tr></table></figure>
+<h3 id="💹-4ASK-Fig">💹 4ASK Fig</h3>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/Impluse_Response.bmp" alt="Fig.1  Impulse Response."></p>
+<center><font size=2>Fig.1  Impulse Response.</font></center>
+<br><br><br>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/F-OFDM_normalized_frequency.bmp" alt="Fig.2  F-OFDM normalized frequency."></p>
+<center><font size=2>Fig.2  F-OFDM normalized frequency.</font></center>
+<br><br><br>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/F-OFDM_normalized_frequency.bmp" alt="Fig.2  OFDM normalized frequency."></p>
+<center><font size=2>Fig.3  OFDM normalized frequency.</font></center>
+<br><br><br>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/F-OFDM_Reception.png" alt="Fig.4  F-OFDM Reception."></p>
+<center><font size=2>Fig.4  F-OFDM Reception.</font></center>
+<h3 id="🔔-Reference">🔔 Reference</h3>
+<blockquote>
+<ol>
+<li>Abdoli J., Jia M. and Ma J., “Filtered OFDM: A New Waveform for Future Wireless Systems,” 2015 IEEE® 16th International Workshop on Signal Processing Advances in Wireless Communications (SPAWC), Stockholm, 2015, pp. 66-70.</li>
+<li>R1-162152. “OFDM based flexible waveform for 5G.” 3GPP TSG RAN WG1 meeting 84bis. Huawei; HiSilicon. April 2016.</li>
+<li>R1-165425. “F-OFDM scheme and filter design.” 3GPP TSG RAN WG1 meeting 85. Huawei; HiSilicon. May 2016.</li>
+</ol>
+</blockquote>
+<!-- markdownlint-disable-file MD025 MD033 -->
+]]></content>
+      <categories>
+        <category>Matlab</category>
+      </categories>
+      <tags>
+        <tag>modulate</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Git常用操作</title>
     <url>/2021/03/25/Git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<p>🐳总结Git日常基本操作，不定时添加一些遇到的问题，以及从小白入门连接本地git和github等<br>
@@ -424,120 +538,6 @@ AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片�
       <tags>
         <tag>Git</tag>
         <tag>Github</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PSW设置改进中断</title>
-    <url>/2020/12/15/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/</url>
-    <content><![CDATA[<ul>
-<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
-</ul>
-<blockquote>
-<p>中断优先级实验，主程序相邻2个LED灯循环点亮（03H—C0H）1S，外部中断0后静态数码管间隔1S轮流点亮0-F后返回，外部中断1后1个LED灯循环点亮（01H-80H）后返回，外部中断0优先级高于外部中断1，实现中断嵌套</p>
-</blockquote>
-<a id="more"></a>
-<hr>
-<blockquote>
-<p>P1接LED的ABCDEF，P3.2接K1，P3.3接K4，P0接静态数码管ABCDEF</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    AJMP    START</span><br><span class="line"></span><br><span class="line">    ORG     0003H</span><br><span class="line">    AJMP    INTT0</span><br><span class="line">    </span><br><span class="line">    ORG     0013H</span><br><span class="line">    AJMP    INTT1</span><br><span class="line">    </span><br><span class="line">    ORG     0100H</span><br><span class="line">START:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    MOV     PSW,#00H</span><br><span class="line">    SETB    EX0</span><br><span class="line">    SETB    IT0</span><br><span class="line">    SETB    EX1</span><br><span class="line">    SETB    IT1</span><br><span class="line">    SETB    EA</span><br><span class="line">    MOV     IP,#01H</span><br><span class="line">    MOV     P3,#0FFH</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">    MOV     R0,#03H</span><br><span class="line">    MOV     R2,#08H</span><br><span class="line">    ACALL   LOOP</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">LOOP:</span><br><span class="line">    MOV     A,R0</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R2,LOOP</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">INTT0:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#08H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.2,Pkey0</span><br><span class="line">    LJMP    RETURN</span><br><span class="line"></span><br><span class="line">INTT1:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#10H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.3,Pkey2</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey0:</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    CJNE    A,#0FFH,Pkey1</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey1:</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    INC     DPTR</span><br><span class="line">    LJMP    Pkey0</span><br><span class="line">Pkey2:</span><br><span class="line">    MOV     R1,#01H</span><br><span class="line">    MOV     R3,#08H</span><br><span class="line">    ACALL   Pkey3</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey3:</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R3,Pkey3</span><br><span class="line">    RET</span><br><span class="line">RETURN:</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H</span><br><span class="line">    DB  80H,90H,88H,83H,0C6H,0A1H,86H,8EH</span><br><span class="line">    DB  0FFH</span><br><span class="line"></span><br><span class="line">D10ms:</span><br><span class="line">    MOV     R7,#25</span><br><span class="line">D4:</span><br><span class="line">    MOV     R6,#200</span><br><span class="line">    DJNZ    R6,$</span><br><span class="line">    DJNZ    R7,D4</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">D1S:</span><br><span class="line">    MOV     R5,#20</span><br><span class="line">D5: MOV     R6,#100</span><br><span class="line">D6: MOV     R7,#248</span><br><span class="line">D7: DJNZ     R7,D7</span><br><span class="line">    DJNZ    R6,D6</span><br><span class="line">    DJNZ    R5,D5</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">    END</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>AT89S51</category>
-      </categories>
-      <tags>
-        <tag>中断</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>F-OFDM vs OFDM</title>
-    <url>/2021/06/15/F-OFDM%20vs%20OFDM/</url>
-    <content><![CDATA[<p>📌</p>
-<h3 id="Divide-the-OFDM-cattier-bandwidth-into-multiple-sub-bands-with-different-parameters-and-filter-the-sub-bands-and-try-to-leave-as-few-isolation-bands-as-possible-between-the-sub-bands">Divide the OFDM cattier bandwidth into multiple sub bands with different parameters, and filter the sub bands, and try to leave as few isolation bands as possible between the sub bands</h3>
-<p>🌞🕒😴</p>
-<a id="more"></a>
-<hr>
-<h2 id="📚-Abstract">📚 Abstract</h2>
-<ul>
-<li><em>With the launch of the 3GPP 5G standard, the 5G sky has gradually disappeared, and the bright stars of the candidate technology have dazzled us, and the 5G serialized new air interface technology proposed by Huawei is undoubtedly the brightest star among them. F-OFDM can realize the slicing of the physical layer of the air interface and is backward compatible with the LTE 4G system, and can meet the needs of future 5G development.</em></li>
-</ul>
-<h2 id="📘-OFDM-vs-F-OFDM">📘 OFDM vs F-OFDM</h2>
-<ul>
-<li><em>OFDM modulates high-rate data to mutually orthogonal sub-carriers through serial/parallel conversion, and introduces cyclic prefixes, which better solves the headache of inter-symbol interference. But the main problem of OFDM is not flexible enough.</em></li>
-<li><em>For example, the Internet of vehicles service with millisecond delay requires extremely short time-domain symbol and TTI; in the multi-connection scenario of the Internet of things, the amount of data transmitted by a single sensor is extremely low, but the requirements for the number of overall connections of the system are very high. It is necessary to configure a relatively narrow subcarrier spacing in the frequency domain. These flexible requirements cannot be met by OFDM technology.</em></li>
-<li><em>We can understand the time-frequency resources of the system as a carriage. If the OFDM scheme is adopted for decoration, the train can only provide fixed-size hard seats (sub-carrier spacing). Everyone, regardless of fat or thin, rich or not, can only sitting on a hard seat of the same size, this situation is obviously not humane enough. For 5G, we hope that the seats and spaces can be flexibly customized according to the height, short, fat and thin of passengers. Hard seats, soft seats, sleepers, boxes…you can adjust them whatever you wang. This the adaptive harmony train, and F-OFDM technology is based on this idea.</em></li>
-<li><em>F-OFDM can provide different sub-carrier spacing and numerology to meet the time-frequency resource requirements of different services. F-OFDM greatly reduces out-of-band leakage by optimizing the filter design, and the guard band overhead between different sub bands can be reduced to about 1%, which not only greatly improves the efficiency of spectrum utilization, but also, it’s possible to provides opportunities for future use of fragmented spectrum.</em></li>
-<li><em>In general, on the basis of inheriting all the advantages of OFDM (high spectrum utilization, adaptive MIMO, etc.), F-OFDM overcomes some inherent shortcomings of OFDM, and further improves flexibility and spectrum utilization efficiency basic technology to realize 5G air interface slicing.</em></li>
-</ul>
-<h2 id="📗-Benefits-or-advantages-of-F-OFDM">📗 Benefits or advantages of F-OFDM</h2>
-<ol>
-<li>Efficient utilization of spectrum.</li>
-<li>It suppresses out of band emission and hence guard band consumption can be reduced to minimum level.</li>
-<li>Optimized numerology can be applied to suit the needs of certain type of services within each sub bands.</li>
-<li>Possibility to incorporate other waveforms such as GFDM, FBMC, UFMC etc.</li>
-<li>Backward and forward compatibility.</li>
-<li>Using sub band-based filtering, global synchronization requirement is being relaxed. Hence inter-sub-band asynchronous transmission can be supported.</li>
-</ol>
-<h2 id="📙-Drawbacks-or-disadvantages-of-F-FDOM">📙 Drawbacks or disadvantages of F-FDOM</h2>
-<ol>
-<li>The F-OFDM requires additional pair of transmit and receiver filters in transmitter and receiver chain respectively compare to conventional OFDM.</li>
-<li>Like OFDM, CP can also be used in filter-based waveforms such as UFMC, F-OFDM to protect signal from SIS.</li>
-<li>Since full-band filtering cannot remove any SIS, it exists in F-OFDM similar to standard OFDM.</li>
-</ol>
-<h2 id="📖-Understanding-of-this-example">📖 Understanding of this example</h2>
-<ul>
-<li><em>This example compares Filtered-OFDM modulation with generic Cyclic Prefix OFDM (CP-OFDM) modulation. For F-OFDM, a well-designed filter is applied to the time domain OFDM symbol to improve the out-of-band radiation of the sub-band signal, while maintaining the complex-domain orthogonality of OFDM symbols. This example also models Filtered-OFDM modulation with configurable parameters. It highlights the filter design technique and the basic transmit/receive processing.</em></li>
-<li><em>A filter with a rectangular frequency response, i.e. a sinc impulse response, meets these criteria. To make this causal, the low-pass filter is realized using a window, which, effectively truncates the impulse response and offers smooth transitions to zero on both ends.</em></li>
-<li><em>In F-OFDM, the sub-band CP-OFDM signal is passed through the designed filter. As the filter’s passband corresponds to the signal’s bandwidth, only the few subcarriers close to the edge are affected. A key consideration is that the filter length can be allowed to exceed the cyclic prefix length for F-OFDM. The inter-symbol interference incurred is minimized due to the filter design using windowing (with soft truncation).</em></li>
-<li><em>Transmit-end processing operations are shown in the following F-OFDM transmitter diagram.</em></li>
-<li><em>The example next highlights the basic receive processing for F-OFDM for a single OFDM symbol. The received signal is passed through a matched filter, followed by the normal CP-OFDM receiver. It accounts for both the filtering ramp-up and latency prior to the FFT operation.</em></li>
-<li><em>No fading channel is considered in this example but noise is added to the received signal to achieve the desired SNR.</em></li>
-</ul>
-<h2 id="📕-Conclusion">📕 Conclusion</h2>
-<ul>
-<li><em>Comparing the plots of the spectral densities for CP-OFDM and F-OFDM schemes, F-OFDM has lower sidelobes. This allows a higher utilization of the allocated spectrum, leading to increased spectral efficiency.</em></li>
-<li><em>When we design F-OFDM filter, appropriate filtering for F-OFDM satisfies the following criteria:</em></li>
-</ul>
-<blockquote>
-<ol>
-<li>Should have a flat passband over the subcarriers in the sub-band.</li>
-<li>Should have a sharp transition band to minimize guard-bands.</li>
-<li>Should have sufficient stop-band attenuation.</li>
-</ol>
-</blockquote>
-<ul>
-<li><em>Universal Filtered Multi-Carrier (UFMC) modulation scheme is another approach to sub-band filtered OFDM. For more information, see the UFMC vs. OFDM Modulation example. This F-OFDM example uses a single sub-band while the UFMC example uses multiple sub-bands.</em></li>
-<li><em>F-OFDM and UFMC both use time-domain filtering with subtle differences in the way the filter is designed and applied. For UFMC, the length of filter is constrained to be equal to the cyclic-prefix length, while for F-OFDM, it can exceed the CP length.</em></li>
-<li><em>For F-OFDM, the filter design leads to a slight loss in orthogonality (strictly speaking) which affects only the edge subcarriers.</em></li>
-</ul>
-<h2 id="📝-Code">📝 Code</h2>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">%% F-OFDM vs. OFDM Modulation</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line">s = rng(<span class="number">211</span>);       <span class="comment">% Set RNG state for repeatability</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">%% System Parameters</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"><span class="comment">% Define system parameters for the example. These parameters can be</span></span><br><span class="line"><span class="comment">% modified to explore their impact on the system.</span></span><br><span class="line"> </span><br><span class="line">numFFT = <span class="number">1024</span>;           <span class="comment">% Number of FFT points</span></span><br><span class="line">numRBs = <span class="number">50</span>;             <span class="comment">% Number of resource blocks</span></span><br><span class="line">rbSize = <span class="number">12</span>;             <span class="comment">% Number of subcarriers per resource block</span></span><br><span class="line">cpLen = <span class="number">72</span>;              <span class="comment">% Cyclic prefix length in samples</span></span><br><span class="line"> </span><br><span class="line">bitsPerSubCarrier = <span class="number">8</span>;   <span class="comment">% 2: QPSK, 4: 16QAM, 6: 64QAM, 8: 256QAM</span></span><br><span class="line">snrdB = <span class="number">18</span>;              <span class="comment">% SNR in dB</span></span><br><span class="line"> </span><br><span class="line">toneOffset = <span class="number">2.5</span>;        <span class="comment">% Tone offset or excess bandwidth (in subcarriers)</span></span><br><span class="line">L = <span class="number">513</span>;                 <span class="comment">% Filter length (=filterOrder+1), odd</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Filtered-OFDM Filter Design</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line">numDataCarriers = numRBs*rbSize;    <span class="comment">% number of data subcarriers in subband</span></span><br><span class="line">halfFilt = <span class="built_in">floor</span>(L/<span class="number">2</span>);</span><br><span class="line">n = -halfFilt:halfFilt;  </span><br><span class="line"> </span><br><span class="line"><span class="comment">% Sinc function prototype filter</span></span><br><span class="line">pb = sinc((numDataCarriers+<span class="number">2</span>*toneOffset).*n./numFFT);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Sinc truncation window</span></span><br><span class="line">w = (<span class="number">0.5</span>*(<span class="number">1</span>+<span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>.*n/(L<span class="number">-1</span>)))).^<span class="number">0.6</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Normalized lowpass filter coefficients</span></span><br><span class="line">fnum = (pb.*w)/sum(pb.*w);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Filter impulse response</span></span><br><span class="line">h = fvtool(fnum, <span class="string">&#x27;Analysis&#x27;</span>, <span class="string">&#x27;impulse&#x27;</span>, ...</span><br><span class="line">    <span class="string">&#x27;NormalizedFrequency&#x27;</span>, <span class="string">&#x27;off&#x27;</span>, <span class="string">&#x27;Fs&#x27;</span>, <span class="number">15.36e6</span>);</span><br><span class="line">h.CurrentAxes.XLabel.String = <span class="string">&#x27;Time (\mus)&#x27;</span>;</span><br><span class="line">h.FigureToolbar = <span class="string">&#x27;off&#x27;</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Use dsp filter objects for filtering</span></span><br><span class="line">filtTx = dsp.FIRFilter(<span class="string">&#x27;Structure&#x27;</span>, <span class="string">&#x27;Direct form symmetric&#x27;</span>, ...</span><br><span class="line">    <span class="string">&#x27;Numerator&#x27;</span>, fnum);</span><br><span class="line">filtRx = clone(filtTx); <span class="comment">% Matched filter for the Rx</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% QAM Symbol mapper</span></span><br><span class="line">qamMapper = comm.RectangularQAMModulator( ...</span><br><span class="line">    <span class="string">&#x27;ModulationOrder&#x27;</span>, <span class="number">2</span>^bitsPerSubCarrier, <span class="string">&#x27;BitInput&#x27;</span>, <span class="built_in">true</span>, ...</span><br><span class="line">    <span class="string">&#x27;NormalizationMethod&#x27;</span>, <span class="string">&#x27;Average power&#x27;</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% F-OFDM Transmit Processing</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Set up a figure for spectrum plot</span></span><br><span class="line">hFig = <span class="built_in">figure</span>(<span class="string">&#x27;Position&#x27;</span>, figposition([<span class="number">46</span> <span class="number">50</span> <span class="number">30</span> <span class="number">30</span>]));</span><br><span class="line">axis([<span class="number">-0.5</span> <span class="number">0.5</span> <span class="number">-200</span> <span class="number">-20</span>]);</span><br><span class="line"><span class="built_in">hold</span> on; </span><br><span class="line">grid on</span><br><span class="line">xlabel(<span class="string">&#x27;Normalized frequency&#x27;</span>);</span><br><span class="line">ylabel(<span class="string">&#x27;PSD (dBW/Hz)&#x27;</span>)</span><br><span class="line">title([<span class="string">&#x27;F-OFDM, &#x27;</span> num2str(numRBs) <span class="string">&#x27; Resource blocks, &#x27;</span>  ...</span><br><span class="line">    num2str(rbSize) <span class="string">&#x27; Subcarriers each&#x27;</span>])</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Generate data symbols</span></span><br><span class="line">bitsIn = randi([<span class="number">0</span> <span class="number">1</span>], bitsPerSubCarrier*numDataCarriers, <span class="number">1</span>);</span><br><span class="line">symbolsIn = qamMapper(bitsIn);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Pack data into an OFDM symbol </span></span><br><span class="line">offset = (numFFT-numDataCarriers)/<span class="number">2</span>; <span class="comment">% for band center</span></span><br><span class="line">symbolsInOFDM = [<span class="built_in">zeros</span>(offset,<span class="number">1</span>); symbolsIn; ...</span><br><span class="line">                 <span class="built_in">zeros</span>(numFFT-offset-numDataCarriers,<span class="number">1</span>)];</span><br><span class="line">ifftOut = ifft(ifftshift(symbolsInOFDM));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Prepend cyclic prefix</span></span><br><span class="line">txSigOFDM = [ifftOut(<span class="keyword">end</span>-cpLen+<span class="number">1</span>:<span class="keyword">end</span>); ifftOut]; </span><br><span class="line"> </span><br><span class="line"><span class="comment">% Filter, with zero-padding to flush tail. Get the transmit signal</span></span><br><span class="line">txSigFOFDM = filtTx([txSigOFDM; <span class="built_in">zeros</span>(L<span class="number">-1</span>,<span class="number">1</span>)]);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Plot power spectral density (PSD) </span></span><br><span class="line">[psd,f] = periodogram(txSigFOFDM, rectwin(<span class="built_in">length</span>(txSigFOFDM)), ...</span><br><span class="line">                      numFFT*<span class="number">2</span>, <span class="number">1</span>, <span class="string">&#x27;centered&#x27;</span>); </span><br><span class="line"><span class="built_in">plot</span>(f,<span class="number">10</span>*<span class="built_in">log10</span>(psd)); </span><br><span class="line"> </span><br><span class="line"><span class="comment">% Compute peak-to-average-power ratio (PAPR)</span></span><br><span class="line">PAPR = comm.CCDF(<span class="string">&#x27;PAPROutputPort&#x27;</span>, <span class="built_in">true</span>, <span class="string">&#x27;PowerUnits&#x27;</span>, <span class="string">&#x27;dBW&#x27;</span>);</span><br><span class="line">[~,~,paprFOFDM] = PAPR(txSigFOFDM);</span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;Peak-to-Average-Power-Ratio for F-OFDM = &#x27;</span> num2str(paprFOFDM) <span class="string">&#x27; dB&#x27;</span>]);</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% OFDM Modulation with Corresponding Parameters</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Plot power spectral density (PSD) for OFDM signal</span></span><br><span class="line">[psd,f] = periodogram(txSigOFDM, rectwin(<span class="built_in">length</span>(txSigOFDM)), numFFT*<span class="number">2</span>, ...</span><br><span class="line">                      <span class="number">1</span>, <span class="string">&#x27;centered&#x27;</span>); </span><br><span class="line">hFig1 = <span class="built_in">figure</span>(<span class="string">&#x27;Position&#x27;</span>, figposition([<span class="number">46</span> <span class="number">15</span> <span class="number">30</span> <span class="number">30</span>])); </span><br><span class="line"><span class="built_in">plot</span>(f,<span class="number">10</span>*<span class="built_in">log10</span>(psd)); </span><br><span class="line">grid on</span><br><span class="line">axis([<span class="number">-0.5</span> <span class="number">0.5</span> <span class="number">-100</span> <span class="number">-20</span>]);</span><br><span class="line">xlabel(<span class="string">&#x27;Normalized frequency&#x27;</span>); </span><br><span class="line">ylabel(<span class="string">&#x27;PSD (dBW/Hz)&#x27;</span>)</span><br><span class="line">title([<span class="string">&#x27;OFDM, &#x27;</span> num2str(numRBs*rbSize) <span class="string">&#x27; Subcarriers&#x27;</span>])</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Compute peak-to-average-power ratio (PAPR)</span></span><br><span class="line">PAPR2 = comm.CCDF(<span class="string">&#x27;PAPROutputPort&#x27;</span>, <span class="built_in">true</span>, <span class="string">&#x27;PowerUnits&#x27;</span>, <span class="string">&#x27;dBW&#x27;</span>);</span><br><span class="line">[~,~,paprOFDM] = PAPR2(txSigOFDM);</span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;Peak-to-Average-Power-Ratio for OFDM = &#x27;</span> num2str(paprOFDM) <span class="string">&#x27; dB&#x27;</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">%% F-OFDM Receiver with No Channel</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Add WGN</span></span><br><span class="line">rxSig = awgn(txSigFOFDM, snrdB, <span class="string">&#x27;measured&#x27;</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">%%</span></span><br><span class="line"><span class="comment">% Receive processing operations are shown in the following F-OFDM receiver</span></span><br><span class="line"><span class="comment">% diagram.</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Receive matched filter</span></span><br><span class="line">rxSigFilt = filtRx(rxSig);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Account for filter delay </span></span><br><span class="line">rxSigFiltSync = rxSigFilt(L:<span class="keyword">end</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Remove cyclic prefix</span></span><br><span class="line">rxSymbol = rxSigFiltSync(cpLen+<span class="number">1</span>:<span class="keyword">end</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Perform FFT </span></span><br><span class="line">RxSymbols = fftshift(fft(rxSymbol));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Select data subcarriers</span></span><br><span class="line">dataRxSymbols = RxSymbols(offset+(<span class="number">1</span>:numDataCarriers));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Plot received symbols constellation</span></span><br><span class="line"><span class="keyword">switch</span> bitsPerSubCarrier</span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span>  <span class="comment">% QPSK</span></span><br><span class="line">        refConst = qammod((<span class="number">0</span>:<span class="number">3</span>).&#x27;, <span class="number">4</span>, <span class="string">&#x27;UnitAveragePower&#x27;</span>, <span class="built_in">true</span>);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">4</span>  <span class="comment">% 16QAM</span></span><br><span class="line">        refConst = qammod((<span class="number">0</span>:<span class="number">15</span>).&#x27;, <span class="number">16</span>,<span class="string">&#x27;UnitAveragePower&#x27;</span>, <span class="built_in">true</span>);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">6</span>  <span class="comment">% 64QAM</span></span><br><span class="line">        refConst = qammod((<span class="number">0</span>:<span class="number">63</span>).&#x27;, <span class="number">64</span>,<span class="string">&#x27;UnitAveragePower&#x27;</span>, <span class="built_in">true</span>);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">8</span>  <span class="comment">% 256QAM</span></span><br><span class="line">        refConst = qammod((<span class="number">0</span>:<span class="number">255</span>).&#x27;, <span class="number">256</span>,<span class="string">&#x27;UnitAveragePower&#x27;</span>, <span class="built_in">true</span>);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">constDiagRx = comm.ConstellationDiagram( ...</span><br><span class="line">    <span class="string">&#x27;ShowReferenceConstellation&#x27;</span>, <span class="built_in">true</span>, ...</span><br><span class="line">    <span class="string">&#x27;ReferenceConstellation&#x27;</span>, refConst, ...</span><br><span class="line">    <span class="string">&#x27;Position&#x27;</span>, figposition([<span class="number">20</span> <span class="number">15</span> <span class="number">25</span> <span class="number">30</span>]), ...</span><br><span class="line">    <span class="string">&#x27;MeasurementInterval&#x27;</span>, <span class="built_in">length</span>(dataRxSymbols), ...</span><br><span class="line">    <span class="string">&#x27;Title&#x27;</span>, <span class="string">&#x27;F-OFDM Demodulated Symbols&#x27;</span>, ...</span><br><span class="line">    <span class="string">&#x27;Name&#x27;</span>, <span class="string">&#x27;F-OFDM Reception&#x27;</span>, ...</span><br><span class="line">    <span class="string">&#x27;XLimits&#x27;</span>, [<span class="number">-1.5</span> <span class="number">1.5</span>], <span class="string">&#x27;YLimits&#x27;</span>, [<span class="number">-1.5</span> <span class="number">1.5</span>]);</span><br><span class="line">constDiagRx(dataRxSymbols);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Channel equalization is not necessary here as no channel is modeled</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Demapping and BER computation</span></span><br><span class="line">qamDemod = comm.RectangularQAMDemodulator(<span class="string">&#x27;ModulationOrder&#x27;</span>, ...</span><br><span class="line">    <span class="number">2</span>^bitsPerSubCarrier, <span class="string">&#x27;BitOutput&#x27;</span>, <span class="built_in">true</span>, ...</span><br><span class="line">    <span class="string">&#x27;NormalizationMethod&#x27;</span>, <span class="string">&#x27;Average power&#x27;</span>);</span><br><span class="line">BER = comm.ErrorRate;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Perform hard decision and measure errors</span></span><br><span class="line">rxBits = qamDemod(dataRxSymbols);</span><br><span class="line">ber = BER(bitsIn, rxBits);</span><br><span class="line"> </span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;F-OFDM Reception, BER = &#x27;</span> num2str(ber(<span class="number">1</span>)) <span class="string">&#x27; at SNR = &#x27;</span> ...</span><br><span class="line">    num2str(snrdB) <span class="string">&#x27; dB&#x27;</span>]);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Restore RNG state</span></span><br><span class="line">rng(s);</span><br></pre></td></tr></table></figure>
-<h3 id="💹-4ASK-Fig">💹 4ASK Fig</h3>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/Impluse_Response.bmp" alt="Fig.1  Impulse Response."></p>
-<center><font size=2>Fig.1  Impulse Response.</font></center>
-<br><br><br>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/F-OFDM_normalized_frequency.bmp" alt="Fig.2  F-OFDM normalized frequency."></p>
-<center><font size=2>Fig.2  F-OFDM normalized frequency.</font></center>
-<br><br><br>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/F-OFDM_normalized_frequency.bmp" alt="Fig.2  OFDM normalized frequency."></p>
-<center><font size=2>Fig.3  OFDM normalized frequency.</font></center>
-<br><br><br>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/F-OFDM_Reception.png" alt="Fig.4  F-OFDM Reception."></p>
-<center><font size=2>Fig.4  F-OFDM Reception.</font></center>
-<h3 id="🔔-Reference">🔔 Reference</h3>
-<blockquote>
-<ol>
-<li>Abdoli J., Jia M. and Ma J., “Filtered OFDM: A New Waveform for Future Wireless Systems,” 2015 IEEE® 16th International Workshop on Signal Processing Advances in Wireless Communications (SPAWC), Stockholm, 2015, pp. 66-70.</li>
-<li>R1-162152. “OFDM based flexible waveform for 5G.” 3GPP TSG RAN WG1 meeting 84bis. Huawei; HiSilicon. April 2016.</li>
-<li>R1-165425. “F-OFDM scheme and filter design.” 3GPP TSG RAN WG1 meeting 85. Huawei; HiSilicon. May 2016.</li>
-</ol>
-</blockquote>
-<!-- markdownlint-disable-file MD025 MD033 -->
-]]></content>
-      <categories>
-        <category>Matlab</category>
-      </categories>
-      <tags>
-        <tag>modulate</tag>
       </tags>
   </entry>
   <entry>
@@ -1057,6 +1057,28 @@ The demodulated signals:</p>
       </tags>
   </entry>
   <entry>
+    <title>Process or Thread</title>
+    <url>/2021/01/20/Process%20or%20Thread/</url>
+    <content><![CDATA[<h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位">进程是资源分配的最小单位|线程是CPU调度的最小单位</h3>
+<hr>
+<blockquote>
+<p>看了很多资料，解释都比较抽象<br>
+用一个简答的比喻在形容：进程=高铁，线程=车厢</p>
+</blockquote>
+<ul>
+<li>线程在进程下行进（单纯的车厢无法行动）</li>
+<li>一个进程可以包含多个线程（一辆高铁可以有多个车厢）</li>
+<li>同意进程下不同线程间数据容易共享</li>
+<li>不同进程间数据难以共享</li>
+<li>进程间不会互相影响，一个线程挂掉将导致整个进程挂掉</li>
+<li>进程占用更多资源</li>
+</ul>
+]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Tensorflow2.4保姆级安装教程</title>
     <url>/2021/01/30/Tensorflow2.4%E4%BF%9D%E5%A7%86%E7%BA%A7%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<ul>
@@ -1294,26 +1316,38 @@ sess.close()
       </tags>
   </entry>
   <entry>
-    <title>Process or Thread</title>
-    <url>/2021/01/20/Process%20or%20Thread/</url>
-    <content><![CDATA[<h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位">进程是资源分配的最小单位|线程是CPU调度的最小单位</h3>
-<hr>
-<blockquote>
-<p>看了很多资料，解释都比较抽象<br>
-用一个简答的比喻在形容：进程=高铁，线程=车厢</p>
-</blockquote>
+    <title>VS2019代码提示延迟很高，部分快捷键无法使用的问题</title>
+    <url>/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h3 id="原因">原因</h3>
 <ul>
-<li>线程在进程下行进（单纯的车厢无法行动）</li>
-<li>一个进程可以包含多个线程（一辆高铁可以有多个车厢）</li>
-<li>同意进程下不同线程间数据容易共享</li>
-<li>不同进程间数据难以共享</li>
-<li>进程间不会互相影响，一个线程挂掉将导致整个进程挂掉</li>
-<li>进程占用更多资源</li>
+<li>Visual Studio 与Nvidia CUDA NSightVSE冲突</li>
 </ul>
+<h3 id="现象">现象</h3>
+<ul>
+<li>Tab、Ctrl’+C 、 Ctrl’+K 等快捷键失效，智能代码提示不能正常显示，有时不会出现，有时要等四五秒，非常不正常</li>
+</ul>
+<blockquote>
+<p>Setting中检查设置无误，尝试过重启、重置个人配置、重装等均无效<br>
+很长一段时间没有使用过vs，之前装了比较新的Nvidia CUDA，同时附带的有NSightVSE，也就是设计vs的拓展，问题出在这里</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="解决方法">解决方法</h3>
+<blockquote>
+<p>卸载NSightVSE或者其他Nvidia和vs相关的拓展，重启vs后生效<br>
+正常情况搜索NsightVSE会出现四个，保留下列三个即可，版本仅供参考，可能其他版本不会出现如上问题。<br>
+Nvidia CUDA Nsight NVTX 11.1<br>
+Nvidia Nsight Compute 2020.2.0<br>
+Nvidia Nsight Systems 2020.3.4</p>
+</blockquote>
 ]]></content>
       <categories>
         <category>总结</category>
       </categories>
+      <tags>
+        <tag>debug</tag>
+        <tag>Nvidia CUDA</tag>
+        <tag>Visual Studio</tag>
+      </tags>
   </entry>
   <entry>
     <title>debug Gitalk 403</title>
@@ -1359,40 +1393,6 @@ Request URL：<a href="https://cors-anywhere.herokuapp.com/https://github.com/lo
       </categories>
       <tags>
         <tag>debug</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>VS2019代码提示延迟很高，部分快捷键无法使用的问题</title>
-    <url>/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h3 id="原因">原因</h3>
-<ul>
-<li>Visual Studio 与Nvidia CUDA NSightVSE冲突</li>
-</ul>
-<h3 id="现象">现象</h3>
-<ul>
-<li>Tab、Ctrl’+C 、 Ctrl’+K 等快捷键失效，智能代码提示不能正常显示，有时不会出现，有时要等四五秒，非常不正常</li>
-</ul>
-<blockquote>
-<p>Setting中检查设置无误，尝试过重启、重置个人配置、重装等均无效<br>
-很长一段时间没有使用过vs，之前装了比较新的Nvidia CUDA，同时附带的有NSightVSE，也就是设计vs的拓展，问题出在这里</p>
-</blockquote>
-<a id="more"></a>
-<h3 id="解决方法">解决方法</h3>
-<blockquote>
-<p>卸载NSightVSE或者其他Nvidia和vs相关的拓展，重启vs后生效<br>
-正常情况搜索NsightVSE会出现四个，保留下列三个即可，版本仅供参考，可能其他版本不会出现如上问题。<br>
-Nvidia CUDA Nsight NVTX 11.1<br>
-Nvidia Nsight Compute 2020.2.0<br>
-Nvidia Nsight Systems 2020.3.4</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>总结</category>
-      </categories>
-      <tags>
-        <tag>debug</tag>
-        <tag>Nvidia CUDA</tag>
-        <tag>Visual Studio</tag>
       </tags>
   </entry>
   <entry>
@@ -1611,6 +1611,132 @@ application/x-www-form-urlencoded --&gt; key=value&amp;key=value</li>
       </tags>
   </entry>
   <entry>
+    <title>正则表达式整理（持续更新）</title>
+    <url>/2021/02/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<blockquote>
+<p>偶尔会用到正则匹配，下面做一个常用的正则表达式整理以便往后查询</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="最常用的匹配">最常用的匹配</h2>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>\d</code></strong></td>
+<td>表示任意数字，就是阿拉伯数字<code>0~9</code>这些。</td>
+</tr>
+<tr>
+<td><code>\D</code></td>
+<td>大写的表示与小写的相反，表示不是数字。</td>
+</tr>
+<tr>
+<td><code>\w</code></td>
+<td>代表字母，数字，下划线。<code>a-z</code>、<code>A-Z</code>、<code>0~9</code>、<code>_</code>。</td>
+</tr>
+<tr>
+<td><code>\W</code></td>
+<td>大写的表示与小写的相反，不是字母、不是数字也不是下划线。</td>
+</tr>
+<tr>
+<td><strong><code>\n</code></strong></td>
+<td>代表一个回换行。</td>
+</tr>
+<tr>
+<td><code>\r</code></td>
+<td>代表一个回车。</td>
+</tr>
+<tr>
+<td><code>\f</code></td>
+<td>代表换页。</td>
+</tr>
+<tr>
+<td><code>\t</code></td>
+<td>代表一个<code>Tab</code>。</td>
+</tr>
+<tr>
+<td><code>\s</code></td>
+<td>代表所有的空白符，也就是上面四个：<code>\n</code>、<code>\r</code>、<code>\f</code>、<code>\t</code>。</td>
+</tr>
+<tr>
+<td><code>\S</code></td>
+<td>大写的表示与小写的相反，代表所有不是空白的字符。</td>
+</tr>
+<tr>
+<td><code>\A</code></td>
+<td>代表字符串的开始。</td>
+</tr>
+<tr>
+<td><code>\Z</code></td>
+<td>代表字符串的结束。</td>
+</tr>
+<tr>
+<td><strong><code>^</code></strong></td>
+<td>匹配字符串开始的位置。</td>
+</tr>
+<tr>
+<td><strong><code>$</code></strong></td>
+<td>匹配字符串结束的位置。</td>
+</tr>
+<tr>
+<td><strong><code>.</code></strong></td>
+<td>代表所有的单个字符，除了换行<code>\n</code>,回车<code>\r</code>。</td>
+</tr>
+<tr>
+<td><code>[...]</code></td>
+<td>代表在<code>[]</code>范围内的字符，比如<code>[a-z]</code>就代表<code>a-z</code>的字母。</td>
+</tr>
+<tr>
+<td><code>[^...]</code></td>
+<td>与上一个相反，代表不在<code>[]</code>范围内的字符。</td>
+</tr>
+<tr>
+<td><code>&#123;n&#125;</code></td>
+<td>匹配在<code>&#123;n&#125;</code>前面的东西，比如<code>o&#123;2&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>food</code>中的两个<code>o</code>。</td>
+</tr>
+<tr>
+<td><code>&#123;n,m&#125;</code></td>
+<td>匹配在<code>&#123;n,m&#125;</code>前面的东西，比如<code>o&#123;1,3&#125;</code>将匹配<code>fooooood</code>中的前三个<code>o</code>。</td>
+</tr>
+<tr>
+<td><code>&#123;n, &#125;</code></td>
+<td>匹配在<code>&#123;n,&#125;</code>前面的东西，比如<code>o&#123;2,&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>foooood</code>中的所有<code>o</code>。</td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>和<code>&#123;0,&#125;</code>一样，匹配<code>*</code>前面的0次或多次。比如<code>zo*</code>能匹配<code>z</code>、<code>zo</code>以及<code>zoo</code>。</td>
+</tr>
+<tr>
+<td><code>+</code></td>
+<td>和<code>&#123;1,&#125;</code>一样，匹配+前面1次或多次。比如<code>zo+</code>能匹配<code>zo</code>以及<code>zoo</code>但不能匹配<code>z</code></td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td>和<code>&#123;0,1&#125;</code>一样，匹配<code>?</code>前面0次或1次</td>
+</tr>
+<tr>
+<td><code>()</code></td>
+<td>匹配括号里的内容</td>
+</tr>
+</tbody>
+</table>
+<h2 id="re-match">re.match</h2>
+<blockquote>
+<p>传入两个参数，第一个是匹配的规则，第二个是需要被过滤的内容</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">content = <span class="string">&#x27;you have 100 bananas.&#x27;</span></span><br><span class="line">res = re.match(<span class="string">&#x27;^yo.*(\d+)\s.*s$&#x27;</span>,content)</span><br><span class="line">print(res.group(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>re.match</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>调频无线话筒</title>
     <url>/2021/03/10/%E8%B0%83%E9%A2%91%E6%97%A0%E7%BA%BF%E8%AF%9D%E7%AD%92/</url>
     <content><![CDATA[<p>较为详细的实验总结，需要的可以借鉴参考</p>
@@ -1811,132 +1937,6 @@ R5和R6之间的电压值为V=4.094V，接近4V，达到预期值<br>
         <tag>高频电路</tag>
         <tag>PCB</tag>
         <tag>无线</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>正则表达式整理（持续更新）</title>
-    <url>/2021/02/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<blockquote>
-<p>偶尔会用到正则匹配，下面做一个常用的正则表达式整理以便往后查询</p>
-</blockquote>
-<a id="more"></a>
-<h2 id="最常用的匹配">最常用的匹配</h2>
-<table>
-<thead>
-<tr>
-<th>字符</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong><code>\d</code></strong></td>
-<td>表示任意数字，就是阿拉伯数字<code>0~9</code>这些。</td>
-</tr>
-<tr>
-<td><code>\D</code></td>
-<td>大写的表示与小写的相反，表示不是数字。</td>
-</tr>
-<tr>
-<td><code>\w</code></td>
-<td>代表字母，数字，下划线。<code>a-z</code>、<code>A-Z</code>、<code>0~9</code>、<code>_</code>。</td>
-</tr>
-<tr>
-<td><code>\W</code></td>
-<td>大写的表示与小写的相反，不是字母、不是数字也不是下划线。</td>
-</tr>
-<tr>
-<td><strong><code>\n</code></strong></td>
-<td>代表一个回换行。</td>
-</tr>
-<tr>
-<td><code>\r</code></td>
-<td>代表一个回车。</td>
-</tr>
-<tr>
-<td><code>\f</code></td>
-<td>代表换页。</td>
-</tr>
-<tr>
-<td><code>\t</code></td>
-<td>代表一个<code>Tab</code>。</td>
-</tr>
-<tr>
-<td><code>\s</code></td>
-<td>代表所有的空白符，也就是上面四个：<code>\n</code>、<code>\r</code>、<code>\f</code>、<code>\t</code>。</td>
-</tr>
-<tr>
-<td><code>\S</code></td>
-<td>大写的表示与小写的相反，代表所有不是空白的字符。</td>
-</tr>
-<tr>
-<td><code>\A</code></td>
-<td>代表字符串的开始。</td>
-</tr>
-<tr>
-<td><code>\Z</code></td>
-<td>代表字符串的结束。</td>
-</tr>
-<tr>
-<td><strong><code>^</code></strong></td>
-<td>匹配字符串开始的位置。</td>
-</tr>
-<tr>
-<td><strong><code>$</code></strong></td>
-<td>匹配字符串结束的位置。</td>
-</tr>
-<tr>
-<td><strong><code>.</code></strong></td>
-<td>代表所有的单个字符，除了换行<code>\n</code>,回车<code>\r</code>。</td>
-</tr>
-<tr>
-<td><code>[...]</code></td>
-<td>代表在<code>[]</code>范围内的字符，比如<code>[a-z]</code>就代表<code>a-z</code>的字母。</td>
-</tr>
-<tr>
-<td><code>[^...]</code></td>
-<td>与上一个相反，代表不在<code>[]</code>范围内的字符。</td>
-</tr>
-<tr>
-<td><code>&#123;n&#125;</code></td>
-<td>匹配在<code>&#123;n&#125;</code>前面的东西，比如<code>o&#123;2&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>food</code>中的两个<code>o</code>。</td>
-</tr>
-<tr>
-<td><code>&#123;n,m&#125;</code></td>
-<td>匹配在<code>&#123;n,m&#125;</code>前面的东西，比如<code>o&#123;1,3&#125;</code>将匹配<code>fooooood</code>中的前三个<code>o</code>。</td>
-</tr>
-<tr>
-<td><code>&#123;n, &#125;</code></td>
-<td>匹配在<code>&#123;n,&#125;</code>前面的东西，比如<code>o&#123;2,&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>foooood</code>中的所有<code>o</code>。</td>
-</tr>
-<tr>
-<td><code>*</code></td>
-<td>和<code>&#123;0,&#125;</code>一样，匹配<code>*</code>前面的0次或多次。比如<code>zo*</code>能匹配<code>z</code>、<code>zo</code>以及<code>zoo</code>。</td>
-</tr>
-<tr>
-<td><code>+</code></td>
-<td>和<code>&#123;1,&#125;</code>一样，匹配+前面1次或多次。比如<code>zo+</code>能匹配<code>zo</code>以及<code>zoo</code>但不能匹配<code>z</code></td>
-</tr>
-<tr>
-<td><code>?</code></td>
-<td>和<code>&#123;0,1&#125;</code>一样，匹配<code>?</code>前面0次或1次</td>
-</tr>
-<tr>
-<td><code>()</code></td>
-<td>匹配括号里的内容</td>
-</tr>
-</tbody>
-</table>
-<h2 id="re-match">re.match</h2>
-<blockquote>
-<p>传入两个参数，第一个是匹配的规则，第二个是需要被过滤的内容</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">content = <span class="string">&#x27;you have 100 bananas.&#x27;</span></span><br><span class="line">res = re.match(<span class="string">&#x27;^yo.*(\d+)\s.*s$&#x27;</span>,content)</span><br><span class="line">print(res.group(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>re.match</tag>
       </tags>
   </entry>
 </search>
