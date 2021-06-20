@@ -6,6 +6,8 @@ tags:
 categories: Matlab
 ---
 
+Personal matlab sort out finally.
+<!--more-->
 ## 1.Basics ##
 
 - ### Scalars ###
