@@ -91,14 +91,14 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
     `real(z)`、`imag(z)`、`abs(z)`、`angle(z)`、`conj(z)`
   - Exponetial and logarithm functions
     | Name | Description | Name | Description |
-    |-------|-------|-------|-------|
+    |:-------:|:-------:|:-------:|:-------:|
     |  `exp(x)`  |  $e^{x}$  |  `log1p(x)`  |  ln(1+x)  |
     |  `pow2(x)`  |  $2^{x}$  |  `log2(x)`  |  $log_{2}{x}$  |
     |  `log(x)`  |  lnx  |  `log10(x)`  |  $log_{10}{x}$、$lg(x)$  |
 
   - Array and matrix
     | Name | Description | Name | Description |
-    |-------|-------|-------|-------|
+    |:-------:|:-------:|:-------:|:-------:|
     |  `ones`  |  All one  |  `zeros`  |  All zeros  |
     |  `length`  |  length  |  `size`  |  Dimension of array  |
     |  `sum`  |  sum  |  `mean`  |  Mean of array  |
@@ -112,5 +112,208 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
     `title()`、`legend()`、`hold on`、`grid on`、`semilogy()`...
   - Function format
     `function [outputs]=function_name(inputs)`
+
+## 2.Signals and linear systems ##
+
+- ### Basic sequence ###
+
+  - Implulse signal and sequence
+  
+  ``` matlab
+  t = -5:0.01:5;
+  y = (t==0);
+  subplot(1,2,1);
+  plot(t, y, 'r’);
+
+  n = -5:5;
+  x = (n==0);
+  subplot(1,2,2);
+  stem(n, x);
+  ```
+
+  - Step signal and sequence
+
+  ``` matlab
+  t =-5:0.01:5;
+  y=(t>=0);
+  subplot(1,2,1);
+  plot(t, y, 'r')
+
+  n = -5:5;
+  x = (n>=0);
+  subplot(1,2,2);
+  stem(n, x);
+  ```
+
+  - Real exponential sequence
+  x(n)=$a^n$, $\forall n$,  $a\in R$
+
+  ``` matlab
+  n=[ns:nf];
+  x=a.^n;
+  ```
+
+  - Exponential sequence
+  x(n)=$e^{(\delta +j\omega)n}$
+
+  ``` matlab
+  n=[ns:nf];
+  x=exp((delta+jw)*n);
+  ```
+
+  - Sinine, cosine sequence
+  $x(n)=cos(\omega n+\theta)$
+
+  ``` matlab
+  n=[ns:nf];
+  x=cos(w*n+sita);
+  ```
+
+  - Other signal generation functions
+  
+  | Name | Description | Name | Description |
+  |:-------:|:-------:|:-------:|:-------:|
+  |  `sawtooth`  |  Sawtooth or triangle wave  |  `pulstran`  |  Pulse train  |
+  |  `square`  |  Square wave  |  `rectpule`  |  Aperiod squre wave  |
+  |  `sinc`  |  Sinc wave  |  `tripuls`  |  Aperiod triangle wave  |
+
+- ### Signal Operations ###
+  
+  - Moving
+  y(n)=x(n-m)
+
+  ```matlab
+  y(n)=x(n-m)
+  ```
+
+  - Periodic extension
+  $y(n)=x((n))_{M}$
+
+  ```matlab
+  y(n)=x(mod(n,M)+1)
+  ```
+
+  - Flipping
+  y(n)=x(-n)
+
+  ```matlab
+  y=fliplr(x)
+  ```
+
+  - Correlation with two sequences
+  $y(m)=\sum^n x_1(n+m)x_2^*(n)$
+
+  ```matlab
+  y=xcorr(x1,x2)
+  ```
+  
+  - Cummulative sum
+  $y(n)=\sum_{i=1}^n x(i)$
+
+  ```matlab
+  y=cumsum(x)
+  ```
+
+  - Convolution of two sequences
+  $y(n)=x_1(n)*x_2(n)=\sum^mx_1(m)x_x(n-m)$
+
+  ```matlab
+  y=conv(x1,x2)
+  ```
+
+  - Convolution of two _continuous-time_ signals：
+  $f(t)=\int_{-\infty}^{+\infty}f_1(\tau)f_2(t-\tau)d\tau$
+  $f(t)=\sum_{k=-\infty}^{+\infty}f_1(k\Delta)f_2(t-k\Delta)\Delta$
+
+  ```matlab
+  y=conv(x1,x2)*dt
+  ```
+
+- ### Fourier transform ###
+
+  - Continuous-time，continuous-frequency：FT
+  
+  | T2F | F2T |
+  |:-------:|:-------:|
+  |  $X(f)=\int_{-\infty}^{+\infty}x(t)e^{-j2\pi ft}dt$  |  $x(t)=\int_{-\infty}^{+\infty}X(f)e^{j2\pi ft}df$  |
+  - Discrete-time, discrete-frequency: DFT / FFT
+
+- ### Energy and Power ###
+  
+  - Energy
+    - T-domain
+    $x[n]=x(n\Delta t)$
+    $E=\int_{-\infty}^{+\infty}|x(t)|^2dt\approx\sum_{n=0}^Mx[n]·x^*[n]·\Delta t$
+
+    ``` matlab
+    % E=sum(x.*conj(x))*dt;
+    E=sum(abs(x).^2)*dt;
+    ```
+
+    - F-domain
+    $X[k]=X(k\Delta f)$
+    $E=\int_{-\infty}^{+\infty}|X(f)|^2df\approx\sum_{k=0}^{k-1}X[k]·X^*[k]·\Delta f$
+
+    ``` matlab
+    % E=sum(x.*conj(x))*df;
+    E=sum(abs(x).^2)*df;
+    ```
+
+  - Power
+    - T-domain
+    $P=\lim_{T\rightarrow\infty}\frac{1}{T}\int_0^T|x(t)|^2dt\approx\frac{1}{N}\sum_{n=0}^{N-1}|x[n]|^2$
+
+    ``` matlab
+    % P=sum(x.*conj(x))/N;
+    P=sum(abs(x).^2)/N;
+    ```
+
+    - F-domain
+    _$X_Tf$ is the spectrum of x(t) within [0,T]_
+    $P=\lim_{T\rightarrow\infty}\frac{1}{T}\int_{-\infty}^{+\infty}|X_T(f)|^2df\approx\frac{1}{N}\sum_{k=0}^{K-1}|X[k]|^2\Delta f$
+
+    ``` matlab
+    % P=sum(x.*conj(x))*df/T;
+    P=sum(abs(x).^2)*df/T;
+    ```
+
+- ### Autocorrelation and Power spectral density(PSD) ###
+  
+  - Autocorrelation
+    $x[n]=x(n\Delta t)$
+    $R(\tau)=\int_{-\infty}^{+\infty}x(t)x^*(t+\tau)dt\approx\sum_{n=0}^Mx[n]·x^*[n+\tau]·\Delta t$
+    $R_T(\tau)=\lim_{T\rightarrow\infty}\frac{R(\tau)}{T}$
+
+    ```matlab
+    R(tau)=sum(x(t).*conj(x(t+tau))*dt/(N*dt);
+    ```
+
+  - PSD
+    $P_T(f)=\lim_{T\rightarrow\infty}\frac{|X_T(f)|^2}{T}$
+  - Wiener-Khinchin theorem
+    $FT(R_T(\tau))=P_T(f)$
+
+## 3.Randon process and analog modulation ##
+
+- ### ex3 ###
+
+  - ex3.1
+    - ex3.1.1
+
+## 4.Baseband signal transmission I ##
+
+- ### ex4 ###
+
+## 5.Baseband signal transmission II ##
+
+- ### ex5 ###
+
+## 6.Digital Transmission via carrier modulation I ##
+
+- ### ex6 ###
+
+## 7.Digital Transmission via carrier modulation II ##
+
+- ### ex7 ###
 
 <!-- markdownlint-disable-file MD033 -->
