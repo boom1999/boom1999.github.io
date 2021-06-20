@@ -1,41 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>交通灯系统</title>
-    <url>/2021/01/12/AT89S51%E4%BA%A4%E9%80%9A%E7%81%AF%E7%B3%BB%E7%BB%9F/</url>
-    <content><![CDATA[<ul>
-<li>
-<p><strong>浙江工业大学信息工程学院单片机实验</strong></p>
-</li>
-<li>
-<p>题：定义一个秒表计数器如R2</p>
-</li>
-</ul>
-<ol>
-<li>在R2的值为1~30秒，输出P1口和P3.0、P3.1实现南北绿灯、东西红灯、人行道东西红灯、南北绿灯，并将R2的值除10，商放在动态LED0，余数放在动态LED1点亮；</li>
-<li>在R2的值为31~35秒，输出P1口和P3.0、P3.1实现南北黄灯、东西红灯、人行道东西红灯、南北红灯，并将R2的值减去30后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
-<li>在R2的值为36~65秒，输出P1口和P3.0、P3.1实现南北红灯、东西绿灯、人行道东西绿灯、南北红灯，并将R2的值减去35后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
-<li>在R2的值为66~70秒，输出P1口和P3.0、P3.1实现南北红灯、东西黄灯、人行道东西红灯、南北红灯，并将R2的值减去65后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
-<li>当R2的值等于71秒时，R2置1，重新开始</li>
-</ol>
-<a id="more"></a>
-<blockquote>
-<p>交通灯模块、动态数码管模块，利用定时器、十进制数拆分<br>
-用 8 根的排线连接单片机 P0 的 JP10 到动态数码管的 J12，用 8 根的排线连接单片机 P1 的 JP8 到 交通灯模块的 JP1<br>
-单片机的 P22、P23、P24 分别接到 74HC138 模块的A、B、C。JP165 跳线帽一定要拔掉，插在其中一根针上，以免丢掉。<br>
-南北绿灯30s，红灯30s；黄灯均为5s；东西绿灯25s，红灯35s，<br>
-人行道不显示倒计时，车道显示倒计时</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">RESET:</span><br><span class="line">    AJMP    MAIN</span><br><span class="line">    ORG     000BH           &#x2F;&#x2F;定时器中断0入口</span><br><span class="line">    AJMP    INTI0</span><br><span class="line">    ORG     0100H</span><br><span class="line"></span><br><span class="line">MAIN:</span><br><span class="line">    MOV     SP,#60H         &#x2F;&#x2F;计时工作方式1</span><br><span class="line">    MOV     TMOD,#01H</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">                            &#x2F;&#x2F;12MHz，机器周期1μs，需要10000个计数，初值&#x3D;65536-10000&#x3D;55536&#x3D;D8F0H</span><br><span class="line">    MOV     TH0,#0D8H</span><br><span class="line">    MOV     TL0,#0F0H</span><br><span class="line">    SETB    ET0             &#x2F;&#x2F;开放T0中断和总中断</span><br><span class="line">    SETB    EA</span><br><span class="line">    SETB    TR0             &#x2F;&#x2F;启动T0</span><br><span class="line">    MOV     R0,#01          &#x2F;&#x2F;计数器初值为01</span><br><span class="line">    MOV     30H,#00H        &#x2F;&#x2F;定时器超时一百次，达到64h即一秒</span><br><span class="line">    MOV     31H,#30         &#x2F;&#x2F;南北方向红黄绿时间，30，5，30</span><br><span class="line">    MOV     32H,#35         &#x2F;&#x2F;东西方向红黄绿时间，35，5，25</span><br><span class="line">    MOV     P1,#11001101B   &#x2F;&#x2F;110东西红&#39;011南北绿&#39;01人行南北绿</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    LJMP    DISPLAY</span><br><span class="line"></span><br><span class="line">CALCU:</span><br><span class="line">&#x2F;***********南北方向倒计时计算********************&#x2F;</span><br><span class="line">    MOV     R1,#10          &#x2F;&#x2F;除数为10</span><br><span class="line">    MOV     A,31H           &#x2F;&#x2F;倒计时数字放到A</span><br><span class="line">    MOV     B,R1            &#x2F;&#x2F;除数10放到B</span><br><span class="line">    DIV     AB              &#x2F;&#x2F;A为商，B为余数</span><br><span class="line">    MOV     R4,A            &#x2F;&#x2F;R4存放商</span><br><span class="line">    MOV     R5,B            &#x2F;&#x2F;R5存放余数</span><br><span class="line">&#x2F;***********东西方向倒计时计算********************&#x2F;</span><br><span class="line">    MOV     R1,#10          &#x2F;&#x2F;除数为10</span><br><span class="line">    MOV     A,32H           &#x2F;&#x2F;倒计时数字放到A</span><br><span class="line">    MOV     B,R1            &#x2F;&#x2F;除数10放到B</span><br><span class="line">    DIV     AB              &#x2F;&#x2F;A为商，B为余数</span><br><span class="line">    MOV     R6,A            &#x2F;&#x2F;R6存放商</span><br><span class="line">    MOV     R7,B            &#x2F;&#x2F;R7存放余数</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">DISPLAY:</span><br><span class="line">&#x2F;***********南北方向倒计时显示********************&#x2F;</span><br><span class="line">    CLR     P2.2</span><br><span class="line">    CLR     P2.3</span><br><span class="line">    CLR     P2.4</span><br><span class="line">    MOV     A,R4            &#x2F;&#x2F;LED0输出商</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D04MS</span><br><span class="line">    </span><br><span class="line">    SETB    P2.2</span><br><span class="line">    MOV     A,R5            &#x2F;&#x2F;LED1输出余数</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">&#x2F;***********东西方向倒计时显示********************&#x2F;</span><br><span class="line">    CLR     P2.2</span><br><span class="line">    CLR     P2.3</span><br><span class="line">    SETB    P2.4</span><br><span class="line">    LCALL   D04MS </span><br><span class="line">    MOV     A,R6            &#x2F;&#x2F;LED4输出商</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D04MS</span><br><span class="line">    </span><br><span class="line">    SETB    P2.2</span><br><span class="line">    MOV     A,R7            &#x2F;&#x2F;LED5输出余数</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">&#x2F;*********************************************&#x2F;</span><br><span class="line">    JNB     TF0,DISPLAY     &#x2F;&#x2F;wait for TF0</span><br><span class="line"></span><br><span class="line">INTI0:</span><br><span class="line">    PUSH    PSW             &#x2F;&#x2F;保护状态字寄存器</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    CLR     EA              &#x2F;&#x2F;关闭总中断</span><br><span class="line">    MOV     TH0,#0D8H       &#x2F;&#x2F;定时10ms</span><br><span class="line">    MOV     TL0,#0F0H</span><br><span class="line">    INC     30H</span><br><span class="line">    MOV     A,30H</span><br><span class="line">    CJNE    A,#100,OUT</span><br><span class="line">    MOV     30H,#00H        &#x2F;&#x2F;定时器超时一百次，达到64h即一秒</span><br><span class="line">    INC     R0              &#x2F;&#x2F;计数器+1</span><br><span class="line">    DEC     31H</span><br><span class="line">    DEC     32H</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;***********四种状态互相转变********************&#x2F;</span><br><span class="line">JMP5SN:</span><br><span class="line">    CJNE    R0,#31,JMP30EW</span><br><span class="line">    MOV     P1,#11010110B   &#x2F;&#x2F;110东西红&#39;101南北黄&#39;10人行南北红</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    MOV     31H,#5</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP30EW:</span><br><span class="line">    CJNE    R0,#36,JMP5EW</span><br><span class="line">    MOV     P1,#01111010B   &#x2F;&#x2F;011东西绿&#39;110南北红&#39;10人行南北红</span><br><span class="line">    SETB    P3.0            &#x2F;&#x2F;01人行东西绿</span><br><span class="line">    CLR     P3.1</span><br><span class="line">    MOV     31H,#30</span><br><span class="line">    MOV     32H,#25</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP5EW:</span><br><span class="line">    CJNE    R0,#66,JMP30SN</span><br><span class="line">    MOV     P1,#10111010B   &#x2F;&#x2F;101东西黄&#39;110南北红&#39;10人行南北红</span><br><span class="line">    SETB    P3.0            &#x2F;&#x2F;01人行东西绿</span><br><span class="line">    CLR     P3.1</span><br><span class="line">    MOV     32H,#5</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP30SN:</span><br><span class="line">    CJNE    R0,#71,OUT</span><br><span class="line">    MOV     R0,#1</span><br><span class="line">    MOV     P1,#11001101B   &#x2F;&#x2F;110东西红&#39;011南北绿&#39;01人行南北绿</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    MOV     31H,#30</span><br><span class="line">    MOV     32H,#35</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line"></span><br><span class="line">OUT:</span><br><span class="line">    SETB    EA              &#x2F;&#x2F;开总中断</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW             &#x2F;&#x2F;保护状态字寄存器</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">D04MS:                      &#x2F;&#x2F;延时0.4ms</span><br><span class="line">    MOV     R3,#2</span><br><span class="line">D1: MOV     R2,#10</span><br><span class="line">D2: DJNZ    R2,D2</span><br><span class="line">    DJNZ    R3,D1</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  3FH,06H,5BH,4FH,66H,6DH,7DH,07H &#x2F;&#x2F;共阴极0~9</span><br><span class="line">    DB  7FH,6FH</span><br><span class="line">    DB  00H</span><br><span class="line"></span><br><span class="line">END</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>AT89S51</category>
-      </categories>
-      <tags>
-        <tag>中断</tag>
-        <tag>汇编</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ASK and PSK</title>
     <url>/2021/05/30/ASK%20and%20PSK/</url>
     <content><![CDATA[<p>📌</p>
@@ -140,30 +105,38 @@ In the constellation diagram, we can see that the PSK signal will drift due to n
       </tags>
   </entry>
   <entry>
-    <title>Dual_computer_communication</title>
-    <url>/2020/12/29/AT89S51%E5%8F%8C%E6%9C%BA%E9%80%9A%E4%BF%A1/</url>
+    <title>交通灯系统</title>
+    <url>/2021/01/12/AT89S51%E4%BA%A4%E9%80%9A%E7%81%AF%E7%B3%BB%E7%BB%9F/</url>
     <content><![CDATA[<ul>
 <li>
 <p><strong>浙江工业大学信息工程学院单片机实验</strong></p>
 </li>
 <li>
-<p>要求：甲机将内部RAM 30h~4Fh的内容发送给乙机</p>
+<p>题：定义一个秒表计数器如R2</p>
 </li>
 </ul>
+<ol>
+<li>在R2的值为1~30秒，输出P1口和P3.0、P3.1实现南北绿灯、东西红灯、人行道东西红灯、南北绿灯，并将R2的值除10，商放在动态LED0，余数放在动态LED1点亮；</li>
+<li>在R2的值为31~35秒，输出P1口和P3.0、P3.1实现南北黄灯、东西红灯、人行道东西红灯、南北红灯，并将R2的值减去30后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
+<li>在R2的值为36~65秒，输出P1口和P3.0、P3.1实现南北红灯、东西绿灯、人行道东西绿灯、南北红灯，并将R2的值减去35后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
+<li>在R2的值为66~70秒，输出P1口和P3.0、P3.1实现南北红灯、东西黄灯、人行道东西红灯、南北红灯，并将R2的值减去65后除10，商放在动态LED0，余数放在动态LED1点亮；</li>
+<li>当R2的值等于71秒时，R2置1，重新开始</li>
+</ol>
 <a id="more"></a>
 <blockquote>
-<p>通讯双方均采用4800bps波特率进行传送(系统时钟频率为11.0592MHz)，甲机发送数据，乙机接收数据。双机开始通讯时，甲机发送一个呼叫信号“06H”，询问乙机是否可以接收数据；乙机收到呼叫信号后，若同意接收数据则发回“00H”作为应答，否则发“15H”表示暂不能接收数据，甲机只有收到乙机的应答信号“00H”后才可把存放在内部数据存储器的字节内容发送给乙机，否则继续向乙机呼叫，直到乙机同意接收。呼叫成功后甲机依次发送长度字节（1字节）、数据字节（n字节）和校验和字节（1字节），其中校验和为长度字节和数据字节的“累加和”。乙机在成功收到甲机的数据之后，发送“0FH”作为成功应答，否则发送“F0H”作为失败应答。</p>
+<p>交通灯模块、动态数码管模块，利用定时器、十进制数拆分<br>
+用 8 根的排线连接单片机 P0 的 JP10 到动态数码管的 J12，用 8 根的排线连接单片机 P1 的 JP8 到 交通灯模块的 JP1<br>
+单片机的 P22、P23、P24 分别接到 74HC138 模块的A、B、C。JP165 跳线帽一定要拔掉，插在其中一根针上，以免丢掉。<br>
+南北绿灯30s，红灯30s；黄灯均为5s；东西绿灯25s，红灯35s，<br>
+人行道不显示倒计时，车道显示倒计时</p>
 </blockquote>
-<hr>
-<h2 id="发送机">发送机</h2>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">        ORG     0000H</span><br><span class="line">        LJMP    START</span><br><span class="line">        ORG     1000H</span><br><span class="line">            </span><br><span class="line">START:</span><br><span class="line">        MOV     SP,#60H</span><br><span class="line">        MOV     TMOD,#20H       &#x2F;&#x2F;定时器0，定时器工作模式2工作</span><br><span class="line">        MOV     TH1,#0FAH       &#x2F;&#x2F;模式2自动重装载的初值</span><br><span class="line">        MOV     TH1,#0FAH</span><br><span class="line">        SETB    TR1             &#x2F;&#x2F;开始计时</span><br><span class="line">        MOV     SCON,#50H       &#x2F;&#x2F;方式1工作,允许接收--&gt;4.8kbit&#x2F;s</span><br><span class="line">        MOV     PCON,#00H       &#x2F;&#x2F;SMOD&#x3D;0</span><br><span class="line">        MOV     R0,30H          &#x2F;&#x2F;存放发送的数据块首地址</span><br><span class="line">        MOV     R7,#20H         &#x2F;&#x2F;存放发送的数据块长度</span><br><span class="line">        MOV     R6,#00H         &#x2F;&#x2F;校验和，长度字节与数字字节的累加和</span><br><span class="line">        </span><br><span class="line">TX_ACK:</span><br><span class="line">        MOV     A,#06H          &#x2F;&#x2F;发送06H询问是否可以接收数据</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">WAIT1:</span><br><span class="line">        JNB     TI,WAIT1        &#x2F;&#x2F;等待发送完一个字节</span><br><span class="line">        CLR     TI              &#x2F;&#x2F;清除发送完毕TI标志位</span><br><span class="line"></span><br><span class="line">RX_YES:</span><br><span class="line">        JNB     RI,RX_YES       &#x2F;&#x2F;等待乙机回答是否可以接收</span><br><span class="line">        CLR     RI              &#x2F;&#x2F;清除接收完毕RI标志位</span><br><span class="line">        </span><br><span class="line">NEXT1:</span><br><span class="line">        MOV     A,SBUF          &#x2F;&#x2F;接收到乙机发送过来的ACK</span><br><span class="line">        CJNE    A,#00H,TX_ACK   &#x2F;&#x2F;若为00H则表示可以接收数据，往下启动发送，否则再次询问</span><br><span class="line">        </span><br><span class="line">TX_LENGTH:</span><br><span class="line">        MOV     A,R7            &#x2F;&#x2F;先发送字节长度数R7</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">WAIT2:</span><br><span class="line">        JNB     TI,WAIT2        &#x2F;&#x2F;等待数据发送完毕</span><br><span class="line">        CLR     TI              &#x2F;&#x2F;清除发送完毕TI标志位</span><br><span class="line">        MOV     R6,A            &#x2F;&#x2F;增加校验和</span><br><span class="line"></span><br><span class="line">TX_NEWS:                        &#x2F;&#x2F;查询发送数据</span><br><span class="line">        MOV     A,@R0</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">TX_NEWS_WAIT:</span><br><span class="line">        JNB     TI,TX_NEWS_WAIT</span><br><span class="line">        CLR     TI              &#x2F;&#x2F;清除发送完毕TI标志位</span><br><span class="line">        MOV     A,R6</span><br><span class="line">        ADD     A,@R0</span><br><span class="line">        MOV     R6,A</span><br><span class="line">        INC     @R0</span><br><span class="line">        DJNZ    R7,TX_NEWS      &#x2F;&#x2F;如果没发送完32个数据，继续发送</span><br><span class="line">        </span><br><span class="line">TX_CHECK:</span><br><span class="line">        MOV     A,R6</span><br><span class="line">        ADD     A,@R0</span><br><span class="line">        MOV     R6,A</span><br><span class="line">        MOV     A,R6            &#x2F;&#x2F;发送校验位</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">WAIT3:                          &#x2F;&#x2F;等待发送完校验位</span><br><span class="line">        JNB     TI,WAIT3</span><br><span class="line">        CLR     TI</span><br><span class="line">        </span><br><span class="line">WAIT4:                          &#x2F;&#x2F;等待接收完校验位</span><br><span class="line">        JNB     RI,WAIT4</span><br><span class="line">        CLR     RI</span><br><span class="line">        </span><br><span class="line">IF_0FH:</span><br><span class="line">        MOV     A,SBUF          &#x2F;&#x2F;将接收到校验是否正确的恢复存到累加器</span><br><span class="line">        CJNE    A,#0FH,START</span><br><span class="line"></span><br><span class="line">HERE:</span><br><span class="line">        SJMP    HERE</span><br><span class="line"></span><br><span class="line">        END</span><br><span class="line">        </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="接收机">接收机</h2>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">        ORG     0000H</span><br><span class="line">        LJMP    START</span><br><span class="line">        ORG     0023H</span><br><span class="line">        LJMP    IF_06H</span><br><span class="line">        ORG     1000H</span><br><span class="line">            </span><br><span class="line">START:</span><br><span class="line">        MOV     SP,#60H</span><br><span class="line">        MOV     TMOD,#20H       &#x2F;&#x2F;定时器0，定时器工作模式2工作</span><br><span class="line">        MOV     TH1,#0FAH       &#x2F;&#x2F;模式2自动重装载的初值</span><br><span class="line">        MOV     TH1,#0FAH</span><br><span class="line">        SETB    TR1             &#x2F;&#x2F;开始计时</span><br><span class="line">        MOV     SCON,#50H       &#x2F;&#x2F;方式1,允许接收--&gt;4.8kbit&#x2F;s</span><br><span class="line">        MOV     PCON,#00H       &#x2F;&#x2F;SMOD&#x3D;0</span><br><span class="line">        MOV     IE,#90H</span><br><span class="line">        MOV     R0,30H          &#x2F;&#x2F;存放发送的数据块首地址</span><br><span class="line">        MOV     R7,#00H         &#x2F;&#x2F;存放发送的数据块长度</span><br><span class="line">        MOV     R6,#00H         &#x2F;&#x2F;校验和，长度字节与数字字节的累加和</span><br><span class="line">        </span><br><span class="line">HERE:</span><br><span class="line">        SJMP    HERE</span><br><span class="line">        </span><br><span class="line">IF_06H:</span><br><span class="line">        PUSH    ACC</span><br><span class="line">        PUSH    PSW</span><br><span class="line">        CLR     RI              &#x2F;&#x2F;清除接收完毕RI标志位</span><br><span class="line">        MOV     A,SBUF          &#x2F;&#x2F;核对握手信号是不是06H</span><br><span class="line">        CJNE    A,#06H,TX_15H   &#x2F;&#x2F;如果是06H则发送00H应答，否则发送15H拒绝</span><br><span class="line"></span><br><span class="line">TX_00H:</span><br><span class="line">        MOV     A,#00H</span><br><span class="line">        MOV     SBUF,A          &#x2F;&#x2F;发送出00H表示可以接收数据</span><br><span class="line">        LJMP    HERE_RE</span><br><span class="line">        </span><br><span class="line">TX_15H:</span><br><span class="line">        MOV     A,#15H          &#x2F;&#x2F;发送15H表示不可以接收</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        LJMP    RETURN</span><br><span class="line">            </span><br><span class="line">HERE_RE:</span><br><span class="line">        JNB     TI,HERE_RE      &#x2F;&#x2F;等待发送完毕，发送完毕准备接收</span><br><span class="line">        CLR     TI</span><br><span class="line">        </span><br><span class="line">HAVE1:</span><br><span class="line">        JNB     RI,HAVE1        &#x2F;&#x2F;等待接收数据长度</span><br><span class="line">        CLR     RI</span><br><span class="line">        MOV     A,SBUF</span><br><span class="line">        MOV     R7,A            &#x2F;&#x2F;R7存数据长度</span><br><span class="line">        MOV     R6,A            &#x2F;&#x2F;R6存校验和</span><br><span class="line"></span><br><span class="line">HAVE2:</span><br><span class="line">        JNB     RI,HAVE2        &#x2F;&#x2F;等待接收正式数据</span><br><span class="line">        CLR     RI</span><br><span class="line">        MOV     A,SBUF</span><br><span class="line">        MOV     @R0,A</span><br><span class="line">        MOV     A,R6</span><br><span class="line">        ADD     A,@R0</span><br><span class="line">        MOV     R6,A</span><br><span class="line">        INC     @R0</span><br><span class="line">        DJNZ    R7,HAVE2        &#x2F;&#x2F;如果没接收完完20个数据，继续接收</span><br><span class="line">        </span><br><span class="line">RX_CHECK:                       &#x2F;&#x2F;接收校验和</span><br><span class="line">        JNB     RI,RX_CHECK</span><br><span class="line">        CLR     RI</span><br><span class="line">        MOV     A,SBUF</span><br><span class="line">        MOV     39H,A</span><br><span class="line">        CJNE    A,39H,TX_ERR    &#x2F;&#x2F;如果校验正确，则继续向下ok，错误则发送#F0H</span><br><span class="line">        </span><br><span class="line">TX_OK:                          &#x2F;&#x2F;校验正确，发送0FH</span><br><span class="line">        MOV     A,#0FH</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        LJMP    HERE_END</span><br><span class="line">            </span><br><span class="line">TX_ERR:                         &#x2F;&#x2F;校验错误，发送F0H</span><br><span class="line">        MOV     A,#0F0H</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">HERE_END:                       &#x2F;&#x2F;等待发送完毕</span><br><span class="line">        JNB TI,HERE_END</span><br><span class="line">        CLR TI</span><br><span class="line"></span><br><span class="line">RETURN:</span><br><span class="line">        POP     PSW</span><br><span class="line">        POP     ACC</span><br><span class="line">        RETI</span><br><span class="line"></span><br><span class="line">        END</span><br><span class="line">            </span><br></pre></td></tr></table></figure>]]></content>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">RESET:</span><br><span class="line">    AJMP    MAIN</span><br><span class="line">    ORG     000BH           &#x2F;&#x2F;定时器中断0入口</span><br><span class="line">    AJMP    INTI0</span><br><span class="line">    ORG     0100H</span><br><span class="line"></span><br><span class="line">MAIN:</span><br><span class="line">    MOV     SP,#60H         &#x2F;&#x2F;计时工作方式1</span><br><span class="line">    MOV     TMOD,#01H</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">                            &#x2F;&#x2F;12MHz，机器周期1μs，需要10000个计数，初值&#x3D;65536-10000&#x3D;55536&#x3D;D8F0H</span><br><span class="line">    MOV     TH0,#0D8H</span><br><span class="line">    MOV     TL0,#0F0H</span><br><span class="line">    SETB    ET0             &#x2F;&#x2F;开放T0中断和总中断</span><br><span class="line">    SETB    EA</span><br><span class="line">    SETB    TR0             &#x2F;&#x2F;启动T0</span><br><span class="line">    MOV     R0,#01          &#x2F;&#x2F;计数器初值为01</span><br><span class="line">    MOV     30H,#00H        &#x2F;&#x2F;定时器超时一百次，达到64h即一秒</span><br><span class="line">    MOV     31H,#30         &#x2F;&#x2F;南北方向红黄绿时间，30，5，30</span><br><span class="line">    MOV     32H,#35         &#x2F;&#x2F;东西方向红黄绿时间，35，5，25</span><br><span class="line">    MOV     P1,#11001101B   &#x2F;&#x2F;110东西红&#39;011南北绿&#39;01人行南北绿</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    LJMP    DISPLAY</span><br><span class="line"></span><br><span class="line">CALCU:</span><br><span class="line">&#x2F;***********南北方向倒计时计算********************&#x2F;</span><br><span class="line">    MOV     R1,#10          &#x2F;&#x2F;除数为10</span><br><span class="line">    MOV     A,31H           &#x2F;&#x2F;倒计时数字放到A</span><br><span class="line">    MOV     B,R1            &#x2F;&#x2F;除数10放到B</span><br><span class="line">    DIV     AB              &#x2F;&#x2F;A为商，B为余数</span><br><span class="line">    MOV     R4,A            &#x2F;&#x2F;R4存放商</span><br><span class="line">    MOV     R5,B            &#x2F;&#x2F;R5存放余数</span><br><span class="line">&#x2F;***********东西方向倒计时计算********************&#x2F;</span><br><span class="line">    MOV     R1,#10          &#x2F;&#x2F;除数为10</span><br><span class="line">    MOV     A,32H           &#x2F;&#x2F;倒计时数字放到A</span><br><span class="line">    MOV     B,R1            &#x2F;&#x2F;除数10放到B</span><br><span class="line">    DIV     AB              &#x2F;&#x2F;A为商，B为余数</span><br><span class="line">    MOV     R6,A            &#x2F;&#x2F;R6存放商</span><br><span class="line">    MOV     R7,B            &#x2F;&#x2F;R7存放余数</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">DISPLAY:</span><br><span class="line">&#x2F;***********南北方向倒计时显示********************&#x2F;</span><br><span class="line">    CLR     P2.2</span><br><span class="line">    CLR     P2.3</span><br><span class="line">    CLR     P2.4</span><br><span class="line">    MOV     A,R4            &#x2F;&#x2F;LED0输出商</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D04MS</span><br><span class="line">    </span><br><span class="line">    SETB    P2.2</span><br><span class="line">    MOV     A,R5            &#x2F;&#x2F;LED1输出余数</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">&#x2F;***********东西方向倒计时显示********************&#x2F;</span><br><span class="line">    CLR     P2.2</span><br><span class="line">    CLR     P2.3</span><br><span class="line">    SETB    P2.4</span><br><span class="line">    LCALL   D04MS </span><br><span class="line">    MOV     A,R6            &#x2F;&#x2F;LED4输出商</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D04MS</span><br><span class="line">    </span><br><span class="line">    SETB    P2.2</span><br><span class="line">    MOV     A,R7            &#x2F;&#x2F;LED5输出余数</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P0,A</span><br><span class="line">&#x2F;*********************************************&#x2F;</span><br><span class="line">    JNB     TF0,DISPLAY     &#x2F;&#x2F;wait for TF0</span><br><span class="line"></span><br><span class="line">INTI0:</span><br><span class="line">    PUSH    PSW             &#x2F;&#x2F;保护状态字寄存器</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    CLR     EA              &#x2F;&#x2F;关闭总中断</span><br><span class="line">    MOV     TH0,#0D8H       &#x2F;&#x2F;定时10ms</span><br><span class="line">    MOV     TL0,#0F0H</span><br><span class="line">    INC     30H</span><br><span class="line">    MOV     A,30H</span><br><span class="line">    CJNE    A,#100,OUT</span><br><span class="line">    MOV     30H,#00H        &#x2F;&#x2F;定时器超时一百次，达到64h即一秒</span><br><span class="line">    INC     R0              &#x2F;&#x2F;计数器+1</span><br><span class="line">    DEC     31H</span><br><span class="line">    DEC     32H</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;***********四种状态互相转变********************&#x2F;</span><br><span class="line">JMP5SN:</span><br><span class="line">    CJNE    R0,#31,JMP30EW</span><br><span class="line">    MOV     P1,#11010110B   &#x2F;&#x2F;110东西红&#39;101南北黄&#39;10人行南北红</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    MOV     31H,#5</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP30EW:</span><br><span class="line">    CJNE    R0,#36,JMP5EW</span><br><span class="line">    MOV     P1,#01111010B   &#x2F;&#x2F;011东西绿&#39;110南北红&#39;10人行南北红</span><br><span class="line">    SETB    P3.0            &#x2F;&#x2F;01人行东西绿</span><br><span class="line">    CLR     P3.1</span><br><span class="line">    MOV     31H,#30</span><br><span class="line">    MOV     32H,#25</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP5EW:</span><br><span class="line">    CJNE    R0,#66,JMP30SN</span><br><span class="line">    MOV     P1,#10111010B   &#x2F;&#x2F;101东西黄&#39;110南北红&#39;10人行南北红</span><br><span class="line">    SETB    P3.0            &#x2F;&#x2F;01人行东西绿</span><br><span class="line">    CLR     P3.1</span><br><span class="line">    MOV     32H,#5</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line">JMP30SN:</span><br><span class="line">    CJNE    R0,#71,OUT</span><br><span class="line">    MOV     R0,#1</span><br><span class="line">    MOV     P1,#11001101B   &#x2F;&#x2F;110东西红&#39;011南北绿&#39;01人行南北绿</span><br><span class="line">    CLR     P3.0            &#x2F;&#x2F;10人行东西红</span><br><span class="line">    SETB    P3.1</span><br><span class="line">    MOV     31H,#30</span><br><span class="line">    MOV     32H,#35</span><br><span class="line">    LCALL   CALCU</span><br><span class="line">    SJMP    OUT</span><br><span class="line"></span><br><span class="line">OUT:</span><br><span class="line">    SETB    EA              &#x2F;&#x2F;开总中断</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW             &#x2F;&#x2F;保护状态字寄存器</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">D04MS:                      &#x2F;&#x2F;延时0.4ms</span><br><span class="line">    MOV     R3,#2</span><br><span class="line">D1: MOV     R2,#10</span><br><span class="line">D2: DJNZ    R2,D2</span><br><span class="line">    DJNZ    R3,D1</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  3FH,06H,5BH,4FH,66H,6DH,7DH,07H &#x2F;&#x2F;共阴极0~9</span><br><span class="line">    DB  7FH,6FH</span><br><span class="line">    DB  00H</span><br><span class="line"></span><br><span class="line">END</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>AT89S51</category>
       </categories>
       <tags>
-        <tag>双机通信</tag>
+        <tag>中断</tag>
+        <tag>汇编</tag>
       </tags>
   </entry>
   <entry>
@@ -243,6 +216,33 @@ CONTINUE_T0:
       </tags>
   </entry>
   <entry>
+    <title>Dual_computer_communication</title>
+    <url>/2020/12/29/AT89S51%E5%8F%8C%E6%9C%BA%E9%80%9A%E4%BF%A1/</url>
+    <content><![CDATA[<ul>
+<li>
+<p><strong>浙江工业大学信息工程学院单片机实验</strong></p>
+</li>
+<li>
+<p>要求：甲机将内部RAM 30h~4Fh的内容发送给乙机</p>
+</li>
+</ul>
+<a id="more"></a>
+<blockquote>
+<p>通讯双方均采用4800bps波特率进行传送(系统时钟频率为11.0592MHz)，甲机发送数据，乙机接收数据。双机开始通讯时，甲机发送一个呼叫信号“06H”，询问乙机是否可以接收数据；乙机收到呼叫信号后，若同意接收数据则发回“00H”作为应答，否则发“15H”表示暂不能接收数据，甲机只有收到乙机的应答信号“00H”后才可把存放在内部数据存储器的字节内容发送给乙机，否则继续向乙机呼叫，直到乙机同意接收。呼叫成功后甲机依次发送长度字节（1字节）、数据字节（n字节）和校验和字节（1字节），其中校验和为长度字节和数据字节的“累加和”。乙机在成功收到甲机的数据之后，发送“0FH”作为成功应答，否则发送“F0H”作为失败应答。</p>
+</blockquote>
+<hr>
+<h2 id="发送机">发送机</h2>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">        ORG     0000H</span><br><span class="line">        LJMP    START</span><br><span class="line">        ORG     1000H</span><br><span class="line">            </span><br><span class="line">START:</span><br><span class="line">        MOV     SP,#60H</span><br><span class="line">        MOV     TMOD,#20H       &#x2F;&#x2F;定时器0，定时器工作模式2工作</span><br><span class="line">        MOV     TH1,#0FAH       &#x2F;&#x2F;模式2自动重装载的初值</span><br><span class="line">        MOV     TH1,#0FAH</span><br><span class="line">        SETB    TR1             &#x2F;&#x2F;开始计时</span><br><span class="line">        MOV     SCON,#50H       &#x2F;&#x2F;方式1工作,允许接收--&gt;4.8kbit&#x2F;s</span><br><span class="line">        MOV     PCON,#00H       &#x2F;&#x2F;SMOD&#x3D;0</span><br><span class="line">        MOV     R0,30H          &#x2F;&#x2F;存放发送的数据块首地址</span><br><span class="line">        MOV     R7,#20H         &#x2F;&#x2F;存放发送的数据块长度</span><br><span class="line">        MOV     R6,#00H         &#x2F;&#x2F;校验和，长度字节与数字字节的累加和</span><br><span class="line">        </span><br><span class="line">TX_ACK:</span><br><span class="line">        MOV     A,#06H          &#x2F;&#x2F;发送06H询问是否可以接收数据</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">WAIT1:</span><br><span class="line">        JNB     TI,WAIT1        &#x2F;&#x2F;等待发送完一个字节</span><br><span class="line">        CLR     TI              &#x2F;&#x2F;清除发送完毕TI标志位</span><br><span class="line"></span><br><span class="line">RX_YES:</span><br><span class="line">        JNB     RI,RX_YES       &#x2F;&#x2F;等待乙机回答是否可以接收</span><br><span class="line">        CLR     RI              &#x2F;&#x2F;清除接收完毕RI标志位</span><br><span class="line">        </span><br><span class="line">NEXT1:</span><br><span class="line">        MOV     A,SBUF          &#x2F;&#x2F;接收到乙机发送过来的ACK</span><br><span class="line">        CJNE    A,#00H,TX_ACK   &#x2F;&#x2F;若为00H则表示可以接收数据，往下启动发送，否则再次询问</span><br><span class="line">        </span><br><span class="line">TX_LENGTH:</span><br><span class="line">        MOV     A,R7            &#x2F;&#x2F;先发送字节长度数R7</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">WAIT2:</span><br><span class="line">        JNB     TI,WAIT2        &#x2F;&#x2F;等待数据发送完毕</span><br><span class="line">        CLR     TI              &#x2F;&#x2F;清除发送完毕TI标志位</span><br><span class="line">        MOV     R6,A            &#x2F;&#x2F;增加校验和</span><br><span class="line"></span><br><span class="line">TX_NEWS:                        &#x2F;&#x2F;查询发送数据</span><br><span class="line">        MOV     A,@R0</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">TX_NEWS_WAIT:</span><br><span class="line">        JNB     TI,TX_NEWS_WAIT</span><br><span class="line">        CLR     TI              &#x2F;&#x2F;清除发送完毕TI标志位</span><br><span class="line">        MOV     A,R6</span><br><span class="line">        ADD     A,@R0</span><br><span class="line">        MOV     R6,A</span><br><span class="line">        INC     @R0</span><br><span class="line">        DJNZ    R7,TX_NEWS      &#x2F;&#x2F;如果没发送完32个数据，继续发送</span><br><span class="line">        </span><br><span class="line">TX_CHECK:</span><br><span class="line">        MOV     A,R6</span><br><span class="line">        ADD     A,@R0</span><br><span class="line">        MOV     R6,A</span><br><span class="line">        MOV     A,R6            &#x2F;&#x2F;发送校验位</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">WAIT3:                          &#x2F;&#x2F;等待发送完校验位</span><br><span class="line">        JNB     TI,WAIT3</span><br><span class="line">        CLR     TI</span><br><span class="line">        </span><br><span class="line">WAIT4:                          &#x2F;&#x2F;等待接收完校验位</span><br><span class="line">        JNB     RI,WAIT4</span><br><span class="line">        CLR     RI</span><br><span class="line">        </span><br><span class="line">IF_0FH:</span><br><span class="line">        MOV     A,SBUF          &#x2F;&#x2F;将接收到校验是否正确的恢复存到累加器</span><br><span class="line">        CJNE    A,#0FH,START</span><br><span class="line"></span><br><span class="line">HERE:</span><br><span class="line">        SJMP    HERE</span><br><span class="line"></span><br><span class="line">        END</span><br><span class="line">        </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="接收机">接收机</h2>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">        ORG     0000H</span><br><span class="line">        LJMP    START</span><br><span class="line">        ORG     0023H</span><br><span class="line">        LJMP    IF_06H</span><br><span class="line">        ORG     1000H</span><br><span class="line">            </span><br><span class="line">START:</span><br><span class="line">        MOV     SP,#60H</span><br><span class="line">        MOV     TMOD,#20H       &#x2F;&#x2F;定时器0，定时器工作模式2工作</span><br><span class="line">        MOV     TH1,#0FAH       &#x2F;&#x2F;模式2自动重装载的初值</span><br><span class="line">        MOV     TH1,#0FAH</span><br><span class="line">        SETB    TR1             &#x2F;&#x2F;开始计时</span><br><span class="line">        MOV     SCON,#50H       &#x2F;&#x2F;方式1,允许接收--&gt;4.8kbit&#x2F;s</span><br><span class="line">        MOV     PCON,#00H       &#x2F;&#x2F;SMOD&#x3D;0</span><br><span class="line">        MOV     IE,#90H</span><br><span class="line">        MOV     R0,30H          &#x2F;&#x2F;存放发送的数据块首地址</span><br><span class="line">        MOV     R7,#00H         &#x2F;&#x2F;存放发送的数据块长度</span><br><span class="line">        MOV     R6,#00H         &#x2F;&#x2F;校验和，长度字节与数字字节的累加和</span><br><span class="line">        </span><br><span class="line">HERE:</span><br><span class="line">        SJMP    HERE</span><br><span class="line">        </span><br><span class="line">IF_06H:</span><br><span class="line">        PUSH    ACC</span><br><span class="line">        PUSH    PSW</span><br><span class="line">        CLR     RI              &#x2F;&#x2F;清除接收完毕RI标志位</span><br><span class="line">        MOV     A,SBUF          &#x2F;&#x2F;核对握手信号是不是06H</span><br><span class="line">        CJNE    A,#06H,TX_15H   &#x2F;&#x2F;如果是06H则发送00H应答，否则发送15H拒绝</span><br><span class="line"></span><br><span class="line">TX_00H:</span><br><span class="line">        MOV     A,#00H</span><br><span class="line">        MOV     SBUF,A          &#x2F;&#x2F;发送出00H表示可以接收数据</span><br><span class="line">        LJMP    HERE_RE</span><br><span class="line">        </span><br><span class="line">TX_15H:</span><br><span class="line">        MOV     A,#15H          &#x2F;&#x2F;发送15H表示不可以接收</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        LJMP    RETURN</span><br><span class="line">            </span><br><span class="line">HERE_RE:</span><br><span class="line">        JNB     TI,HERE_RE      &#x2F;&#x2F;等待发送完毕，发送完毕准备接收</span><br><span class="line">        CLR     TI</span><br><span class="line">        </span><br><span class="line">HAVE1:</span><br><span class="line">        JNB     RI,HAVE1        &#x2F;&#x2F;等待接收数据长度</span><br><span class="line">        CLR     RI</span><br><span class="line">        MOV     A,SBUF</span><br><span class="line">        MOV     R7,A            &#x2F;&#x2F;R7存数据长度</span><br><span class="line">        MOV     R6,A            &#x2F;&#x2F;R6存校验和</span><br><span class="line"></span><br><span class="line">HAVE2:</span><br><span class="line">        JNB     RI,HAVE2        &#x2F;&#x2F;等待接收正式数据</span><br><span class="line">        CLR     RI</span><br><span class="line">        MOV     A,SBUF</span><br><span class="line">        MOV     @R0,A</span><br><span class="line">        MOV     A,R6</span><br><span class="line">        ADD     A,@R0</span><br><span class="line">        MOV     R6,A</span><br><span class="line">        INC     @R0</span><br><span class="line">        DJNZ    R7,HAVE2        &#x2F;&#x2F;如果没接收完完20个数据，继续接收</span><br><span class="line">        </span><br><span class="line">RX_CHECK:                       &#x2F;&#x2F;接收校验和</span><br><span class="line">        JNB     RI,RX_CHECK</span><br><span class="line">        CLR     RI</span><br><span class="line">        MOV     A,SBUF</span><br><span class="line">        MOV     39H,A</span><br><span class="line">        CJNE    A,39H,TX_ERR    &#x2F;&#x2F;如果校验正确，则继续向下ok，错误则发送#F0H</span><br><span class="line">        </span><br><span class="line">TX_OK:                          &#x2F;&#x2F;校验正确，发送0FH</span><br><span class="line">        MOV     A,#0FH</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        LJMP    HERE_END</span><br><span class="line">            </span><br><span class="line">TX_ERR:                         &#x2F;&#x2F;校验错误，发送F0H</span><br><span class="line">        MOV     A,#0F0H</span><br><span class="line">        MOV     SBUF,A</span><br><span class="line">        </span><br><span class="line">HERE_END:                       &#x2F;&#x2F;等待发送完毕</span><br><span class="line">        JNB TI,HERE_END</span><br><span class="line">        CLR TI</span><br><span class="line"></span><br><span class="line">RETURN:</span><br><span class="line">        POP     PSW</span><br><span class="line">        POP     ACC</span><br><span class="line">        RETI</span><br><span class="line"></span><br><span class="line">        END</span><br><span class="line">            </span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>双机通信</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>模拟采集AD转化</title>
     <url>/2021/01/05/AT89S51%E6%A8%A1%E6%8B%9F%E9%87%87%E9%9B%86AD%E8%BD%AC%E5%8C%96/</url>
     <content><![CDATA[<ul>
@@ -271,98 +271,6 @@ AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片�
       </tags>
   </entry>
   <entry>
-    <title>F-OFDM vs OFDM</title>
-    <url>/2021/06/15/F-OFDM%20vs%20OFDM/</url>
-    <content><![CDATA[<p>📌</p>
-<h3 id="Divide-the-OFDM-cattier-bandwidth-into-multiple-sub-bands-with-different-parameters-and-filter-the-sub-bands-and-try-to-leave-as-few-isolation-bands-as-possible-between-the-sub-bands">Divide the OFDM cattier bandwidth into multiple sub bands with different parameters, and filter the sub bands, and try to leave as few isolation bands as possible between the sub bands</h3>
-<p>🌞🕒😴</p>
-<a id="more"></a>
-<hr>
-<h2 id="📚-Abstract">📚 Abstract</h2>
-<ul>
-<li><em>With the launch of the 3GPP 5G standard, the 5G sky has gradually disappeared, and the bright stars of the candidate technology have dazzled us, and the 5G serialized new air interface technology proposed by Huawei is undoubtedly the brightest star among them. F-OFDM can realize the slicing of the physical layer of the air interface and is backward compatible with the LTE 4G system, and can meet the needs of future 5G development.</em></li>
-</ul>
-<h2 id="📘-OFDM-vs-F-OFDM">📘 OFDM vs F-OFDM</h2>
-<ul>
-<li><em>OFDM modulates high-rate data to mutually orthogonal sub-carriers through serial/parallel conversion, and introduces cyclic prefixes, which better solves the headache of inter-symbol interference. But the main problem of OFDM is not flexible enough.</em></li>
-<li><em>For example, the Internet of vehicles service with millisecond delay requires extremely short time-domain symbol and TTI; in the multi-connection scenario of the Internet of things, the amount of data transmitted by a single sensor is extremely low, but the requirements for the number of overall connections of the system are very high. It is necessary to configure a relatively narrow subcarrier spacing in the frequency domain. These flexible requirements cannot be met by OFDM technology.</em></li>
-<li><em>We can understand the time-frequency resources of the system as a carriage. If the OFDM scheme is adopted for decoration, the train can only provide fixed-size hard seats (sub-carrier spacing). Everyone, regardless of fat or thin, rich or not, can only sitting on a hard seat of the same size, this situation is obviously not humane enough. For 5G, we hope that the seats and spaces can be flexibly customized according to the height, short, fat and thin of passengers. Hard seats, soft seats, sleepers, boxes…you can adjust them whatever you wang. This the adaptive harmony train, and F-OFDM technology is based on this idea.</em></li>
-<li><em>F-OFDM can provide different sub-carrier spacing and numerology to meet the time-frequency resource requirements of different services. F-OFDM greatly reduces out-of-band leakage by optimizing the filter design, and the guard band overhead between different sub bands can be reduced to about 1%, which not only greatly improves the efficiency of spectrum utilization, but also, it’s possible to provides opportunities for future use of fragmented spectrum.</em></li>
-<li><em>In general, on the basis of inheriting all the advantages of OFDM (high spectrum utilization, adaptive MIMO, etc.), F-OFDM overcomes some inherent shortcomings of OFDM, and further improves flexibility and spectrum utilization efficiency basic technology to realize 5G air interface slicing.</em></li>
-</ul>
-<h2 id="📗-Benefits-or-advantages-of-F-OFDM">📗 Benefits or advantages of F-OFDM</h2>
-<ol>
-<li>Efficient utilization of spectrum.</li>
-<li>It suppresses out of band emission and hence guard band consumption can be reduced to minimum level.</li>
-<li>Optimized numerology can be applied to suit the needs of certain type of services within each sub bands.</li>
-<li>Possibility to incorporate other waveforms such as GFDM, FBMC, UFMC etc.</li>
-<li>Backward and forward compatibility.</li>
-<li>Using sub band-based filtering, global synchronization requirement is being relaxed. Hence inter-sub-band asynchronous transmission can be supported.</li>
-</ol>
-<h2 id="📙-Drawbacks-or-disadvantages-of-F-FDOM">📙 Drawbacks or disadvantages of F-FDOM</h2>
-<ol>
-<li>The F-OFDM requires additional pair of transmit and receiver filters in transmitter and receiver chain respectively compare to conventional OFDM.</li>
-<li>Like OFDM, CP can also be used in filter-based waveforms such as UFMC, F-OFDM to protect signal from SIS.</li>
-<li>Since full-band filtering cannot remove any SIS, it exists in F-OFDM similar to standard OFDM.</li>
-</ol>
-<h2 id="📖-Understanding-of-this-example">📖 Understanding of this example</h2>
-<ul>
-<li><em>This example compares Filtered-OFDM modulation with generic Cyclic Prefix OFDM (CP-OFDM) modulation. For F-OFDM, a well-designed filter is applied to the time domain OFDM symbol to improve the out-of-band radiation of the sub-band signal, while maintaining the complex-domain orthogonality of OFDM symbols. This example also models Filtered-OFDM modulation with configurable parameters. It highlights the filter design technique and the basic transmit/receive processing.</em></li>
-<li><em>A filter with a rectangular frequency response, i.e. a sinc impulse response, meets these criteria. To make this causal, the low-pass filter is realized using a window, which, effectively truncates the impulse response and offers smooth transitions to zero on both ends.</em></li>
-<li><em>In F-OFDM, the sub-band CP-OFDM signal is passed through the designed filter. As the filter’s passband corresponds to the signal’s bandwidth, only the few subcarriers close to the edge are affected. A key consideration is that the filter length can be allowed to exceed the cyclic prefix length for F-OFDM. The inter-symbol interference incurred is minimized due to the filter design using windowing (with soft truncation).</em></li>
-<li><em>Transmit-end processing operations are shown in the following F-OFDM transmitter diagram.</em></li>
-<li><em>The example next highlights the basic receive processing for F-OFDM for a single OFDM symbol. The received signal is passed through a matched filter, followed by the normal CP-OFDM receiver. It accounts for both the filtering ramp-up and latency prior to the FFT operation.</em></li>
-<li><em>No fading channel is considered in this example but noise is added to the received signal to achieve the desired SNR.</em></li>
-</ul>
-<h2 id="📕-Conclusion">📕 Conclusion</h2>
-<ul>
-<li><em>Comparing the plots of the spectral densities for CP-OFDM and F-OFDM schemes, F-OFDM has lower sidelobes. This allows a higher utilization of the allocated spectrum, leading to increased spectral efficiency.</em></li>
-<li><em>When we design F-OFDM filter, appropriate filtering for F-OFDM satisfies the following criteria:</em></li>
-</ul>
-<blockquote>
-<ol>
-<li>Should have a flat passband over the subcarriers in the sub-band.</li>
-<li>Should have a sharp transition band to minimize guard-bands.</li>
-<li>Should have sufficient stop-band attenuation.</li>
-</ol>
-</blockquote>
-<ul>
-<li><em>Universal Filtered Multi-Carrier (UFMC) modulation scheme is another approach to sub-band filtered OFDM. For more information, see the UFMC vs. OFDM Modulation example. This F-OFDM example uses a single sub-band while the UFMC example uses multiple sub-bands.</em></li>
-<li><em>F-OFDM and UFMC both use time-domain filtering with subtle differences in the way the filter is designed and applied. For UFMC, the length of filter is constrained to be equal to the cyclic-prefix length, while for F-OFDM, it can exceed the CP length.</em></li>
-<li><em>For F-OFDM, the filter design leads to a slight loss in orthogonality (strictly speaking) which affects only the edge subcarriers.</em></li>
-</ul>
-<h2 id="📝-Code">📝 Code</h2>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">%% F-OFDM vs. OFDM Modulation</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line">s = rng(<span class="number">211</span>);       <span class="comment">% Set RNG state for repeatability</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">%% System Parameters</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"><span class="comment">% Define system parameters for the example. These parameters can be</span></span><br><span class="line"><span class="comment">% modified to explore their impact on the system.</span></span><br><span class="line"> </span><br><span class="line">numFFT = <span class="number">1024</span>;           <span class="comment">% Number of FFT points</span></span><br><span class="line">numRBs = <span class="number">50</span>;             <span class="comment">% Number of resource blocks</span></span><br><span class="line">rbSize = <span class="number">12</span>;             <span class="comment">% Number of subcarriers per resource block</span></span><br><span class="line">cpLen = <span class="number">72</span>;              <span class="comment">% Cyclic prefix length in samples</span></span><br><span class="line"> </span><br><span class="line">bitsPerSubCarrier = <span class="number">8</span>;   <span class="comment">% 2: QPSK, 4: 16QAM, 6: 64QAM, 8: 256QAM</span></span><br><span class="line">snrdB = <span class="number">18</span>;              <span class="comment">% SNR in dB</span></span><br><span class="line"> </span><br><span class="line">toneOffset = <span class="number">2.5</span>;        <span class="comment">% Tone offset or excess bandwidth (in subcarriers)</span></span><br><span class="line">L = <span class="number">513</span>;                 <span class="comment">% Filter length (=filterOrder+1), odd</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Filtered-OFDM Filter Design</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line">numDataCarriers = numRBs*rbSize;    <span class="comment">% number of data subcarriers in subband</span></span><br><span class="line">halfFilt = <span class="built_in">floor</span>(L/<span class="number">2</span>);</span><br><span class="line">n = -halfFilt:halfFilt;  </span><br><span class="line"> </span><br><span class="line"><span class="comment">% Sinc function prototype filter</span></span><br><span class="line">pb = sinc((numDataCarriers+<span class="number">2</span>*toneOffset).*n./numFFT);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Sinc truncation window</span></span><br><span class="line">w = (<span class="number">0.5</span>*(<span class="number">1</span>+<span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>.*n/(L<span class="number">-1</span>)))).^<span class="number">0.6</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Normalized lowpass filter coefficients</span></span><br><span class="line">fnum = (pb.*w)/sum(pb.*w);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Filter impulse response</span></span><br><span class="line">h = fvtool(fnum, <span class="string">&#x27;Analysis&#x27;</span>, <span class="string">&#x27;impulse&#x27;</span>, ...</span><br><span class="line">    <span class="string">&#x27;NormalizedFrequency&#x27;</span>, <span class="string">&#x27;off&#x27;</span>, <span class="string">&#x27;Fs&#x27;</span>, <span class="number">15.36e6</span>);</span><br><span class="line">h.CurrentAxes.XLabel.String = <span class="string">&#x27;Time (\mus)&#x27;</span>;</span><br><span class="line">h.FigureToolbar = <span class="string">&#x27;off&#x27;</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Use dsp filter objects for filtering</span></span><br><span class="line">filtTx = dsp.FIRFilter(<span class="string">&#x27;Structure&#x27;</span>, <span class="string">&#x27;Direct form symmetric&#x27;</span>, ...</span><br><span class="line">    <span class="string">&#x27;Numerator&#x27;</span>, fnum);</span><br><span class="line">filtRx = clone(filtTx); <span class="comment">% Matched filter for the Rx</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% QAM Symbol mapper</span></span><br><span class="line">qamMapper = comm.RectangularQAMModulator( ...</span><br><span class="line">    <span class="string">&#x27;ModulationOrder&#x27;</span>, <span class="number">2</span>^bitsPerSubCarrier, <span class="string">&#x27;BitInput&#x27;</span>, <span class="built_in">true</span>, ...</span><br><span class="line">    <span class="string">&#x27;NormalizationMethod&#x27;</span>, <span class="string">&#x27;Average power&#x27;</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% F-OFDM Transmit Processing</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Set up a figure for spectrum plot</span></span><br><span class="line">hFig = <span class="built_in">figure</span>(<span class="string">&#x27;Position&#x27;</span>, figposition([<span class="number">46</span> <span class="number">50</span> <span class="number">30</span> <span class="number">30</span>]));</span><br><span class="line">axis([<span class="number">-0.5</span> <span class="number">0.5</span> <span class="number">-200</span> <span class="number">-20</span>]);</span><br><span class="line"><span class="built_in">hold</span> on; </span><br><span class="line">grid on</span><br><span class="line">xlabel(<span class="string">&#x27;Normalized frequency&#x27;</span>);</span><br><span class="line">ylabel(<span class="string">&#x27;PSD (dBW/Hz)&#x27;</span>)</span><br><span class="line">title([<span class="string">&#x27;F-OFDM, &#x27;</span> num2str(numRBs) <span class="string">&#x27; Resource blocks, &#x27;</span>  ...</span><br><span class="line">    num2str(rbSize) <span class="string">&#x27; Subcarriers each&#x27;</span>])</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Generate data symbols</span></span><br><span class="line">bitsIn = randi([<span class="number">0</span> <span class="number">1</span>], bitsPerSubCarrier*numDataCarriers, <span class="number">1</span>);</span><br><span class="line">symbolsIn = qamMapper(bitsIn);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Pack data into an OFDM symbol </span></span><br><span class="line">offset = (numFFT-numDataCarriers)/<span class="number">2</span>; <span class="comment">% for band center</span></span><br><span class="line">symbolsInOFDM = [<span class="built_in">zeros</span>(offset,<span class="number">1</span>); symbolsIn; ...</span><br><span class="line">                 <span class="built_in">zeros</span>(numFFT-offset-numDataCarriers,<span class="number">1</span>)];</span><br><span class="line">ifftOut = ifft(ifftshift(symbolsInOFDM));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Prepend cyclic prefix</span></span><br><span class="line">txSigOFDM = [ifftOut(<span class="keyword">end</span>-cpLen+<span class="number">1</span>:<span class="keyword">end</span>); ifftOut]; </span><br><span class="line"> </span><br><span class="line"><span class="comment">% Filter, with zero-padding to flush tail. Get the transmit signal</span></span><br><span class="line">txSigFOFDM = filtTx([txSigOFDM; <span class="built_in">zeros</span>(L<span class="number">-1</span>,<span class="number">1</span>)]);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Plot power spectral density (PSD) </span></span><br><span class="line">[psd,f] = periodogram(txSigFOFDM, rectwin(<span class="built_in">length</span>(txSigFOFDM)), ...</span><br><span class="line">                      numFFT*<span class="number">2</span>, <span class="number">1</span>, <span class="string">&#x27;centered&#x27;</span>); </span><br><span class="line"><span class="built_in">plot</span>(f,<span class="number">10</span>*<span class="built_in">log10</span>(psd)); </span><br><span class="line"> </span><br><span class="line"><span class="comment">% Compute peak-to-average-power ratio (PAPR)</span></span><br><span class="line">PAPR = comm.CCDF(<span class="string">&#x27;PAPROutputPort&#x27;</span>, <span class="built_in">true</span>, <span class="string">&#x27;PowerUnits&#x27;</span>, <span class="string">&#x27;dBW&#x27;</span>);</span><br><span class="line">[~,~,paprFOFDM] = PAPR(txSigFOFDM);</span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;Peak-to-Average-Power-Ratio for F-OFDM = &#x27;</span> num2str(paprFOFDM) <span class="string">&#x27; dB&#x27;</span>]);</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% OFDM Modulation with Corresponding Parameters</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Plot power spectral density (PSD) for OFDM signal</span></span><br><span class="line">[psd,f] = periodogram(txSigOFDM, rectwin(<span class="built_in">length</span>(txSigOFDM)), numFFT*<span class="number">2</span>, ...</span><br><span class="line">                      <span class="number">1</span>, <span class="string">&#x27;centered&#x27;</span>); </span><br><span class="line">hFig1 = <span class="built_in">figure</span>(<span class="string">&#x27;Position&#x27;</span>, figposition([<span class="number">46</span> <span class="number">15</span> <span class="number">30</span> <span class="number">30</span>])); </span><br><span class="line"><span class="built_in">plot</span>(f,<span class="number">10</span>*<span class="built_in">log10</span>(psd)); </span><br><span class="line">grid on</span><br><span class="line">axis([<span class="number">-0.5</span> <span class="number">0.5</span> <span class="number">-100</span> <span class="number">-20</span>]);</span><br><span class="line">xlabel(<span class="string">&#x27;Normalized frequency&#x27;</span>); </span><br><span class="line">ylabel(<span class="string">&#x27;PSD (dBW/Hz)&#x27;</span>)</span><br><span class="line">title([<span class="string">&#x27;OFDM, &#x27;</span> num2str(numRBs*rbSize) <span class="string">&#x27; Subcarriers&#x27;</span>])</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Compute peak-to-average-power ratio (PAPR)</span></span><br><span class="line">PAPR2 = comm.CCDF(<span class="string">&#x27;PAPROutputPort&#x27;</span>, <span class="built_in">true</span>, <span class="string">&#x27;PowerUnits&#x27;</span>, <span class="string">&#x27;dBW&#x27;</span>);</span><br><span class="line">[~,~,paprOFDM] = PAPR2(txSigOFDM);</span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;Peak-to-Average-Power-Ratio for OFDM = &#x27;</span> num2str(paprOFDM) <span class="string">&#x27; dB&#x27;</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">%% F-OFDM Receiver with No Channel</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Add WGN</span></span><br><span class="line">rxSig = awgn(txSigFOFDM, snrdB, <span class="string">&#x27;measured&#x27;</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">%%</span></span><br><span class="line"><span class="comment">% Receive processing operations are shown in the following F-OFDM receiver</span></span><br><span class="line"><span class="comment">% diagram.</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Receive matched filter</span></span><br><span class="line">rxSigFilt = filtRx(rxSig);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Account for filter delay </span></span><br><span class="line">rxSigFiltSync = rxSigFilt(L:<span class="keyword">end</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Remove cyclic prefix</span></span><br><span class="line">rxSymbol = rxSigFiltSync(cpLen+<span class="number">1</span>:<span class="keyword">end</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Perform FFT </span></span><br><span class="line">RxSymbols = fftshift(fft(rxSymbol));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Select data subcarriers</span></span><br><span class="line">dataRxSymbols = RxSymbols(offset+(<span class="number">1</span>:numDataCarriers));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Plot received symbols constellation</span></span><br><span class="line"><span class="keyword">switch</span> bitsPerSubCarrier</span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span>  <span class="comment">% QPSK</span></span><br><span class="line">        refConst = qammod((<span class="number">0</span>:<span class="number">3</span>).&#x27;, <span class="number">4</span>, <span class="string">&#x27;UnitAveragePower&#x27;</span>, <span class="built_in">true</span>);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">4</span>  <span class="comment">% 16QAM</span></span><br><span class="line">        refConst = qammod((<span class="number">0</span>:<span class="number">15</span>).&#x27;, <span class="number">16</span>,<span class="string">&#x27;UnitAveragePower&#x27;</span>, <span class="built_in">true</span>);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">6</span>  <span class="comment">% 64QAM</span></span><br><span class="line">        refConst = qammod((<span class="number">0</span>:<span class="number">63</span>).&#x27;, <span class="number">64</span>,<span class="string">&#x27;UnitAveragePower&#x27;</span>, <span class="built_in">true</span>);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">8</span>  <span class="comment">% 256QAM</span></span><br><span class="line">        refConst = qammod((<span class="number">0</span>:<span class="number">255</span>).&#x27;, <span class="number">256</span>,<span class="string">&#x27;UnitAveragePower&#x27;</span>, <span class="built_in">true</span>);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">constDiagRx = comm.ConstellationDiagram( ...</span><br><span class="line">    <span class="string">&#x27;ShowReferenceConstellation&#x27;</span>, <span class="built_in">true</span>, ...</span><br><span class="line">    <span class="string">&#x27;ReferenceConstellation&#x27;</span>, refConst, ...</span><br><span class="line">    <span class="string">&#x27;Position&#x27;</span>, figposition([<span class="number">20</span> <span class="number">15</span> <span class="number">25</span> <span class="number">30</span>]), ...</span><br><span class="line">    <span class="string">&#x27;MeasurementInterval&#x27;</span>, <span class="built_in">length</span>(dataRxSymbols), ...</span><br><span class="line">    <span class="string">&#x27;Title&#x27;</span>, <span class="string">&#x27;F-OFDM Demodulated Symbols&#x27;</span>, ...</span><br><span class="line">    <span class="string">&#x27;Name&#x27;</span>, <span class="string">&#x27;F-OFDM Reception&#x27;</span>, ...</span><br><span class="line">    <span class="string">&#x27;XLimits&#x27;</span>, [<span class="number">-1.5</span> <span class="number">1.5</span>], <span class="string">&#x27;YLimits&#x27;</span>, [<span class="number">-1.5</span> <span class="number">1.5</span>]);</span><br><span class="line">constDiagRx(dataRxSymbols);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Channel equalization is not necessary here as no channel is modeled</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Demapping and BER computation</span></span><br><span class="line">qamDemod = comm.RectangularQAMDemodulator(<span class="string">&#x27;ModulationOrder&#x27;</span>, ...</span><br><span class="line">    <span class="number">2</span>^bitsPerSubCarrier, <span class="string">&#x27;BitOutput&#x27;</span>, <span class="built_in">true</span>, ...</span><br><span class="line">    <span class="string">&#x27;NormalizationMethod&#x27;</span>, <span class="string">&#x27;Average power&#x27;</span>);</span><br><span class="line">BER = comm.ErrorRate;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Perform hard decision and measure errors</span></span><br><span class="line">rxBits = qamDemod(dataRxSymbols);</span><br><span class="line">ber = BER(bitsIn, rxBits);</span><br><span class="line"> </span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;F-OFDM Reception, BER = &#x27;</span> num2str(ber(<span class="number">1</span>)) <span class="string">&#x27; at SNR = &#x27;</span> ...</span><br><span class="line">    num2str(snrdB) <span class="string">&#x27; dB&#x27;</span>]);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Restore RNG state</span></span><br><span class="line">rng(s);</span><br></pre></td></tr></table></figure>
-<h3 id="💹-4ASK-Fig">💹 4ASK Fig</h3>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/Impluse_Response.bmp" alt="Fig.1  Impulse Response."></p>
-<center><font size=2>Fig.1  Impulse Response.</font></center>
-<br><br><br>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/F-OFDM_normalized_frequency.bmp" alt="Fig.2  F-OFDM normalized frequency."></p>
-<center><font size=2>Fig.2  F-OFDM normalized frequency.</font></center>
-<br><br><br>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/F-OFDM_normalized_frequency.bmp" alt="Fig.2  OFDM normalized frequency."></p>
-<center><font size=2>Fig.3  OFDM normalized frequency.</font></center>
-<br><br><br>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/F-OFDM_Reception.png" alt="Fig.4  F-OFDM Reception."></p>
-<center><font size=2>Fig.4  F-OFDM Reception.</font></center>
-<h3 id="🔔-Reference">🔔 Reference</h3>
-<blockquote>
-<ol>
-<li>Abdoli J., Jia M. and Ma J., “Filtered OFDM: A New Waveform for Future Wireless Systems,” 2015 IEEE® 16th International Workshop on Signal Processing Advances in Wireless Communications (SPAWC), Stockholm, 2015, pp. 66-70.</li>
-<li>R1-162152. “OFDM based flexible waveform for 5G.” 3GPP TSG RAN WG1 meeting 84bis. Huawei; HiSilicon. April 2016.</li>
-<li>R1-165425. “F-OFDM scheme and filter design.” 3GPP TSG RAN WG1 meeting 85. Huawei; HiSilicon. May 2016.</li>
-</ol>
-</blockquote>
-<!-- markdownlint-disable-file MD025 MD033 -->
-]]></content>
-      <categories>
-        <category>Matlab</category>
-      </categories>
-      <tags>
-        <tag>modulate</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>PSW设置改进中断</title>
     <url>/2020/12/15/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/</url>
     <content><![CDATA[<ul>
@@ -382,25 +290,6 @@ AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片�
       </categories>
       <tags>
         <tag>中断</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Keil调试代码优化问题</title>
-    <url>/2020/12/08/Keil5%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<ul>
-<li>
-<p>在使用Keil进行调试的过程中，有的时候你可能会发现有几行代码怎么也得不到执行，下断点也会变成灰色感叹号。甚至有时候在做条件判断的时候，明明两个不相等的值却被判定为相等。</p>
-</li>
-<li>
-<p>这是因为Keil对我们的代码进行了<strong>优化</strong>处理，将优化等级降低计科解决问题。<img src="https://www.lingzhicheng.cn/usr/file/picture/Keil/Keil_optimism.png" alt="请输入图片描述"></p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>AT89S51</category>
-      </categories>
-      <tags>
-        <tag>调试</tag>
       </tags>
   </entry>
   <entry>
@@ -558,6 +447,224 @@ AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片�
         <tag>Git</tag>
         <tag>Github</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>F-OFDM vs OFDM</title>
+    <url>/2021/06/15/F-OFDM%20vs%20OFDM/</url>
+    <content><![CDATA[<p>📌</p>
+<h3 id="Divide-the-OFDM-cattier-bandwidth-into-multiple-sub-bands-with-different-parameters-and-filter-the-sub-bands-and-try-to-leave-as-few-isolation-bands-as-possible-between-the-sub-bands">Divide the OFDM cattier bandwidth into multiple sub bands with different parameters, and filter the sub bands, and try to leave as few isolation bands as possible between the sub bands</h3>
+<p>🌞🕒😴</p>
+<a id="more"></a>
+<hr>
+<h2 id="📚-Abstract">📚 Abstract</h2>
+<ul>
+<li><em>With the launch of the 3GPP 5G standard, the 5G sky has gradually disappeared, and the bright stars of the candidate technology have dazzled us, and the 5G serialized new air interface technology proposed by Huawei is undoubtedly the brightest star among them. F-OFDM can realize the slicing of the physical layer of the air interface and is backward compatible with the LTE 4G system, and can meet the needs of future 5G development.</em></li>
+</ul>
+<h2 id="📘-OFDM-vs-F-OFDM">📘 OFDM vs F-OFDM</h2>
+<ul>
+<li><em>OFDM modulates high-rate data to mutually orthogonal sub-carriers through serial/parallel conversion, and introduces cyclic prefixes, which better solves the headache of inter-symbol interference. But the main problem of OFDM is not flexible enough.</em></li>
+<li><em>For example, the Internet of vehicles service with millisecond delay requires extremely short time-domain symbol and TTI; in the multi-connection scenario of the Internet of things, the amount of data transmitted by a single sensor is extremely low, but the requirements for the number of overall connections of the system are very high. It is necessary to configure a relatively narrow subcarrier spacing in the frequency domain. These flexible requirements cannot be met by OFDM technology.</em></li>
+<li><em>We can understand the time-frequency resources of the system as a carriage. If the OFDM scheme is adopted for decoration, the train can only provide fixed-size hard seats (sub-carrier spacing). Everyone, regardless of fat or thin, rich or not, can only sitting on a hard seat of the same size, this situation is obviously not humane enough. For 5G, we hope that the seats and spaces can be flexibly customized according to the height, short, fat and thin of passengers. Hard seats, soft seats, sleepers, boxes…you can adjust them whatever you wang. This the adaptive harmony train, and F-OFDM technology is based on this idea.</em></li>
+<li><em>F-OFDM can provide different sub-carrier spacing and numerology to meet the time-frequency resource requirements of different services. F-OFDM greatly reduces out-of-band leakage by optimizing the filter design, and the guard band overhead between different sub bands can be reduced to about 1%, which not only greatly improves the efficiency of spectrum utilization, but also, it’s possible to provides opportunities for future use of fragmented spectrum.</em></li>
+<li><em>In general, on the basis of inheriting all the advantages of OFDM (high spectrum utilization, adaptive MIMO, etc.), F-OFDM overcomes some inherent shortcomings of OFDM, and further improves flexibility and spectrum utilization efficiency basic technology to realize 5G air interface slicing.</em></li>
+</ul>
+<h2 id="📗-Benefits-or-advantages-of-F-OFDM">📗 Benefits or advantages of F-OFDM</h2>
+<ol>
+<li>Efficient utilization of spectrum.</li>
+<li>It suppresses out of band emission and hence guard band consumption can be reduced to minimum level.</li>
+<li>Optimized numerology can be applied to suit the needs of certain type of services within each sub bands.</li>
+<li>Possibility to incorporate other waveforms such as GFDM, FBMC, UFMC etc.</li>
+<li>Backward and forward compatibility.</li>
+<li>Using sub band-based filtering, global synchronization requirement is being relaxed. Hence inter-sub-band asynchronous transmission can be supported.</li>
+</ol>
+<h2 id="📙-Drawbacks-or-disadvantages-of-F-FDOM">📙 Drawbacks or disadvantages of F-FDOM</h2>
+<ol>
+<li>The F-OFDM requires additional pair of transmit and receiver filters in transmitter and receiver chain respectively compare to conventional OFDM.</li>
+<li>Like OFDM, CP can also be used in filter-based waveforms such as UFMC, F-OFDM to protect signal from SIS.</li>
+<li>Since full-band filtering cannot remove any SIS, it exists in F-OFDM similar to standard OFDM.</li>
+</ol>
+<h2 id="📖-Understanding-of-this-example">📖 Understanding of this example</h2>
+<ul>
+<li><em>This example compares Filtered-OFDM modulation with generic Cyclic Prefix OFDM (CP-OFDM) modulation. For F-OFDM, a well-designed filter is applied to the time domain OFDM symbol to improve the out-of-band radiation of the sub-band signal, while maintaining the complex-domain orthogonality of OFDM symbols. This example also models Filtered-OFDM modulation with configurable parameters. It highlights the filter design technique and the basic transmit/receive processing.</em></li>
+<li><em>A filter with a rectangular frequency response, i.e. a sinc impulse response, meets these criteria. To make this causal, the low-pass filter is realized using a window, which, effectively truncates the impulse response and offers smooth transitions to zero on both ends.</em></li>
+<li><em>In F-OFDM, the sub-band CP-OFDM signal is passed through the designed filter. As the filter’s passband corresponds to the signal’s bandwidth, only the few subcarriers close to the edge are affected. A key consideration is that the filter length can be allowed to exceed the cyclic prefix length for F-OFDM. The inter-symbol interference incurred is minimized due to the filter design using windowing (with soft truncation).</em></li>
+<li><em>Transmit-end processing operations are shown in the following F-OFDM transmitter diagram.</em></li>
+<li><em>The example next highlights the basic receive processing for F-OFDM for a single OFDM symbol. The received signal is passed through a matched filter, followed by the normal CP-OFDM receiver. It accounts for both the filtering ramp-up and latency prior to the FFT operation.</em></li>
+<li><em>No fading channel is considered in this example but noise is added to the received signal to achieve the desired SNR.</em></li>
+</ul>
+<h2 id="📕-Conclusion">📕 Conclusion</h2>
+<ul>
+<li><em>Comparing the plots of the spectral densities for CP-OFDM and F-OFDM schemes, F-OFDM has lower sidelobes. This allows a higher utilization of the allocated spectrum, leading to increased spectral efficiency.</em></li>
+<li><em>When we design F-OFDM filter, appropriate filtering for F-OFDM satisfies the following criteria:</em></li>
+</ul>
+<blockquote>
+<ol>
+<li>Should have a flat passband over the subcarriers in the sub-band.</li>
+<li>Should have a sharp transition band to minimize guard-bands.</li>
+<li>Should have sufficient stop-band attenuation.</li>
+</ol>
+</blockquote>
+<ul>
+<li><em>Universal Filtered Multi-Carrier (UFMC) modulation scheme is another approach to sub-band filtered OFDM. For more information, see the UFMC vs. OFDM Modulation example. This F-OFDM example uses a single sub-band while the UFMC example uses multiple sub-bands.</em></li>
+<li><em>F-OFDM and UFMC both use time-domain filtering with subtle differences in the way the filter is designed and applied. For UFMC, the length of filter is constrained to be equal to the cyclic-prefix length, while for F-OFDM, it can exceed the CP length.</em></li>
+<li><em>For F-OFDM, the filter design leads to a slight loss in orthogonality (strictly speaking) which affects only the edge subcarriers.</em></li>
+</ul>
+<h2 id="📝-Code">📝 Code</h2>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">%% F-OFDM vs. OFDM Modulation</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line">s = rng(<span class="number">211</span>);       <span class="comment">% Set RNG state for repeatability</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">%% System Parameters</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"><span class="comment">% Define system parameters for the example. These parameters can be</span></span><br><span class="line"><span class="comment">% modified to explore their impact on the system.</span></span><br><span class="line"> </span><br><span class="line">numFFT = <span class="number">1024</span>;           <span class="comment">% Number of FFT points</span></span><br><span class="line">numRBs = <span class="number">50</span>;             <span class="comment">% Number of resource blocks</span></span><br><span class="line">rbSize = <span class="number">12</span>;             <span class="comment">% Number of subcarriers per resource block</span></span><br><span class="line">cpLen = <span class="number">72</span>;              <span class="comment">% Cyclic prefix length in samples</span></span><br><span class="line"> </span><br><span class="line">bitsPerSubCarrier = <span class="number">8</span>;   <span class="comment">% 2: QPSK, 4: 16QAM, 6: 64QAM, 8: 256QAM</span></span><br><span class="line">snrdB = <span class="number">18</span>;              <span class="comment">% SNR in dB</span></span><br><span class="line"> </span><br><span class="line">toneOffset = <span class="number">2.5</span>;        <span class="comment">% Tone offset or excess bandwidth (in subcarriers)</span></span><br><span class="line">L = <span class="number">513</span>;                 <span class="comment">% Filter length (=filterOrder+1), odd</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Filtered-OFDM Filter Design</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line">numDataCarriers = numRBs*rbSize;    <span class="comment">% number of data subcarriers in subband</span></span><br><span class="line">halfFilt = <span class="built_in">floor</span>(L/<span class="number">2</span>);</span><br><span class="line">n = -halfFilt:halfFilt;  </span><br><span class="line"> </span><br><span class="line"><span class="comment">% Sinc function prototype filter</span></span><br><span class="line">pb = sinc((numDataCarriers+<span class="number">2</span>*toneOffset).*n./numFFT);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Sinc truncation window</span></span><br><span class="line">w = (<span class="number">0.5</span>*(<span class="number">1</span>+<span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>.*n/(L<span class="number">-1</span>)))).^<span class="number">0.6</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Normalized lowpass filter coefficients</span></span><br><span class="line">fnum = (pb.*w)/sum(pb.*w);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Filter impulse response</span></span><br><span class="line">h = fvtool(fnum, <span class="string">&#x27;Analysis&#x27;</span>, <span class="string">&#x27;impulse&#x27;</span>, ...</span><br><span class="line">    <span class="string">&#x27;NormalizedFrequency&#x27;</span>, <span class="string">&#x27;off&#x27;</span>, <span class="string">&#x27;Fs&#x27;</span>, <span class="number">15.36e6</span>);</span><br><span class="line">h.CurrentAxes.XLabel.String = <span class="string">&#x27;Time (\mus)&#x27;</span>;</span><br><span class="line">h.FigureToolbar = <span class="string">&#x27;off&#x27;</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Use dsp filter objects for filtering</span></span><br><span class="line">filtTx = dsp.FIRFilter(<span class="string">&#x27;Structure&#x27;</span>, <span class="string">&#x27;Direct form symmetric&#x27;</span>, ...</span><br><span class="line">    <span class="string">&#x27;Numerator&#x27;</span>, fnum);</span><br><span class="line">filtRx = clone(filtTx); <span class="comment">% Matched filter for the Rx</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% QAM Symbol mapper</span></span><br><span class="line">qamMapper = comm.RectangularQAMModulator( ...</span><br><span class="line">    <span class="string">&#x27;ModulationOrder&#x27;</span>, <span class="number">2</span>^bitsPerSubCarrier, <span class="string">&#x27;BitInput&#x27;</span>, <span class="built_in">true</span>, ...</span><br><span class="line">    <span class="string">&#x27;NormalizationMethod&#x27;</span>, <span class="string">&#x27;Average power&#x27;</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% F-OFDM Transmit Processing</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Set up a figure for spectrum plot</span></span><br><span class="line">hFig = <span class="built_in">figure</span>(<span class="string">&#x27;Position&#x27;</span>, figposition([<span class="number">46</span> <span class="number">50</span> <span class="number">30</span> <span class="number">30</span>]));</span><br><span class="line">axis([<span class="number">-0.5</span> <span class="number">0.5</span> <span class="number">-200</span> <span class="number">-20</span>]);</span><br><span class="line"><span class="built_in">hold</span> on; </span><br><span class="line">grid on</span><br><span class="line">xlabel(<span class="string">&#x27;Normalized frequency&#x27;</span>);</span><br><span class="line">ylabel(<span class="string">&#x27;PSD (dBW/Hz)&#x27;</span>)</span><br><span class="line">title([<span class="string">&#x27;F-OFDM, &#x27;</span> num2str(numRBs) <span class="string">&#x27; Resource blocks, &#x27;</span>  ...</span><br><span class="line">    num2str(rbSize) <span class="string">&#x27; Subcarriers each&#x27;</span>])</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Generate data symbols</span></span><br><span class="line">bitsIn = randi([<span class="number">0</span> <span class="number">1</span>], bitsPerSubCarrier*numDataCarriers, <span class="number">1</span>);</span><br><span class="line">symbolsIn = qamMapper(bitsIn);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Pack data into an OFDM symbol </span></span><br><span class="line">offset = (numFFT-numDataCarriers)/<span class="number">2</span>; <span class="comment">% for band center</span></span><br><span class="line">symbolsInOFDM = [<span class="built_in">zeros</span>(offset,<span class="number">1</span>); symbolsIn; ...</span><br><span class="line">                 <span class="built_in">zeros</span>(numFFT-offset-numDataCarriers,<span class="number">1</span>)];</span><br><span class="line">ifftOut = ifft(ifftshift(symbolsInOFDM));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Prepend cyclic prefix</span></span><br><span class="line">txSigOFDM = [ifftOut(<span class="keyword">end</span>-cpLen+<span class="number">1</span>:<span class="keyword">end</span>); ifftOut]; </span><br><span class="line"> </span><br><span class="line"><span class="comment">% Filter, with zero-padding to flush tail. Get the transmit signal</span></span><br><span class="line">txSigFOFDM = filtTx([txSigOFDM; <span class="built_in">zeros</span>(L<span class="number">-1</span>,<span class="number">1</span>)]);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Plot power spectral density (PSD) </span></span><br><span class="line">[psd,f] = periodogram(txSigFOFDM, rectwin(<span class="built_in">length</span>(txSigFOFDM)), ...</span><br><span class="line">                      numFFT*<span class="number">2</span>, <span class="number">1</span>, <span class="string">&#x27;centered&#x27;</span>); </span><br><span class="line"><span class="built_in">plot</span>(f,<span class="number">10</span>*<span class="built_in">log10</span>(psd)); </span><br><span class="line"> </span><br><span class="line"><span class="comment">% Compute peak-to-average-power ratio (PAPR)</span></span><br><span class="line">PAPR = comm.CCDF(<span class="string">&#x27;PAPROutputPort&#x27;</span>, <span class="built_in">true</span>, <span class="string">&#x27;PowerUnits&#x27;</span>, <span class="string">&#x27;dBW&#x27;</span>);</span><br><span class="line">[~,~,paprFOFDM] = PAPR(txSigFOFDM);</span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;Peak-to-Average-Power-Ratio for F-OFDM = &#x27;</span> num2str(paprFOFDM) <span class="string">&#x27; dB&#x27;</span>]);</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% OFDM Modulation with Corresponding Parameters</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Plot power spectral density (PSD) for OFDM signal</span></span><br><span class="line">[psd,f] = periodogram(txSigOFDM, rectwin(<span class="built_in">length</span>(txSigOFDM)), numFFT*<span class="number">2</span>, ...</span><br><span class="line">                      <span class="number">1</span>, <span class="string">&#x27;centered&#x27;</span>); </span><br><span class="line">hFig1 = <span class="built_in">figure</span>(<span class="string">&#x27;Position&#x27;</span>, figposition([<span class="number">46</span> <span class="number">15</span> <span class="number">30</span> <span class="number">30</span>])); </span><br><span class="line"><span class="built_in">plot</span>(f,<span class="number">10</span>*<span class="built_in">log10</span>(psd)); </span><br><span class="line">grid on</span><br><span class="line">axis([<span class="number">-0.5</span> <span class="number">0.5</span> <span class="number">-100</span> <span class="number">-20</span>]);</span><br><span class="line">xlabel(<span class="string">&#x27;Normalized frequency&#x27;</span>); </span><br><span class="line">ylabel(<span class="string">&#x27;PSD (dBW/Hz)&#x27;</span>)</span><br><span class="line">title([<span class="string">&#x27;OFDM, &#x27;</span> num2str(numRBs*rbSize) <span class="string">&#x27; Subcarriers&#x27;</span>])</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Compute peak-to-average-power ratio (PAPR)</span></span><br><span class="line">PAPR2 = comm.CCDF(<span class="string">&#x27;PAPROutputPort&#x27;</span>, <span class="built_in">true</span>, <span class="string">&#x27;PowerUnits&#x27;</span>, <span class="string">&#x27;dBW&#x27;</span>);</span><br><span class="line">[~,~,paprOFDM] = PAPR2(txSigOFDM);</span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;Peak-to-Average-Power-Ratio for OFDM = &#x27;</span> num2str(paprOFDM) <span class="string">&#x27; dB&#x27;</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">%% F-OFDM Receiver with No Channel</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Add WGN</span></span><br><span class="line">rxSig = awgn(txSigFOFDM, snrdB, <span class="string">&#x27;measured&#x27;</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">%%</span></span><br><span class="line"><span class="comment">% Receive processing operations are shown in the following F-OFDM receiver</span></span><br><span class="line"><span class="comment">% diagram.</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Receive matched filter</span></span><br><span class="line">rxSigFilt = filtRx(rxSig);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Account for filter delay </span></span><br><span class="line">rxSigFiltSync = rxSigFilt(L:<span class="keyword">end</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Remove cyclic prefix</span></span><br><span class="line">rxSymbol = rxSigFiltSync(cpLen+<span class="number">1</span>:<span class="keyword">end</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Perform FFT </span></span><br><span class="line">RxSymbols = fftshift(fft(rxSymbol));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Select data subcarriers</span></span><br><span class="line">dataRxSymbols = RxSymbols(offset+(<span class="number">1</span>:numDataCarriers));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Plot received symbols constellation</span></span><br><span class="line"><span class="keyword">switch</span> bitsPerSubCarrier</span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span>  <span class="comment">% QPSK</span></span><br><span class="line">        refConst = qammod((<span class="number">0</span>:<span class="number">3</span>).&#x27;, <span class="number">4</span>, <span class="string">&#x27;UnitAveragePower&#x27;</span>, <span class="built_in">true</span>);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">4</span>  <span class="comment">% 16QAM</span></span><br><span class="line">        refConst = qammod((<span class="number">0</span>:<span class="number">15</span>).&#x27;, <span class="number">16</span>,<span class="string">&#x27;UnitAveragePower&#x27;</span>, <span class="built_in">true</span>);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">6</span>  <span class="comment">% 64QAM</span></span><br><span class="line">        refConst = qammod((<span class="number">0</span>:<span class="number">63</span>).&#x27;, <span class="number">64</span>,<span class="string">&#x27;UnitAveragePower&#x27;</span>, <span class="built_in">true</span>);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">8</span>  <span class="comment">% 256QAM</span></span><br><span class="line">        refConst = qammod((<span class="number">0</span>:<span class="number">255</span>).&#x27;, <span class="number">256</span>,<span class="string">&#x27;UnitAveragePower&#x27;</span>, <span class="built_in">true</span>);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">constDiagRx = comm.ConstellationDiagram( ...</span><br><span class="line">    <span class="string">&#x27;ShowReferenceConstellation&#x27;</span>, <span class="built_in">true</span>, ...</span><br><span class="line">    <span class="string">&#x27;ReferenceConstellation&#x27;</span>, refConst, ...</span><br><span class="line">    <span class="string">&#x27;Position&#x27;</span>, figposition([<span class="number">20</span> <span class="number">15</span> <span class="number">25</span> <span class="number">30</span>]), ...</span><br><span class="line">    <span class="string">&#x27;MeasurementInterval&#x27;</span>, <span class="built_in">length</span>(dataRxSymbols), ...</span><br><span class="line">    <span class="string">&#x27;Title&#x27;</span>, <span class="string">&#x27;F-OFDM Demodulated Symbols&#x27;</span>, ...</span><br><span class="line">    <span class="string">&#x27;Name&#x27;</span>, <span class="string">&#x27;F-OFDM Reception&#x27;</span>, ...</span><br><span class="line">    <span class="string">&#x27;XLimits&#x27;</span>, [<span class="number">-1.5</span> <span class="number">1.5</span>], <span class="string">&#x27;YLimits&#x27;</span>, [<span class="number">-1.5</span> <span class="number">1.5</span>]);</span><br><span class="line">constDiagRx(dataRxSymbols);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Channel equalization is not necessary here as no channel is modeled</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Demapping and BER computation</span></span><br><span class="line">qamDemod = comm.RectangularQAMDemodulator(<span class="string">&#x27;ModulationOrder&#x27;</span>, ...</span><br><span class="line">    <span class="number">2</span>^bitsPerSubCarrier, <span class="string">&#x27;BitOutput&#x27;</span>, <span class="built_in">true</span>, ...</span><br><span class="line">    <span class="string">&#x27;NormalizationMethod&#x27;</span>, <span class="string">&#x27;Average power&#x27;</span>);</span><br><span class="line">BER = comm.ErrorRate;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Perform hard decision and measure errors</span></span><br><span class="line">rxBits = qamDemod(dataRxSymbols);</span><br><span class="line">ber = BER(bitsIn, rxBits);</span><br><span class="line"> </span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;F-OFDM Reception, BER = &#x27;</span> num2str(ber(<span class="number">1</span>)) <span class="string">&#x27; at SNR = &#x27;</span> ...</span><br><span class="line">    num2str(snrdB) <span class="string">&#x27; dB&#x27;</span>]);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Restore RNG state</span></span><br><span class="line">rng(s);</span><br></pre></td></tr></table></figure>
+<h3 id="💹-4ASK-Fig">💹 4ASK Fig</h3>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/Impluse_Response.bmp" alt="Fig.1  Impulse Response."></p>
+<center><font size=2>Fig.1  Impulse Response.</font></center>
+<br><br><br>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/F-OFDM_normalized_frequency.bmp" alt="Fig.2  F-OFDM normalized frequency."></p>
+<center><font size=2>Fig.2  F-OFDM normalized frequency.</font></center>
+<br><br><br>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/F-OFDM_normalized_frequency.bmp" alt="Fig.2  OFDM normalized frequency."></p>
+<center><font size=2>Fig.3  OFDM normalized frequency.</font></center>
+<br><br><br>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/F-OFDM_Reception.png" alt="Fig.4  F-OFDM Reception."></p>
+<center><font size=2>Fig.4  F-OFDM Reception.</font></center>
+<h3 id="🔔-Reference">🔔 Reference</h3>
+<blockquote>
+<ol>
+<li>Abdoli J., Jia M. and Ma J., “Filtered OFDM: A New Waveform for Future Wireless Systems,” 2015 IEEE® 16th International Workshop on Signal Processing Advances in Wireless Communications (SPAWC), Stockholm, 2015, pp. 66-70.</li>
+<li>R1-162152. “OFDM based flexible waveform for 5G.” 3GPP TSG RAN WG1 meeting 84bis. Huawei; HiSilicon. April 2016.</li>
+<li>R1-165425. “F-OFDM scheme and filter design.” 3GPP TSG RAN WG1 meeting 85. Huawei; HiSilicon. May 2016.</li>
+</ol>
+</blockquote>
+<!-- markdownlint-disable-file MD025 MD033 -->
+]]></content>
+      <categories>
+        <category>Matlab</category>
+      </categories>
+      <tags>
+        <tag>modulate</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Keil调试代码优化问题</title>
+    <url>/2020/12/08/Keil5%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<ul>
+<li>
+<p>在使用Keil进行调试的过程中，有的时候你可能会发现有几行代码怎么也得不到执行，下断点也会变成灰色感叹号。甚至有时候在做条件判断的时候，明明两个不相等的值却被判定为相等。</p>
+</li>
+<li>
+<p>这是因为Keil对我们的代码进行了<strong>优化</strong>处理，将优化等级降低计科解决问题。<img src="https://www.lingzhicheng.cn/usr/file/picture/Keil/Keil_optimism.png" alt="请输入图片描述"></p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>调试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Modulate and demodulate</title>
+    <url>/2021/04/21/Modulate%20and%20demodulate/</url>
+    <content><![CDATA[<h1>📌 Modulation and demodulation of signal based on matlab</h1>
+<p>☀️🕠😴</p>
+<a id="more"></a>
+<hr>
+<h2 id="Eg1">Eg1</h2>
+<p>📝 Code</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">%% Generate random process.</span></span><br><span class="line"></span><br><span class="line">clear;</span><br><span class="line">clc;</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(1)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% ①Generate a random process y[n]=x1[n]+sin(x2[n]).</span></span><br><span class="line">N = <span class="number">1000</span>;                   <span class="comment">% The maximum value of n,sequence length</span></span><br><span class="line">M = <span class="number">50</span>;                     <span class="comment">% Select a sequence of length 101 = M*2+1 </span></span><br><span class="line">Y = <span class="built_in">zeros</span>(<span class="number">1</span>,N); </span><br><span class="line">Ryav = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="number">2</span>*M+<span class="number">1</span>);      <span class="comment">% 950:1050</span></span><br><span class="line">Syav = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="number">2</span>*M+<span class="number">1</span>);      <span class="comment">% 950:1050</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Take the ensemble average over one hundred realizations.</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span>:<span class="number">100</span></span><br><span class="line">    X1 = <span class="built_in">randn</span>(<span class="number">1</span>,<span class="number">1000</span>);     <span class="comment">% Use &#x27;randn(x,y)&#x27; to generate x*y matrix </span></span><br><span class="line">    X2 = <span class="built_in">randn</span>(<span class="number">1</span>,<span class="number">1000</span>);</span><br><span class="line">    <span class="keyword">for</span> n = <span class="number">1</span>:N</span><br><span class="line">        Y(n) = X1(n)+<span class="built_in">sin</span>(X2(n));</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    Ry = xcorr(Y,<span class="string">&#x27;unbiased&#x27;</span>);       <span class="comment">% Autocorrelation of &#123;Yn&#125;</span></span><br><span class="line">    Ry = Ry(<span class="number">950</span>:<span class="number">1050</span>);              <span class="comment">% Original Ry, m is -999 to 999(2*N-1)</span></span><br><span class="line">    Sy = fftshift(<span class="built_in">abs</span>(fft(Ry)));    <span class="comment">% Power spectrum of &#123;Yn&#125;</span></span><br><span class="line">    Ryav=Ryav+Ry;                   <span class="comment">% 100 times</span></span><br><span class="line">    Syav=Syav+Sy;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">Ryav=Ryav/<span class="number">100</span>;                      <span class="comment">% Time-average</span></span><br><span class="line">Syav=Syav/<span class="number">100</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(2)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% ① the mean and variance of y[n].</span></span><br><span class="line"><span class="comment">% Use &#x27;mean(Y)&#x27; and &#x27;var(Y)&#x27; to calculate the mean and variance of y[n].</span></span><br><span class="line">Myav = <span class="built_in">mean</span>(Y)</span><br><span class="line">Vyav = var(Y)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(3)</span></span><br><span class="line"><span class="comment">% ① the spectrum and auto-correlation of y[n].</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">1</span>)</span><br><span class="line">subplot(<span class="number">121</span>)</span><br><span class="line"><span class="built_in">plot</span>(-M:M,Ryav);</span><br><span class="line">title(<span class="string">&#x27;Auto-correction of y[n]&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">122</span>)</span><br><span class="line"><span class="built_in">plot</span>(<span class="number">-0.5</span>:<span class="number">0.01</span>:<span class="number">0.5</span>,Syav);</span><br><span class="line">title(<span class="string">&#x27;Spectrum of y[n]&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>💹 Fig</p>
+<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_1_mean_and_var.png"></div>
+<center><font size=2>Fig.1 Myav and Vyav of y[n].</font></center>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_1_the_spectrum_and_auto-correlation_of_y%5Bn%5D.png" alt="The spectrum and auto-correlation of y[n]"></p>
+<center><font size=2>Fig.2 The spectrum and auto-correlation of y[n].</font></center>
+<p>❔ Discussion</p>
+<blockquote>
+<ul>
+<li>In this task, I use ‘randn(x,y)’ to generate ‘x*y’ matrix. In order to calculate the autocorrelation and power spectrum of y[n] in the time-average, I take the ensemble average over one hundred realizations, and then take their average. The length of x1[n],x2[n] and y[n] are all N in length.</li>
+<li>As we all know, the length of ‘xcorr(y)’ is ‘2*N-1’. For original Ry , m is -999 to 999, so I selected (950:1050) of the intervals. After a hundred stacking, use ‘Ryav=Ryav/100’ and ‘Syav=Syav/100’ to calculate the time-average. I  also use ‘mean(Y)’ and ‘var(Y)’ to calculate the mean and variance of y[n].</li>
+<li>To judge rodman progress is ergodic or stationary, I compare the time average and statistical average and find that the expectation of y[n] is a constant while its autocorrelation only depends on the time difference. Also, the expectation equals the time-average. So, we can say the random process will go through all the possible states. The conclusion is that the rodman progress y[n] is ergodic and stationary.</li>
+</ul>
+</blockquote>
+<h2 id="Eg2">Eg2</h2>
+<p>📝 Code</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">%% Amplitude modulation. Sampling rate Fs=1500Hz.</span></span><br><span class="line"> </span><br><span class="line">clear;</span><br><span class="line">clc;</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(1)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Initialization.</span></span><br><span class="line">t0 = <span class="number">1</span>;                 <span class="comment">% Signal duration</span></span><br><span class="line">Fs = <span class="number">1500</span>;              <span class="comment">% Sampling rate</span></span><br><span class="line">Ts = <span class="number">1</span>/Fs;              <span class="comment">% Sampling interval</span></span><br><span class="line">Fc = <span class="number">20</span>;                <span class="comment">% Carrier rate</span></span><br><span class="line">t = <span class="number">0</span>:Ts:t0;            <span class="comment">% Time vector</span></span><br><span class="line">N = <span class="built_in">length</span>(t);          <span class="comment">% Length of t</span></span><br><span class="line">N0 = <span class="number">0.0005</span>;            <span class="comment">% Power spectral density of noise</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Message signal and modulated signal(DSB_AM and USSB_AM).</span></span><br><span class="line">m = <span class="built_in">sin</span>(<span class="number">2</span>*<span class="built_in">pi</span>*t);        <span class="comment">% Message signal</span></span><br><span class="line">c = <span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>*Fc*t);     <span class="comment">% Carrier signal</span></span><br><span class="line">Ac_DSB_AM = <span class="number">1</span>;</span><br><span class="line">Ac_USSB_AM = <span class="built_in">sqrt</span>(<span class="number">2</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% DBS_AM modulated signal.</span></span><br><span class="line">u_dsb = Ac_DSB_AM*m.*c;</span><br><span class="line"><span class="comment">% SSB_AM modulated signal.</span></span><br><span class="line">u_ussb = <span class="number">1</span>/<span class="number">2</span>*Ac_USSB_AM*<span class="built_in">real</span>(hilbert(m).*<span class="built_in">exp</span>(<span class="number">1</span><span class="built_in">i</span>*<span class="number">2</span>*<span class="built_in">pi</span>*Fc*t));</span><br><span class="line"><span class="comment">% &quot;equal to &quot; u_ussb = 1/2*Ac_USSB_AM*cos(2*pi*(Fc+1)*t).</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Time domain to frequency domain).</span></span><br><span class="line">[~,M] = T2F(t,m); </span><br><span class="line">[~,U_DSB] = T2F(t,u_dsb);</span><br><span class="line">[df1,U_USSB] = T2F(t,u_ussb);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% ① Calculate the power of the modulated signal and message signal.</span></span><br><span class="line">m_power = sum(<span class="built_in">abs</span>(m).^<span class="number">2</span>)/N</span><br><span class="line">dsb_power = sum(<span class="built_in">abs</span>(u_dsb).^<span class="number">2</span>)/N</span><br><span class="line">ussb_power = sum(<span class="built_in">abs</span>(u_ussb).^<span class="number">2</span>)/N</span><br><span class="line"> </span><br><span class="line"><span class="comment">% ② Plot the modulated signal and the spectrum.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">1</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_dsb)</span><br><span class="line">title(<span class="string">&#x27;DSB Signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_ussb)</span><br><span class="line">title(<span class="string">&#x27;USSB Signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,<span class="built_in">abs</span>(U_DSB))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Modulated DSB Signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,<span class="built_in">abs</span>(U_USSB))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Modulated USSB Signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(2)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Demodulate the above signals.</span></span><br><span class="line"><span class="comment">% Coherent carrier mixing.</span></span><br><span class="line">y_dsb = u_dsb.*c;</span><br><span class="line">y_ussb = u_ussb.*c;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Time domain to frequency domain).</span></span><br><span class="line">[~,Y_DSB]=T2F(t,y_dsb);</span><br><span class="line">[df1,Y_USSB]=T2F(t,y_ussb);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Initialization of lowpass filter.</span></span><br><span class="line">H_DSB = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="built_in">length</span>(df1));</span><br><span class="line">H_USSB = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="built_in">length</span>(df1));</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="built_in">length</span>(df1)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">abs</span>(df1(<span class="built_in">i</span>))&lt;<span class="number">2</span></span><br><span class="line">        H_DSB(<span class="built_in">i</span>)=<span class="number">2</span>*Ac_DSB_AM;</span><br><span class="line">        H_USSB(<span class="built_in">i</span>)=<span class="number">2</span>*Ac_USSB_AM;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Lowpass filter filtering(Spectrum of the filter output).</span></span><br><span class="line">DEM_DSB=H_DSB.*Y_DSB;</span><br><span class="line">DEM_USSB=H_USSB.*Y_USSB;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Frequency domain to time domain).</span></span><br><span class="line">[~,dem_w_dsb]=F2T(df1,DEM_DSB);</span><br><span class="line">[dt1,dem_w_ussb]=F2T(df1,DEM_USSB);</span><br><span class="line">dem_w_dsb=dem_w_dsb(<span class="number">1</span>:<span class="built_in">length</span>(t));</span><br><span class="line">dem_w_ussb=dem_w_ussb(<span class="number">1</span>:<span class="built_in">length</span>(t));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% ① The pass band of the low-pass filter for DSB_AM and USSB_AM.</span></span><br><span class="line">passband_dsb = <span class="number">2</span>*<span class="number">1</span></span><br><span class="line">passband_ussb = <span class="number">2</span>*<span class="number">1</span></span><br><span class="line"><span class="comment">% ② Plot the demodulated signal and the spectrum.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">2</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_w_dsb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated DSB signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_w_ussb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated USSB signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,(<span class="built_in">abs</span>(DEM_DSB)))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Demodulated DSB signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,(<span class="built_in">abs</span>(DEM_USSB)))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Demodulated USSB signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(3)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Add the thermal noise.</span></span><br><span class="line">noise = <span class="built_in">randn</span>(<span class="number">1</span>,<span class="built_in">length</span>(t))*<span class="built_in">sqrt</span>(N0/<span class="number">2</span>*Fs);</span><br><span class="line">u_n_dsb = u_dsb + noise;</span><br><span class="line">u_n_ussb = u_ussb + noise;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Coherent carrier mixing.</span></span><br><span class="line">y_n_dsb = u_n_dsb.*c;</span><br><span class="line">y_n_ussb = u_n_ussb.*c;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Time domain to frequency domain).</span></span><br><span class="line">[~,Y_N_DSB]=T2F(t,y_n_dsb);</span><br><span class="line">[df1,Y_N_USSB]=T2F(t,y_n_ussb);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Lowpass filter filtering(Spectrum of the filter output).</span></span><br><span class="line"><span class="comment">% Filters have been initialized already.</span></span><br><span class="line">DEM_N_DSB=H_DSB.*Y_N_DSB;</span><br><span class="line">DEM_N_USSB=H_USSB.*Y_N_USSB;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Frequency domain to time domain).</span></span><br><span class="line">[~,dem_n_dsb]=F2T(df1,DEM_N_DSB);</span><br><span class="line">[dt1,dem_n_ussb]=F2T(df1,DEM_N_USSB);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% ①Plot the modulated signal and demodulated signal(time domain).</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">3</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_n_dsb)</span><br><span class="line">title(<span class="string">&#x27;Modulated DSB signal with noise&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_n_ussb)</span><br><span class="line">title(<span class="string">&#x27;Modulated USSB signal with noise&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_n_dsb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated DSB signal with noise&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_n_ussb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated USSB signal with noise&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(4)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% What is the disadvantage</span></span><br><span class="line"><span class="comment">% if we apply a low-pass filter with a band much wider than necessary?</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Initialization of lowpass filter much wider than necessary.</span></span><br><span class="line">H_W_DSB = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="built_in">length</span>(df1));</span><br><span class="line">H_W_USSB = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="built_in">length</span>(df1));</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="built_in">length</span>(df1)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">abs</span>(df1(<span class="built_in">i</span>))&lt;<span class="number">200</span>      <span class="comment">% 200 &gt;&gt; 2</span></span><br><span class="line">        H_W_DSB(<span class="built_in">i</span>)=<span class="number">2</span>*Ac_DSB_AM;</span><br><span class="line">        H_W_USSB(<span class="built_in">i</span>)=<span class="number">2</span>*Ac_USSB_AM;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Lowpass filter filtering(Spectrum of the filter output).</span></span><br><span class="line">DEM_W_DSB=H_W_DSB.*Y_DSB;</span><br><span class="line">DEM_W_USSB=H_W_USSB.*Y_USSB;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Frequency domain to time domain).</span></span><br><span class="line">[~,dem_w_dsb]=F2T(df1,DEM_W_DSB);</span><br><span class="line">[dt1,dem_w_ussb]=F2T(df1,DEM_W_USSB);</span><br><span class="line">dem_w_dsb=dem_w_dsb(<span class="number">1</span>:<span class="built_in">length</span>(t));</span><br><span class="line">dem_w_ussb=dem_w_ussb(<span class="number">1</span>:<span class="built_in">length</span>(t));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% The demodulated signal and the spectrum.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">4</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>) </span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_w_dsb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated DSB signal with a much wider band&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_w_ussb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated USSB signal with a much wider band&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,(<span class="built_in">abs</span>(DEM_DSB)))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Demodulated DSB signal with a much wider band&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,(<span class="built_in">abs</span>(DEM_USSB)))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Demodulated USSB signal with a much wider band&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>💹 Fig</p>
+<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_power_of_the_modulated_signal_and_message_signal.png" ></div>
+<center><font size=2>Fig.3 The power of the modulated signal and message signal.</font></center>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_modulated_signal_and_the_spectrum.png" alt="The modulated signal and the spectrum."></p>
+<center><font size=2>Fig.4 The modulated signal and the spectrum.</font></center>
+<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_pass_band_of_the_low-pass_filter_for_DSB_AM_and_USSB_AM.png"></div>
+<center><font size=2>Fig.5 The pass band of the low-pass filter for DSB_AM and USSB_AM.</font></center>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_demodulated_signal_and_the_spectrum.png" alt="The demodulated signal and the spectrum."></p>
+<center><font size=2>Fig.6 The demodulated signal and the spectrum.</font></center>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_modulated_signal_and_demodulated_signal_with_noise.png" alt="The modulated signal and demodulated signal with noise."></p>
+<center><font size=2>Fig.7 The modulated signal and demodulated signal with noise.</font></center>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_much_wider_band_the_demodulated_signal_and_the_spectrum.png" alt="The demodulated signal and the spectrum(much wider band)."></p>
+<center><font size=2>Fig.8 The demodulated signal and the spectrum(much wider band).</font></center>
+<p>❔ Discussion</p>
+<blockquote>
+<p>In this task, signal duration is t0=1 , message signal m=sin(2<em>pi</em>t), carrier signal c=cos(2<em>pi</em>Fc*t), there are two modulation methods DBS_AM and SSB_AM. In the SSB_AM, we use the upper sideband modulation, USSB_AM.<br>
+The modulated signals:</p>
+</blockquote>
+<ul>
+<li>
+<p>DSB-AM signal :</p>
+<p>$s(t) = A_{c}m(t)cos(2\pi f_{c}t)$</p>
+</li>
+<li>
+<p>USSB-AM signal:</p>
+<p>$u(t) = {A_{c}\over2}m(t)cos(2\pi f_{c}t)-{A_{c}\over2}{\hat{m}}(t)sin(2\pi f_{c}t)$</p>
+</li>
+</ul>
+<blockquote>
+<p>One thing to note is that the   of DSB-AM and USSB-AM are different. The former is 1 and the latter is $\sqrt{2}$. Use ‘sum(abs(m).^2)/N’ to calculate their power (see fig.3). The modulated signal and the spectrum (see fig.4)<br>
+Then demodulating the above signals, I use coherent carrier to demodulate them and then pass them through a low-pass filter with different gains.<br>
+The demodulated signals:</p>
+</blockquote>
+<ul>
+<li>
+<p>DSB-AM signal:</p>
+<p>$y(t) = A_{C}cos(2\pi f_{c}t)cos(2\pi f_{c}t) = {A_{c}\over2}m(t)+{A_{c}\over2}m(t)cos(4\pi f_{c}t)$</p>
+</li>
+<li>
+<p>USSB-AM signal:</p>
+<p>$y(t) = {A_{c}\over2}m(t)cos^2(2\pi f_{c}t)-{A_{c}\over2}{\hat{m}}(t)sin(2\pi f_{c}t)cos(2\pi f_{c}t) = {A_{c}\over4}m(t)+{A_{c}\over4}cos(4\pi f_{c}t)-{A_{c}\over4}{\hat{m}}(t)sin(4\pi f_{c}t)$</p>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>In order to recover the original signal m(t), one thing is to use a low-pass filter to filter out unwanted components, and the other thing is to choose right gain. To divide the Ac, for the DSB-AM, what needs to be kept is  , and then the gain is obviously  ; For the USSB-AM, what needs to be kept is  , and then the gain is obviously   . As the band of original signal m(t) is f=1, so I set the passband of the low-pass filter to 2Hz (see fig.5) . The cut-off frequency is 2HZ, which is twice the maximum frequency of the original signal, then the original signal is recovered well in both modulation methods (see fig.6).</li>
+<li>In fact, for the noise, all of the frequency in array of ($f_{m}$,$f_{c}$) are ok, although the amplitude of the demodulated signal will change due to the constant gain after mixing noise, the original signal is restored almost without distortion (see fit.7).</li>
+<li>If we apply a low-pass filter with a band much wider than necessary, when filtering, it will mix in the high frequency components with the frequency spectrum nearby. The high frequency component is just the continuation of the baseband component at high frequency, if it is not too wide, may we can barely recover the original signal. If the cut-off frequency is set too wide, it may cause signal aliasing and amplitude changes.</li>
+</ul>
+</blockquote>
+<!-- markdownlint-disable-file MD025 MD033 -->
+]]></content>
+      <categories>
+        <category>Matlab</category>
+      </categories>
+      <tags>
+        <tag>modulate</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Process or Thread</title>
+    <url>/2021/01/20/Process%20or%20Thread/</url>
+    <content><![CDATA[<h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位">进程是资源分配的最小单位|线程是CPU调度的最小单位</h3>
+<hr>
+<blockquote>
+<p>看了很多资料，解释都比较抽象<br>
+用一个简答的比喻在形容：进程=高铁，线程=车厢</p>
+</blockquote>
+<ul>
+<li>线程在进程下行进（单纯的车厢无法行动）</li>
+<li>一个进程可以包含多个线程（一辆高铁可以有多个车厢）</li>
+<li>同意进程下不同线程间数据容易共享</li>
+<li>不同进程间数据难以共享</li>
+<li>进程间不会互相影响，一个线程挂掉将导致整个进程挂掉</li>
+<li>进程占用更多资源</li>
+</ul>
+]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
   </entry>
   <entry>
     <title>Matlab sort out</title>
@@ -958,113 +1065,6 @@ $FT(R_T(\tau))=P_T(f)$</p>
       </tags>
   </entry>
   <entry>
-    <title>Process or Thread</title>
-    <url>/2021/01/20/Process%20or%20Thread/</url>
-    <content><![CDATA[<h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位">进程是资源分配的最小单位|线程是CPU调度的最小单位</h3>
-<hr>
-<blockquote>
-<p>看了很多资料，解释都比较抽象<br>
-用一个简答的比喻在形容：进程=高铁，线程=车厢</p>
-</blockquote>
-<ul>
-<li>线程在进程下行进（单纯的车厢无法行动）</li>
-<li>一个进程可以包含多个线程（一辆高铁可以有多个车厢）</li>
-<li>同意进程下不同线程间数据容易共享</li>
-<li>不同进程间数据难以共享</li>
-<li>进程间不会互相影响，一个线程挂掉将导致整个进程挂掉</li>
-<li>进程占用更多资源</li>
-</ul>
-]]></content>
-      <categories>
-        <category>总结</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Modulate and demodulate</title>
-    <url>/2021/04/21/Modulate%20and%20demodulate/</url>
-    <content><![CDATA[<h1>📌 Modulation and demodulation of signal based on matlab</h1>
-<p>☀️🕠😴</p>
-<a id="more"></a>
-<hr>
-<h2 id="Eg1">Eg1</h2>
-<p>📝 Code</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">%% Generate random process.</span></span><br><span class="line"></span><br><span class="line">clear;</span><br><span class="line">clc;</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(1)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% ①Generate a random process y[n]=x1[n]+sin(x2[n]).</span></span><br><span class="line">N = <span class="number">1000</span>;                   <span class="comment">% The maximum value of n,sequence length</span></span><br><span class="line">M = <span class="number">50</span>;                     <span class="comment">% Select a sequence of length 101 = M*2+1 </span></span><br><span class="line">Y = <span class="built_in">zeros</span>(<span class="number">1</span>,N); </span><br><span class="line">Ryav = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="number">2</span>*M+<span class="number">1</span>);      <span class="comment">% 950:1050</span></span><br><span class="line">Syav = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="number">2</span>*M+<span class="number">1</span>);      <span class="comment">% 950:1050</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Take the ensemble average over one hundred realizations.</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span>:<span class="number">100</span></span><br><span class="line">    X1 = <span class="built_in">randn</span>(<span class="number">1</span>,<span class="number">1000</span>);     <span class="comment">% Use &#x27;randn(x,y)&#x27; to generate x*y matrix </span></span><br><span class="line">    X2 = <span class="built_in">randn</span>(<span class="number">1</span>,<span class="number">1000</span>);</span><br><span class="line">    <span class="keyword">for</span> n = <span class="number">1</span>:N</span><br><span class="line">        Y(n) = X1(n)+<span class="built_in">sin</span>(X2(n));</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    Ry = xcorr(Y,<span class="string">&#x27;unbiased&#x27;</span>);       <span class="comment">% Autocorrelation of &#123;Yn&#125;</span></span><br><span class="line">    Ry = Ry(<span class="number">950</span>:<span class="number">1050</span>);              <span class="comment">% Original Ry, m is -999 to 999(2*N-1)</span></span><br><span class="line">    Sy = fftshift(<span class="built_in">abs</span>(fft(Ry)));    <span class="comment">% Power spectrum of &#123;Yn&#125;</span></span><br><span class="line">    Ryav=Ryav+Ry;                   <span class="comment">% 100 times</span></span><br><span class="line">    Syav=Syav+Sy;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">Ryav=Ryav/<span class="number">100</span>;                      <span class="comment">% Time-average</span></span><br><span class="line">Syav=Syav/<span class="number">100</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(2)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% ① the mean and variance of y[n].</span></span><br><span class="line"><span class="comment">% Use &#x27;mean(Y)&#x27; and &#x27;var(Y)&#x27; to calculate the mean and variance of y[n].</span></span><br><span class="line">Myav = <span class="built_in">mean</span>(Y)</span><br><span class="line">Vyav = var(Y)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(3)</span></span><br><span class="line"><span class="comment">% ① the spectrum and auto-correlation of y[n].</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">1</span>)</span><br><span class="line">subplot(<span class="number">121</span>)</span><br><span class="line"><span class="built_in">plot</span>(-M:M,Ryav);</span><br><span class="line">title(<span class="string">&#x27;Auto-correction of y[n]&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">122</span>)</span><br><span class="line"><span class="built_in">plot</span>(<span class="number">-0.5</span>:<span class="number">0.01</span>:<span class="number">0.5</span>,Syav);</span><br><span class="line">title(<span class="string">&#x27;Spectrum of y[n]&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>💹 Fig</p>
-<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_1_mean_and_var.png"></div>
-<center><font size=2>Fig.1 Myav and Vyav of y[n].</font></center>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_1_the_spectrum_and_auto-correlation_of_y%5Bn%5D.png" alt="The spectrum and auto-correlation of y[n]"></p>
-<center><font size=2>Fig.2 The spectrum and auto-correlation of y[n].</font></center>
-<p>❔ Discussion</p>
-<blockquote>
-<ul>
-<li>In this task, I use ‘randn(x,y)’ to generate ‘x*y’ matrix. In order to calculate the autocorrelation and power spectrum of y[n] in the time-average, I take the ensemble average over one hundred realizations, and then take their average. The length of x1[n],x2[n] and y[n] are all N in length.</li>
-<li>As we all know, the length of ‘xcorr(y)’ is ‘2*N-1’. For original Ry , m is -999 to 999, so I selected (950:1050) of the intervals. After a hundred stacking, use ‘Ryav=Ryav/100’ and ‘Syav=Syav/100’ to calculate the time-average. I  also use ‘mean(Y)’ and ‘var(Y)’ to calculate the mean and variance of y[n].</li>
-<li>To judge rodman progress is ergodic or stationary, I compare the time average and statistical average and find that the expectation of y[n] is a constant while its autocorrelation only depends on the time difference. Also, the expectation equals the time-average. So, we can say the random process will go through all the possible states. The conclusion is that the rodman progress y[n] is ergodic and stationary.</li>
-</ul>
-</blockquote>
-<h2 id="Eg2">Eg2</h2>
-<p>📝 Code</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">%% Amplitude modulation. Sampling rate Fs=1500Hz.</span></span><br><span class="line"> </span><br><span class="line">clear;</span><br><span class="line">clc;</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(1)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Initialization.</span></span><br><span class="line">t0 = <span class="number">1</span>;                 <span class="comment">% Signal duration</span></span><br><span class="line">Fs = <span class="number">1500</span>;              <span class="comment">% Sampling rate</span></span><br><span class="line">Ts = <span class="number">1</span>/Fs;              <span class="comment">% Sampling interval</span></span><br><span class="line">Fc = <span class="number">20</span>;                <span class="comment">% Carrier rate</span></span><br><span class="line">t = <span class="number">0</span>:Ts:t0;            <span class="comment">% Time vector</span></span><br><span class="line">N = <span class="built_in">length</span>(t);          <span class="comment">% Length of t</span></span><br><span class="line">N0 = <span class="number">0.0005</span>;            <span class="comment">% Power spectral density of noise</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Message signal and modulated signal(DSB_AM and USSB_AM).</span></span><br><span class="line">m = <span class="built_in">sin</span>(<span class="number">2</span>*<span class="built_in">pi</span>*t);        <span class="comment">% Message signal</span></span><br><span class="line">c = <span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>*Fc*t);     <span class="comment">% Carrier signal</span></span><br><span class="line">Ac_DSB_AM = <span class="number">1</span>;</span><br><span class="line">Ac_USSB_AM = <span class="built_in">sqrt</span>(<span class="number">2</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% DBS_AM modulated signal.</span></span><br><span class="line">u_dsb = Ac_DSB_AM*m.*c;</span><br><span class="line"><span class="comment">% SSB_AM modulated signal.</span></span><br><span class="line">u_ussb = <span class="number">1</span>/<span class="number">2</span>*Ac_USSB_AM*<span class="built_in">real</span>(hilbert(m).*<span class="built_in">exp</span>(<span class="number">1</span><span class="built_in">i</span>*<span class="number">2</span>*<span class="built_in">pi</span>*Fc*t));</span><br><span class="line"><span class="comment">% &quot;equal to &quot; u_ussb = 1/2*Ac_USSB_AM*cos(2*pi*(Fc+1)*t).</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Time domain to frequency domain).</span></span><br><span class="line">[~,M] = T2F(t,m); </span><br><span class="line">[~,U_DSB] = T2F(t,u_dsb);</span><br><span class="line">[df1,U_USSB] = T2F(t,u_ussb);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% ① Calculate the power of the modulated signal and message signal.</span></span><br><span class="line">m_power = sum(<span class="built_in">abs</span>(m).^<span class="number">2</span>)/N</span><br><span class="line">dsb_power = sum(<span class="built_in">abs</span>(u_dsb).^<span class="number">2</span>)/N</span><br><span class="line">ussb_power = sum(<span class="built_in">abs</span>(u_ussb).^<span class="number">2</span>)/N</span><br><span class="line"> </span><br><span class="line"><span class="comment">% ② Plot the modulated signal and the spectrum.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">1</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_dsb)</span><br><span class="line">title(<span class="string">&#x27;DSB Signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_ussb)</span><br><span class="line">title(<span class="string">&#x27;USSB Signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,<span class="built_in">abs</span>(U_DSB))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Modulated DSB Signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,<span class="built_in">abs</span>(U_USSB))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Modulated USSB Signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(2)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Demodulate the above signals.</span></span><br><span class="line"><span class="comment">% Coherent carrier mixing.</span></span><br><span class="line">y_dsb = u_dsb.*c;</span><br><span class="line">y_ussb = u_ussb.*c;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Time domain to frequency domain).</span></span><br><span class="line">[~,Y_DSB]=T2F(t,y_dsb);</span><br><span class="line">[df1,Y_USSB]=T2F(t,y_ussb);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Initialization of lowpass filter.</span></span><br><span class="line">H_DSB = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="built_in">length</span>(df1));</span><br><span class="line">H_USSB = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="built_in">length</span>(df1));</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="built_in">length</span>(df1)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">abs</span>(df1(<span class="built_in">i</span>))&lt;<span class="number">2</span></span><br><span class="line">        H_DSB(<span class="built_in">i</span>)=<span class="number">2</span>*Ac_DSB_AM;</span><br><span class="line">        H_USSB(<span class="built_in">i</span>)=<span class="number">2</span>*Ac_USSB_AM;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Lowpass filter filtering(Spectrum of the filter output).</span></span><br><span class="line">DEM_DSB=H_DSB.*Y_DSB;</span><br><span class="line">DEM_USSB=H_USSB.*Y_USSB;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Frequency domain to time domain).</span></span><br><span class="line">[~,dem_w_dsb]=F2T(df1,DEM_DSB);</span><br><span class="line">[dt1,dem_w_ussb]=F2T(df1,DEM_USSB);</span><br><span class="line">dem_w_dsb=dem_w_dsb(<span class="number">1</span>:<span class="built_in">length</span>(t));</span><br><span class="line">dem_w_ussb=dem_w_ussb(<span class="number">1</span>:<span class="built_in">length</span>(t));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% ① The pass band of the low-pass filter for DSB_AM and USSB_AM.</span></span><br><span class="line">passband_dsb = <span class="number">2</span>*<span class="number">1</span></span><br><span class="line">passband_ussb = <span class="number">2</span>*<span class="number">1</span></span><br><span class="line"><span class="comment">% ② Plot the demodulated signal and the spectrum.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">2</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_w_dsb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated DSB signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_w_ussb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated USSB signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,(<span class="built_in">abs</span>(DEM_DSB)))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Demodulated DSB signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,(<span class="built_in">abs</span>(DEM_USSB)))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Demodulated USSB signal&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(3)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Add the thermal noise.</span></span><br><span class="line">noise = <span class="built_in">randn</span>(<span class="number">1</span>,<span class="built_in">length</span>(t))*<span class="built_in">sqrt</span>(N0/<span class="number">2</span>*Fs);</span><br><span class="line">u_n_dsb = u_dsb + noise;</span><br><span class="line">u_n_ussb = u_ussb + noise;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Coherent carrier mixing.</span></span><br><span class="line">y_n_dsb = u_n_dsb.*c;</span><br><span class="line">y_n_ussb = u_n_ussb.*c;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Time domain to frequency domain).</span></span><br><span class="line">[~,Y_N_DSB]=T2F(t,y_n_dsb);</span><br><span class="line">[df1,Y_N_USSB]=T2F(t,y_n_ussb);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Lowpass filter filtering(Spectrum of the filter output).</span></span><br><span class="line"><span class="comment">% Filters have been initialized already.</span></span><br><span class="line">DEM_N_DSB=H_DSB.*Y_N_DSB;</span><br><span class="line">DEM_N_USSB=H_USSB.*Y_N_USSB;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Frequency domain to time domain).</span></span><br><span class="line">[~,dem_n_dsb]=F2T(df1,DEM_N_DSB);</span><br><span class="line">[dt1,dem_n_ussb]=F2T(df1,DEM_N_USSB);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% ①Plot the modulated signal and demodulated signal(time domain).</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">3</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_n_dsb)</span><br><span class="line">title(<span class="string">&#x27;Modulated DSB signal with noise&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_n_ussb)</span><br><span class="line">title(<span class="string">&#x27;Modulated USSB signal with noise&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_n_dsb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated DSB signal with noise&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_n_ussb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated USSB signal with noise&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(4)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% What is the disadvantage</span></span><br><span class="line"><span class="comment">% if we apply a low-pass filter with a band much wider than necessary?</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Initialization of lowpass filter much wider than necessary.</span></span><br><span class="line">H_W_DSB = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="built_in">length</span>(df1));</span><br><span class="line">H_W_USSB = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="built_in">length</span>(df1));</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="built_in">length</span>(df1)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">abs</span>(df1(<span class="built_in">i</span>))&lt;<span class="number">200</span>      <span class="comment">% 200 &gt;&gt; 2</span></span><br><span class="line">        H_W_DSB(<span class="built_in">i</span>)=<span class="number">2</span>*Ac_DSB_AM;</span><br><span class="line">        H_W_USSB(<span class="built_in">i</span>)=<span class="number">2</span>*Ac_USSB_AM;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Lowpass filter filtering(Spectrum of the filter output).</span></span><br><span class="line">DEM_W_DSB=H_W_DSB.*Y_DSB;</span><br><span class="line">DEM_W_USSB=H_W_USSB.*Y_USSB;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Frequency domain to time domain).</span></span><br><span class="line">[~,dem_w_dsb]=F2T(df1,DEM_W_DSB);</span><br><span class="line">[dt1,dem_w_ussb]=F2T(df1,DEM_W_USSB);</span><br><span class="line">dem_w_dsb=dem_w_dsb(<span class="number">1</span>:<span class="built_in">length</span>(t));</span><br><span class="line">dem_w_ussb=dem_w_ussb(<span class="number">1</span>:<span class="built_in">length</span>(t));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% The demodulated signal and the spectrum.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">4</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>) </span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_w_dsb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated DSB signal with a much wider band&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_w_ussb))</span><br><span class="line">title(<span class="string">&#x27;Demodulated USSB signal with a much wider band&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Time&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,(<span class="built_in">abs</span>(DEM_DSB)))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Demodulated DSB signal with a much wider band&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,(<span class="built_in">abs</span>(DEM_USSB)))</span><br><span class="line">title(<span class="string">&#x27;Spectrum of the Demodulated USSB signal with a much wider band&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Frequency&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>💹 Fig</p>
-<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_power_of_the_modulated_signal_and_message_signal.png" ></div>
-<center><font size=2>Fig.3 The power of the modulated signal and message signal.</font></center>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_modulated_signal_and_the_spectrum.png" alt="The modulated signal and the spectrum."></p>
-<center><font size=2>Fig.4 The modulated signal and the spectrum.</font></center>
-<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_pass_band_of_the_low-pass_filter_for_DSB_AM_and_USSB_AM.png"></div>
-<center><font size=2>Fig.5 The pass band of the low-pass filter for DSB_AM and USSB_AM.</font></center>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_demodulated_signal_and_the_spectrum.png" alt="The demodulated signal and the spectrum."></p>
-<center><font size=2>Fig.6 The demodulated signal and the spectrum.</font></center>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_modulated_signal_and_demodulated_signal_with_noise.png" alt="The modulated signal and demodulated signal with noise."></p>
-<center><font size=2>Fig.7 The modulated signal and demodulated signal with noise.</font></center>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_much_wider_band_the_demodulated_signal_and_the_spectrum.png" alt="The demodulated signal and the spectrum(much wider band)."></p>
-<center><font size=2>Fig.8 The demodulated signal and the spectrum(much wider band).</font></center>
-<p>❔ Discussion</p>
-<blockquote>
-<p>In this task, signal duration is t0=1 , message signal m=sin(2<em>pi</em>t), carrier signal c=cos(2<em>pi</em>Fc*t), there are two modulation methods DBS_AM and SSB_AM. In the SSB_AM, we use the upper sideband modulation, USSB_AM.<br>
-The modulated signals:</p>
-</blockquote>
-<ul>
-<li>
-<p>DSB-AM signal :</p>
-<p>$s(t) = A_{c}m(t)cos(2\pi f_{c}t)$</p>
-</li>
-<li>
-<p>USSB-AM signal:</p>
-<p>$u(t) = {A_{c}\over2}m(t)cos(2\pi f_{c}t)-{A_{c}\over2}{\hat{m}}(t)sin(2\pi f_{c}t)$</p>
-</li>
-</ul>
-<blockquote>
-<p>One thing to note is that the   of DSB-AM and USSB-AM are different. The former is 1 and the latter is $\sqrt{2}$. Use ‘sum(abs(m).^2)/N’ to calculate their power (see fig.3). The modulated signal and the spectrum (see fig.4)<br>
-Then demodulating the above signals, I use coherent carrier to demodulate them and then pass them through a low-pass filter with different gains.<br>
-The demodulated signals:</p>
-</blockquote>
-<ul>
-<li>
-<p>DSB-AM signal:</p>
-<p>$y(t) = A_{C}cos(2\pi f_{c}t)cos(2\pi f_{c}t) = {A_{c}\over2}m(t)+{A_{c}\over2}m(t)cos(4\pi f_{c}t)$</p>
-</li>
-<li>
-<p>USSB-AM signal:</p>
-<p>$y(t) = {A_{c}\over2}m(t)cos^2(2\pi f_{c}t)-{A_{c}\over2}{\hat{m}}(t)sin(2\pi f_{c}t)cos(2\pi f_{c}t) = {A_{c}\over4}m(t)+{A_{c}\over4}cos(4\pi f_{c}t)-{A_{c}\over4}{\hat{m}}(t)sin(4\pi f_{c}t)$</p>
-</li>
-</ul>
-<blockquote>
-<ul>
-<li>In order to recover the original signal m(t), one thing is to use a low-pass filter to filter out unwanted components, and the other thing is to choose right gain. To divide the Ac, for the DSB-AM, what needs to be kept is  , and then the gain is obviously  ; For the USSB-AM, what needs to be kept is  , and then the gain is obviously   . As the band of original signal m(t) is f=1, so I set the passband of the low-pass filter to 2Hz (see fig.5) . The cut-off frequency is 2HZ, which is twice the maximum frequency of the original signal, then the original signal is recovered well in both modulation methods (see fig.6).</li>
-<li>In fact, for the noise, all of the frequency in array of ($f_{m}$,$f_{c}$) are ok, although the amplitude of the demodulated signal will change due to the constant gain after mixing noise, the original signal is restored almost without distortion (see fit.7).</li>
-<li>If we apply a low-pass filter with a band much wider than necessary, when filtering, it will mix in the high frequency components with the frequency spectrum nearby. The high frequency component is just the continuation of the baseband component at high frequency, if it is not too wide, may we can barely recover the original signal. If the cut-off frequency is set too wide, it may cause signal aliasing and amplitude changes.</li>
-</ul>
-</blockquote>
-<!-- markdownlint-disable-file MD025 MD033 -->
-]]></content>
-      <categories>
-        <category>Matlab</category>
-      </categories>
-      <tags>
-        <tag>modulate</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Tensorflow2.4保姆级安装教程</title>
     <url>/2021/01/30/Tensorflow2.4%E4%BF%9D%E5%A7%86%E7%BA%A7%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<ul>
@@ -1302,40 +1302,6 @@ sess.close()
       </tags>
   </entry>
   <entry>
-    <title>VS2019代码提示延迟很高，部分快捷键无法使用的问题</title>
-    <url>/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h3 id="原因">原因</h3>
-<ul>
-<li>Visual Studio 与Nvidia CUDA NSightVSE冲突</li>
-</ul>
-<h3 id="现象">现象</h3>
-<ul>
-<li>Tab、Ctrl’+C 、 Ctrl’+K 等快捷键失效，智能代码提示不能正常显示，有时不会出现，有时要等四五秒，非常不正常</li>
-</ul>
-<blockquote>
-<p>Setting中检查设置无误，尝试过重启、重置个人配置、重装等均无效<br>
-很长一段时间没有使用过vs，之前装了比较新的Nvidia CUDA，同时附带的有NSightVSE，也就是设计vs的拓展，问题出在这里</p>
-</blockquote>
-<a id="more"></a>
-<h3 id="解决方法">解决方法</h3>
-<blockquote>
-<p>卸载NSightVSE或者其他Nvidia和vs相关的拓展，重启vs后生效<br>
-正常情况搜索NsightVSE会出现四个，保留下列三个即可，版本仅供参考，可能其他版本不会出现如上问题。<br>
-Nvidia CUDA Nsight NVTX 11.1<br>
-Nvidia Nsight Compute 2020.2.0<br>
-Nvidia Nsight Systems 2020.3.4</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>总结</category>
-      </categories>
-      <tags>
-        <tag>debug</tag>
-        <tag>Nvidia CUDA</tag>
-        <tag>Visual Studio</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>debug Gitalk 403</title>
     <url>/2021/02/23/debug%20Gitalk%20403/</url>
     <content><![CDATA[<ul>
@@ -1379,6 +1345,381 @@ Request URL：<a href="https://cors-anywhere.herokuapp.com/https://github.com/lo
       </categories>
       <tags>
         <tag>debug</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>VS2019代码提示延迟很高，部分快捷键无法使用的问题</title>
+    <url>/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h3 id="原因">原因</h3>
+<ul>
+<li>Visual Studio 与Nvidia CUDA NSightVSE冲突</li>
+</ul>
+<h3 id="现象">现象</h3>
+<ul>
+<li>Tab、Ctrl’+C 、 Ctrl’+K 等快捷键失效，智能代码提示不能正常显示，有时不会出现，有时要等四五秒，非常不正常</li>
+</ul>
+<blockquote>
+<p>Setting中检查设置无误，尝试过重启、重置个人配置、重装等均无效<br>
+很长一段时间没有使用过vs，之前装了比较新的Nvidia CUDA，同时附带的有NSightVSE，也就是设计vs的拓展，问题出在这里</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="解决方法">解决方法</h3>
+<blockquote>
+<p>卸载NSightVSE或者其他Nvidia和vs相关的拓展，重启vs后生效<br>
+正常情况搜索NsightVSE会出现四个，保留下列三个即可，版本仅供参考，可能其他版本不会出现如上问题。<br>
+Nvidia CUDA Nsight NVTX 11.1<br>
+Nvidia Nsight Compute 2020.2.0<br>
+Nvidia Nsight Systems 2020.3.4</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
+      <tags>
+        <tag>debug</tag>
+        <tag>Nvidia CUDA</tag>
+        <tag>Visual Studio</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo_begin</title>
+    <url>/2021/01/31/hexo_begin/</url>
+    <content><![CDATA[<h2 id="机制介绍">机制介绍</h2>
+<p><code>hexo d</code>上传部署到Github的其实是hexo编译后的文件静态文件，用于生成网页，不包含源文件，也就是上传<code>.deploy_git</code>中的文件，其他文件，包括<code>source</code>里面的和一些配置、主题文件都不会上传到GitHub，考虑到可能会在不同主机发布，因此将<code>hexo d</code>操作不会上传的文件主动<code>git</code>到另一个分支。</p>
+<a id="more"></a>
+<hr>
+<h2 id="新建备份分支">新建备份分支</h2>
+<ol>
+<li>
+<p>首先在Github上新建一个<code>hexo_backup</code>分支并且设置为默认分支，以便在每次同步的时候不用指定分支，比较方便，用于备份源文件。</p>
+</li>
+<li>
+<p>在本地<code>blog_local</code>目录下<code>git clone git@github.com:boom1999/boom1999.github.io.git</code>,此时由于默认分支为hexo_backup，所以只是clone了hexo_backup。在clone下的目录里将<code>.git</code>以外的文件全部删除，将源文件（包括<code>.gitignore</code>）全部复制过来。（<code>.deploy_git</code>不需要，这是生成的静态文件，也就是会push到master分支中的文件）。如果没有<code>.gitignore</code>，忽略push这部分文件，请手动添加：</p>
+<pre><code> .DS_Store
+ Thumbs.db
+ db.json
+ *.log
+ node_modules/
+ public/
+ .deploy*/
+</code></pre>
+</li>
+<li>
+<p>将源文件push到hexo_backup分支,上传后GitHub上的hexo_backup分支备份完成</p>
+<pre><code> git add .
+ git commit –m &quot;your commit&quot;
+ git push 
+</code></pre>
+</li>
+</ol>
+<hr>
+<h2 id="更换环境操作">更换环境操作</h2>
+<ul>
+<li>
+<p>创建一个新的<code>blog_local</code>文件夹</p>
+</li>
+<li>
+<p>安装<code>git</code>和<code>nodejs</code></p>
+</li>
+<li>
+<p>设置git全局邮箱和用户名</p>
+<pre><code>  git config --global user.name &quot;yourgithubname&quot;
+  git config --global user.email &quot;yourgithubemail&quot;
+</code></pre>
+</li>
+<li>
+<p>设置<code>ssh key</code></p>
+<pre><code>  ssh-keygen -t rsa -C &quot;youremail&quot;
+  #生成后公钥添加到GitHub仓库中
+  #验证是否成功
+  ssh -T git@github.com
+</code></pre>
+</li>
+<li>
+<p>安装hexo（不需要hexo init，因为整体框架会被clone下来）</p>
+<pre><code>  npm install hexo-cli -g
+  #或者局部安装
+  npm install hexo
+</code></pre>
+</li>
+<li>
+<p><code>clone</code>到本地操作</p>
+<pre><code>  git clone git@github.com:boom1999/boom1999.github.io.git
+</code></pre>
+</li>
+<li>
+<p>进入本地文件</p>
+<pre><code>  cd boom1999.github.io
+  npm install
+</code></pre>
+</li>
+<li>
+<p>安装名为<code>hexo-deployer-git</code>的部署器插件，通过该插件就能实现一键部署</p>
+<pre><code>  npm install hexo-deployer-git --save
+</code></pre>
+</li>
+<li>
+<p>添加新文件<code>source/_posts</code>，生成，部署</p>
+<pre><code>  hexo g
+  hexo d
+</code></pre>
+</li>
+</ul>
+<h3 id="Tips">Tips</h3>
+<ul>
+<li>
+<p>每次写完不要忘了备份源文件</p>
+<pre><code>  git add .
+  git commit –m &quot;your commit&quot;
+  git push 
+</code></pre>
+</li>
+<li>
+<p>如果是在已经目前使用的机器，如在其他机器上更新过，每次<strong>使用前</strong>只要远端同步一下就行<code>git pull</code></p>
+</li>
+</ul>
+<hr>
+<ul>
+<li><code>2021/01/30测试通过</code></li>
+<li>下一步准备部署到自己的服务器，GitHub作备份用</li>
+</ul>
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>正则表达式整理（持续更新）</title>
+    <url>/2021/02/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<blockquote>
+<p>偶尔会用到正则匹配，下面做一个常用的正则表达式整理以便往后查询</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="最常用的匹配">最常用的匹配</h2>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>\d</code></strong></td>
+<td>表示任意数字，就是阿拉伯数字<code>0~9</code>这些。</td>
+</tr>
+<tr>
+<td><code>\D</code></td>
+<td>大写的表示与小写的相反，表示不是数字。</td>
+</tr>
+<tr>
+<td><code>\w</code></td>
+<td>代表字母，数字，下划线。<code>a-z</code>、<code>A-Z</code>、<code>0~9</code>、<code>_</code>。</td>
+</tr>
+<tr>
+<td><code>\W</code></td>
+<td>大写的表示与小写的相反，不是字母、不是数字也不是下划线。</td>
+</tr>
+<tr>
+<td><strong><code>\n</code></strong></td>
+<td>代表一个回换行。</td>
+</tr>
+<tr>
+<td><code>\r</code></td>
+<td>代表一个回车。</td>
+</tr>
+<tr>
+<td><code>\f</code></td>
+<td>代表换页。</td>
+</tr>
+<tr>
+<td><code>\t</code></td>
+<td>代表一个<code>Tab</code>。</td>
+</tr>
+<tr>
+<td><code>\s</code></td>
+<td>代表所有的空白符，也就是上面四个：<code>\n</code>、<code>\r</code>、<code>\f</code>、<code>\t</code>。</td>
+</tr>
+<tr>
+<td><code>\S</code></td>
+<td>大写的表示与小写的相反，代表所有不是空白的字符。</td>
+</tr>
+<tr>
+<td><code>\A</code></td>
+<td>代表字符串的开始。</td>
+</tr>
+<tr>
+<td><code>\Z</code></td>
+<td>代表字符串的结束。</td>
+</tr>
+<tr>
+<td><strong><code>^</code></strong></td>
+<td>匹配字符串开始的位置。</td>
+</tr>
+<tr>
+<td><strong><code>$</code></strong></td>
+<td>匹配字符串结束的位置。</td>
+</tr>
+<tr>
+<td><strong><code>.</code></strong></td>
+<td>代表所有的单个字符，除了换行<code>\n</code>,回车<code>\r</code>。</td>
+</tr>
+<tr>
+<td><code>[...]</code></td>
+<td>代表在<code>[]</code>范围内的字符，比如<code>[a-z]</code>就代表<code>a-z</code>的字母。</td>
+</tr>
+<tr>
+<td><code>[^...]</code></td>
+<td>与上一个相反，代表不在<code>[]</code>范围内的字符。</td>
+</tr>
+<tr>
+<td><code>&#123;n&#125;</code></td>
+<td>匹配在<code>&#123;n&#125;</code>前面的东西，比如<code>o&#123;2&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>food</code>中的两个<code>o</code>。</td>
+</tr>
+<tr>
+<td><code>&#123;n,m&#125;</code></td>
+<td>匹配在<code>&#123;n,m&#125;</code>前面的东西，比如<code>o&#123;1,3&#125;</code>将匹配<code>fooooood</code>中的前三个<code>o</code>。</td>
+</tr>
+<tr>
+<td><code>&#123;n, &#125;</code></td>
+<td>匹配在<code>&#123;n,&#125;</code>前面的东西，比如<code>o&#123;2,&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>foooood</code>中的所有<code>o</code>。</td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>和<code>&#123;0,&#125;</code>一样，匹配<code>*</code>前面的0次或多次。比如<code>zo*</code>能匹配<code>z</code>、<code>zo</code>以及<code>zoo</code>。</td>
+</tr>
+<tr>
+<td><code>+</code></td>
+<td>和<code>&#123;1,&#125;</code>一样，匹配+前面1次或多次。比如<code>zo+</code>能匹配<code>zo</code>以及<code>zoo</code>但不能匹配<code>z</code></td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td>和<code>&#123;0,1&#125;</code>一样，匹配<code>?</code>前面0次或1次</td>
+</tr>
+<tr>
+<td><code>()</code></td>
+<td>匹配括号里的内容</td>
+</tr>
+</tbody>
+</table>
+<h2 id="re-match">re.match</h2>
+<blockquote>
+<p>传入两个参数，第一个是匹配的规则，第二个是需要被过滤的内容</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">content = <span class="string">&#x27;you have 100 bananas.&#x27;</span></span><br><span class="line">res = re.match(<span class="string">&#x27;^yo.*(\d+)\s.*s$&#x27;</span>,content)</span><br><span class="line">print(res.group(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>re.match</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo同步部署再Github和服务器</title>
+    <url>/2021/02/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
+    <content><![CDATA[<blockquote>
+<p>寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页</p>
+</blockquote>
+<a id="more"></a>
+<ul>
+<li>前提条件：已有github.io仓库，hexo博客已经上线测试可以使用，已有<code>nginx</code>、<code>git</code>、<code>node</code>等基础，可参考上一篇笔记</li>
+<li>省略了一些次要步骤，域名解析、备案等</li>
+</ul>
+<hr>
+<h2 id="服务器Webhook部分">服务器Webhook部分</h2>
+<ul>
+<li>利用宝塔平台的Webhook插件</li>
+</ul>
+<blockquote>
+<p>名称随意，实例脚本如下<br>
+gitPath=“/www/wwwroot/YourWebsiteLocation/”<br>
+gitHttp=“<a href="https://github.com/YourGithubName/xxxxxxxx.github.io.git">https://github.com/YourGithubName/xxxxxxxx.github.io.git</a>”<br>
+若失败，可考虑加上<code>sudo</code>使用管理员权限</p>
+</blockquote>
+<pre><code>#!/bin/bash
+echo &quot;&quot;
+#输出当前时间
+date --date='0 days ago' &quot;+%Y-%m-%d %H:%M:%S&quot;
+echo &quot;Start&quot;
+
+#git项目路径
+gitPath=&quot; &quot;
+#git 网址
+gitHttp=&quot; &quot;
+#延迟高可以加https://ghproxy.com/代理
+
+echo &quot;Web站点路径：$gitPath&quot;
+ 
+#判断项目路径是否存在
+if [ -d &quot;$gitPath&quot; ]; then
+    cd $gitPath
+    #判断是否存在git目录
+    if [ ! -d &quot;.git&quot; ]; then
+            echo &quot;在该目录下克隆 git&quot;
+            sudo git clone $gitHttp gittemp
+            sudo mv gittemp/.git .
+            sudo rm -rf gittemp
+    fi
+    echo&quot;拉取最新的项目文件&quot;
+    sudo git reset --hard origin/master
+    sudo git pull origin master
+    echo&quot;设置目录权限&quot;
+    sudo chown -R www:www $gitPath
+    date --date='0 days ago' &quot;+%Y-%m-%d %H:%M:%S&quot;
+    echo &quot;End&quot;
+    exit
+else
+    echo &quot;该项目路径不存在&quot;
+    echo &quot;End&quot;
+    exit
+fi
+</code></pre>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook01.png" alt="宝塔Webhook"></p>
+<h2 id="Github设置Webhook">Github设置Webhook</h2>
+<ul>
+<li>
+<p>查看密钥<br>
+<img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook02.png" alt="宝塔Webhook查看密钥"></p>
+</li>
+<li>
+<p>切换到Github项目的Settings-Webhooks</p>
+</li>
+<li>
+<p>Add Webhook</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>Payload URL:</strong> <code>http://服务器ip:8888?hook?access_key=xxxxx</code><br>
+<strong>Content type:</strong> <code>application/json</code><br>
+<strong>Secret:</strong> <code>Key</code><br>
+<strong>Which events would you like to trigger this webhook?</strong><br>
+choose：Just the push event.<br>
+√<strong>Active</strong></p>
+</blockquote>
+<ul>
+<li>测试，本地更改sources后<code>hexo g</code>+<code>hexo d</code></li>
+<li>第一次红了是因为将Github中Webhook的Content type设置成了<code>application/x-www-form-urlencoded</code>，改成<code>application/json</code>通过<br>
+<img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook03.png" alt="Webhook测试"></li>
+</ul>
+<hr>
+<h2 id="Tips">Tips</h2>
+<ol>
+<li>服务器需要开放8888端口，如果使用其他端口同样需要打开</li>
+<li>两者都是表单数据发送时的编码类型<br>
+application/x-www-form-urlencoded --&gt; key=value&amp;key=value</li>
+<li>一般情况下都会正常同步，如果长时间未update，可能是DNS的问题，可以考虑选择一个连接速度较快的GitHub的ip添加到/etc/hosts并且刷新</li>
+</ol>
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>同步</tag>
+        <tag>webhook</tag>
       </tags>
   </entry>
   <entry>
@@ -1582,347 +1923,6 @@ R5和R6之间的电压值为V=4.094V，接近4V，达到预期值<br>
         <tag>高频电路</tag>
         <tag>PCB</tag>
         <tag>无线</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo_begin</title>
-    <url>/2021/01/31/hexo_begin/</url>
-    <content><![CDATA[<h2 id="机制介绍">机制介绍</h2>
-<p><code>hexo d</code>上传部署到Github的其实是hexo编译后的文件静态文件，用于生成网页，不包含源文件，也就是上传<code>.deploy_git</code>中的文件，其他文件，包括<code>source</code>里面的和一些配置、主题文件都不会上传到GitHub，考虑到可能会在不同主机发布，因此将<code>hexo d</code>操作不会上传的文件主动<code>git</code>到另一个分支。</p>
-<a id="more"></a>
-<hr>
-<h2 id="新建备份分支">新建备份分支</h2>
-<ol>
-<li>
-<p>首先在Github上新建一个<code>hexo_backup</code>分支并且设置为默认分支，以便在每次同步的时候不用指定分支，比较方便，用于备份源文件。</p>
-</li>
-<li>
-<p>在本地<code>blog_local</code>目录下<code>git clone git@github.com:boom1999/boom1999.github.io.git</code>,此时由于默认分支为hexo_backup，所以只是clone了hexo_backup。在clone下的目录里将<code>.git</code>以外的文件全部删除，将源文件（包括<code>.gitignore</code>）全部复制过来。（<code>.deploy_git</code>不需要，这是生成的静态文件，也就是会push到master分支中的文件）。如果没有<code>.gitignore</code>，忽略push这部分文件，请手动添加：</p>
-<pre><code> .DS_Store
- Thumbs.db
- db.json
- *.log
- node_modules/
- public/
- .deploy*/
-</code></pre>
-</li>
-<li>
-<p>将源文件push到hexo_backup分支,上传后GitHub上的hexo_backup分支备份完成</p>
-<pre><code> git add .
- git commit –m &quot;your commit&quot;
- git push 
-</code></pre>
-</li>
-</ol>
-<hr>
-<h2 id="更换环境操作">更换环境操作</h2>
-<ul>
-<li>
-<p>创建一个新的<code>blog_local</code>文件夹</p>
-</li>
-<li>
-<p>安装<code>git</code>和<code>nodejs</code></p>
-</li>
-<li>
-<p>设置git全局邮箱和用户名</p>
-<pre><code>  git config --global user.name &quot;yourgithubname&quot;
-  git config --global user.email &quot;yourgithubemail&quot;
-</code></pre>
-</li>
-<li>
-<p>设置<code>ssh key</code></p>
-<pre><code>  ssh-keygen -t rsa -C &quot;youremail&quot;
-  #生成后公钥添加到GitHub仓库中
-  #验证是否成功
-  ssh -T git@github.com
-</code></pre>
-</li>
-<li>
-<p>安装hexo（不需要hexo init，因为整体框架会被clone下来）</p>
-<pre><code>  npm install hexo-cli -g
-  #或者局部安装
-  npm install hexo
-</code></pre>
-</li>
-<li>
-<p><code>clone</code>到本地操作</p>
-<pre><code>  git clone git@github.com:boom1999/boom1999.github.io.git
-</code></pre>
-</li>
-<li>
-<p>进入本地文件</p>
-<pre><code>  cd boom1999.github.io
-  npm install
-</code></pre>
-</li>
-<li>
-<p>安装名为<code>hexo-deployer-git</code>的部署器插件，通过该插件就能实现一键部署</p>
-<pre><code>  npm install hexo-deployer-git --save
-</code></pre>
-</li>
-<li>
-<p>添加新文件<code>source/_posts</code>，生成，部署</p>
-<pre><code>  hexo g
-  hexo d
-</code></pre>
-</li>
-</ul>
-<h3 id="Tips">Tips</h3>
-<ul>
-<li>
-<p>每次写完不要忘了备份源文件</p>
-<pre><code>  git add .
-  git commit –m &quot;your commit&quot;
-  git push 
-</code></pre>
-</li>
-<li>
-<p>如果是在已经目前使用的机器，如在其他机器上更新过，每次<strong>使用前</strong>只要远端同步一下就行<code>git pull</code></p>
-</li>
-</ul>
-<hr>
-<ul>
-<li><code>2021/01/30测试通过</code></li>
-<li>下一步准备部署到自己的服务器，GitHub作备份用</li>
-</ul>
-]]></content>
-      <categories>
-        <category>blog</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo同步部署再Github和服务器</title>
-    <url>/2021/02/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
-    <content><![CDATA[<blockquote>
-<p>寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页</p>
-</blockquote>
-<a id="more"></a>
-<ul>
-<li>前提条件：已有github.io仓库，hexo博客已经上线测试可以使用，已有<code>nginx</code>、<code>git</code>、<code>node</code>等基础，可参考上一篇笔记</li>
-<li>省略了一些次要步骤，域名解析、备案等</li>
-</ul>
-<hr>
-<h2 id="服务器Webhook部分">服务器Webhook部分</h2>
-<ul>
-<li>利用宝塔平台的Webhook插件</li>
-</ul>
-<blockquote>
-<p>名称随意，实例脚本如下<br>
-gitPath=“/www/wwwroot/YourWebsiteLocation/”<br>
-gitHttp=“<a href="https://github.com/YourGithubName/xxxxxxxx.github.io.git">https://github.com/YourGithubName/xxxxxxxx.github.io.git</a>”<br>
-若失败，可考虑加上<code>sudo</code>使用管理员权限</p>
-</blockquote>
-<pre><code>#!/bin/bash
-echo &quot;&quot;
-#输出当前时间
-date --date='0 days ago' &quot;+%Y-%m-%d %H:%M:%S&quot;
-echo &quot;Start&quot;
-
-#git项目路径
-gitPath=&quot; &quot;
-#git 网址
-gitHttp=&quot; &quot;
-#延迟高可以加https://ghproxy.com/代理
-
-echo &quot;Web站点路径：$gitPath&quot;
- 
-#判断项目路径是否存在
-if [ -d &quot;$gitPath&quot; ]; then
-    cd $gitPath
-    #判断是否存在git目录
-    if [ ! -d &quot;.git&quot; ]; then
-            echo &quot;在该目录下克隆 git&quot;
-            sudo git clone $gitHttp gittemp
-            sudo mv gittemp/.git .
-            sudo rm -rf gittemp
-    fi
-    echo&quot;拉取最新的项目文件&quot;
-    sudo git reset --hard origin/master
-    sudo git pull origin master
-    echo&quot;设置目录权限&quot;
-    sudo chown -R www:www $gitPath
-    date --date='0 days ago' &quot;+%Y-%m-%d %H:%M:%S&quot;
-    echo &quot;End&quot;
-    exit
-else
-    echo &quot;该项目路径不存在&quot;
-    echo &quot;End&quot;
-    exit
-fi
-</code></pre>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook01.png" alt="宝塔Webhook"></p>
-<h2 id="Github设置Webhook">Github设置Webhook</h2>
-<ul>
-<li>
-<p>查看密钥<br>
-<img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook02.png" alt="宝塔Webhook查看密钥"></p>
-</li>
-<li>
-<p>切换到Github项目的Settings-Webhooks</p>
-</li>
-<li>
-<p>Add Webhook</p>
-</li>
-</ul>
-<blockquote>
-<p><strong>Payload URL:</strong> <code>http://服务器ip:8888?hook?access_key=xxxxx</code><br>
-<strong>Content type:</strong> <code>application/json</code><br>
-<strong>Secret:</strong> <code>Key</code><br>
-<strong>Which events would you like to trigger this webhook?</strong><br>
-choose：Just the push event.<br>
-√<strong>Active</strong></p>
-</blockquote>
-<ul>
-<li>测试，本地更改sources后<code>hexo g</code>+<code>hexo d</code></li>
-<li>第一次红了是因为将Github中Webhook的Content type设置成了<code>application/x-www-form-urlencoded</code>，改成<code>application/json</code>通过<br>
-<img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook03.png" alt="Webhook测试"></li>
-</ul>
-<hr>
-<h2 id="Tips">Tips</h2>
-<ol>
-<li>服务器需要开放8888端口，如果使用其他端口同样需要打开</li>
-<li>两者都是表单数据发送时的编码类型<br>
-application/x-www-form-urlencoded --&gt; key=value&amp;key=value</li>
-<li>一般情况下都会正常同步，如果长时间未update，可能是DNS的问题，可以考虑选择一个连接速度较快的GitHub的ip添加到/etc/hosts并且刷新</li>
-</ol>
-]]></content>
-      <categories>
-        <category>blog</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>同步</tag>
-        <tag>webhook</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>正则表达式整理（持续更新）</title>
-    <url>/2021/02/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<blockquote>
-<p>偶尔会用到正则匹配，下面做一个常用的正则表达式整理以便往后查询</p>
-</blockquote>
-<a id="more"></a>
-<h2 id="最常用的匹配">最常用的匹配</h2>
-<table>
-<thead>
-<tr>
-<th>字符</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong><code>\d</code></strong></td>
-<td>表示任意数字，就是阿拉伯数字<code>0~9</code>这些。</td>
-</tr>
-<tr>
-<td><code>\D</code></td>
-<td>大写的表示与小写的相反，表示不是数字。</td>
-</tr>
-<tr>
-<td><code>\w</code></td>
-<td>代表字母，数字，下划线。<code>a-z</code>、<code>A-Z</code>、<code>0~9</code>、<code>_</code>。</td>
-</tr>
-<tr>
-<td><code>\W</code></td>
-<td>大写的表示与小写的相反，不是字母、不是数字也不是下划线。</td>
-</tr>
-<tr>
-<td><strong><code>\n</code></strong></td>
-<td>代表一个回换行。</td>
-</tr>
-<tr>
-<td><code>\r</code></td>
-<td>代表一个回车。</td>
-</tr>
-<tr>
-<td><code>\f</code></td>
-<td>代表换页。</td>
-</tr>
-<tr>
-<td><code>\t</code></td>
-<td>代表一个<code>Tab</code>。</td>
-</tr>
-<tr>
-<td><code>\s</code></td>
-<td>代表所有的空白符，也就是上面四个：<code>\n</code>、<code>\r</code>、<code>\f</code>、<code>\t</code>。</td>
-</tr>
-<tr>
-<td><code>\S</code></td>
-<td>大写的表示与小写的相反，代表所有不是空白的字符。</td>
-</tr>
-<tr>
-<td><code>\A</code></td>
-<td>代表字符串的开始。</td>
-</tr>
-<tr>
-<td><code>\Z</code></td>
-<td>代表字符串的结束。</td>
-</tr>
-<tr>
-<td><strong><code>^</code></strong></td>
-<td>匹配字符串开始的位置。</td>
-</tr>
-<tr>
-<td><strong><code>$</code></strong></td>
-<td>匹配字符串结束的位置。</td>
-</tr>
-<tr>
-<td><strong><code>.</code></strong></td>
-<td>代表所有的单个字符，除了换行<code>\n</code>,回车<code>\r</code>。</td>
-</tr>
-<tr>
-<td><code>[...]</code></td>
-<td>代表在<code>[]</code>范围内的字符，比如<code>[a-z]</code>就代表<code>a-z</code>的字母。</td>
-</tr>
-<tr>
-<td><code>[^...]</code></td>
-<td>与上一个相反，代表不在<code>[]</code>范围内的字符。</td>
-</tr>
-<tr>
-<td><code>&#123;n&#125;</code></td>
-<td>匹配在<code>&#123;n&#125;</code>前面的东西，比如<code>o&#123;2&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>food</code>中的两个<code>o</code>。</td>
-</tr>
-<tr>
-<td><code>&#123;n,m&#125;</code></td>
-<td>匹配在<code>&#123;n,m&#125;</code>前面的东西，比如<code>o&#123;1,3&#125;</code>将匹配<code>fooooood</code>中的前三个<code>o</code>。</td>
-</tr>
-<tr>
-<td><code>&#123;n, &#125;</code></td>
-<td>匹配在<code>&#123;n,&#125;</code>前面的东西，比如<code>o&#123;2,&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>foooood</code>中的所有<code>o</code>。</td>
-</tr>
-<tr>
-<td><code>*</code></td>
-<td>和<code>&#123;0,&#125;</code>一样，匹配<code>*</code>前面的0次或多次。比如<code>zo*</code>能匹配<code>z</code>、<code>zo</code>以及<code>zoo</code>。</td>
-</tr>
-<tr>
-<td><code>+</code></td>
-<td>和<code>&#123;1,&#125;</code>一样，匹配+前面1次或多次。比如<code>zo+</code>能匹配<code>zo</code>以及<code>zoo</code>但不能匹配<code>z</code></td>
-</tr>
-<tr>
-<td><code>?</code></td>
-<td>和<code>&#123;0,1&#125;</code>一样，匹配<code>?</code>前面0次或1次</td>
-</tr>
-<tr>
-<td><code>()</code></td>
-<td>匹配括号里的内容</td>
-</tr>
-</tbody>
-</table>
-<h2 id="re-match">re.match</h2>
-<blockquote>
-<p>传入两个参数，第一个是匹配的规则，第二个是需要被过滤的内容</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">content = <span class="string">&#x27;you have 100 bananas.&#x27;</span></span><br><span class="line">res = re.match(<span class="string">&#x27;^yo.*(\d+)\s.*s$&#x27;</span>,content)</span><br><span class="line">print(res.group(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>re.match</tag>
       </tags>
   </entry>
 </search>
