@@ -518,6 +518,28 @@ For AWGN, the noise $N_i$ is Gaussian distributed with mean of zero and variance
   - $u_m(t)=\sqrt{\frac{2E_s}{T}}cos(2\pi f_{c}t+2\pi m\Delta ft), m=0,1,...,M-1,0\leq t\leq T$
   - To guarantee orthogonality, ∆𝒇 is a multiple of 1/2T.
 
+- ### Sampling ###
+
+  - sampling.m
+  
+  ``` matlab
+  function [T,Samp_Sig]=Sampling(t,Fs,sig) 
+  %Fucntion Name:Sampling 
+  %Input: T,Fs:sig OutPut:Samp_Sig 
+  %When you call the Function ,u input the time for a symbol,the 
+  %Sampling rate and the source signal,then output the Samplint Signal.
+  Ts=1/Fs;
+  Sig=sig;
+  len=length(Sig);
+  T=0:Ts:len*t-Ts;
+  Samp_Sig=T; 
+  for i=0:1:len-1
+    for j=1:1:t/Ts
+        Samp_Sig(i*t/Ts+j)=Sig(i+1);
+    end    
+  end
+  ```
+
 ## :open_file_folder:[Source file.zip][1] ##
 
 <!-- markdownlint-disable-file MD033 -->
