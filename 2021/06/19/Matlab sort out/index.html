@@ -178,7 +178,7 @@ z = a+bi = $re^{i\theta}$<br>
 <code>real(z)</code>、<code>imag(z)</code>、<code>abs(z)</code>、<code>angle(z)</code>、<code>conj(z)</code></p>
 </li>
 <li>
-<p>Exponetial and logarithm functions</p>
+<p>Exponential and logarithm functions</p>
 <table>
 <thead>
 <tr>
@@ -248,9 +248,9 @@ z = a+bi = $re^{i\theta}$<br>
 </tr>
 <tr>
 <td style="text-align:center"><code>min</code></td>
-<td style="text-align:center">minmum</td>
+<td style="text-align:center">minimum</td>
 <td style="text-align:center"><code>max</code></td>
-<td style="text-align:center">maxmum</td>
+<td style="text-align:center">maximum</td>
 </tr>
 </tbody>
 </table>
@@ -276,7 +276,7 @@ z = a+bi = $re^{i\theta}$<br>
 <li>
 <h3 id="Basic-sequence">Basic sequence</h3>
 <ul>
-<li>Implulse signal and sequence</li>
+<li>Impulse signal and sequence</li>
 </ul>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">t = <span class="number">-5</span>:<span class="number">0.01</span>:<span class="number">5</span>;</span><br><span class="line">y = (t==<span class="number">0</span>);</span><br><span class="line">subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>);</span><br><span class="line"><span class="built_in">plot</span>(t, y, <span class="string">&#x27;r’);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">n = -5:5;</span></span><br><span class="line"><span class="string">x = (n==0);</span></span><br><span class="line"><span class="string">subplot(1,2,2);</span></span><br><span class="line"><span class="string">stem(n, x);</span></span><br></pre></td></tr></table></figure>
 <ul>
@@ -321,13 +321,13 @@ $x(n)=cos(\omega n+\theta)$</li>
 <td style="text-align:center"><code>square</code></td>
 <td style="text-align:center">Square wave</td>
 <td style="text-align:center"><code>rectpule</code></td>
-<td style="text-align:center">Aperiod squre wave</td>
+<td style="text-align:center">A period square wave</td>
 </tr>
 <tr>
 <td style="text-align:center"><code>sinc</code></td>
 <td style="text-align:center">Sinc wave</td>
 <td style="text-align:center"><code>tripuls</code></td>
-<td style="text-align:center">Aperiod triangle wave</td>
+<td style="text-align:center">A period triangle wave</td>
 </tr>
 </tbody>
 </table>
@@ -355,7 +355,7 @@ $y(m)=\sum^n x_1(n+m)x_2^*(n)$</li>
 </ul>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y=xcorr(x1,x2)</span><br></pre></td></tr></table></figure>
 <ul>
-<li>Cummulative sum<br>
+<li>Cumulative sum<br>
 $y(n)=\sum_{i=1}^n x(i)$</li>
 </ul>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y=cumsum(x)</span><br></pre></td></tr></table></figure>
@@ -374,7 +374,7 @@ $f(t)=\sum_{k=-\infty}^{+\infty}f_1(k\Delta)f_2(t-k\Delta)\Delta$</li>
 <li>
 <h3 id="Fourier-transform">Fourier transform</h3>
 <ul>
-<li>Continuous-time，continuous-frequency：FT</li>
+<li>Continuous-time，continuous-frequency: FT</li>
 </ul>
 <table>
 <thead>
@@ -468,7 +468,7 @@ $FT(R_T(\tau))=P_T(f)$</p>
 <ul>
 <li>
 <p>hilbert change<br>
-通过希尔伯特变换，返回的实部是本身即同向分量(quardature component)，虚部是延迟90°后的信号即正交分量(in-phase component)</p>
+通过希尔伯特变换，返回的实部是本身即同向分量(quadrature component)，虚部是延迟90°后的信号即正交分量(in-phase component)</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">x_a = hilbert(x);</span><br><span class="line">fc = <span class="number">50</span>;                        <span class="comment">% Carrier fc=50Hz</span></span><br><span class="line">x_l = x_a.*<span class="built_in">exp</span>(<span class="number">-1</span><span class="built_in">i</span>*<span class="number">2</span>*<span class="built_in">pi</span>*fc*t);  <span class="comment">% Lowpass equivalent</span></span><br><span class="line">x_i = <span class="built_in">real</span>(x_l);                <span class="comment">% In-phase component</span></span><br><span class="line">x_q = <span class="built_in">imag</span>(x_l);                <span class="comment">% Quadrature component</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
@@ -506,7 +506,7 @@ $FT(R_T(\tau))=P_T(f)$</p>
 <p>Stationary<br>
 <font size=2></p>
 <blockquote>
-<p>1.The expectation of x(t) equals the time-average. An abtirary realization of the random process will go through all the possible states.<br>
+<p>1.The expectation of x(t) equals the time-average. An arbitrary realization of the random process will go through all the possible states.<br>
 If one line has 1000 components, use <code>mean</code> to calculate expectation.<br>
 Use the first component of each line, the <code>mean</code> of one row is time-average.<br>
 </font></p>
@@ -589,9 +589,9 @@ $s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)\pm \frac{A_{c}}{2}m(t)sin(2\pi{f_c}t)$<
 </li>
 </ul>
 <h2 id="4-Baseband-signal-transmission">4.Baseband signal transmission</h2>
-<p>AWGN：add white gauss noise<br>
+<p>AWGN: add white gauss noise<br>
 Two optimum receivers for AWGN: signal correlator and matched filter.<br>
-For AWGN, the noise ni is Gaussian distributed with mean of zero and variance of $\frac{EN_0}{2}$.</p>
+For AWGN, the noise $N_i$ is Gaussian distributed with mean of zero and variance of $\frac{EN_0}{2}$.</p>
 <ul>
 <li>
 <h3 id="Binary-modulations">Binary modulations</h3>
@@ -710,10 +710,10 @@ $E=\frac{E_{av}}{M}$</p>
 <li>
 <h3 id="Carrier-amplitude-modulation（ASK）">Carrier amplitude modulation（ASK）</h3>
 <ul>
-<li>In baseband digital PAM, the signal waveforms ars：$s_m(t)=A_{m}g_{T}(t)$</li>
+<li>In baseband digital PAM, the signal waveforms are：$s_m(t)=A_{m}g_{T}(t)$</li>
 <li>$A_{m}=(2m-1-M)d, m=1,2,…,M$</li>
 <li>Multiplied by a sinusoidal carrier：$u_m(t)=A_{m}g_{T}(t)cos(2\pi f_{c}t)$</li>
-<li>When the pulse shape si rectangular:$x(nT)=<br>
+<li>When the pulse shape is rectangular:$x(nT)=<br>
 \begin{cases}<br>
 \sqrt \frac{2}{T}, &amp; 0\leq t\leq T \\<br>
 0, &amp; otherwise<br>
@@ -727,7 +727,7 @@ $E=\frac{E_{av}}{M}$</p>
 <li>The information is impressed on the phase of the carrier.</li>
 <li>The range of the phase：$0\leq \theta \leq 2\pi$</li>
 <li>$\theta _{m}=\frac{2\pi m}{M}, m=0,1,…,M-1$</li>
-<li>Modulated signal waveforme：$u_m(t)=Ag_{T}(t)cos(2\pi f_{c}t+\frac{2\pi m}{M}), m=0,1,…,M-1$</li>
+<li>Modulated signal waveform：$u_m(t)=Ag_{T}(t)cos(2\pi f_{c}t+\frac{2\pi m}{M}), m=0,1,…,M-1$</li>
 <li>Usually called phase shift keying.</li>
 <li><a href="https://www.lingzhicheng.cn/2021/05/30/ASK%20and%20PSK/" target="_blank">e.g. ASK and PSK</a></li>
 </ul>
@@ -750,10 +750,11 @@ $E=\frac{E_{av}}{M}$</p>
 <li>For channel lack of phase stability, digital transmission by frequency modulation can be applied.</li>
 <li>M-ary FSK can be used to transmit a block of $k=log_{2}M$ bits per symbol.</li>
 <li>$u_m(t)=\sqrt{\frac{2E_s}{T}}cos(2\pi f_{c}t+2\pi m\Delta ft), m=0,1,…,M-1,0\leq t\leq T$</li>
-<li>To guatantee orthogonality, ∆𝒇 is a multiple of 1/2T.</li>
+<li>To guarantee orthogonality, ∆𝒇 is a multiple of 1/2T.</li>
 </ul>
 </li>
 </ul>
+<h2 id="📂Source-file-zip">📂<a href="https://www.lingzhicheng.cn/usr/file/Matlab_sort_out_code.zip">Source file.zip</a></h2>
 <!-- markdownlint-disable-file MD033 -->
  
       <!-- reward -->
