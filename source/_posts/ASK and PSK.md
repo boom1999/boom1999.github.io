@@ -374,12 +374,12 @@ title('The constellation diagram of the 4PSK')
 N=100000;
 Eb=Es/2;
 SNR = Eb/N0;
-sgma=sqrt(Es/SNR/2);            % noise variance
+sgma=sqrt(Es/SNR/4);            % noise variance
 % The signal mapping.
-s00=[1 1];
-s01=[-1 1];
-s11=[-1 -1];
-s10=[1 -1];
+s00=[1 1]\sqrt(2);
+s01=[-1 1]\sqrt(2);
+s11=[-1 -1]\sqrt(2);
+s10=[1 -1]\sqrt(2);
 % Generation of the data source.
 for i=1:N
   temp=rand;                % a uniform random variable between 0 and 1

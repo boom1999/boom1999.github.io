@@ -477,18 +477,44 @@ For AWGN, the noise ni is Gaussian distributed with mean of zero and variance of
   - Under a band-limited noiseless channel, the larger the passband, the smoother the signal.
     - <a href="" target="_blank">e.g. Band-limited noiseless channel</a>
 
-## 6.Digital Transmission via carrier modulation ##
+## 6.Digital transmission via carrier modulation ##
 
-- ### ex5 ###
+- ### Carrier amplitude modulation（ASK） ###
 
-## 7.ASK PSK ##
+  - In baseband digital PAM, the signal waveforms ars：$s_m(t)=A_{m}g_{T}(t)$
+  - $A_{m}=(2m-1-M)d, m=1,2,...,M$
+  - Multiplied by a sinusoidal carrier：$u_m(t)=A_{m}g_{T}(t)cos(2\pi f_{c}t)$
+  - When the pulse shape si rectangular:$x(nT)=
+                                          \begin{cases}
+                                          \sqrt \frac{2}{T}, & 0\leq t\leq T \\\\
+                                          0, & otherwise
+                                          \end{cases} $
+  - Usually called amplitude shift keying, which is not bandlimited.
 
-- ### ex7 ###
+- ### Carrier phase modulation(PSK) ###
 
-## 8.Quadrature Amplitude Modulation(QAM) ##
+  - The information is impressed on the phase of the carrier.
+  - The range of the phase：$0\leq \theta \leq 2\pi$
+  - $\theta _{m}=\frac{2\pi m}{M}, m=0,1,...,M-1$
+  - Modulated signal waveforme：$u_m(t)=Ag_{T}(t)cos(2\pi f_{c}t+\frac{2\pi m}{M}), m=0,1,...,M-1$
+  - Usually called phase shift keying.
+  - <a href="https://www.lingzhicheng.cn/2021/05/30/ASK%20and%20PSK/" target="_blank">e.g. ASK and PSK</a>
 
-## 9.FSK ##
+- ### Quadrature amplitude modulation(QAM) ###
 
-- ### ex89###
+  - Two quadrature carriers,$sin(2\pi f_{c}t)$and$cos(2\pi f_{c}t)$
+  - Each is modulated by independent information bits.
+  - $u_m(t)=A_{mc}g_{T}(t)cos(2\pi f_{c}t)+A_{ms}g_{T}(t)sin(2\pi f_{c}t), m=0,1,...,M$
+  - Carried bits per symbol：$log_{2}M$
+  - Can be viewed as a form of combined amplitude and digital-phase modulation.
+  - Rewrite：$u_{mn}(t)=A_{m}g_{T}(t)cos(2\pi f_{c}t+\theta _{n}),m=1,2,...,M_1,n=1,2,...,M_2$
+  - This time, carried bits per symbol：$log_{2}M_{1}+log_{2}M_{2}$
+
+- ### Carrier frequency modulation(FSK) ###
+
+  - For channel lack of phase stability, digital transmission by frequency modulation can be applied.
+  - M-ary FSK can be used to transmit a block of $k=log_{2}M$ bits per symbol.
+  - $u_m(t)=\sqrt{\frac{2E_s}{T}}cos(2\pi f_{c}t+2\pi m\Delta ft), m=0,1,...,M-1,0\leq t\leq T$
+  - To guatantee orthogonality, ∆𝒇 is a multiple of 1/2T.
 
 <!-- markdownlint-disable-file MD033 -->
