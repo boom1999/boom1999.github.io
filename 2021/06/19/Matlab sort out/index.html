@@ -76,7 +76,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.2k</span>
+            <span class="post-count">2.5k</span>
         </span>
     </span>
 
@@ -85,7 +85,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">12 分钟</span>
+            <span class="post-count">14 分钟</span>
         </span>
     </span>
 </div>
@@ -705,23 +705,53 @@ $E=\frac{E_{av}}{M}$</p>
 </ul>
 </li>
 </ul>
-<h2 id="6-Digital-Transmission-via-carrier-modulation">6.Digital Transmission via carrier modulation</h2>
+<h2 id="6-Digital-transmission-via-carrier-modulation">6.Digital transmission via carrier modulation</h2>
 <ul>
 <li>
-<h3 id="ex5">ex5</h3>
-</li>
+<h3 id="Carrier-amplitude-modulation（ASK）">Carrier amplitude modulation（ASK）</h3>
+<ul>
+<li>In baseband digital PAM, the signal waveforms ars：$s_m(t)=A_{m}g_{T}(t)$</li>
+<li>$A_{m}=(2m-1-M)d, m=1,2,…,M$</li>
+<li>Multiplied by a sinusoidal carrier：$u_m(t)=A_{m}g_{T}(t)cos(2\pi f_{c}t)$</li>
+<li>When the pulse shape si rectangular:$x(nT)=<br>
+\begin{cases}<br>
+\sqrt \frac{2}{T}, &amp; 0\leq t\leq T \\<br>
+0, &amp; otherwise<br>
+\end{cases} $</li>
+<li>Usually called amplitude shift keying, which is not bandlimited.</li>
 </ul>
-<h2 id="7-ASK-PSK">7.ASK PSK</h2>
-<ul>
-<li>
-<h3 id="ex7">ex7</h3>
 </li>
-</ul>
-<h2 id="8-Quadrature-Amplitude-Modulation-QAM">8.Quadrature Amplitude Modulation(QAM)</h2>
-<h2 id="9-FSK">9.FSK</h2>
-<ul>
 <li>
-<h3 id="ex89">ex89###</h3>
+<h3 id="Carrier-phase-modulation-PSK">Carrier phase modulation(PSK)</h3>
+<ul>
+<li>The information is impressed on the phase of the carrier.</li>
+<li>The range of the phase：$0\leq \theta \leq 2\pi$</li>
+<li>$\theta _{m}=\frac{2\pi m}{M}, m=0,1,…,M-1$</li>
+<li>Modulated signal waveforme：$u_m(t)=Ag_{T}(t)cos(2\pi f_{c}t+\frac{2\pi m}{M}), m=0,1,…,M-1$</li>
+<li>Usually called phase shift keying.</li>
+<li><a href="https://www.lingzhicheng.cn/2021/05/30/ASK%20and%20PSK/" target="_blank">e.g. ASK and PSK</a></li>
+</ul>
+</li>
+<li>
+<h3 id="Quadrature-amplitude-modulation-QAM">Quadrature amplitude modulation(QAM)</h3>
+<ul>
+<li>Two quadrature carriers,$sin(2\pi f_{c}t)$and$cos(2\pi f_{c}t)$</li>
+<li>Each is modulated by independent information bits.</li>
+<li>$u_m(t)=A_{mc}g_{T}(t)cos(2\pi f_{c}t)+A_{ms}g_{T}(t)sin(2\pi f_{c}t), m=0,1,…,M$</li>
+<li>Carried bits per symbol：$log_{2}M$</li>
+<li>Can be viewed as a form of combined amplitude and digital-phase modulation.</li>
+<li>Rewrite：$u_{mn}(t)=A_{m}g_{T}(t)cos(2\pi f_{c}t+\theta _{n}),m=1,2,…,M_1,n=1,2,…,M_2$</li>
+<li>This time, carried bits per symbol：$log_{2}M_{1}+log_{2}M_{2}$</li>
+</ul>
+</li>
+<li>
+<h3 id="Carrier-frequency-modulation-FSK">Carrier frequency modulation(FSK)</h3>
+<ul>
+<li>For channel lack of phase stability, digital transmission by frequency modulation can be applied.</li>
+<li>M-ary FSK can be used to transmit a block of $k=log_{2}M$ bits per symbol.</li>
+<li>$u_m(t)=\sqrt{\frac{2E_s}{T}}cos(2\pi f_{c}t+2\pi m\Delta ft), m=0,1,…,M-1,0\leq t\leq T$</li>
+<li>To guatantee orthogonality, ∆𝒇 is a multiple of 1/2T.</li>
+</ul>
 </li>
 </ul>
 <!-- markdownlint-disable-file MD033 -->

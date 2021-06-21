@@ -74,7 +74,7 @@ First map the 10-bit learning sequence to a binary number according to the law, 
 <ul>
 <li>4PSK.m</li>
 </ul>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">%% Consider the following 4PSK modulation.</span></span><br><span class="line"> </span><br><span class="line">clear;</span><br><span class="line">clc;</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(1)</span></span><br><span class="line"><span class="comment">% Plot the corresponding 4PSK signal.</span></span><br><span class="line">T = <span class="number">1</span>;                  <span class="comment">% Symbol interval.</span></span><br><span class="line">Es = <span class="number">1</span>;                 <span class="comment">% Energy of every symbol.</span></span><br><span class="line">Tb = T/<span class="number">2</span>;               <span class="comment">% Bit interval.</span></span><br><span class="line">m = [<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];          <span class="comment">% Equally spaced.</span></span><br><span class="line">M = <span class="number">4</span>;                  <span class="comment">% 4PSK:M=4</span></span><br><span class="line">fc = <span class="number">5</span>;                 <span class="comment">% Carrier frequency.</span></span><br><span class="line">fs = <span class="number">1000</span>;              <span class="comment">% Sampling frequency.</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Message bits.</span></span><br><span class="line">N = <span class="number">5</span>;</span><br><span class="line">Sig = [<span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span>];</span><br><span class="line"><span class="comment">% Mapping.</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="number">2</span>:<span class="built_in">length</span>(Sig)</span><br><span class="line">    <span class="keyword">if</span>(Sig(<span class="built_in">i</span>)==<span class="number">0</span>&amp;&amp;Sig(<span class="built_in">i</span>+<span class="number">1</span>)==<span class="number">0</span>)</span><br><span class="line">        phase_m(<span class="built_in">fix</span>(<span class="built_in">i</span>/<span class="number">2</span>)+<span class="number">1</span>) = m(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">elseif</span>(Sig(<span class="built_in">i</span>)==<span class="number">0</span>&amp;&amp;Sig(<span class="built_in">i</span>+<span class="number">1</span>)==<span class="number">1</span>)</span><br><span class="line">        phase_m(<span class="built_in">fix</span>(<span class="built_in">i</span>/<span class="number">2</span>)+<span class="number">1</span>) = m(<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">elseif</span>(Sig(<span class="built_in">i</span>)==<span class="number">1</span>&amp;&amp;Sig(<span class="built_in">i</span>+<span class="number">1</span>)==<span class="number">1</span>)</span><br><span class="line">        phase_m(<span class="built_in">fix</span>(<span class="built_in">i</span>/<span class="number">2</span>)+<span class="number">1</span>) = m(<span class="number">3</span>);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        phase_m(<span class="built_in">fix</span>(<span class="built_in">i</span>/<span class="number">2</span>)+<span class="number">1</span>) = m(<span class="number">4</span>);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Sampling.</span></span><br><span class="line">[t,x] = Sampling(T,fs,phase_m);</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="number">1</span>:N*T*fs</span><br><span class="line">    u_m(<span class="built_in">i</span>) =<span class="built_in">sqrt</span>(<span class="number">2</span>*Es/T)*<span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>*fc*<span class="built_in">i</span>/fs+<span class="number">2</span>*<span class="built_in">pi</span>*x(<span class="built_in">i</span>)/<span class="number">4</span>+<span class="built_in">pi</span>/<span class="number">4</span>); </span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">% T2F.</span></span><br><span class="line">[sf,U_m]=T2F(t,u_m);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Plotting commands follow.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">1</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_m);</span><br><span class="line">title(<span class="string">&#x27;Time domain&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;t/s&#x27;</span>)</span><br><span class="line">ylabel(<span class="string">&#x27;u\_m(t)&#x27;</span>)</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">2</span>);</span><br><span class="line"><span class="built_in">plot</span>(sf,<span class="built_in">abs</span>(U_m));</span><br><span class="line">title(<span class="string">&#x27;Frequency domain&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;f/Hz&#x27;</span>)</span><br><span class="line">ylabel(<span class="string">&#x27;U\_m&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(2)</span></span><br><span class="line"><span class="comment">% Plot the constellation diagram.</span></span><br><span class="line">N0 = <span class="number">0.5</span>;</span><br><span class="line">nc=<span class="built_in">sqrt</span>(N0/<span class="number">2</span>)*<span class="built_in">randn</span>(<span class="number">5000</span>,<span class="number">1</span>);</span><br><span class="line">ns=<span class="built_in">sqrt</span>(N0/<span class="number">2</span>)*<span class="built_in">randn</span>(<span class="number">5000</span>,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="number">1</span>:N*T*fs</span><br><span class="line">    Sm_x(<span class="built_in">i</span>) = <span class="built_in">sqrt</span>(Es)*<span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>*x(<span class="built_in">i</span>)/<span class="number">4</span>+<span class="built_in">pi</span>/<span class="number">4</span>)+nc(<span class="built_in">i</span>);</span><br><span class="line">    Sm_y(<span class="built_in">i</span>) = <span class="built_in">sqrt</span>(Es)*<span class="built_in">sin</span>(<span class="number">2</span>*<span class="built_in">pi</span>*x(<span class="built_in">i</span>)/<span class="number">4</span>+<span class="built_in">pi</span>/<span class="number">4</span>)+ns(<span class="built_in">i</span>);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Plotting commands follow.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">3</span>)</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="number">1</span>:<span class="number">5000</span></span><br><span class="line">    <span class="keyword">if</span>(x(<span class="built_in">i</span>)==<span class="number">0</span>)</span><br><span class="line">        <span class="built_in">plot</span>(Sm_x(<span class="built_in">i</span>),Sm_y(<span class="built_in">i</span>),<span class="string">&#x27;r*&#x27;</span>)</span><br><span class="line">        <span class="built_in">hold</span> on;</span><br><span class="line">    <span class="keyword">elseif</span>(x(<span class="built_in">i</span>)==<span class="number">1</span>)</span><br><span class="line">        <span class="built_in">plot</span>(Sm_x(<span class="built_in">i</span>),Sm_y(<span class="built_in">i</span>),<span class="string">&#x27;g+&#x27;</span>)</span><br><span class="line">        <span class="built_in">hold</span> on;</span><br><span class="line">    <span class="keyword">elseif</span>(x(<span class="built_in">i</span>)==<span class="number">2</span>)</span><br><span class="line">        <span class="built_in">plot</span>(Sm_x(<span class="built_in">i</span>),Sm_y(<span class="built_in">i</span>),<span class="string">&#x27;b.&#x27;</span>)</span><br><span class="line">        <span class="built_in">hold</span> on;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">plot</span>(Sm_x(<span class="built_in">i</span>),Sm_y(<span class="built_in">i</span>),<span class="string">&#x27;c.&#x27;</span>)</span><br><span class="line">        <span class="built_in">hold</span> on;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    axis square</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">title(<span class="string">&#x27;The constellation diagram of the 4PSK&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(3)</span></span><br><span class="line"><span class="comment">% BER and SER.</span></span><br><span class="line"> </span><br><span class="line">N=<span class="number">100000</span>;</span><br><span class="line">Eb=Es/<span class="number">2</span>;</span><br><span class="line">SNR = Eb/N0;</span><br><span class="line">sgma=<span class="built_in">sqrt</span>(Es/SNR/<span class="number">2</span>);            <span class="comment">% noise variance</span></span><br><span class="line"><span class="comment">% The signal mapping.</span></span><br><span class="line">s00=[<span class="number">1</span> <span class="number">1</span>];</span><br><span class="line">s01=[<span class="number">-1</span> <span class="number">1</span>];</span><br><span class="line">s11=[<span class="number">-1</span> <span class="number">-1</span>];</span><br><span class="line">s10=[<span class="number">1</span> <span class="number">-1</span>];</span><br><span class="line"><span class="comment">% Generation of the data source.</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:N</span><br><span class="line">  temp=<span class="built_in">rand</span>;                <span class="comment">% a uniform random variable between 0 and 1</span></span><br><span class="line">  <span class="keyword">if</span> (temp&lt;<span class="number">0.25</span>)            <span class="comment">% With probability 1/4, source output is &quot;00.&quot;</span></span><br><span class="line">    dsource1(<span class="built_in">i</span>)=<span class="number">0</span>;</span><br><span class="line">    dsource2(<span class="built_in">i</span>)=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">elseif</span> (temp&lt;<span class="number">0.5</span>)         <span class="comment">% With probability 1/4, source output is &quot;01.&quot;</span></span><br><span class="line">    dsource1(<span class="built_in">i</span>)=<span class="number">0</span>;</span><br><span class="line">    dsource2(<span class="built_in">i</span>)=<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">elseif</span> (temp&lt;<span class="number">0.75</span>)        <span class="comment">% With probability 1/4, source output is &quot;11.&quot;</span></span><br><span class="line">    dsource1(<span class="built_in">i</span>)=<span class="number">1</span>;  </span><br><span class="line">    dsource2(<span class="built_in">i</span>)=<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">else</span>                      <span class="comment">% With probability 1/4, source output is &quot;10.&quot;</span></span><br><span class="line">    dsource1(<span class="built_in">i</span>)=<span class="number">1</span>;</span><br><span class="line">    dsource2(<span class="built_in">i</span>)=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">% Detection and the probability of error calculation.</span></span><br><span class="line">numofsymbolerror=<span class="number">0</span>;</span><br><span class="line">numofbiterror=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:N</span><br><span class="line">  <span class="comment">% The received signal at the detector, for the ith symbol, is:</span></span><br><span class="line">  n(<span class="number">1</span>)=gngauss(sgma);         </span><br><span class="line">  n(<span class="number">2</span>)=gngauss(sgma);</span><br><span class="line">  <span class="keyword">if</span> ((dsource1(<span class="built_in">i</span>)==<span class="number">0</span>) &amp;&amp; (dsource2(<span class="built_in">i</span>)==<span class="number">0</span>))</span><br><span class="line">    r=s00+n;</span><br><span class="line">  <span class="keyword">elseif</span> ((dsource1(<span class="built_in">i</span>)==<span class="number">0</span>) &amp;&amp; (dsource2(<span class="built_in">i</span>)==<span class="number">1</span>))</span><br><span class="line">    r=s01+n;</span><br><span class="line">  <span class="keyword">elseif</span> ((dsource1(<span class="built_in">i</span>)==<span class="number">1</span>) &amp;&amp; (dsource2(<span class="built_in">i</span>)==<span class="number">1</span>))</span><br><span class="line">    r=s11+n;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    r=s10+n;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="comment">% The correlation metrics are computed below.</span></span><br><span class="line">  c00=<span class="built_in">dot</span>(r,s00);</span><br><span class="line">  c01=<span class="built_in">dot</span>(r,s01);</span><br><span class="line">  c11=<span class="built_in">dot</span>(r,s11);</span><br><span class="line">  c10=<span class="built_in">dot</span>(r,s10);</span><br><span class="line">  <span class="comment">% The decision on the ith symbol is made next.</span></span><br><span class="line">  c_max=<span class="built_in">max</span>([c00 c01 c11 c10]);</span><br><span class="line">  <span class="keyword">if</span> (c00==c_max)</span><br><span class="line">    decis1=<span class="number">0</span>; decis2=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">elseif</span> (c01==c_max)</span><br><span class="line">    decis1=<span class="number">0</span>; decis2=<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">elseif</span> (c11==c_max)</span><br><span class="line">    decis1=<span class="number">1</span>; decis2=<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    decis1=<span class="number">1</span>; decis2=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="comment">% Increment the error counter, if the decision is not correct.</span></span><br><span class="line">  symbolerror=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> (decis1~=dsource1(<span class="built_in">i</span>))</span><br><span class="line">    numofbiterror=numofbiterror+<span class="number">1</span>;</span><br><span class="line">    symbolerror=<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">if</span> (decis2~=dsource2(<span class="built_in">i</span>))</span><br><span class="line">    numofbiterror=numofbiterror+<span class="number">1</span>;</span><br><span class="line">    symbolerror=<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">if</span> (symbolerror==<span class="number">1</span>)</span><br><span class="line">    numofsymbolerror = numofsymbolerror+<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">% Since there are totally N symbols.</span></span><br><span class="line">ps=numofsymbolerror/N</span><br><span class="line"><span class="comment">% Since 2N bits are transmitted.</span></span><br><span class="line">pb=numofbiterror/(<span class="number">2</span>*N)</span><br><span class="line"> </span><br><span class="line">theo_err_prb=Qfunct(<span class="built_in">sqrt</span>(<span class="number">2</span>*SNR))    <span class="comment">% Theoretical bit-error rate.</span></span><br><span class="line">theo_err_sym=theo_err_prb*<span class="number">2</span>         <span class="comment">% Theoretical symbol-error rate.</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">%% Consider the following 4PSK modulation.</span></span><br><span class="line"> </span><br><span class="line">clear;</span><br><span class="line">clc;</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(1)</span></span><br><span class="line"><span class="comment">% Plot the corresponding 4PSK signal.</span></span><br><span class="line">T = <span class="number">1</span>;                  <span class="comment">% Symbol interval.</span></span><br><span class="line">Es = <span class="number">1</span>;                 <span class="comment">% Energy of every symbol.</span></span><br><span class="line">Tb = T/<span class="number">2</span>;               <span class="comment">% Bit interval.</span></span><br><span class="line">m = [<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];          <span class="comment">% Equally spaced.</span></span><br><span class="line">M = <span class="number">4</span>;                  <span class="comment">% 4PSK:M=4</span></span><br><span class="line">fc = <span class="number">5</span>;                 <span class="comment">% Carrier frequency.</span></span><br><span class="line">fs = <span class="number">1000</span>;              <span class="comment">% Sampling frequency.</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Message bits.</span></span><br><span class="line">N = <span class="number">5</span>;</span><br><span class="line">Sig = [<span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span>];</span><br><span class="line"><span class="comment">% Mapping.</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="number">2</span>:<span class="built_in">length</span>(Sig)</span><br><span class="line">    <span class="keyword">if</span>(Sig(<span class="built_in">i</span>)==<span class="number">0</span>&amp;&amp;Sig(<span class="built_in">i</span>+<span class="number">1</span>)==<span class="number">0</span>)</span><br><span class="line">        phase_m(<span class="built_in">fix</span>(<span class="built_in">i</span>/<span class="number">2</span>)+<span class="number">1</span>) = m(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">elseif</span>(Sig(<span class="built_in">i</span>)==<span class="number">0</span>&amp;&amp;Sig(<span class="built_in">i</span>+<span class="number">1</span>)==<span class="number">1</span>)</span><br><span class="line">        phase_m(<span class="built_in">fix</span>(<span class="built_in">i</span>/<span class="number">2</span>)+<span class="number">1</span>) = m(<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">elseif</span>(Sig(<span class="built_in">i</span>)==<span class="number">1</span>&amp;&amp;Sig(<span class="built_in">i</span>+<span class="number">1</span>)==<span class="number">1</span>)</span><br><span class="line">        phase_m(<span class="built_in">fix</span>(<span class="built_in">i</span>/<span class="number">2</span>)+<span class="number">1</span>) = m(<span class="number">3</span>);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        phase_m(<span class="built_in">fix</span>(<span class="built_in">i</span>/<span class="number">2</span>)+<span class="number">1</span>) = m(<span class="number">4</span>);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Sampling.</span></span><br><span class="line">[t,x] = Sampling(T,fs,phase_m);</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="number">1</span>:N*T*fs</span><br><span class="line">    u_m(<span class="built_in">i</span>) =<span class="built_in">sqrt</span>(<span class="number">2</span>*Es/T)*<span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>*fc*<span class="built_in">i</span>/fs+<span class="number">2</span>*<span class="built_in">pi</span>*x(<span class="built_in">i</span>)/<span class="number">4</span>+<span class="built_in">pi</span>/<span class="number">4</span>); </span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">% T2F.</span></span><br><span class="line">[sf,U_m]=T2F(t,u_m);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Plotting commands follow.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">1</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_m);</span><br><span class="line">title(<span class="string">&#x27;Time domain&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;t/s&#x27;</span>)</span><br><span class="line">ylabel(<span class="string">&#x27;u\_m(t)&#x27;</span>)</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">2</span>);</span><br><span class="line"><span class="built_in">plot</span>(sf,<span class="built_in">abs</span>(U_m));</span><br><span class="line">title(<span class="string">&#x27;Frequency domain&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;f/Hz&#x27;</span>)</span><br><span class="line">ylabel(<span class="string">&#x27;U\_m&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(2)</span></span><br><span class="line"><span class="comment">% Plot the constellation diagram.</span></span><br><span class="line">N0 = <span class="number">0.5</span>;</span><br><span class="line">nc=<span class="built_in">sqrt</span>(N0/<span class="number">2</span>)*<span class="built_in">randn</span>(<span class="number">5000</span>,<span class="number">1</span>);</span><br><span class="line">ns=<span class="built_in">sqrt</span>(N0/<span class="number">2</span>)*<span class="built_in">randn</span>(<span class="number">5000</span>,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="number">1</span>:N*T*fs</span><br><span class="line">    Sm_x(<span class="built_in">i</span>) = <span class="built_in">sqrt</span>(Es)*<span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>*x(<span class="built_in">i</span>)/<span class="number">4</span>+<span class="built_in">pi</span>/<span class="number">4</span>)+nc(<span class="built_in">i</span>);</span><br><span class="line">    Sm_y(<span class="built_in">i</span>) = <span class="built_in">sqrt</span>(Es)*<span class="built_in">sin</span>(<span class="number">2</span>*<span class="built_in">pi</span>*x(<span class="built_in">i</span>)/<span class="number">4</span>+<span class="built_in">pi</span>/<span class="number">4</span>)+ns(<span class="built_in">i</span>);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Plotting commands follow.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">3</span>)</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="number">1</span>:<span class="number">5000</span></span><br><span class="line">    <span class="keyword">if</span>(x(<span class="built_in">i</span>)==<span class="number">0</span>)</span><br><span class="line">        <span class="built_in">plot</span>(Sm_x(<span class="built_in">i</span>),Sm_y(<span class="built_in">i</span>),<span class="string">&#x27;r*&#x27;</span>)</span><br><span class="line">        <span class="built_in">hold</span> on;</span><br><span class="line">    <span class="keyword">elseif</span>(x(<span class="built_in">i</span>)==<span class="number">1</span>)</span><br><span class="line">        <span class="built_in">plot</span>(Sm_x(<span class="built_in">i</span>),Sm_y(<span class="built_in">i</span>),<span class="string">&#x27;g+&#x27;</span>)</span><br><span class="line">        <span class="built_in">hold</span> on;</span><br><span class="line">    <span class="keyword">elseif</span>(x(<span class="built_in">i</span>)==<span class="number">2</span>)</span><br><span class="line">        <span class="built_in">plot</span>(Sm_x(<span class="built_in">i</span>),Sm_y(<span class="built_in">i</span>),<span class="string">&#x27;b.&#x27;</span>)</span><br><span class="line">        <span class="built_in">hold</span> on;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">plot</span>(Sm_x(<span class="built_in">i</span>),Sm_y(<span class="built_in">i</span>),<span class="string">&#x27;c.&#x27;</span>)</span><br><span class="line">        <span class="built_in">hold</span> on;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    axis square</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">title(<span class="string">&#x27;The constellation diagram of the 4PSK&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(3)</span></span><br><span class="line"><span class="comment">% BER and SER.</span></span><br><span class="line"> </span><br><span class="line">N=<span class="number">100000</span>;</span><br><span class="line">Eb=Es/<span class="number">2</span>;</span><br><span class="line">SNR = Eb/N0;</span><br><span class="line">sgma=<span class="built_in">sqrt</span>(Es/SNR/<span class="number">4</span>);            <span class="comment">% noise variance</span></span><br><span class="line"><span class="comment">% The signal mapping.</span></span><br><span class="line">s00=[<span class="number">1</span> <span class="number">1</span>]\<span class="built_in">sqrt</span>(<span class="number">2</span>);</span><br><span class="line">s01=[<span class="number">-1</span> <span class="number">1</span>]\<span class="built_in">sqrt</span>(<span class="number">2</span>);</span><br><span class="line">s11=[<span class="number">-1</span> <span class="number">-1</span>]\<span class="built_in">sqrt</span>(<span class="number">2</span>);</span><br><span class="line">s10=[<span class="number">1</span> <span class="number">-1</span>]\<span class="built_in">sqrt</span>(<span class="number">2</span>);</span><br><span class="line"><span class="comment">% Generation of the data source.</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:N</span><br><span class="line">  temp=<span class="built_in">rand</span>;                <span class="comment">% a uniform random variable between 0 and 1</span></span><br><span class="line">  <span class="keyword">if</span> (temp&lt;<span class="number">0.25</span>)            <span class="comment">% With probability 1/4, source output is &quot;00.&quot;</span></span><br><span class="line">    dsource1(<span class="built_in">i</span>)=<span class="number">0</span>;</span><br><span class="line">    dsource2(<span class="built_in">i</span>)=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">elseif</span> (temp&lt;<span class="number">0.5</span>)         <span class="comment">% With probability 1/4, source output is &quot;01.&quot;</span></span><br><span class="line">    dsource1(<span class="built_in">i</span>)=<span class="number">0</span>;</span><br><span class="line">    dsource2(<span class="built_in">i</span>)=<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">elseif</span> (temp&lt;<span class="number">0.75</span>)        <span class="comment">% With probability 1/4, source output is &quot;11.&quot;</span></span><br><span class="line">    dsource1(<span class="built_in">i</span>)=<span class="number">1</span>;  </span><br><span class="line">    dsource2(<span class="built_in">i</span>)=<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">else</span>                      <span class="comment">% With probability 1/4, source output is &quot;10.&quot;</span></span><br><span class="line">    dsource1(<span class="built_in">i</span>)=<span class="number">1</span>;</span><br><span class="line">    dsource2(<span class="built_in">i</span>)=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">% Detection and the probability of error calculation.</span></span><br><span class="line">numofsymbolerror=<span class="number">0</span>;</span><br><span class="line">numofbiterror=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:N</span><br><span class="line">  <span class="comment">% The received signal at the detector, for the ith symbol, is:</span></span><br><span class="line">  n(<span class="number">1</span>)=gngauss(sgma);         </span><br><span class="line">  n(<span class="number">2</span>)=gngauss(sgma);</span><br><span class="line">  <span class="keyword">if</span> ((dsource1(<span class="built_in">i</span>)==<span class="number">0</span>) &amp;&amp; (dsource2(<span class="built_in">i</span>)==<span class="number">0</span>))</span><br><span class="line">    r=s00+n;</span><br><span class="line">  <span class="keyword">elseif</span> ((dsource1(<span class="built_in">i</span>)==<span class="number">0</span>) &amp;&amp; (dsource2(<span class="built_in">i</span>)==<span class="number">1</span>))</span><br><span class="line">    r=s01+n;</span><br><span class="line">  <span class="keyword">elseif</span> ((dsource1(<span class="built_in">i</span>)==<span class="number">1</span>) &amp;&amp; (dsource2(<span class="built_in">i</span>)==<span class="number">1</span>))</span><br><span class="line">    r=s11+n;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    r=s10+n;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="comment">% The correlation metrics are computed below.</span></span><br><span class="line">  c00=<span class="built_in">dot</span>(r,s00);</span><br><span class="line">  c01=<span class="built_in">dot</span>(r,s01);</span><br><span class="line">  c11=<span class="built_in">dot</span>(r,s11);</span><br><span class="line">  c10=<span class="built_in">dot</span>(r,s10);</span><br><span class="line">  <span class="comment">% The decision on the ith symbol is made next.</span></span><br><span class="line">  c_max=<span class="built_in">max</span>([c00 c01 c11 c10]);</span><br><span class="line">  <span class="keyword">if</span> (c00==c_max)</span><br><span class="line">    decis1=<span class="number">0</span>; decis2=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">elseif</span> (c01==c_max)</span><br><span class="line">    decis1=<span class="number">0</span>; decis2=<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">elseif</span> (c11==c_max)</span><br><span class="line">    decis1=<span class="number">1</span>; decis2=<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    decis1=<span class="number">1</span>; decis2=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="comment">% Increment the error counter, if the decision is not correct.</span></span><br><span class="line">  symbolerror=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> (decis1~=dsource1(<span class="built_in">i</span>))</span><br><span class="line">    numofbiterror=numofbiterror+<span class="number">1</span>;</span><br><span class="line">    symbolerror=<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">if</span> (decis2~=dsource2(<span class="built_in">i</span>))</span><br><span class="line">    numofbiterror=numofbiterror+<span class="number">1</span>;</span><br><span class="line">    symbolerror=<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">if</span> (symbolerror==<span class="number">1</span>)</span><br><span class="line">    numofsymbolerror = numofsymbolerror+<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">% Since there are totally N symbols.</span></span><br><span class="line">ps=numofsymbolerror/N</span><br><span class="line"><span class="comment">% Since 2N bits are transmitted.</span></span><br><span class="line">pb=numofbiterror/(<span class="number">2</span>*N)</span><br><span class="line"> </span><br><span class="line">theo_err_prb=Qfunct(<span class="built_in">sqrt</span>(<span class="number">2</span>*SNR))    <span class="comment">% Theoretical bit-error rate.</span></span><br><span class="line">theo_err_sym=theo_err_prb*<span class="number">2</span>         <span class="comment">% Theoretical symbol-error rate.</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h3 id="💹-4PSK-Fig">💹 4PSK Fig</h3>
 <p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/lab6_2_Time_domain.png" alt="Fig.5 Message bits in Time domain(4PSK)."></p>
 <center><font size=2>Fig.5 Message bits in Time domain(4PSK).</font></center>
@@ -241,28 +241,6 @@ CONTINUE_T0:
       </tags>
   </entry>
   <entry>
-    <title>PSW设置改进中断</title>
-    <url>/2020/12/15/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/</url>
-    <content><![CDATA[<ul>
-<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
-</ul>
-<blockquote>
-<p>中断优先级实验，主程序相邻2个LED灯循环点亮（03H—C0H）1S，外部中断0后静态数码管间隔1S轮流点亮0-F后返回，外部中断1后1个LED灯循环点亮（01H-80H）后返回，外部中断0优先级高于外部中断1，实现中断嵌套</p>
-</blockquote>
-<a id="more"></a>
-<hr>
-<blockquote>
-<p>P1接LED的ABCDEF，P3.2接K1，P3.3接K4，P0接静态数码管ABCDEF</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    AJMP    START</span><br><span class="line"></span><br><span class="line">    ORG     0003H</span><br><span class="line">    AJMP    INTT0</span><br><span class="line">    </span><br><span class="line">    ORG     0013H</span><br><span class="line">    AJMP    INTT1</span><br><span class="line">    </span><br><span class="line">    ORG     0100H</span><br><span class="line">START:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    MOV     PSW,#00H</span><br><span class="line">    SETB    EX0</span><br><span class="line">    SETB    IT0</span><br><span class="line">    SETB    EX1</span><br><span class="line">    SETB    IT1</span><br><span class="line">    SETB    EA</span><br><span class="line">    MOV     IP,#01H</span><br><span class="line">    MOV     P3,#0FFH</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">    MOV     R0,#03H</span><br><span class="line">    MOV     R2,#08H</span><br><span class="line">    ACALL   LOOP</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">LOOP:</span><br><span class="line">    MOV     A,R0</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R2,LOOP</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">INTT0:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#08H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.2,Pkey0</span><br><span class="line">    LJMP    RETURN</span><br><span class="line"></span><br><span class="line">INTT1:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#10H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.3,Pkey2</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey0:</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    CJNE    A,#0FFH,Pkey1</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey1:</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    INC     DPTR</span><br><span class="line">    LJMP    Pkey0</span><br><span class="line">Pkey2:</span><br><span class="line">    MOV     R1,#01H</span><br><span class="line">    MOV     R3,#08H</span><br><span class="line">    ACALL   Pkey3</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey3:</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R3,Pkey3</span><br><span class="line">    RET</span><br><span class="line">RETURN:</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H</span><br><span class="line">    DB  80H,90H,88H,83H,0C6H,0A1H,86H,8EH</span><br><span class="line">    DB  0FFH</span><br><span class="line"></span><br><span class="line">D10ms:</span><br><span class="line">    MOV     R7,#25</span><br><span class="line">D4:</span><br><span class="line">    MOV     R6,#200</span><br><span class="line">    DJNZ    R6,$</span><br><span class="line">    DJNZ    R7,D4</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">D1S:</span><br><span class="line">    MOV     R5,#20</span><br><span class="line">D5: MOV     R6,#100</span><br><span class="line">D6: MOV     R7,#248</span><br><span class="line">D7: DJNZ     R7,D7</span><br><span class="line">    DJNZ    R6,D6</span><br><span class="line">    DJNZ    R5,D5</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">    END</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>AT89S51</category>
-      </categories>
-      <tags>
-        <tag>中断</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>模拟采集AD转化</title>
     <url>/2021/01/05/AT89S51%E6%A8%A1%E6%8B%9F%E9%87%87%E9%9B%86AD%E8%BD%AC%E5%8C%96/</url>
     <content><![CDATA[<ul>
@@ -380,6 +358,28 @@ AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片�
       </categories>
       <tags>
         <tag>modulate</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PSW设置改进中断</title>
+    <url>/2020/12/15/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/</url>
+    <content><![CDATA[<ul>
+<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
+</ul>
+<blockquote>
+<p>中断优先级实验，主程序相邻2个LED灯循环点亮（03H—C0H）1S，外部中断0后静态数码管间隔1S轮流点亮0-F后返回，外部中断1后1个LED灯循环点亮（01H-80H）后返回，外部中断0优先级高于外部中断1，实现中断嵌套</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<blockquote>
+<p>P1接LED的ABCDEF，P3.2接K1，P3.3接K4，P0接静态数码管ABCDEF</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    AJMP    START</span><br><span class="line"></span><br><span class="line">    ORG     0003H</span><br><span class="line">    AJMP    INTT0</span><br><span class="line">    </span><br><span class="line">    ORG     0013H</span><br><span class="line">    AJMP    INTT1</span><br><span class="line">    </span><br><span class="line">    ORG     0100H</span><br><span class="line">START:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    MOV     PSW,#00H</span><br><span class="line">    SETB    EX0</span><br><span class="line">    SETB    IT0</span><br><span class="line">    SETB    EX1</span><br><span class="line">    SETB    IT1</span><br><span class="line">    SETB    EA</span><br><span class="line">    MOV     IP,#01H</span><br><span class="line">    MOV     P3,#0FFH</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     DPTR,#TABLE</span><br><span class="line">    MOV     R0,#03H</span><br><span class="line">    MOV     R2,#08H</span><br><span class="line">    ACALL   LOOP</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">LOOP:</span><br><span class="line">    MOV     A,R0</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R2,LOOP</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">INTT0:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#08H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.2,Pkey0</span><br><span class="line">    LJMP    RETURN</span><br><span class="line"></span><br><span class="line">INTT1:</span><br><span class="line">    PUSH    PSW</span><br><span class="line">    PUSH    ACC</span><br><span class="line">    MOV     PSW,#10H</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    LCALL   D10ms           &#x2F;&#x2F;去抖动</span><br><span class="line">    MOV     A,P3</span><br><span class="line">    CPL     A</span><br><span class="line">    JZ      RETURN</span><br><span class="line">    JB      ACC.3,Pkey2</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey0:</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    CJNE    A,#0FFH,Pkey1</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey1:</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    INC     DPTR</span><br><span class="line">    LJMP    Pkey0</span><br><span class="line">Pkey2:</span><br><span class="line">    MOV     R1,#01H</span><br><span class="line">    MOV     R3,#08H</span><br><span class="line">    ACALL   Pkey3</span><br><span class="line">    LJMP    RETURN</span><br><span class="line">Pkey3:</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    MOV     P1,A</span><br><span class="line">    RL      A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    LCALL   D1S</span><br><span class="line">    DJNZ    R3,Pkey3</span><br><span class="line">    RET</span><br><span class="line">RETURN:</span><br><span class="line">    POP     ACC</span><br><span class="line">    POP     PSW</span><br><span class="line">    RETI</span><br><span class="line"></span><br><span class="line">TABLE:</span><br><span class="line">    DB  0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H</span><br><span class="line">    DB  80H,90H,88H,83H,0C6H,0A1H,86H,8EH</span><br><span class="line">    DB  0FFH</span><br><span class="line"></span><br><span class="line">D10ms:</span><br><span class="line">    MOV     R7,#25</span><br><span class="line">D4:</span><br><span class="line">    MOV     R6,#200</span><br><span class="line">    DJNZ    R6,$</span><br><span class="line">    DJNZ    R7,D4</span><br><span class="line">    RET</span><br><span class="line"></span><br><span class="line">D1S:</span><br><span class="line">    MOV     R5,#20</span><br><span class="line">D5: MOV     R6,#100</span><br><span class="line">D6: MOV     R7,#248</span><br><span class="line">D7: DJNZ     R7,D7</span><br><span class="line">    DJNZ    R6,D6</span><br><span class="line">    DJNZ    R5,D5</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">    END</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>中断</tag>
       </tags>
   </entry>
   <entry>
@@ -1165,23 +1165,53 @@ $E=\frac{E_{av}}{M}$</p>
 </ul>
 </li>
 </ul>
-<h2 id="6-Digital-Transmission-via-carrier-modulation">6.Digital Transmission via carrier modulation</h2>
+<h2 id="6-Digital-transmission-via-carrier-modulation">6.Digital transmission via carrier modulation</h2>
 <ul>
 <li>
-<h3 id="ex5">ex5</h3>
-</li>
+<h3 id="Carrier-amplitude-modulation（ASK）">Carrier amplitude modulation（ASK）</h3>
+<ul>
+<li>In baseband digital PAM, the signal waveforms ars：$s_m(t)=A_{m}g_{T}(t)$</li>
+<li>$A_{m}=(2m-1-M)d, m=1,2,…,M$</li>
+<li>Multiplied by a sinusoidal carrier：$u_m(t)=A_{m}g_{T}(t)cos(2\pi f_{c}t)$</li>
+<li>When the pulse shape si rectangular:$x(nT)=<br>
+\begin{cases}<br>
+\sqrt \frac{2}{T}, &amp; 0\leq t\leq T \\<br>
+0, &amp; otherwise<br>
+\end{cases} $</li>
+<li>Usually called amplitude shift keying, which is not bandlimited.</li>
 </ul>
-<h2 id="7-ASK-PSK">7.ASK PSK</h2>
-<ul>
-<li>
-<h3 id="ex7">ex7</h3>
 </li>
-</ul>
-<h2 id="8-Quadrature-Amplitude-Modulation-QAM">8.Quadrature Amplitude Modulation(QAM)</h2>
-<h2 id="9-FSK">9.FSK</h2>
-<ul>
 <li>
-<h3 id="ex89">ex89###</h3>
+<h3 id="Carrier-phase-modulation-PSK">Carrier phase modulation(PSK)</h3>
+<ul>
+<li>The information is impressed on the phase of the carrier.</li>
+<li>The range of the phase：$0\leq \theta \leq 2\pi$</li>
+<li>$\theta _{m}=\frac{2\pi m}{M}, m=0,1,…,M-1$</li>
+<li>Modulated signal waveforme：$u_m(t)=Ag_{T}(t)cos(2\pi f_{c}t+\frac{2\pi m}{M}), m=0,1,…,M-1$</li>
+<li>Usually called phase shift keying.</li>
+<li><a href="https://www.lingzhicheng.cn/2021/05/30/ASK%20and%20PSK/" target="_blank">e.g. ASK and PSK</a></li>
+</ul>
+</li>
+<li>
+<h3 id="Quadrature-amplitude-modulation-QAM">Quadrature amplitude modulation(QAM)</h3>
+<ul>
+<li>Two quadrature carriers,$sin(2\pi f_{c}t)$and$cos(2\pi f_{c}t)$</li>
+<li>Each is modulated by independent information bits.</li>
+<li>$u_m(t)=A_{mc}g_{T}(t)cos(2\pi f_{c}t)+A_{ms}g_{T}(t)sin(2\pi f_{c}t), m=0,1,…,M$</li>
+<li>Carried bits per symbol：$log_{2}M$</li>
+<li>Can be viewed as a form of combined amplitude and digital-phase modulation.</li>
+<li>Rewrite：$u_{mn}(t)=A_{m}g_{T}(t)cos(2\pi f_{c}t+\theta _{n}),m=1,2,…,M_1,n=1,2,…,M_2$</li>
+<li>This time, carried bits per symbol：$log_{2}M_{1}+log_{2}M_{2}$</li>
+</ul>
+</li>
+<li>
+<h3 id="Carrier-frequency-modulation-FSK">Carrier frequency modulation(FSK)</h3>
+<ul>
+<li>For channel lack of phase stability, digital transmission by frequency modulation can be applied.</li>
+<li>M-ary FSK can be used to transmit a block of $k=log_{2}M$ bits per symbol.</li>
+<li>$u_m(t)=\sqrt{\frac{2E_s}{T}}cos(2\pi f_{c}t+2\pi m\Delta ft), m=0,1,…,M-1,0\leq t\leq T$</li>
+<li>To guatantee orthogonality, ∆𝒇 is a multiple of 1/2T.</li>
+</ul>
 </li>
 </ul>
 <!-- markdownlint-disable-file MD033 -->
@@ -1833,132 +1863,6 @@ application/x-www-form-urlencoded --&gt; key=value&amp;key=value</li>
       </tags>
   </entry>
   <entry>
-    <title>正则表达式整理（持续更新）</title>
-    <url>/2021/02/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<blockquote>
-<p>偶尔会用到正则匹配，下面做一个常用的正则表达式整理以便往后查询</p>
-</blockquote>
-<a id="more"></a>
-<h2 id="最常用的匹配">最常用的匹配</h2>
-<table>
-<thead>
-<tr>
-<th>字符</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong><code>\d</code></strong></td>
-<td>表示任意数字，就是阿拉伯数字<code>0~9</code>这些。</td>
-</tr>
-<tr>
-<td><code>\D</code></td>
-<td>大写的表示与小写的相反，表示不是数字。</td>
-</tr>
-<tr>
-<td><code>\w</code></td>
-<td>代表字母，数字，下划线。<code>a-z</code>、<code>A-Z</code>、<code>0~9</code>、<code>_</code>。</td>
-</tr>
-<tr>
-<td><code>\W</code></td>
-<td>大写的表示与小写的相反，不是字母、不是数字也不是下划线。</td>
-</tr>
-<tr>
-<td><strong><code>\n</code></strong></td>
-<td>代表一个回换行。</td>
-</tr>
-<tr>
-<td><code>\r</code></td>
-<td>代表一个回车。</td>
-</tr>
-<tr>
-<td><code>\f</code></td>
-<td>代表换页。</td>
-</tr>
-<tr>
-<td><code>\t</code></td>
-<td>代表一个<code>Tab</code>。</td>
-</tr>
-<tr>
-<td><code>\s</code></td>
-<td>代表所有的空白符，也就是上面四个：<code>\n</code>、<code>\r</code>、<code>\f</code>、<code>\t</code>。</td>
-</tr>
-<tr>
-<td><code>\S</code></td>
-<td>大写的表示与小写的相反，代表所有不是空白的字符。</td>
-</tr>
-<tr>
-<td><code>\A</code></td>
-<td>代表字符串的开始。</td>
-</tr>
-<tr>
-<td><code>\Z</code></td>
-<td>代表字符串的结束。</td>
-</tr>
-<tr>
-<td><strong><code>^</code></strong></td>
-<td>匹配字符串开始的位置。</td>
-</tr>
-<tr>
-<td><strong><code>$</code></strong></td>
-<td>匹配字符串结束的位置。</td>
-</tr>
-<tr>
-<td><strong><code>.</code></strong></td>
-<td>代表所有的单个字符，除了换行<code>\n</code>,回车<code>\r</code>。</td>
-</tr>
-<tr>
-<td><code>[...]</code></td>
-<td>代表在<code>[]</code>范围内的字符，比如<code>[a-z]</code>就代表<code>a-z</code>的字母。</td>
-</tr>
-<tr>
-<td><code>[^...]</code></td>
-<td>与上一个相反，代表不在<code>[]</code>范围内的字符。</td>
-</tr>
-<tr>
-<td><code>&#123;n&#125;</code></td>
-<td>匹配在<code>&#123;n&#125;</code>前面的东西，比如<code>o&#123;2&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>food</code>中的两个<code>o</code>。</td>
-</tr>
-<tr>
-<td><code>&#123;n,m&#125;</code></td>
-<td>匹配在<code>&#123;n,m&#125;</code>前面的东西，比如<code>o&#123;1,3&#125;</code>将匹配<code>fooooood</code>中的前三个<code>o</code>。</td>
-</tr>
-<tr>
-<td><code>&#123;n, &#125;</code></td>
-<td>匹配在<code>&#123;n,&#125;</code>前面的东西，比如<code>o&#123;2,&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>foooood</code>中的所有<code>o</code>。</td>
-</tr>
-<tr>
-<td><code>*</code></td>
-<td>和<code>&#123;0,&#125;</code>一样，匹配<code>*</code>前面的0次或多次。比如<code>zo*</code>能匹配<code>z</code>、<code>zo</code>以及<code>zoo</code>。</td>
-</tr>
-<tr>
-<td><code>+</code></td>
-<td>和<code>&#123;1,&#125;</code>一样，匹配+前面1次或多次。比如<code>zo+</code>能匹配<code>zo</code>以及<code>zoo</code>但不能匹配<code>z</code></td>
-</tr>
-<tr>
-<td><code>?</code></td>
-<td>和<code>&#123;0,1&#125;</code>一样，匹配<code>?</code>前面0次或1次</td>
-</tr>
-<tr>
-<td><code>()</code></td>
-<td>匹配括号里的内容</td>
-</tr>
-</tbody>
-</table>
-<h2 id="re-match">re.match</h2>
-<blockquote>
-<p>传入两个参数，第一个是匹配的规则，第二个是需要被过滤的内容</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">content = <span class="string">&#x27;you have 100 bananas.&#x27;</span></span><br><span class="line">res = re.match(<span class="string">&#x27;^yo.*(\d+)\s.*s$&#x27;</span>,content)</span><br><span class="line">print(res.group(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>re.match</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>调频无线话筒</title>
     <url>/2021/03/10/%E8%B0%83%E9%A2%91%E6%97%A0%E7%BA%BF%E8%AF%9D%E7%AD%92/</url>
     <content><![CDATA[<p>较为详细的实验总结，需要的可以借鉴参考</p>
@@ -2159,6 +2063,132 @@ R5和R6之间的电压值为V=4.094V，接近4V，达到预期值<br>
         <tag>高频电路</tag>
         <tag>PCB</tag>
         <tag>无线</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>正则表达式整理（持续更新）</title>
+    <url>/2021/02/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<blockquote>
+<p>偶尔会用到正则匹配，下面做一个常用的正则表达式整理以便往后查询</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="最常用的匹配">最常用的匹配</h2>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>\d</code></strong></td>
+<td>表示任意数字，就是阿拉伯数字<code>0~9</code>这些。</td>
+</tr>
+<tr>
+<td><code>\D</code></td>
+<td>大写的表示与小写的相反，表示不是数字。</td>
+</tr>
+<tr>
+<td><code>\w</code></td>
+<td>代表字母，数字，下划线。<code>a-z</code>、<code>A-Z</code>、<code>0~9</code>、<code>_</code>。</td>
+</tr>
+<tr>
+<td><code>\W</code></td>
+<td>大写的表示与小写的相反，不是字母、不是数字也不是下划线。</td>
+</tr>
+<tr>
+<td><strong><code>\n</code></strong></td>
+<td>代表一个回换行。</td>
+</tr>
+<tr>
+<td><code>\r</code></td>
+<td>代表一个回车。</td>
+</tr>
+<tr>
+<td><code>\f</code></td>
+<td>代表换页。</td>
+</tr>
+<tr>
+<td><code>\t</code></td>
+<td>代表一个<code>Tab</code>。</td>
+</tr>
+<tr>
+<td><code>\s</code></td>
+<td>代表所有的空白符，也就是上面四个：<code>\n</code>、<code>\r</code>、<code>\f</code>、<code>\t</code>。</td>
+</tr>
+<tr>
+<td><code>\S</code></td>
+<td>大写的表示与小写的相反，代表所有不是空白的字符。</td>
+</tr>
+<tr>
+<td><code>\A</code></td>
+<td>代表字符串的开始。</td>
+</tr>
+<tr>
+<td><code>\Z</code></td>
+<td>代表字符串的结束。</td>
+</tr>
+<tr>
+<td><strong><code>^</code></strong></td>
+<td>匹配字符串开始的位置。</td>
+</tr>
+<tr>
+<td><strong><code>$</code></strong></td>
+<td>匹配字符串结束的位置。</td>
+</tr>
+<tr>
+<td><strong><code>.</code></strong></td>
+<td>代表所有的单个字符，除了换行<code>\n</code>,回车<code>\r</code>。</td>
+</tr>
+<tr>
+<td><code>[...]</code></td>
+<td>代表在<code>[]</code>范围内的字符，比如<code>[a-z]</code>就代表<code>a-z</code>的字母。</td>
+</tr>
+<tr>
+<td><code>[^...]</code></td>
+<td>与上一个相反，代表不在<code>[]</code>范围内的字符。</td>
+</tr>
+<tr>
+<td><code>&#123;n&#125;</code></td>
+<td>匹配在<code>&#123;n&#125;</code>前面的东西，比如<code>o&#123;2&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>food</code>中的两个<code>o</code>。</td>
+</tr>
+<tr>
+<td><code>&#123;n,m&#125;</code></td>
+<td>匹配在<code>&#123;n,m&#125;</code>前面的东西，比如<code>o&#123;1,3&#125;</code>将匹配<code>fooooood</code>中的前三个<code>o</code>。</td>
+</tr>
+<tr>
+<td><code>&#123;n, &#125;</code></td>
+<td>匹配在<code>&#123;n,&#125;</code>前面的东西，比如<code>o&#123;2,&#125;</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>foooood</code>中的所有<code>o</code>。</td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>和<code>&#123;0,&#125;</code>一样，匹配<code>*</code>前面的0次或多次。比如<code>zo*</code>能匹配<code>z</code>、<code>zo</code>以及<code>zoo</code>。</td>
+</tr>
+<tr>
+<td><code>+</code></td>
+<td>和<code>&#123;1,&#125;</code>一样，匹配+前面1次或多次。比如<code>zo+</code>能匹配<code>zo</code>以及<code>zoo</code>但不能匹配<code>z</code></td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td>和<code>&#123;0,1&#125;</code>一样，匹配<code>?</code>前面0次或1次</td>
+</tr>
+<tr>
+<td><code>()</code></td>
+<td>匹配括号里的内容</td>
+</tr>
+</tbody>
+</table>
+<h2 id="re-match">re.match</h2>
+<blockquote>
+<p>传入两个参数，第一个是匹配的规则，第二个是需要被过滤的内容</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">content = <span class="string">&#x27;you have 100 bananas.&#x27;</span></span><br><span class="line">res = re.match(<span class="string">&#x27;^yo.*(\d+)\s.*s$&#x27;</span>,content)</span><br><span class="line">print(res.group(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>re.match</tag>
       </tags>
   </entry>
 </search>
