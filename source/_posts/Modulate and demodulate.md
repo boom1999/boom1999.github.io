@@ -341,11 +341,11 @@ The demodulated signals:
 > - If we apply a low-pass filter with a band much wider than necessary, when filtering, it will mix in the high frequency components with the frequency spectrum nearby. The high frequency component is just the continuation of the baseband component at high frequency, if it is not too wide, may we can barely recover the original signal. If the cut-off frequency is set too wide, it may cause signal aliasing and amplitude changes.
 
 <!-- markdownlint-disable-file MD025 MD033 -->
-[1]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_1_mean_and_var.png
-[2]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_1_the_spectrum_and_auto-correlation_of_y[n].png
-[3]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_power_of_the_modulated_signal_and_message_signal.png
-[4]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_modulated_signal_and_the_spectrum.png
-[5]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_pass_band_of_the_low-pass_filter_for_DSB_AM_and_USSB_AM.png
-[6]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_demodulated_signal_and_the_spectrum.png
-[7]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_modulated_signal_and_demodulated_signal_with_noise.png
-[8]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_much_wider_band_the_demodulated_signal_and_the_spectrum.png
+[1]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/mean_and_var.png
+[2]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_spectrum_and_auto-correlation_of_y[n].png
+[3]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_power_of_the_modulated_signal_and_message_signal.png
+[4]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_modulated_signal_and_the_spectrum.png
+[5]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_pass_band_of_the_low-pass_filter_for_DSB_AM_and_USSB_AM.png
+[6]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_demodulated_signal_and_the_spectrum.png
+[7]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_modulated_signal_and_demodulated_signal_with_noise.png
+[8]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/much_wider_band_the_demodulated_signal_and_the_spectrum.png

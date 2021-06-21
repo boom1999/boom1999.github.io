@@ -4,6 +4,7 @@ date: 2021-06-19
 tags:
    - sort out
 categories: Matlab
+copyright: true
 ---
 
 ### Personal matlab sort out about communication simulations finally ###
@@ -312,7 +313,7 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
   - Wiener-Khinchin theorem
     $FT(R_T(\tau))=P_T(f)$
 
-- ### Component ###
+- ### :cyclone:Component ###
 
   - hilbert change
     通过希尔伯特变换，返回的实部是本身即同向分量(quardature component)，虚部是延迟90°后的信号即正交分量(in-phase component)
@@ -475,9 +476,9 @@ For AWGN, the noise ni is Gaussian distributed with mean of zero and variance of
       \end{cases} $
     - F-domain：$\sum_{m=-\infty}^{+\infty}X(f+\frac{m}{T})=T$
   - Under a band-limited noiseless channel, the larger the passband, the smoother the signal.
-    - <a href="" target="_blank">e.g. Band-limited noiseless channel</a>
+    - <a href="https://www.lingzhicheng.cn/2021/05/25/Band-limited%20noiseless%20channel/" target="_blank">e.g. Band-limited noiseless channel</a>
 
-## 6.Digital transmission via carrier modulation ##
+## 6.:speech_balloon:Digital transmission via carrier modulation ##
 
 - ### Carrier amplitude modulation（ASK） ###
 

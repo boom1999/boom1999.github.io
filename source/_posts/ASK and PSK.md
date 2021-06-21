@@ -477,11 +477,11 @@ When the phase of the two bits of information undergoes a sudden change, the tim
 In the constellation diagram, we can see that the PSK signal will drift due to noise. If the noise is too large, a large number of signals will drift to other phase points, causing an increase in the bit error rate.
 
 <!-- markdownlint-disable-file MD025 MD033 -->
-[1]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/lab6_1_Time_domain.png
-[2]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/lab6_1_Frequency_domain.png
-[3]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/lab6_1_Eb.png
-[4]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/lab6_1_SNR.png
-[5]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/lab6_2_Time_domain.png
-[6]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/lab6_2_Frequency_domain.png
-[7]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/lab6_2_Constellation_diagram.png
-[8]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/lab6_2_theoretical_calculation_and_numerical_simulation.png
+[1]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/Time_domain.png
+[2]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/Frequency_domain.png
+[3]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/Eb.png
+[4]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/SNR.png
+[5]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/4PSK_Time_domain.png
+[6]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/4PSK_Frequency_domain.png
+[7]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/Constellation_diagram.png
+[8]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/Theoretical_calculation_and_numerical_simulation.png

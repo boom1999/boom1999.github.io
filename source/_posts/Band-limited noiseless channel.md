@@ -189,6 +189,6 @@ st = Fmx*ifft(sff);
 <!-- markdownlint-disable-file MD025 MD033 -->
 [1]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/Band_limited_channel/8-PAM_waveform.png
 [2]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/Band_limited_channel/8-PAM_spectrum.png
-[3]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/Band_limited_channel/8-PAM_waveform_passing_noiseless_channel_waveform.png
+[3]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/Band_limited_channel/Noiseless_channel_spectrum.png
 [4]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/Band_limited_channel/8-PAM_waveform_passing_noiseless_channel_spectrum.png
 [5]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/Band_limited_channel/8-PAM_waveform_passing_noiseless_channel_waveform.png
