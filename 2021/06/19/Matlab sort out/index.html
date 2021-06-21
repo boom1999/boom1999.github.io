@@ -76,7 +76,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.5k</span>
+            <span class="post-count">2.6k</span>
         </span>
     </span>
 
@@ -85,7 +85,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">14 分钟</span>
+            <span class="post-count">15 分钟</span>
         </span>
     </span>
 </div>
@@ -752,6 +752,13 @@ $E=\frac{E_{av}}{M}$</p>
 <li>$u_m(t)=\sqrt{\frac{2E_s}{T}}cos(2\pi f_{c}t+2\pi m\Delta ft), m=0,1,…,M-1,0\leq t\leq T$</li>
 <li>To guarantee orthogonality, ∆𝒇 is a multiple of 1/2T.</li>
 </ul>
+</li>
+<li>
+<h3 id="Sampling">Sampling</h3>
+<ul>
+<li>sampling.m</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[T,Samp_Sig]</span>=<span class="title">Sampling</span><span class="params">(t,Fs,sig)</span> </span></span><br><span class="line"><span class="comment">%Fucntion Name:Sampling </span></span><br><span class="line"><span class="comment">%Input: T,Fs:sig OutPut:Samp_Sig </span></span><br><span class="line"><span class="comment">%When you call the Function ,u input the time for a symbol,the </span></span><br><span class="line"><span class="comment">%Sampling rate and the source signal,then output the Samplint Signal.</span></span><br><span class="line">Ts=<span class="number">1</span>/Fs;</span><br><span class="line">Sig=sig;</span><br><span class="line">len=<span class="built_in">length</span>(Sig);</span><br><span class="line">T=<span class="number">0</span>:Ts:len*t-Ts;</span><br><span class="line">Samp_Sig=T; </span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">0</span>:<span class="number">1</span>:len<span class="number">-1</span></span><br><span class="line">  <span class="keyword">for</span> <span class="built_in">j</span>=<span class="number">1</span>:<span class="number">1</span>:t/Ts</span><br><span class="line">      Samp_Sig(<span class="built_in">i</span>*t/Ts+<span class="built_in">j</span>)=Sig(<span class="built_in">i</span>+<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">end</span>    </span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <h2 id="📂Source-file-zip">📂<a href="https://www.lingzhicheng.cn/usr/file/Matlab_sort_out_code.zip">Source file.zip</a></h2>
