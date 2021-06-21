@@ -94,7 +94,7 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
   - Complex:
     z = a+bi = $re^{i\theta}$
     `real(z)`、`imag(z)`、`abs(z)`、`angle(z)`、`conj(z)`
-  - Exponetial and logarithm functions
+  - Exponential and logarithm functions
     | Name | Description | Name | Description |
     |:-------:|:-------:|:-------:|:-------:|
     |  `exp(x)`  |  $e^{x}$  |  `log1p(x)`  |  ln(1+x)  |
@@ -108,7 +108,7 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
     |  `length`  |  length  |  `size`  |  Dimension of array  |
     |  `sum`  |  sum  |  `mean`  |  Mean of array  |
     |  `reshape`  |  Reshape the array  |  `sort`  |  Sort the array  |
-    |  `min`  |  minmum  |  `max`  |  maxmum  |
+    |  `min`  |  minimum  |  `max`  |  maximum  |
 
   - Rounding functions
     `round`、`fix`、`floor`、`ceil`
@@ -122,7 +122,7 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
 
 - ### Basic sequence ###
 
-  - Implulse signal and sequence
+  - Impulse signal and sequence
   
   ``` matlab
   t = -5:0.01:5;
@@ -179,8 +179,8 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
   | Name | Description | Name | Description |
   |:-------:|:-------:|:-------:|:-------:|
   |  `sawtooth`  |  Sawtooth or triangle wave  |  `pulstran`  |  Pulse train  |
-  |  `square`  |  Square wave  |  `rectpule`  |  Aperiod squre wave  |
-  |  `sinc`  |  Sinc wave  |  `tripuls`  |  Aperiod triangle wave  |
+  |  `square`  |  Square wave  |  `rectpule`  |  A period square wave  |
+  |  `sinc`  |  Sinc wave  |  `tripuls`  |  A period triangle wave  |
 
 - ### Signal Operations ###
   
@@ -212,7 +212,7 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
   y=xcorr(x1,x2)
   ```
   
-  - Cummulative sum
+  - Cumulative sum
   $y(n)=\sum_{i=1}^n x(i)$
 
   ```matlab
@@ -236,7 +236,7 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
 
 - ### Fourier transform ###
 
-  - Continuous-time，continuous-frequency：FT
+  - Continuous-time，continuous-frequency: FT
   
   | T2F | F2T |
   |:-------:|:-------:|
@@ -316,7 +316,7 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
 - ### :cyclone:Component ###
 
   - hilbert change
-    通过希尔伯特变换，返回的实部是本身即同向分量(quardature component)，虚部是延迟90°后的信号即正交分量(in-phase component)
+    通过希尔伯特变换，返回的实部是本身即同向分量(quadrature component)，虚部是延迟90°后的信号即正交分量(in-phase component)
 
     ``` matlab
     x_a = hilbert(x);
@@ -351,7 +351,7 @@ For a random process $x(t)$, for an arbitrary $t_1$，$x(t_1)$ is a random varia
 
   - Stationary
     <font size=2>
-    >1.The expectation of x(t) equals the time-average. An abtirary realization of the random process will go through all the possible states.
+    >1.The expectation of x(t) equals the time-average. An arbitrary realization of the random process will go through all the possible states.
     If one line has 1000 components, use `mean` to calculate expectation.
     Use the first component of each line, the `mean` of one row is time-average.
     </font>
@@ -404,9 +404,9 @@ For a random process $x(t)$, for an arbitrary $t_1$，$x(t_1)$ is a random varia
 
 ## 4.Baseband signal transmission ##
 
-AWGN：add white gauss noise
+AWGN: add white gauss noise
 Two optimum receivers for AWGN: signal correlator and matched filter.
-For AWGN, the noise ni is Gaussian distributed with mean of zero and variance of $\frac{EN_0}{2}$.
+For AWGN, the noise $N_i$ is Gaussian distributed with mean of zero and variance of $\frac{EN_0}{2}$.
 
 - ### Binary modulations ###
   
@@ -482,10 +482,10 @@ For AWGN, the noise ni is Gaussian distributed with mean of zero and variance of
 
 - ### Carrier amplitude modulation（ASK） ###
 
-  - In baseband digital PAM, the signal waveforms ars：$s_m(t)=A_{m}g_{T}(t)$
+  - In baseband digital PAM, the signal waveforms are：$s_m(t)=A_{m}g_{T}(t)$
   - $A_{m}=(2m-1-M)d, m=1,2,...,M$
   - Multiplied by a sinusoidal carrier：$u_m(t)=A_{m}g_{T}(t)cos(2\pi f_{c}t)$
-  - When the pulse shape si rectangular:$x(nT)=
+  - When the pulse shape is rectangular:$x(nT)=
                                           \begin{cases}
                                           \sqrt \frac{2}{T}, & 0\leq t\leq T \\\\
                                           0, & otherwise
@@ -497,7 +497,7 @@ For AWGN, the noise ni is Gaussian distributed with mean of zero and variance of
   - The information is impressed on the phase of the carrier.
   - The range of the phase：$0\leq \theta \leq 2\pi$
   - $\theta _{m}=\frac{2\pi m}{M}, m=0,1,...,M-1$
-  - Modulated signal waveforme：$u_m(t)=Ag_{T}(t)cos(2\pi f_{c}t+\frac{2\pi m}{M}), m=0,1,...,M-1$
+  - Modulated signal waveform：$u_m(t)=Ag_{T}(t)cos(2\pi f_{c}t+\frac{2\pi m}{M}), m=0,1,...,M-1$
   - Usually called phase shift keying.
   - <a href="https://www.lingzhicheng.cn/2021/05/30/ASK%20and%20PSK/" target="_blank">e.g. ASK and PSK</a>
 
@@ -516,6 +516,10 @@ For AWGN, the noise ni is Gaussian distributed with mean of zero and variance of
   - For channel lack of phase stability, digital transmission by frequency modulation can be applied.
   - M-ary FSK can be used to transmit a block of $k=log_{2}M$ bits per symbol.
   - $u_m(t)=\sqrt{\frac{2E_s}{T}}cos(2\pi f_{c}t+2\pi m\Delta ft), m=0,1,...,M-1,0\leq t\leq T$
-  - To guatantee orthogonality, ∆𝒇 is a multiple of 1/2T.
+  - To guarantee orthogonality, ∆𝒇 is a multiple of 1/2T.
+
+## :open_file_folder:[Source file.zip][1] ##
 
 <!-- markdownlint-disable-file MD033 -->
+
+[1]: https://www.lingzhicheng.cn/usr/file/Matlab_sort_out_code.zip
