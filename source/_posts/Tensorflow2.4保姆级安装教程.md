@@ -199,7 +199,7 @@ copyright: true
 - pip config set global.index-url <https://pypi.tuna.tsinghua.edu.cn/simple>
 - pip install -U tensorflow-gpu -i <https://pypi.tuna.tsinghua.edu.cn/simple>
 
->此处未指定版本，会选择最高的gpu版本安装，若要置顶版本，`tensorflow-gpu=2.x.x`
+>此处未指定版本，会选择最高的gpu版本安装，若要置顶版本，`tensorflow-gpu==2.x.x`
 > 虽然已经换源，但还是可能出现`These Packages Do Not Match The Hashes From The Requirements File.`
 > 解决方案：在pip时，添加"–upgrade"参数（**实测有效**）。
 > 几分钟后👉**安装成功**
