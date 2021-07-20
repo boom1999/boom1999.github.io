@@ -148,7 +148,7 @@ copyright: true
 
 - [查看Tensorflow和CUDA对应版本][12]（版本一定要对应）
 
-> `nvidia-smin`命令行查看CUDA Version （当前显卡驱动最高支持的CUDA版本）
+> `nvidia-smi`命令行查看CUDA Version （当前显卡驱动最高支持的CUDA版本）
 
 - [Nvidia官网下载Cudatoolkit][13]（下载速度慢可以复制链接到迅雷下载）
 
