@@ -142,8 +142,7 @@ markdown:
     xhtmlOut: false
     breaks: true
     linkify: true
-    typographer: true
-    quotes: '“”‘’'
+    typographer: false
   plugins:
     - markdown-it-footnote
     - markdown-it-sup
