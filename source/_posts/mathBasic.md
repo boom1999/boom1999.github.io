@@ -143,33 +143,33 @@ ${F'_y}(x,y)$分别表示$F(x,y)$对$x$和$y$的偏导数
 
 **Th1:** 费马引理
 
-> 若函数$f(x)$满足条件：
-> (1)函数$f(x)$在${{x}_{0}}$的某邻域内有定义，并且在此邻域内恒有
-> $f(x)\le f({{x}_{0}})$或$f(x)\ge f({{x}_{0}})$
-> (2) $f(x)$在${{x}_{0}}$处可导
-> 则有 ${f}'({{x}_{0}})=0$
+若函数$f(x)$满足条件：
+(1)函数$f(x)$在${{x}_{0}}$的某邻域内有定义，并且在此邻域内恒有
+$f(x)\le f({{x}_{0}})$或$f(x)\ge f({{x}_{0}})$
+(2) $f(x)$在${{x}_{0}}$处可导
+则有 ${f}'({{x}_{0}})=0$
 
 **Th2:** 罗尔定理
 
-> 设函数$f(x)$满足条件：
-> (1)在闭区间$[a,b]$上连续
-> (2)在$(a,b)$内可导
-> (3)$f(a)=f(b)$
-> 则在$(a,b)$内一存在个$\xi $，使  ${f}'(\xi )=0$
+设函数$f(x)$满足条件：
+(1)在闭区间$[a,b]$上连续
+(2)在$(a,b)$内可导
+(3)$f(a)=f(b)$
+则在$(a,b)$内一存在个$\xi $，使  ${f}'(\xi )=0$
 
 **Th3:** 拉格朗日中值定理
 
-> 设函数$f(x)$满足条件：
-> (1)在$[a,b]$上连续
-> (2)在$(a,b)$内可导
-> 则在$(a,b)$内一存在个$\xi $，使  $\frac{f(b)-f(a)}{b-a}={f}'(\xi )$
+设函数$f(x)$满足条件：
+(1)在$[a,b]$上连续
+(2)在$(a,b)$内可导
+则在$(a,b)$内一存在个$\xi $，使  $\frac{f(b)-f(a)}{b-a}={f}'(\xi )$
 
 **Th4:** 柯西中值定理
 
-> 设函数$f(x)$，$g(x)$满足条件：
-> (1) 在$[a,b]$上连续
-> (2) 在$(a,b)$内可导且${f}'(x)$，${g}'(x)$均存在，且${g}'(x)\ne 0$
-> 则在$(a,b)$内存在一个$\xi $，使$\frac{f(b)-f(a)}{g(b)-g(a)}=\frac{{f}'(\xi )}{{g}'(\xi )}$
+设函数$f(x)$，$g(x)$满足条件：
+(1) 在$[a,b]$上连续
+(2) 在$(a,b)$内可导且${f}'(x)$，${g}'(x)$均存在，且${g}'(x)\ne 0$
+则在$(a,b)$内存在一个$\xi $，使${\frac{f(b)-f(a)}{g(b)-g(a)}}={\frac{{f}'(\xi )}{{g}'(\xi )}}$
 
 #### 10.洛必达法则 ####
 
@@ -177,48 +177,47 @@ ${F'_y}(x,y)$分别表示$F(x,y)$对$x$和$y$的偏导数
 
 设函数$f\left( x \right),g\left( x \right)$满足条件：
 
-> $\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,f\left( x \right)=0,\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,g\left( x \right)=0$
-> $f\left( x \right),g\left( x \right)$在${{x}_{0}}$的邻域内可导，(在${{x}_{0}}$处可除外)且${g}'\left( x \right)\ne 0$
-> $\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{{f}'\left( x \right)}{{g}'\left( x \right)}$存在(或$\infty $)
+$\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,f\left( x \right)=0,\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,g\left( x \right)=0$
+$f\left( x \right),g\left( x \right)$在${{x}_{0}}$的邻域内可导，(在${{x}_{0}}$处可除外)且${g}'\left( x \right)\ne 0$
+$\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{{f}'\left( x \right)}{{g}'\left( x \right)}$存在(或$\infty $)
 
 则:
-> $\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{f\left( x \right)}{g\left( x \right)}=\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{{f}'\left( x \right)}{{g}'\left( x \right)}$
+${\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{f\left( x \right)}{g\left( x \right)}=\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{{f}'\left( x \right)}{{g}'\left( x \right)}}$
 
-**法则${{I}'}$ ($\frac{0}{0}$型)**
+**法则Ⅰ' ($\frac{0}{0}$型)**
 
 设函数$f\left( x \right),g\left( x \right)$满足条件：
 
-> $\underset{x\to \infty }{\mathop{\lim }}\,f\left( x \right)=0,\underset{x\to \infty }{\mathop{\lim }}\,g\left( x \right)=0$
-> 存在一个$X>0$,当$\left| x \right|>X$时，$f\left( x \right),g\left( x \right)$可导，且${g}'\left( x \right)\ne 0$
-> $\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{{f}'\left( x \right)}{{g}'\left( x \right)}$存在(或$\infty $)
+$\underset{x\to \infty }{\mathop{\lim }}\,f\left( x \right)=0,\underset{x\to \infty }{\mathop{\lim }}\,g\left( x \right)=0$
+存在一个$X>0$,当$\left| x \right|>X$时，$f\left( x \right),g\left( x \right)$可导，且${g}'\left( x \right)\ne 0$
+$\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{{f}'\left( x \right)}{{g}'\left( x \right)}$存在(或$\infty $)
 
-则:
-> $\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{f\left( x \right)}{g\left( x \right)}=\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{{f}'\left( x \right)}{{g}'\left( x \right)}$
+则:${\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{f\left( x \right)}{g\left( x \right)}=\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{{f}'\left( x \right)}{{g}'\left( x \right)}}$
 
 **法则Ⅱ ($\frac{\infty }{\infty }$型)**
 
 设函数$f\left( x \right),g\left( x \right)$满足条件：
 
-> $\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,f\left( x \right)=\infty ,\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,g\left( x \right)=\infty $
-> $f\left( x \right),g\left( x \right)$在${{x}_{0}}$ 的邻域内可导(在${{x}_{0}}$处可除外)且${g}'\left( x \right)\ne 0$
-> $\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{{f}'\left( x \right)}{{g}'\left( x \right)}$存在(或$\infty $)
+$\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,f\left( x \right)=\infty ,\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,g\left( x \right)=\infty $
+$f\left( x \right),g\left( x \right)$在${{x}_{0}}$ 的邻域内可导(在${{x}_{0}}$处可除外)且${g}'\left( x \right)\ne 0$
+$\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{{f}'\left( x \right)}{{g}'\left( x \right)}$存在(或$\infty $)
 
 则:
-> $\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{f\left( x \right)}{g\left( x \right)}=\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{{f}'\left( x \right)}{{g}'\left( x \right)}$
+${\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{f\left( x \right)}{g\left( x \right)}}={\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{{f}'\left( x \right)}{{g}'\left( x \right)}}$
 
-_同理法则${I{I}'}$($\frac{\infty }{\infty }$型)仿法则${{I}'}$可写出_
+**同理法则Ⅱ' ($\frac{\infty }{\infty }$型)仿法则Ⅰ' 可写出**
 
 #### 11.泰勒公式 ####
 
 设函数$f(x)$在点${{x}_{0}}$处的某邻域内具有$n+1$阶导数，则对该邻域内异于${{x}_{0}}$的任意点$x$，在${{x}_{0}}$与$x$之间至少存在一个$\xi$，使得:
 
-> $f(x)=f({{x}_{0}})+{f}'({{x}_{0}})(x-{{x}_{0}})+\frac{1}{2!}{f}''({{x}_{0}}){{(x-{{x}_{0}})}^{2}}+\cdots +\frac{{{f}^{(n)}}({{x}_{0}})}{n!}{{(x-{{x}_{0}})}^{n}}+{{R}_{n}}(x)$
+$f(x)=f({{x}_{0}})+{f}'({{x}_{0}})(x-{{x}_{0}})+\frac{1}{2!}{f}''({{x}_{0}}){{(x-{{x}_{0}})}^{2}}+\cdots +\frac{{{f}^{(n)}}({{x}_{0}})}{n!}{{(x-{{x}_{0}})}^{n}}+{{R}_{n}}(x)$
 
  其中 ${{R}_{n}}(x)=\frac{{{f}^{(n+1)}}(\xi )}{(n+1)!}{{(x-{{x}_{0}})}^{n+1}}$ 称为 $f(x)$ 在点 ${{x}_{0}}$ 处的 $n$ 阶泰勒余项。
 
 令${{x}_{0}}=0$，则$n$阶泰勒公式 **(麦克劳林公式):**
 
-> $f(x)=f(0)+{f}'(0)x+\frac{1}{2!}{f}''(0){{x}^{2}}+\cdots +\frac{{{f}^{(n)}}(0)}{n!}{{x}^{n}}+{{R}_{n}}(x)$
+$f(x)=f(0)+{f}'(0)x+\frac{1}{2!}{f}''(0){{x}^{2}}+\cdots +\frac{{{f}^{(n)}}(0)}{n!}{{x}^{n}}+{{R}_{n}}(x)$
 
 其中 ${{R}_{n}}(x)=\frac{{{f}^{(n+1)}}(\xi )}{(n+1)!}{{x}^{n+1}}$，$\xi $在0与$x$之间
 
@@ -236,20 +235,20 @@ _同理法则${I{I}'}$($\frac{\infty }{\infty }$型)仿法则${{I}'}$可写出_
 
 #### 12.函数单调性的判断 ####
 
-**Th1:**  设函数$f(x)$在$(a,b)$区间内可导，如果对$\forall x\in (a,b)$，都有$f\,'(x)>0$（或$f\,'(x)<0$），则函数$f(x)$在$(a,b)$内是单调增加的（或单调减少）
+**Th1:**  设函数$f(x)$在$(a,b)$区间内可导，如果对$\forall x\in (a,b)$，都有$f'(x)>0$（或$f'(x)<0$），则函数$f(x)$在$(a,b)$内是单调增加的（或单调减少）
 
-**Th2:** （取极值的必要条件）设函数$f(x)$在${{x}_{0}}$处可导，且在${{x}_{0}}$处取极值，则$f\,'({{x}_{0}})=0$。
+**Th2:** （取极值的必要条件）设函数$f(x)$在${{x}_{0}}$处可导，且在${{x}_{0}}$处取极值，则$f'({{x}_{0}})=0$。
 
-**Th3:** （取极值的第一充分条件）设函数$f(x)$在${{x}_{0}}$的某一邻域内可微，且$f\,'({{x}_{0}})=0$（或$f(x)$在${{x}_{0}}$处连续，但$f\,'({{x}_{0}})$不存在。）
+**Th3:** （取极值的第一充分条件）设函数$f(x)$在${{x}_{0}}$的某一邻域内可微，且$f'({{x}_{0}})=0$（或$f(x)$在${{x}_{0}}$处连续，但$f'({{x}_{0}})$不存在。）
 
-> (1)若当$x$经过${{x}_{0}}$时，$f\,'(x)$由“+”变“-”，则$f({{x}_{0}})$为极大值
-> (2)若当$x$经过${{x}_{0}}$时，$f\,'(x)$由“-”变“+”，则$f({{x}_{0}})$为极小值
-> (3)若$f\,'(x)$经过$x={{x}_{0}}$的两侧不变号，则$f({{x}_{0}})$不是极值
+> (1)若当$x$经过${{x}_{0}}$时，$f'(x)$由“+”变“-”，则$f({{x}_{0}})$为极大值
+> (2)若当$x$经过${{x}_{0}}$时，$f'(x)$由“-”变“+”，则$f({{x}_{0}})$为极小值
+> (3)若$f'(x)$经过$x={{x}_{0}}$的两侧不变号，则$f({{x}_{0}})$不是极值
 
-**Th4:** （取极值的第二充分条件）设$f(x)$在点${{x}_{0}}$处有$f''(x)\ne 0$，且$f\,'({{x}_{0}})=0$，则：
-> 当$f'\,'({{x}_{0}})<0$时，$f({{x}_{0}})$为极大值
-> 当$f'\,'({{x}_{0}})>0$时，$f({{x}_{0}})$为极小值
-> 如果$f'\,'({{x}_{0}})=0$，失效
+**Th4:** （取极值的第二充分条件）设$f(x)$在点${{x}_{0}}$处有$f''(x)\ne 0$，且$f'({{x}_{0}})=0$，则：
+> 当$f''({{x}_{0}})<0$时，$f({{x}_{0}})$为极大值
+> 当$f''({{x}_{0}})>0$时，$f({{x}_{0}})$为极小值
+> 如果$f''({{x}_{0}})=0$，失效
 
 #### 13.渐近线的求法 ####
 
