@@ -1,6 +1,6 @@
 ---
 title: 数学基础知识 
-date: 2021-08-16
+date: 2021-08-25
 tags: 
     - basic
 categories: Math
@@ -26,9 +26,9 @@ $f'({{x}_{0}})=\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{f(x)-f({{x}_{0}}
 
 函数$f(x)$在$x_0$处的左、右导数分别定义为：
 
-左导数：${{{f}'}_{-}}({{x}_{0}})=\underset{\Delta x\to {{0}^{-}}}{\mathop{\lim }}\,\frac{f({{x}_{0}}+\Delta x)-f({{x}_{0}})}{\Delta x}=\underset{x\to x_{0}^{-}}{\mathop{\lim }}\,\frac{f(x)-f({{x}_{0}})}{x-{{x}_{0}}},(x={{x}_{0}}+\Delta x)$
+左导数：${{f'}_{-}}({{x}_{0}})=\underset{\Delta x\to {{0}^{-}}}{\mathop{\lim }}\,\frac{f({{x}_{0}}+\Delta x)-f({{x}_{0}})}{\Delta x}=\underset{x\to x_{0}^{-}}{\mathop{\lim }}\,\frac{f(x)-f({{x}_{0}})}{x-{{x}_{0}}},(x={{x}_{0}}+\Delta x)$
 
-右导数：${{{f}'}_{+}}({{x}_{0}})=\underset{\Delta x\to {{0}^{+}}}{\mathop{\lim }}\,\frac{f({{x}_{0}}+\Delta x)-f({{x}_{0}})}{\Delta x}=\underset{x\to x_{0}^{+}}{\mathop{\lim }}\,\frac{f(x)-f({{x}_{0}})}{x-{{x}_{0}}}$
+右导数：${{f'}_{+}}({{x}_{0}})=\underset{\Delta x\to {{0}^{+}}}{\mathop{\lim }}\,\frac{f({{x}_{0}}+\Delta x)-f({{x}_{0}})}{\Delta x}=\underset{x\to x_{0}^{+}}{\mathop{\lim }}\,\frac{f(x)-f({{x}_{0}})}{x-{{x}_{0}}}$
 
 #### 3.函数的可导性与连续性之间的关系 ####
 
@@ -36,7 +36,7 @@ $f'({{x}_{0}})=\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{f(x)-f({{x}_{0}}
 
 **Th2:** 若函数在点$x_0$处可导，则$y=f(x)$在点$x_0$处连续，反之则不成立。即函数连续不一定可导
 
-**Th3:** ${f}'({{x}_{0}})$存在$\Leftrightarrow {{{f}'}_{-}}({{x}_{0}})={{{f}'}_{+}}({{x}_{0}})$
+**Th3:** ${f}'({{x}_{0}})$存在$\Leftrightarrow {{f'}_{-}}({{x}_{0}})={{f'}_{+}}({{x}_{0}})$
 
 #### 4.平面曲线的切线和法线 ####
 
@@ -48,7 +48,7 @@ $f'({{x}_{0}})=\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{f(x)-f({{x}_{0}}
 设函数$u=u(x)，v=v(x)$在点$x$可导则
 (1) $(u\pm v{)}'={u}'\pm {v}'$，$d(u\pm v)=du\pm dv$
 (2)$(uv{)}'=u{v}'+v{u}'$，$d(uv)=udv+vdu$
-(3) $(\frac{u}{v}{)}'=\frac{v{u}'-u{v}'}{{{v}^{2}}}(v\ne 0)$，$d(\frac{u}{v})=\frac{vdu-udv}{{{v}^{2}}}$
+(3) $(\frac{u}{v}{)}'=\frac{v{u}'-u{v}'}{{v^2}}(v\ne 0)$，$d(\frac{u}{v})=\frac{vdu-udv}{{v}^{2}}$
 
 #### 6.基本导数与微分表 ####
 
