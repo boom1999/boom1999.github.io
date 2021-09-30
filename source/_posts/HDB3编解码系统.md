@@ -612,4 +612,4 @@ endmodule
 [9]: https://www.lingzhicheng.cn/usr/file/picture/HDB3/9.恢复的m序列和码元定时恢复时钟.jpg
 [10]: https://www.lingzhicheng.cn/usr/file/picture/HDB3/10.m序列前后.jpg
 [11]: https://www.lingzhicheng.cn/usr/file/HDB3_quartus+modelism.zip
-[12]: https://www.lingzhicheng.cn/usr/file/HDB3wavefile.zi
+[12]: https://www.lingzhicheng.cn/usr/file/HDB3wavefile.zip
