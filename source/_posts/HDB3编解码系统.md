@@ -47,7 +47,7 @@ copyright: true
 - even256_div模块
   - 模块even256_div的作用是将最开始的32.768MHz系统时钟进行偶数256分频，产生新的时钟信号，供给后续16分频模块使用，同时用于解码部分的码元定时恢复模块判决时钟使用。
 
-``` Verilog HDL
+``` Verilog
 module even256_div(clk,rst,clk_out);
 
 input clk,rst;
@@ -78,7 +78,7 @@ endmodule
 - even16_div模块
   - 模块even16_div的作用是将256分频输出的时钟再次进行偶数分频，得到的时钟就是用于m序列产生的码元时钟。
 
-``` Verilog HDL
+``` Verilog
 module even16_div(clk,rst,clk_out);
     
 input clk,rst;
@@ -111,7 +111,7 @@ endmodule
 - m_sequence模块
   - 模块m_sequence的作用是根据7阶m序列的本原多项式，循环位移，使用16分频的码元时钟产生伪随机序列模拟基带传输信号。
 
-``` Verilog HDL
+``` Verilog
 module m_sequence(clk,rst,ena,data_out,load);
 
 input clk;                        //时钟信号
@@ -150,7 +150,7 @@ endmodule
   - 设置了一个寄存器用于存储当前码元位置处连“0”个的个数；
   - 对输入信号进行判断，若输入高电平，则计数器复位，输出为“01”；若输入低电平，则将计数器加一，并判断此时计数器的值是否为“4”，若计数器的值为“4”，则表示出现四个连“0”，将该“0”信号变为“V”且计数器复位，输出为“11”，否则，输出为“00”。
 
-``` Verilog HDL
+``` Verilog
 module add_v(rst,data_in,data_out,clk);
 
 input data_in,rst,clk;
@@ -187,7 +187,7 @@ endmodule
   - 对输入信号进行判断，若输入为“00”，将“1”码计数器加上“V”码计数器的值，并复位“V”码计数器；若输入为“01”，先将“1”码计数器加一，然后加上“V”码计数器的值，最后复位“V”码计数器；若输入为“11”，则“V”码计数器加一；
   - 用“1”码计数器和“V”码计数器的值判断最终的输出信号，若输入不为“11”，则输出不变；若输入为“11”，判断此时“1”码计数器的值，当此前“1”码的个数为奇数时，输出不变，当此前“1”码的个数为偶数时，输出“10”。
 
-``` Verilog HDL
+``` Verilog
 module add_b(rst,data_in,data_out,clk);
 
 input clk,rst;
@@ -243,7 +243,7 @@ endmodule
   - 设置极性判断标志位，当其为“1”时，表示“+1”和“-V”，当其为“0”时，表示“-1”和“+V”；
   - 对输入信号进行判断，若输入为“11”（V码），利用极性判断标志位判断该码正负；若输入为“01”（1码）或者“10”（B码），利用极性判断标志位判断该码正负，同时将极性判断标志位翻转；若输入为“00”（0码），则输出为“00”。
 
-``` Verilog HDL
+``` Verilog
 module polar(rst,data_in,data_outP,data_outN,clk);
 
 input [1:0]data_in;
@@ -302,7 +302,7 @@ endmodule
   - 输入信号为polar模块的输出，输出信号则为8位二进制数；
   - 对输入信号进行判断，若输入信号为“00”，则输出信号为“10000000”；若输入信号为“10”，则输出信号为“11111111”，若输入信号为“01”，则输出信号为“00000000”。
 
-``` Verilog HDL
+``` Verilog
 module change(rst,data_inP,data_inN,data_out,clk);
 
 //二输入八输出模块，将PN信号转换为八位输出信号作为DAC的输入
@@ -348,7 +348,7 @@ endmodule
   - 对输入信号进行判断，若输入信号为“3’h00”，则输出信号为“P=0,N=1”；若输入信号为“3’h80”，则输出信号为“P=0,N=0”，若输入信号为“3’hFF”，则输出信号为“P=1,N=0”；
   - 但实际情况是，真实的AD转换输出不会是刚好的3’h00、3’h80和3’hFF，经过实际检测，输出的范围分别是3’h00~8'h0f、8'h30~8'h3f、大于8'h58，和理想的情况相差较大，如果实际操作时用理想的三种情况检测，将不能恢复出双极性信号。
 
-``` Verilog HDL
+``` Verilog
 module trans8to1(rst_n, indata_8, outdata_P, outdata_N,clk);
 
 input rst_n,clk;
@@ -388,7 +388,7 @@ endmodule
   - 如果PN是01，则flag1置0，flag2自加1，如果flag2自加+后为2则表示有两个连续的-1；
   - 无论是找到连续的+1还是-1都全部置11表示连续的1，正常不连续的+1和-1用01表示，其他状况都清00表示0基本还原原始序列。
 
-``` Verilog HDL
+``` Verilog
 module findv(rst_n, indata_P, indata_N, outdata,clk);
 
 input rst_n,clk;
@@ -444,7 +444,7 @@ endmodule
   - 但实际上只要找到了V码，将V码本身和之前的三位一共四位全部清零，就可以不用考虑B码的影响；
   - 检测indata的输入若为11则表示这是一个V码，则使用buffer将四位数据清零，输出接到buffer的前三位，用counterv的0和1状况来判定清零还是直接buffer输出，完成最终的解码。
 
-``` Verilog HDL
+``` Verilog
 module delvb(rst_n, indata, outdata,clk);
 
 input rst_n,clk;
@@ -507,7 +507,7 @@ endmodule
   - 码元定时恢复功能的连接：用256分频时钟作为recover模块的驱动时钟，ad转换器的输出作为recover模块的输入，输出为码元定时恢复时钟；
   - HDB3译码功能的连接:该功能下模块的驱动时钟都为码元定时恢复时钟，ad转换器的输出作为trans8to1模块的输入，将trans8to1模块的输出作为findv模块的输入，将findv模块的输出作为delvb模块的输入，delvb模块的输出即为译码恢复的m序列。
 
-``` Verilog HDL
+``` Verilog
 module HDB3(rst,
                 clk,clk_256,clk_16,clk_recover,clk_256_ad,clk_256_da,
                 ena,

@@ -1,0 +1,127 @@
+<head>
+  <meta name='generator' content='mintty'/>
+  <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+  <title>mintty screen dump</title>
+  <link rel='stylesheet' type='text/css' href='xterm.css'/>
+  <link rel='stylesheet' type='text/css' href='mintty.css'/>
+  <style type='text/css'>
+  body, pre { margin: 0; padding: 0; }
+  pre { font-family: inherit; }
+  span {
+    font-family: 'Lucida Console', 'Lucida Console ', 'Consolas', monospace;
+  }
+  #vt100 {
+    border: 0px solid;
+    padding: 1px;
+    line-height: 113%;
+    font-size: 9pt;
+  }
+  #vt100 pre {
+    background-color: #000000;
+    color: #BFBFBF;
+    float: left;
+  }
+  .bd { font-weight: bold }
+  .it { font-style: italic }
+  .ul { text-decoration-line: underline }
+  .st { text-decoration-line: line-through }
+  .lu { text-decoration-line: line-through underline }
+  .fg-color0 { color: #000000 } .bg-color0 { background-color: #000000 }
+  .fg-color1 { color: #BF0000 } .bg-color1 { background-color: #BF0000 }
+  .fg-color2 { color: #00BF00 } .bg-color2 { background-color: #00BF00 }
+  .fg-color3 { color: #BFBF00 } .bg-color3 { background-color: #BFBF00 }
+  .fg-color4 { color: #0000BF } .bg-color4 { background-color: #0000BF }
+  .fg-color5 { color: #BF00BF } .bg-color5 { background-color: #BF00BF }
+  .fg-color6 { color: #00BFBF } .bg-color6 { background-color: #00BFBF }
+  .fg-color7 { color: #BFBFBF } .bg-color7 { background-color: #BFBFBF }
+  .fg-color8 { color: #404040 } .bg-color8 { background-color: #404040 }
+  .fg-color9 { color: #FF4040 } .bg-color9 { background-color: #FF4040 }
+  .fg-color10 { color: #40FF40 } .bg-color10 { background-color: #40FF40 }
+  .fg-color11 { color: #FFFF40 } .bg-color11 { background-color: #FFFF40 }
+  .fg-color12 { color: #6060FF } .bg-color12 { background-color: #6060FF }
+  .fg-color13 { color: #FF40FF } .bg-color13 { background-color: #FF40FF }
+  .fg-color14 { color: #40FFFF } .bg-color14 { background-color: #40FFFF }
+  .fg-color15 { color: #FFFFFF } .bg-color15 { background-color: #FFFFFF }
+  #cursor { background-color: #BFBFBF }
+  .font10 { font-family: 'F25 Blackletter Typewriter' }
+  </style>
+  <script>
+  var b1 = 500; var b2 = 300;
+  function visib (tag, state, timeout) {
+    var bl = document.getElementsByName(tag);
+    var vv; if (state) vv = 'visible'; else vv = 'hidden';
+    var i;
+    for (i = 0; i < bl.length; i++) {
+      bl[i].style.visibility = vv;
+    }
+    window.setTimeout ('visib ("' + tag + '", ' + !state + ', ' + timeout + ')', timeout);
+  }
+  function setup () {
+    window.setTimeout ('visib ("blink", 0, b1)', b1);
+    window.setTimeout ('visib ("rapid", 0, b2)', b2);
+  }
+  </script>
+</head>
+
+<body onload='setup();'>
+  <div class=background id='vt100'>
+   <pre><span class='od' style='color: #00BFBF;'>)                                                                               </span><span class='od'>                                                                                                                                  </span><br
+><span class='ev'>$ hexo d                                                                        </span><span class='ev'>                                                                                                                                  </span><br
+><span class='od'>INFO  Validating config                                                         </span><span class='od'>                                                                                                                                  </span><br
+><span class='ev'>INFO  Deploying: git                                                            </span><span class='ev'>                                                                                                                                  </span><br
+><span class='od'>INFO  Clearing .deploy_git folder...                                            </span><span class='od'>                                                                                                                                  </span><br
+><span class='ev'>INFO  Copying files from public folder...                                       </span><span class='ev'>                                                                                                                                  </span><br
+><span class='od'>INFO  Copying files from extend dirs...                                         </span><span class='od'>                                                                                                                                  </span><br
+><span class='ev'>On branch master                                                                </span><span class='ev'>                                                                                                                                  </span><br
+><span class='od'>nothing to commit, working tree clean                                           </span><span class='od'>                                                                                                                                  </span><br
+><span class='ev'>fatal: unable to access 'https://github.com/boom1999/boom1999.github.io.git/': O</span><span class='ev'>                                                                                                                                  </span><br
+><span class='od'>penSSL SSL_read: SSL_ERROR_SYSCALL, errno 10054                                 </span><span class='od'>                                                                                                                                  </span><br
+><span class='ev'>FATAL {                                                                         </span><span class='ev'>                                                                                                                                  </span><br
+><span class='od'>  err: Error: Spawn failed                                                      </span><span class='od'>                                                                                                                                  </span><br
+><span class='ev'>      at ChildProcess.&lt;anonymous> (G:\Blog\blog_local\boom1999.github.io\node_mo</span><span class='ev'>                                                                                                                                  </span><br
+><span class='od'>dules\hexo-deployer-git\node_modules\hexo-util\lib\spawn.js:51:21)              </span><span class='od'>                                                                                                                                  </span><br
+><span class='ev'>      at ChildProcess.emit (events.js:210:5)                                    </span><span class='ev'>                                                                                                                                  </span><br
+><span class='od'>      at ChildProcess.cp.emit (G:\Blog\blog_local\boom1999.github.io\node_module</span><span class='od'>                                                                                                                                  </span><br
+><span class='ev'>s\cross-spawn\lib\enoent.js:34:29)                                              </span><span class='ev'>                                                                                                                                  </span><br
+><span class='od'>      at Process.ChildProcess._handle.onexit (internal/child_process.js:272:12) </span><span class='od'>                                                                                                                                  </span><br
+><span class='ev'>{                                                                               </span><span class='ev'>                                                                                                                                  </span><br
+><span class='od'>    code: 128                                                                   </span><span class='od'>                                                                                                                                  </span><br
+><span class='ev'>  }                                                                             </span><span class='ev'>                                                                                                                                  </span><br
+><span class='od'>} Something's wrong. Maybe you can find the solution here: %s https://hexo.io/do</span><span class='od'>                                                                                                                                  </span><br
+><span class='ev'>cs/troubleshooting.html                                                         </span><span class='ev'>                                                                                                                                  </span><br
+><span class='od'>                                                                                </span><span class='od'>                                                                                                                                  </span><br
+><span class='ev' style='color: #00BF00;'>lingz@DESKTOP-MVLIE0I </span><span class='ev' style='color: #BF00BF;'>MINGW64 </span><span class='ev' style='color: #BFBF00;'>/g/Blog/blog_local/boom1999.github.io</span><span class='ev' style='color: #00BFBF;'> (hexo_backup</span><span class='ev'>                                                                                                                                  </span><br
+><span class='od' style='color: #00BFBF;'>)                                                                               </span><span class='od'>                                                                                                                                  </span><br
+><span class='ev'>$ hexo d                                                                        </span><span class='ev'>                                                                                                                                  </span><br
+><span class='od'>INFO  Validating config                                                         </span><span class='od'>                                                                                                                                  </span><br
+><span class='ev'>INFO  Deploying: git                                                            </span><span class='ev'>                                                                                                                                  </span><br
+><span class='od'>INFO  Clearing .deploy_git folder...                                            </span><span class='od'>                                                                                                                                  </span><br
+><span class='ev'>INFO  Copying files from public folder...                                       </span><span class='ev'>                                                                                                                                  </span><br
+><span class='od'>INFO  Copying files from extend dirs...                                         </span><span class='od'>                                                                                                                                  </span><br
+><span class='ev'>On branch master                                                                </span><span class='ev'>                                                                                                                                  </span><br
+><span class='od'>nothing to commit, working tree clean                                           </span><span class='od'>                                                                                                                                  </span><br
+><span class='ev'>fatal: unable to access 'https://github.com/boom1999/boom1999.github.io.git/': OpenSSL SSL_read: SSL_ERROR_SYSCALL, errno 10054</span><span class='ev'>                                                                                   </span><br
+><span class='od'>FATAL {                                                                                                                                                                                                           </span><br
+><span class='ev'>  err: Error: Spawn failed                                                                                                                                                                                        </span><br
+><span class='od'>      at ChildProcess.&lt;anonymous> (G:\Blog\blog_local\boom1999.github.io\node_modules\hexo-deployer-git\node_modules\hexo-util\lib\spawn.js:51:21)                                                                </span><br
+><span class='ev'>      at ChildProcess.emit (events.js:210:5)                                                                                                                                                                      </span><br
+><span class='od'>      at ChildProcess.cp.emit (G:\Blog\blog_local\boom1999.github.io\node_modules\cross-spawn\lib\enoent.js:34:29)                                                                                                </span><br
+><span class='ev'>      at Process.ChildProcess._handle.onexit (internal/child_process.js:272:12) {                                                                                                                                 </span><br
+><span class='od'>    code: 128                                                                                                                                                                                                     </span><br
+><span class='ev'>  }                                                                                                                                                                                                               </span><br
+><span class='od'>} Something's wrong. Maybe you can find the solution here: %s https://hexo.io/docs/troubleshooting.html                                                                                                           </span><br
+><span class='ev'>                                                                                                                                                                                                                  </span><br
+><span class='od' style='color: #00BF00;'>lingz@DESKTOP-MVLIE0I </span><span class='od' style='color: #BF00BF;'>MINGW64 </span><span class='od' style='color: #BFBF00;'>/g/Blog/blog_local/boom1999.github.io</span><span class='od' style='color: #00BFBF;'> (hexo_backup)</span><span class='od'>                                                                                                                                 </span><br
+><span class='ev'>$ hexo d                                                                                                                                                                                                          </span><br
+><span class='od'>INFO  Validating config                                                                                                                                                                                           </span><br
+><span class='ev'>INFO  Deploying: git                                                                                                                                                                                              </span><br
+><span class='od'>INFO  Clearing .deploy_git folder...                                                                                                                                                                              </span><br
+><span class='ev'>INFO  Copying files from public folder...                                                                                                                                                                         </span><br
+><span class='od'>INFO  Copying files from extend dirs...                                                                                                                                                                           </span><br
+><span class='ev'>On branch master                                                                                                                                                                                                  </span><br
+><span class='od'>nothing to commit, working tree clean                                                                                                                                                                             </span><br
+><span class='ev'>Username for 'https://github.com':                                                                                                                                                                                </span><br
+><span class='od'>error: unable to read askpass response from 'E:/Git/mingw64/libexec/git-core/git-gui--askpass'                                                                                                                    </span><br
+><span class='ev'>Password for 'https://github.com': </span><span class='ev' id='cursor'> </span><span class='ev'>                                                                                                                                                                              </span></pre>
+  </div>
+</body>
