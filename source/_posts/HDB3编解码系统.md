@@ -553,8 +553,8 @@ endmodule
 
 ## 调试与验证 ##
 
-![Fig.2 整体仿真][2]
-<center><font size=2>Fig.2 整体仿真</font></center>
+![Fig.2 FPGA][2]
+<center><font size=2>Fig.2 FPGA</font></center>
 
 ![Fig.3 引脚分配][3]
 <center><font size=2>Fig.3 引脚分配/font></center>
@@ -597,7 +597,7 @@ endmodule
 
 <!-- markdownlint-disable-file MD025 MD033 -->
 [1]: https://www.lingzhicheng.cn/usr/file/picture/HDB3/1.FrameDiagram.png
-[2]: https://www.lingzhicheng.cn/usr/file/picture/HDB3/2.整体仿真.jpg
+[2]: https://www.lingzhicheng.cn/usr/file/picture/HDB3/2.FPGA.png
 [3]: https://www.lingzhicheng.cn/usr/file/picture/HDB3/3.引脚分配.jpg
 [4]: https://www.lingzhicheng.cn/usr/file/picture/HDB3/4.jpg
 [5]: https://www.lingzhicheng.cn/usr/file/picture/HDB3/5.256分频和16分频.jpg
@@ -607,4 +607,4 @@ endmodule
 [9]: https://www.lingzhicheng.cn/usr/file/picture/HDB3/9.恢复的m序列和码元定时恢复时钟.jpg
 [10]: https://www.lingzhicheng.cn/usr/file/picture/HDB3/10.m序列前后.jpg
 [11]: https://www.lingzhicheng.cn/usr/file/HDB3_quartus+modelism.zip
-[12]: https://www.lingzhicheng.cn/usr/file/HDB3wavefile.zip
+[12]: https://www.lingzhicheng.cn/usr/file/HDB3wavefile.zi
