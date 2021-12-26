@@ -23,13 +23,13 @@ copyright: true
 
 ## 版本介绍 ##
 
-> python 3.7.0
->conda 4.5.11
+> python 3.7.10
+> conda 4.5.11
 > CUDA 11.1
->Cudatoolkit 11.1.0
->cuDNN 11.1 v8.0.5
->tensorflow_gpu-2.4.1
->Pycharm Professional 2020.3.3
+> Cudatoolkit 11.1.0
+> cuDNN 11.1 v8.0.5
+> tensorflow_gpu-2.4.1
+> Pycharm Professional 2020.3.3
 
 ----------
 
@@ -236,6 +236,82 @@ copyright: true
 > 如果提示确实dll动态链接库，请尝试手动下载，貌似采用CUDA11.1可能会遇到这种情况，并且有部分人认为11.1中有未知错误并且不推荐使用，但在安装过程中并未发现，或许之后遇到了会继续补充
 >
 
+----------
+
+## Update 2021.08.10 ##
+
+- 考虑到大多数模型还是使用`f1.x`构建的，并且与`2.x`在很大程度上有所区别，故决定增加`tensorflow1.8.0`环境。
+
+### 注意事项（与上文相同，有空加图） ###
+
+1. CUDA、cuDNN与Tensorflow版本号对应，[点击查看原文档对应关系][22]
+2. Python版本适用，不建议用过高版本
+3. 显卡驱动不适配（显卡驱动决定可支持的CUDA最高版本，已有2.x版本的固驱动基本不会出问题），[点击查看原文档对应关系][23]
+4. 两个版本的CUDA兼容性问题
+
+**多版本的CUDA兼容问题最麻烦（多次尝试后已解决）**
+
+- CUDA安装
+  - 若采用**精简安装**，先安装低版本的，在安装高版本的，会覆盖兼容，暂未发现问题
+  - 若现有高版本（如本文顺序现有tf2.4.1再加1.8.0），需使用**自定义安装**，驱动组件只需选择CUDA下的`Develpoment`、`Documentation`、`Visual Studio Intergration`、`Sanples`、`Runtime`共五个即可，`Nsight compute`以及`Driver components`和`other components`取消勾选，否则会导致两个版本冲突都无法使用
+  - 路径添加
+    - 安装完成之后，默认`C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA`会出现`v9.0`文件夹，原来已经有`v11.1`
+    - 此时已可用`nvcc -V`查看CUDA版本为最近安装的版本
+    - [cuDNN组件下载替换][24]
+- 版本切换(环境变量)
+  - 只需将PATH下需要使用的版本`bin`和`libnvvp`两个路径移动至其他版本之前即可,CUDA_PATH无需修改，`nvcc -V`可查看当前CUDA版本已更改
+  - `CUDA_PATH C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1`
+  - `CUDA_PATH_V11.1 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1`
+  - `CUDA_PHTH_V9.0 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0`
+  - PATH
+    - `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1\bin`
+    - `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1\libnvvp`
+    - `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\bin`
+    - `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\libnvvp`
+
+- 经过测试多版本tensorflow无冲突，版本自由切换正常，时间原因详细步骤不截图，此处记下以备之后迁移环境时参考用
+
+### Tensorflow-GPU版本信息 ###
+
+- tensorflow_gpu-2.4.1
+    > python 3.7.10
+    > CUDA 11.1
+    > cuDNN 11.1 v8.0.5
+- tensorflow_gpu-1.8.0
+    > python 3.6.13
+    > CUDA 9.0
+    > cuDNN 9.0 v7.6.5
+
+----------
+
+## Update 2021.12.26 ##
+
+- 由于之后的研究影响，部分模型可能需要用到Pytorch，尽管个人倾向于使用前者建模，但在复现已有的模型时不可必要要看懂并且迁移Pytorch模型，故决定增加`Pytorch1.8.0`环境。
+
+### 详细步骤（有空加图） ###
+
+1. Anaconda虚拟环境，`conda create -n torch1.8.0 python=3.7.0`等待创建完毕
+2. pip安装或conda安装torch
+3. 同样也需要注意CUDA版本对应，由于之前已有CUDA11.1，故找了个与之适配的torch版本使用
+
+- 本文使用conda安装，有空详细展开并且加上pip安装流程
+  - [查找历史版本][25]
+  - 使用conda命令等待安装完毕即可，若下载受限请参照上文修改镜像源
+- 一般速度较快，若长时间无反应请考虑是否被墙（换源）或者无对应版本（参照文档）
+- 本文使用`conda install pytorch==1.8.0 torchvision==0.9.0 torchaudio==0.8.0 cudatoolkit=11.1 -c pytorch -c conda-forge`
+
+### Pytorch-GPU版本信息 ###
+
+- pytorch 1.8.0
+    > torchvision 0.9.0
+    > torchaudio 0.8.0
+    > python 3.7.0
+    > CUDA 11.1
+    > cuDNN 11.1 v8.0.5
+
+----------
+
+<!-- markdownlint-disable-file MD036 -->
 [1]: https://www.python.org/downloads/
 [2]: https://www.google.com.hk/
 [3]: https://www.anaconda.com/products/individual
@@ -257,3 +333,7 @@ copyright: true
 [19]: https://www.lingzhicheng.cn/usr/file/picture/Python/Prompt_test.png
 [20]: https://www.lingzhicheng.cn/usr/file/picture/Python/Pycharm_test0.png
 [21]: https://www.lingzhicheng.cn/usr/file/picture/Python/Pycharm_test1.png
+[22]: https://tensorflow.google.cn/install/source_windows?hl=en#gpu
+[23]: https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html
+[24]: https://developer.nvidia.com/rdp/cudnn-archive
+[25]: https://pytorch.org/get-started/previous-versions/
