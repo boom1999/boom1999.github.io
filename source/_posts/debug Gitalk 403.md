@@ -1,6 +1,6 @@
 ---
 title: debug Gitalk 403
-date: 2021-02-23
+date: 2022-01-02
 tags: 
    - debug
 categories: Gitalk
@@ -76,6 +76,23 @@ copyright: true
 >
 > 重新部署
 
----
-
 暂时采用了Issue中找到的可替代的cors，表示感谢.
+
+----------
+
+### Update 2022.01.02 ###
+
+- 很久没更新blog了，趁这次有时间索性把积攒下来的问题一起解决:wave:
+- 这次还是Gitalk的问题，~~虽然可以使用其他评论插件，~~ 但还是更加喜欢Gitalk的UI
+- 上文已经解决了`403`的问题，是采用了一个Issue里的方法，使用了热心网友的代
+- 但是发现实际上只用了三四个月左右就由于使用人数过多，所有访问都进了这个代理，后来应该是网友取消了，不得而知，出现了好几个月的`Error:Net error`
+- 继续找问题会发现又有网友提出了上面这个方法（**好家伙搁这儿转圈圈呢**）
+- 很机智的把`_config.yml`里的代理清了，发现有希望，不再是直接`error`了，有登录验证界面，但变成`405`了好家伙。
+- 好在有个Taiwan的网友Kalin Lai[发现了问题][1]，是gitalk.ejs中的代理没删干净，手动狗头。
+- 删干净后重新出现了`403`，继续找文档，loading···
+- 最后终于找到了，忙活一个小时成功解决，吃饭去了
+
+> 针对403的问题，Gitalk开发团队已经做了修复，解决方法如下：更新版本到 1.7.2 或者修改配置增加`proxy: https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token`
+> 当然也可以重新配置个人代理，有机会试一下，这里插个眼  TODO:
+
+[1]:https://github.com/gitalk/gitalk/issues/437
