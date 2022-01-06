@@ -16,7 +16,7 @@
 
 [1]: https://boom1999.github.io
 [2]: https://www.lingzhicheng.cn
-[3]: https://www.lingzhicheng.cn/usr/file/web_img/
+[3]: https://www.lingzhicheng.cn/usr/file/web_img/demox.jpg
 [4]: https://hexo.io/zh-cn
 [5]: https://shen-yu.gitee.io
 [6]: https://www.webpushr.com
