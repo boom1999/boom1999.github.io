@@ -1,8 +1,8 @@
-## :blue_book:[GithubPages镜像站][1] ##
+# :blue_book:[GithubPages镜像站][1] #
 
-### :sunny:[预览][2] ###
+## :sunny:[预览][2] ##
 
-![首页截图](https://www.lingzhicheng.cn/usr/file/web_img/demox.jpg)
+![首页截图](demosource/demox.jpg)
 
 ----------
 
