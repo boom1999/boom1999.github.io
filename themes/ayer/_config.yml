@@ -164,7 +164,7 @@ pageFooter: true
 # ICP备案信息尾部显示
 icp:
   enable: true
-  url: "http://www.beian.miit.gov.cn/" # 备案链接
+  url: "http://beian.miit.gov.cn/" # 备案链接
   text: "浙ICP备2020044847" # 备案信息
 # 公安备案信息尾部显示
 gongan:
