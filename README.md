@@ -1,16 +1,56 @@
-# :blue_book:[GithubPages镜像站][1] #
+# :blue_book:[GithubPages Mirror][1] #
 
-## :sunny:[预览][2] ##
+## :sunny:[Preview][2] ##
 
 ![首页截图](demosource/demox.jpg)
 
 ----------
 
-## 致谢 ##
+## Plugin Configurations ##
 
-### :tada:[Hexo开源][3] ###
+```` yml
+#Webpushr
+webPushNotification:
+  webpushrKey:
+  webpushrAuthToken:
+  trackingCode:
 
-### :whale:[沈宇][4] ###
+markdown:
+  render:
+    html: true
+    xhtmlOut: false
+    breaks: true
+    linkify: true
+    typographer: false
+  plugins:
+    - markdown-it-footnote
+    - markdown-it-sup
+    - markdown-it-sub
+    - markdown-it-abbr
+    - markdown-it-emoji
+  anchors:
+    level: 2
+    collisionSuffix: 'v'
+    permalink: false
+    permalinkClass: header-anchor
+    permalinkSymbol: ¶
+
+gitalk:
+  enable: true # true
+  clientID:  # GitHub Application Client ID
+  clientSecret:  # Client Secret
+  repo: blog-comments # Repository name
+  owner: boom1999 # GitHub ID
+  admin: boom1999 # GitHub ID
+  proxy: 
+
+````
+
+## Thanks ##
+
+### :tada:[Hexo OpenSource][3] ###
+
+### :whale:[shen yu][4] ###
 
 ### :speaker:[Webpushr][5] ###
 
