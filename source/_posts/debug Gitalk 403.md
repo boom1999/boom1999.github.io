@@ -93,6 +93,12 @@ copyright: true
 - 最后终于找到了，忙活一个小时成功解决，吃饭去了
 
 > 针对403的问题，Gitalk开发团队已经做了修复，解决方法如下：更新版本到 1.7.2 或者修改配置增加`proxy: https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token`
-> 当然也可以重新配置个人代理，有机会试一下，这里插个眼  TODO:
+> 当然也可以重新配置个人代理，有机会试一下，这里插个眼
+
+### Update 2022.01.07 ###
+
+- 来更新了，试了用Cloudflare创建代理
+- 有免费的版本，每天十万条，每十分钟一千条记录
+- 但是发现代理后整个网站速度受到影响比较大，故放弃使用，选择用Gitalk团队的官方代理，结束。
 
 [1]:https://github.com/gitalk/gitalk/issues/437
