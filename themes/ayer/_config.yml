@@ -175,6 +175,14 @@ gongan:
 
 # 友情链接
 friends_link:
+  NUAA: 
+    url: https://www.nuaa.edu.cn/
+    img: /images/nuaa.png
+
+  UAV: 
+    url: http://uav.nuaa.edu.cn/
+    img: /images/uav.png
+
   ZJUT: 
     url: http://www.zjut.edu.cn/
     img: /images/zjut.jpg
@@ -195,11 +203,15 @@ friends_link:
     url: https://congb19.com/
     img: /images/lyc.png
 
-  喜羊羊:
+  力哥idevlab:
+    url: https://blogs.idevlab.cn/
+    img: /images/cl.jpg
+
+  xyy:
     url: https://www.xuyuyan.cn
     img: /images/xyyxyy.jpg
 
-  胖胖hhr:
+  hhr:
     url: https://www.huhaorui.com/
     img: /images/hhr.png
 
