@@ -16,7 +16,9 @@ copyright: true
 
 ----------
 
-## Motivation ##
+[TOC]
+
+## Motivation
 
 1. 虚假新闻严重危害了人们的生活，手动检测需要消耗大量的人力和物力，因此需要进行对新闻进行自动检测。
 2. 现有的虚假新闻检测方法往往基于充足的数据，但是现实中大量的数据并没有被标注，标注数据也需要耗费大量时间和精力，因此无监督方式和弱监督的方法也非常常见。
@@ -24,7 +26,7 @@ copyright: true
 
 > 社交网络的新闻往往包括新闻内容，社交上下文信息，以及外部知识。其中新闻内容指的是文章中所包含的文本信息以及图片视频等各种模态的信息。社交上下文信息指的是新闻的发布者，新闻的传播网络，以及其他用户对新闻的评论和转发。外部知识指客观事实知识，通常由知识图谱表示外部知识。
 
-## Classification criteria ##
+## Classification criteria
 
 1. 有监督虚假新闻检测方法(Supervised learning)
 
@@ -38,11 +40,11 @@ copyright: true
 
 > 无监督虚假新闻检测方法是指在完全没有标注数据的情况下对虚假新闻进行检测。
 
-## Supervised learning ##
+## Supervised learning
 
-### Basic infomation ###
+### Basic infomation
 
-#### Textual ####
+#### Textual
 
 1) [`Detecting rumors from microblogs with recurrent neural networks`][Textual 1] **IJCAI 2016**
 
@@ -68,7 +70,7 @@ copyright: true
 
 > 使用变分自动编码器VAE自编码文本信息的方式得到新闻文本的嵌入表示，并且将得到的新闻向量进行多任务学习，提升了模型的效果。
 
-#### Visual ####
+#### Visual
 
 [`Exploiting Multi-domain Visual Information for Fake News Detection`][visual 1] **ICDM 2019**
 计算机视觉方面的研究表明，经过修图软件伪造得到的图片与原始图片在频域的特征会有很大的不同。基于此，中科院曹娟老师团队提出虚假图片判别器MVNN，该工作发表在ICDM19上。MVNN提取图片的空域特征和频域特征，利用频领特征判别图片是否经过修图软件进行伪造，利用空域特征识别图片的语义信息，将得到的空域embedding和频域embedding拼接到一起，输入到分类器重，得到分类结果。该工作不但可以进行虚假图片的检测，还可以作为插件进行多模态虚假新闻的检测
@@ -77,7 +79,7 @@ copyright: true
 传统的基于统计学的方法利用附加图片的数目，图片流行度以及图片类型检测虚假新闻。然而这些基于统计学的特征无法描述图片的语义特征。
 随着深度学习的兴起，大量的工作使用卷积神经网络VGG或者ResNet对图片进行特征抽取，利用抽取到的特征进行虚假新闻检测。但现有的图片造假技术可以更改图像的语义信息，传统基于CNN的模型只可以提取图片像素级信息，无法识别图片是否经过伪造。
 
-#### Multi ####
+#### Multi
 
 1) [`Spotfake: A multi-modal framework for fake news detection`][multi 1] **BIG MM 2019**
 
@@ -119,11 +121,11 @@ copyright: true
 
 > 中科院曹娟老师团队的文章综合关注了多模态之间的互补信息，多模态的信息增强，以及多模态信息之间的对比。
 
-### Social context feature ###
+### Social context feature
 
 现有的虚假新闻作者往往仿照真实新闻的写法编写虚假新闻，因此，仅仅根据虚假新闻的内容去判别虚假新闻是不够的。大量研究表明，新闻作者的可信度可以帮助我们进行虚假新闻检测，可信度高的用户发表的新闻文章更有可能是真实新闻，可信度低的用户发表的新闻更有可能是虚假新闻。社会学研究表明，真实新闻和虚假新闻在社交网络的传播情况往往有所不同，因此，可以利用新闻的传播信息对虚假新闻进行检测。
 
-#### User credibility ####
+#### User credibility
 
 基于用户可信度的虚假新闻检测方法利用用户的profile以及用户的历史发文评估用户的可信度，之后对虚假新闻进行检测
 
@@ -139,7 +141,7 @@ copyright: true
 
 > 利用用户的发文历史识别用户可信度，将其作为内因。同时该工作将新闻的传播情况作为外因，利用内因和外因共同进行虚假新闻检测
 
-#### Propagation ####
+#### Propagation
 
 1) [`Early detection of fake news on social media through propagation path classification with recurrent and convolutional networks`][prop 1] **AAAI 2018**
 
@@ -165,9 +167,9 @@ copyright: true
 
 > 北京邮电大学吴斌老师团队将新闻的传播图建模为一张动态图，考虑了新闻传播过程的动态变化，利用动态图神经网络得到动态图嵌入向量，将其输入到分类器中得到分类结果，取得了不错的效果。
 
-### External knowledge ###
+### External knowledge
 
-#### Attention ####
+#### Attention
 
 1) [`Multi-modal knowledge-aware event memory network for social media rumor detection`][attention 1] **MM 2019**
 
@@ -177,7 +179,7 @@ copyright: true
 
 > 利用命名实体识别的方法将文本中的实体与知识图谱中的实体进行对齐，寻找到知识图谱中对应的实体。为了具有更加丰富的语义信息，KAN模型利用了知识图谱中对应的实体上下文信息。利用设计的multi head attention的方式融合新闻文本信息，实体信息以及实体上下文信息，获得语义丰富的新闻文本建模，对虚假新闻分类取得了很好的效果。
 
-#### Graph neural networks ####
+#### Graph neural networks
 
 1) [`Fake news detection via knowledge-driven multimodal graph convolutional networks`][gra-neural 1] **ICMR 2020**
 
@@ -187,50 +189,69 @@ copyright: true
 
 > 利用预训练的事实核查模型在外部知识语料重查找事实证据，将事实证据和新闻内容构造为星形图，利用GCN融合新闻内容和事实证据，对虚假新闻进行检测。
 
-#### Compare ####
+#### Compare
 
 - [`Compare to The Knowledge: Graph Neural Fake News Detection with External Knowledge`][compare 1] **ACL 2021**
 
 > 北京邮电大学胡琳梅团队考虑将新闻内容中的抽取实体信息与知识图谱中的实体信息进行对比，从而识别出虚假新闻。
 
-## Weak supervised learning ##
+## Weak supervised learning
 
-### 基于新闻内容 ###
+### Content
 
-#### 图结构 ####
+> 该类方法以新闻内容作为输入，利用图神经网络或者半监督方法在部分标注的数据进行虚假新闻检测。基于图的检测方法基于一个假设：图中相邻结点往往具有相似的标签。基于半监督的虚假新闻检测方法利用半监督方法首先用标注数据训练一个有监督的模型，让训练好的部分为无标注的数据打上伪标签，从而使带标签的数据越来越多，实现较好的训练效果。
 
-1) 首先建模新闻的文本信息作为新闻节点的初始化信息，之后利用新闻之间的相似性构图，将相似性较高的前n个新闻互相连边，之后根据图神经网络方法进行信息传递，获得新闻的嵌入表示，最后将嵌入表示输入到分类器中，得到新闻的分类结果。Weak supervised、Weak content supervised、Graph based methods
+#### Graph structure
 
-#### 伪标签 ####
+1) 首先建模新闻的文本信息作为新闻节点的初始化信息，之后利用新闻之间的相似性构图，将相似性较高的前n个新闻互相连边，之后根据图神经网络方法进行信息传递，获得新闻的嵌入表示，最后将嵌入表示输入到分类器中，得到新闻的分类结果。
 
-1) Weak supervised、Weak content supervised、Semi supervised methods
+- [`Fake News Detection using Semi-Supervised Graph Convolutional Network`][graph 1]
+- [`Semi-Supervised Learning and Graph Neural Networks for Fake News Detection`][graph 2] **IEEE 2019**
+- [`Semi-supervised Content-based Detection of Misinformation via Tensor Embeddings`][compare 1] **IEEE 2018**
 
-### 基于社交网络信息 ###
+#### Pseudo tags
 
-i. 社交网络包含丰富的信息，可以根据社交网络中的信息为新闻打上标签，比如，可信度较低的用户相较于可信度较高的用户更有可能发表虚假新闻；引起用户较强情感波动的新闻更有可能是虚假新闻。
-ii. ECML/PKDD的文章“. Early detection of fake news with multi-source weak social supervision“基于以下三个假设为新闻打上伪标签：1，可信度较低的用户更有可能发表虚假信息；2，新闻内容如果包含更大的政治偏见，则更有可能是虚假信息；3，新闻如果引起用户较大的情感极性变化，则更有可能是虚假新闻。该工作利用以上三个假设为无标注新闻标上伪标签，训练网络进行分类，取得了较好的效果。
-iii. ECML/PKDD的文章“. Early detection of fake news with multi-source weak social supervision“基于以下三个假设为新闻打上伪标签：1，可信度较低的用户更有可能发表虚假信息；2，新闻内容如果包含更大的政治偏见，则更有可能是虚假信息；3，新闻如果引起用户较大的情感极性变化，则更有可能是虚假新闻。该工作利用以上三个假设为无标注新闻标上伪标签，训练网络进行分类，取得了较好的效果。
-ICDM20的文章“Adversarial active learning based heterogeneous graph neural network for fake news detection“将新闻作者，主题以及新闻文本信息构建为一张异质图，并且根据异质图表示学习方法融合各个异质节点的信息，进而为无标注数据提供伪标签，作者又利用主动学习思想对伪标签进行挑选，挑选出可信度较高的，作为最终的分类。
+1) [`A Deep Learning Model for Early Detection of Fake News on Social Media`][Pseudo tags 1] **ACL 2021**
 
-## Unsupervised learning ##
+> 训练一个有监督模型和一个无监督模型，但是该工作不仅利用了新闻内容信息，还利用了用户对新闻的评论信息以及作者的可信度信息，使用的信息更为广泛，从而取得了更好的效果。
 
-### 转化为异常检测 ###
+2) [`A Semi-supervised Learning Method for Fake News Detection in Social Media`][Pseudo tags 2] **ICEE 2020**
 
-i. TEMSCON17的工作“Detecting rumors on online social networks using multi-layer autoencoder“将虚假新闻检测问题转化为异常检测问题。该工作基于一个假设”用户发表的虚假新闻是用户发文历史中的异常行为“。该工作选取待检新闻作者的历史发文信息，利用自编码器对用户发文历史做编码，映射到向量空间，选出向量空间的离群点，将其视为异常，识别虚假新闻。
-ii. TEMSCON17的工作“Detecting rumors on online social networks using multi-layer autoencoder“将虚假新闻检测问题转化为异常检测问题。该工作基于一个假设”用户发表的虚假新闻是用户发文历史中的异常行为“。该工作选取待检新闻作者的历史发文信息，利用自编码器对用户发文历史做编码，映射到向量空间，选出向量空间的离群点，将其视为异常，识别虚假新闻。
+> 利用了半监督学习方法temporal ensembling对无标注数据打伪标签，即让先前的epoch训练得到的模型为后续epoch的无标注数据打伪标签，从而让有标注的数据越来越多，实现更好的预测结果。
 
-### 利用图结构 ###
+1) [`A novel self-learning semi-supervised deep learning network to detect fake news on social media`][Pseudo tags 3] **Multimedia Tools and Applications 2021**
 
-i. ACM Conference on Hypertext and Social Media2020的工作“Unsupervised fake news detection: A graph-based approach”利用新闻之间的相似性构建新闻图。之后作者利用新闻发布者可信度等方式为一些新闻打上伪标签，将其作为种子节点，之后利用标签平滑特性为其他虚假新闻进行分类，从而取得不错的效果。
+> 利用有标注数据训练好的模型为无标注数据打伪标签，该工作创新的使用一个confidence function的方式为伪标签进行评定，选取质量较高的伪标签样本放入到标注数据中，这样提升了伪标签的质量，从而更好的进行半监督的虚假新闻检测。
 
-### 迁移学习的方式 ###
+4) [`Assessing Arabic Weblog Credibility via Deep Co-learning`][Pseudo tags 4] **ACL 2019**
 
-i. Arxiv21的工作“Cross-lingual COVID-19 Fake News Detection”提出了一个中文新冠疫情虚假新闻检测数据集，并且在多语言的场景下对虚假新闻进行分类。英文数据集具有大量标注好的数据，中文数据集规模较小，同时大量数据暂无标注，将英文数据集下预训练好的虚假新闻检测模型迁移到中文虚假新闻检测任务中，进行微调。
-ii. ECML/PLDD21年的工作“Rumour detection via zero-shot Cross-lingual Transfer Learning”同样在标注充足的英文语料上训练模型，将其迁移到无标注的中文语料库中。该工作使用标注充足的英文数据集微调一个teacher BERT模型，之后让teacher BERT在无标注的中文语料对中文语料标注伪标签，利用伪标签的数据训练student BERT，通过不断的往复，student BERT取得很好的分类效果。
+> 利用co-learning的方法训练两个模型，让两个模型互相的为无标注的数据打伪标签，从而让两个模型互相越学越好，实现较好的效果。该工作设计一个以word embedding为输入的CNN网络和一个以character embedding为输入的CNN网络，先利用有标注数据训练两个网络，之后两个网络互相为无标注数据打上伪标签，从而获得更多的带标注数据训练两个网络，依次迭代，直至模型收敛，取得最佳效果。
 
-## Datasets ##
+### Weak social
 
-## Future work ##
+- [`Adversarial active learning based heterogeneous graph neural network for fake news detection`][Weak social] **ICDM 2020**
+
+> 将新闻作者，主题以及新闻文本信息构建为一张异质图，并且根据异质图表示学习方法融合各个异质节点的信息，进而为无标注数据提供伪标签，作者又利用主动学习思想对伪标签进行挑选，挑选出可信度较高的，作为最终的分类。
+
+## Unsupervised learning
+
+### Abnormal detection
+
+- [`Detecting rumors on online social networks using multi-layer autoencoder`][Abnormal detection] **IEEE 2017**
+
+> 将虚假新闻检测问题转化为异常检测问题。该工作基于一个假设”用户发表的虚假新闻是用户发文历史中的异常行为“。该工作选取待检新闻作者的历史发文信息，利用自编码器对用户发文历史做编码，映射到向量空间，选出向量空间的离群点，将其视为异常，识别虚假新闻。
+
+### Transform learning
+
+- [`Cross-lingual COVID-19 Fake News Detection`][Transform 1]
+
+> 提出了一个中文新冠疫情虚假新闻检测数据集，并且在多语言的场景下对虚假新闻进行分类。英文数据集具有大量标注好的数据，中文数据集规模较小，同时大量数据暂无标注，将英文数据集下预训练好的虚假新闻检测模型迁移到中文虚假新闻检测任务中，进行微调。
+
+- [`Rumour detection via zero-shot Cross-lingual Transfer Learning`][Transform 2] **ECML PKDD 2021**
+
+> 在标注充足的英文语料上训练模型，将其迁移到无标注的中文语料库中。该工作使用标注充足的英文数据集微调一个teacher BERT模型，之后让teacher BERT在无标注的中文语料对中文语料标注伪标签，利用伪标签的数据训练student BERT，通过不断的往复，student BERT取得很好的分类效果。
+
+## Future work
 
 <!-- markdownlint-disable-file MD029 -->
 
@@ -272,3 +293,19 @@ ii. ECML/PLDD21年的工作“Rumour detection via zero-shot Cross-lingual Trans
 [gra-neural 2]: https://aclanthology.org/2021.findings-acl.63
 
 [compare 1]: https://aclanthology.org/2021.acl-long.62
+
+[graph 1]: https://arxiv.org/abs/2109.13476
+[graph 2]: https://ieeexplore.ieee.org/document/9073625
+[graph 3]: https://arxiv.org/abs/1804.09088
+
+[Pseudo tags 1]: https://ieeexplore.ieee.org/document/9348311
+[Pseudo tags 2]: https://ieeexplore.ieee.org/abstract/document/9261053
+[Pseudo tags 3]: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8170457/
+[Pseudo tags 4]: https://aclanthology.org/W19-4614.pdf
+
+[Weak social]: https://ieeexplore.ieee.org/document/9338358
+
+[Abnormal detection]: https://ieeexplore.ieee.org/document/7998415
+
+[Transform 1]: https://arxiv.org/pdf/2110.06495.pdf
+[Transform 2]:https://link.springer.com/chapter/10.1007/978-3-030-86486-6_37
