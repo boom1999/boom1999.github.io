@@ -6,7 +6,7 @@ tags:
 categories: blog
 ---
 
-## 机制介绍 ##
+## 机制介绍
 
 `hexo d`上传部署到Github的其实是hexo编译后的文件静态文件，用于生成网页，不包含源文件，也就是上传`.deploy_git`中的文件，其他文件，包括`source`里面的和一些配置、主题文件都不会上传到GitHub，考虑到可能会在不同主机发布，因此将`hexo d`操作不会上传的文件主动`git`到另一个分支。
 
@@ -14,7 +14,7 @@ categories: blog
 
 ----------
 
-## 新建备份分支 ##
+## 新建备份分支
 
 1. 首先在Github上新建一个`hexo_backup`分支并且设置为默认分支，以便在每次同步的时候不用指定分支，比较方便，用于备份源文件。
 
@@ -36,7 +36,7 @@ categories: blog
 
 ----------
 
-## 更换环境操作 ##
+## 更换环境操作
 
 - 创建一个新的`blog_local`文件夹
 - 安装`git`和`nodejs`
@@ -70,7 +70,7 @@ categories: blog
         hexo g
         hexo d
 
-### Tips ###
+### Tips
 
 - 每次写完不要忘了备份源文件
 

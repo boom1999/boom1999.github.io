@@ -9,7 +9,7 @@ copyright: true
 
 :pushpin:
 
-### Most communication channels have communication channels, so the only way to transmit signals through such channels is to move the fortunate frequency that carries the message to the frequency band of the channel ###
+### Most communication channels have communication channels, so the only way to transmit signals through such channels is to move the fortunate frequency that carries the message to the frequency band of the channel
 
 :sunny::clock830::sleeping:
 
@@ -17,11 +17,11 @@ copyright: true
 
 ---
 
-## :notebook: 4ASK ##
+## :notebook: 4ASK
 
-### $u_{m}(t) = A_{m}g_{T}(t)cos(2\pi f_{c}t),m=1,2,3,...,M$ ###
+### $u_{m}(t) = A_{m}g_{T}(t)cos(2\pi f_{c}t),m=1,2,3,...,M$
 
-### $A_{m}=(2m-1-M)d,m=1,2,3,...,M$ ###
+### $A_{m}=(2m-1-M)d,m=1,2,3,...,M$
 
 $ g_{T}(t)=
   \begin{cases}
@@ -34,7 +34,7 @@ _Where d=1, T=1, fc=5Hz, the mapping rule from the bit pair to m is: 00->1, 01->
 (2) Give the average signal energy per bit, i.e., Eb, for 4ASK.
 (3) Denote SNR as Eb/N0, plot the theoretical SER (symbol error rate) and simulated SER, for SNR=0:2:8 dB._
 
-### :memo: 4ASK Code ###
+### :memo: 4ASK Code
 
 - 4ASK.m
 
@@ -247,7 +247,7 @@ y=(1/2)*erfc(x/sqrt(2));
 
 ```
 
-### :chart: 4ASK Fig ###
+### :chart: 4ASK Fig
 
 ![Message bits in Time domain(4ASK).][1]
 <center><font size=2>Fig.1 Message bits in Time domain(4ASK).</font></center>
@@ -264,25 +264,25 @@ y=(1/2)*erfc(x/sqrt(2));
 ![Fig.4 The theoretical SER and simulated SER][4]
 <center><font size=2>Fig.4 The theoretical SER and simulated SER</font></center>
 
-### :grey_question: 4ASK Discussion ###
+### :grey_question: 4ASK Discussion
 
 > Using carrier wave to transmit information is different from baseband transmission. Carrier-modulated digital transmission moves the frequency of the signal carrying the information to the frequency band of the signal.
 The baseband signal waveform is multiplied by the sine carrier, and the frequency spectrum of the baseband signal is shifted by an amount of fc, and thus the signal is placed in the bandwidth of the channel.
 First map the 10-bit learning sequence to a binary number according to the law, and then change the corresponding amplitude according to the 4ASK mapping relationship. After sampling the baseband signal with fs=1000Hz, it is multiplied by the 5Hz sine carrier, and it is found that only the amplitude has occurred in the time domain. Change, the frequency has shifted in the frequency spectrum.
 
-## :blue_book: 4PSK ##
+## :blue_book: 4PSK
 
-### $u_{m}(t) = \sqrt \frac {2E_{s}}Tcos(2\pi f_{c}t+\frac{2\pi m}4+\frac \pi 4),m=1,2,3,...,M$ ###
+### $u_{m}(t) = \sqrt \frac {2E_{s}}Tcos(2\pi f_{c}t+\frac{2\pi m}4+\frac \pi 4),m=1,2,3,...,M$
 
 where the average signal energy Es=1, T=1, fc=5Hz, and the constellation diagram is:
 
-### $s_{m}=(\sqrt{E_{s}}cos(\frac{2\pi m}4+\frac \pi 4),\sqrt{E_{s}}sin(\frac{2\pi m}4+\frac \pi 4))$ ###
+### $s_{m}=(\sqrt{E_{s}}cos(\frac{2\pi m}4+\frac \pi 4),\sqrt{E_{s}}sin(\frac{2\pi m}4+\frac \pi 4))$
 
 _(1) If the message bits are 11 00 10 00 01, plot the corresponding 4PSK signal in both time and frequency domain, sampling frequency fs=1000Hz.
 (2) Plot the constellation diagram of the 4PSK experiencing the AWGN channel with N0=0.5. (You can generate a large number of 4PSK signals and noise samples.)
 (3) Give the BER and SER for N0=0.5, from theoretical calculation and numerical simulation, respectively._
 
-### :memo: 4PSK Code ###
+### :memo: 4PSK Code
 
 - 4PSK.m
 
@@ -453,7 +453,7 @@ theo_err_sym=theo_err_prb*2         % Theoretical symbol-error rate.
 
 ```
 
-### :chart: 4PSK Fig ###
+### :chart: 4PSK Fig
 
 ![Fig.5 Message bits in Time domain(4PSK).][5]
 <center><font size=2>Fig.5 Message bits in Time domain(4PSK).</font></center>
@@ -470,7 +470,7 @@ theo_err_sym=theo_err_prb*2         % Theoretical symbol-error rate.
 <div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/lab6_2_theoretical_calculation_and_numerical_simulation.png" ></div>
 <center><font size=2>Fig.8 BER and SER(theoretical calculation and numerical simulation).</font></center>
 
-### :grey_question: 4PSK Discussion ###
+### :grey_question: 4PSK Discussion
 
 > In carrier phase modulation, the signal to be transmitted through a communication channel is embedded in the phase of the carrier, and the information sequence is binary-coded and mapped to the corresponding phase. Each piece of data corresponds to a phase. The amplitude does not change, but it changes. Initial phase.
 When the phase of the two bits of information undergoes a sudden change, the time-domain waveform will also undergo a sudden change. The reason is the discontinuity of the phase, which may cause bit errors during demodulation.

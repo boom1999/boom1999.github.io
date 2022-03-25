@@ -7,20 +7,20 @@ categories: Matlab
 copyright: true
 ---
 
-### Personal matlab sort out about communication simulations finally ###
+### Personal matlab sort out about communication simulations finally
 
 <!--more-->
 
-## 1.Basics ##
+## 1.Basics
 
-- ### Scalars ###
+- Scalars
 
 ``` matlab
 a = 10
 a = 10+1i       % 推荐使用1i
 ```
 
-- ### Vectors ###
+- Vectors
 
 ``` matlab
 a = [1 3 5]     % 1行3列
@@ -29,13 +29,13 @@ a = 1:2:7       % begin:step:end
 a = [1;3;5]     % 3行1列
 ```
 
-- ### Matrices ###
+- Matrices
 
 ``` matlab
 A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
 ```
 
-- ### Operations ###
+- Operations
 
 1. `*` 和`.*`的区别
     <font size=2>
@@ -80,14 +80,14 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
    [1+2*1i,3+4*1i].'=[1+2*1i;3+4*1i]
    ```
 
-- ### Special number ###
+- Special number
 
     `pi`
     `Inf`、`inf`:infinity,i.e.,1/0
     `NaN`、`nan`:not a number,e.g.,0/0
     `eps`:accuracy of the matlab,eps= 2-52 ≈ 2.2204×10-16
 
-- ### General functions ###
+- General functions
 
   - Trigonometric functions:
     `cos(x)`、`sin(x)`、`tan(x)`
@@ -118,9 +118,9 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
   - Function format
     `function [outputs]=function_name(inputs)`
 
-## 2.Signals and linear systems ##
+## 2.Signals and linear systems
 
-- ### Basic sequence ###
+- Basic sequence
 
   - Impulse signal and sequence
   
@@ -182,7 +182,7 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
   |  `square`  |  Square wave  |  `rectpule`  |  A period square wave  |
   |  `sinc`  |  Sinc wave  |  `tripuls`  |  A period triangle wave  |
 
-- ### Signal Operations ###
+- Signal Operations
   
   - Moving
   y(n)=x(n-m)
@@ -234,7 +234,7 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
   y=conv(x1,x2)*dt
   ```
 
-- ### Fourier transform ###
+- Fourier transform
 
   - Continuous-time，continuous-frequency: FT
   
@@ -247,7 +247,7 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
   |:-------:|:-------:|
   |  $X(k)=\sum_{n=0}^{N-1}x(n) e^{-j\frac{2pi}{N}nk}$  |  $x(t)=\frac{1}{N}\sum_{n=0}^{N-1}X(k) e^{j\frac{2pi}{N}nk}$  |
 
-- ### Energy and Power ###
+- Energy and Power
 
   ``` matlab
   dt=t(2)-t(1);
@@ -293,7 +293,7 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
     P=sum(abs(x).^2)*df/T;
     ```
 
-- ### Autocorrelation and Power spectral density(PSD) ###
+- Autocorrelation and Power spectral density(PSD)
   
   - Autocorrelation
     $x[n]=x(n\Delta t)$
@@ -313,7 +313,7 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
   - Wiener-Khinchin theorem
     $FT(R_T(\tau))=P_T(f)$
 
-- ### :cyclone:Component ###
+- :cyclone:Component
 
   - hilbert change
     通过希尔伯特变换，返回的实部是本身即同向分量(quadrature component)，虚部是延迟90°后的信号即正交分量(in-phase component)
@@ -326,11 +326,11 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
     x_q = imag(x_l);                % Quadrature component
     ```
 
-## 3.Randon process and analog modulation ##
+## 3.Randon process and analog modulation
 
 For a random process $x(t)$, for an arbitrary $t_1$，$x(t_1)$ is a random variable.
 
-- ### Variables and Distributions ###
+- Variables and Distributions
   
   Function:$F_x(x)=Pr(X\leq x)$
   - Probability density function:$p(x)=\frac{dF_x(x)}{dx}$
@@ -338,7 +338,7 @@ For a random process $x(t)$, for an arbitrary $t_1$，$x(t_1)$ is a random varia
   - Moment:$E[X^n] =\int_{-\infty}^{+\infty} x^n p(x)dx$
   - Variance:$E[(X-m_x)^2] =E[X^2] -m_x^2$
 
-- ### Ergodicity and Stationary ###
+- Ergodicity and Stationary
 
   - Ergodicity
     <font size=2>
@@ -358,7 +358,7 @@ For a random process $x(t)$, for an arbitrary $t_1$，$x(t_1)$ is a random varia
 
   - <a href="https://www.lingzhicheng.cn/2021/04/21/Modulate%20and%20demodulate" target="_blank">e.g. Modulate and demodulate</a>
 
-- ### Analog modulation ###
+- Analog modulation
 
   - Amplitude modulation(mainly)
     `m(t)`means the message signal.
@@ -402,13 +402,13 @@ For a random process $x(t)$, for an arbitrary $t_1$，$x(t_1)$ is a random varia
     u_ussb = 1/2*Ac_USSB_AM*real(hilbert(m).*exp(1i*2*pi*Fc*t));
     ```
 
-## 4.Baseband signal transmission ##
+## 4.Baseband signal transmission
 
 AWGN: add white gauss noise
 Two optimum receivers for AWGN: signal correlator and matched filter.
 For AWGN, the noise $N_i$ is Gaussian distributed with mean of zero and variance of $\frac{EN_0}{2}$.
 
-- ### Binary modulations ###
+- Binary modulations
   
   - Received signal
     - $r(t)=s_i(t)+n(t)，0\leq t \leq T_b，i=0,1$
@@ -424,12 +424,12 @@ For AWGN, the noise $N_i$ is Gaussian distributed with mean of zero and variance
     - Comparing $r_0$ or $r_1$. If $r_0>r_1$, it decides 0 is transmitted.
     - $P_e=Q(\frac{E}{\delta})=Q(\frac{E}{\sqrt{\frac{EN_0}{2}}})=Q(\sqrt{\frac{2E}{N_0}})$
 
-- ### Other binary modulations ###
+- Other binary modulations
 
   - Antipodal signal
     - $P_e(\alpha_{opt})=Q(\frac{\frac{E}{2}}{\delta})=Q(\frac{\frac{E}{2}}{\sqrt{\frac{EN_0}{2}}})=Q(\sqrt{\frac{E}{2N_0}})$
 
-- ### Monto Carlo simulation ###
+- Monto Carlo simulation
 
   - Source output `dsource=0`or`dsource=1`
   - Detection
@@ -437,21 +437,21 @@ For AWGN, the noise $N_i$ is Gaussian distributed with mean of zero and variance
     - Detector `r<0`?  `decis=0`or`decis=1`
     - Error counter `decis!=dsource`?  `numoferr+=1`
 
-- ### Constellation diagram ###
+- Constellation diagram
 
   - $x_1=\sqrt{E}+n_1$
   - $n_1=\sqrt{\frac{N_0}{2}}*randn(100,1)$
   - $x_0=\sqrt{E}+n_0$
   - $n_0=\sqrt{\frac{N_0}{2}}*randn(100,1)$
 
-## 5.Pulse Amplitude Modulation(PAM) ##
+## 5.Pulse Amplitude Modulation(PAM)
 
-- ### Theoretical symbol error rate ###
+- Theoretical symbol error rate
 
   - $P_M=\frac{2(M-1)}{M}Q(\sqrt{\frac{6(log_{2}M)E_{avb}}{(M^2{-}1)N_0}})$
   - `SNR=exp(snr_in_dB*log(10)/10)`equals to`SNR=10^(snr_in_dB/10)`
 
-- ### Bit error rate and energy ###
+- Bit error rate and energy
   
   - `smld_err_pb=smld_err_p/M`
   - Energy(M-PAM)(N symbols)
@@ -464,7 +464,7 @@ For AWGN, the noise $N_i$ is Gaussian distributed with mean of zero and variance
     E = Eav/3               % Average energy per bit.
     ```
 
-- ### Raised-cosine and ISI ###
+- Raised-cosine and ISI
   
   - RC
     - $x_{rc}(t)=\frac{sin(\pi t/T_s)}{\pi t/T_s}\frac{cos(\alpha \pi t/T_s))}{1-4\alpha ^2 t^2 /T_s^2}$
@@ -478,9 +478,9 @@ For AWGN, the noise $N_i$ is Gaussian distributed with mean of zero and variance
   - Under a band-limited noiseless channel, the larger the passband, the smoother the signal.
     - <a href="https://www.lingzhicheng.cn/2021/05/25/Band-limited%20noiseless%20channel/" target="_blank">e.g. Band-limited noiseless channel</a>
 
-## 6.:speech_balloon:Digital transmission via carrier modulation ##
+## 6.:speech_balloon:Digital transmission via carrier modulation
 
-- ### Carrier amplitude modulation（ASK） ###
+- Carrier amplitude modulation（ASK）
 
   - In baseband digital PAM, the signal waveforms are：$s_m(t)=A_{m}g_{T}(t)$
   - $A_{m}=(2m-1-M)d, m=1,2,...,M$
@@ -492,7 +492,7 @@ For AWGN, the noise $N_i$ is Gaussian distributed with mean of zero and variance
                                           \end{cases} $
   - Usually called amplitude shift keying, which is not bandlimited.
 
-- ### Carrier phase modulation(PSK) ###
+- Carrier phase modulation(PSK)
 
   - The information is impressed on the phase of the carrier.
   - The range of the phase：$0\leq \theta \leq 2\pi$
@@ -501,7 +501,7 @@ For AWGN, the noise $N_i$ is Gaussian distributed with mean of zero and variance
   - Usually called phase shift keying.
   - <a href="https://www.lingzhicheng.cn/2021/05/30/ASK%20and%20PSK/" target="_blank">e.g. ASK and PSK</a>
 
-- ### Quadrature amplitude modulation(QAM) ###
+- Quadrature amplitude modulation(QAM)
 
   - Two quadrature carriers,$sin(2\pi f_{c}t)$and$cos(2\pi f_{c}t)$
   - Each is modulated by independent information bits.
@@ -511,14 +511,14 @@ For AWGN, the noise $N_i$ is Gaussian distributed with mean of zero and variance
   - Rewrite：$u_{mn}(t)=A_{m}g_{T}(t)cos(2\pi f_{c}t+\theta _{n}),m=1,2,...,M_1,n=1,2,...,M_2$
   - This time, carried bits per symbol：$log_{2}M_{1}+log_{2}M_{2}$
 
-- ### Carrier frequency modulation(FSK) ###
+- Carrier frequency modulation(FSK)
 
   - For channel lack of phase stability, digital transmission by frequency modulation can be applied.
   - M-ary FSK can be used to transmit a block of $k=log_{2}M$ bits per symbol.
   - $u_m(t)=\sqrt{\frac{2E_s}{T}}cos(2\pi f_{c}t+2\pi m\Delta ft), m=0,1,...,M-1,0\leq t\leq T$
   - To guarantee orthogonality, ∆𝒇 is a multiple of 1/2T.
 
-- ### Sampling ###
+- Sampling
 
   - sampling.m
   
@@ -540,7 +540,7 @@ For AWGN, the noise $N_i$ is Gaussian distributed with mean of zero and variance
   end
   ```
 
-## :open_file_folder:[Source file.zip][1] ##
+## :open_file_folder:[Source file.zip][1]
 
 <!-- markdownlint-disable-file MD033 -->
 

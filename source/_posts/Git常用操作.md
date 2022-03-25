@@ -11,17 +11,17 @@ copyright: true
 :whale:总结Git日常基本操作，不定时添加一些遇到的问题，以及从小白入门连接本地git和github等
 :bell:默认已有Github或Gitee等账号,已下载安装git
 
-- ## [本地:computer:Git配置](#LocalGit) ##
+- [本地:computer:Git配置](#LocalGit)
 
-    > ### [:pushpin:配置用户信息](#UserInfo) ###
+    > [:pushpin:配置用户信息](#UserInfo)
 
-    > ### [:pushpin:生成SSH Key](#SSH) ###
+    > [:pushpin:生成SSH Key](#SSH)
 
-- ## [Upload repositories from :computer:to:cloud:](#UploadRepo) ##
+- [Upload repositories from :computer:to:cloud:](#UploadRepo)
 
-- ## [Clone repositories from :cloud:to:computer:](#CloneRepo) ##
+- [Clone repositories from :cloud:to:computer:](#CloneRepo)
 
-- ## [:blue_book:Git基本指令汇总](#GitBasic) ##
+- [:blue_book:Git基本指令汇总](#GitBasic)
 
 <!--more-->
 
@@ -54,7 +54,7 @@ copyright: true
 
 <h2 id="UploadRepo">二、从本地上传Repositories</h2>
 
-### :memo:本地创建Repo ###
+### :memo:本地创建Repo
 
 - 新建目录/选择目录
 - Git bash here 进入命令行操作
@@ -106,7 +106,7 @@ copyright: true
 
 ![GitMerge][8]
 
-### :computer:Repo上传 ###
+### :computer:Repo上传
 
 - 在Github上新建项目，复制生成项目对应的SSH地址
 

@@ -10,7 +10,7 @@ copyright: true
 - 留言系统使用Gitalk，最近发现无法使用GitHub账号登陆，出现403
 - Error: Request failed with status code 403
 
-### Headers ###
+### Headers
 
 > 网络请求403，拿不到token，导致登陆不上
 > Request URL：<https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token>
@@ -21,7 +21,7 @@ copyright: true
 
 <!--more-->
 
-### cors-anywhere ###
+### cors-anywhere
 
 > 开源框架解决跨域问题的反向代理
 >
@@ -33,7 +33,7 @@ copyright: true
 > This package does not put any restrictions on the http methods or headers, except for cookies. Requesting user credentials is disallowed. The app can be configured to require a header for proxying a request, for example to avoid a direct visit from the browser.
 >```
 
-### more ###
+### more
 
 > 看上去像是被滥用，然后从2021.1.31后用户必须手动获得这个网站的访问权限后才能使用，这也就是为什么最近登陆不上了
 >
@@ -43,7 +43,7 @@ copyright: true
 > ```
 >
 
-### Gitalk Document ###
+### Gitalk Document
 
 >``` None
 >const gitalk = new Gitalk({
@@ -59,7 +59,7 @@ copyright: true
 >gitalk.render('gitalk-container')
 >```
 
-### add ###
+### add
 
 > 在gitalk相应js文件中添加
 >
@@ -80,7 +80,7 @@ copyright: true
 
 ----------
 
-### Update 2022.01.02 ###
+### Update 2022.01.02
 
 - 很久没更新blog了，趁这次有时间索性把积攒下来的问题一起解决:wave:
 - 这次还是Gitalk的问题，~~虽然可以使用其他评论插件，~~ 但还是更加喜欢Gitalk的UI
@@ -95,7 +95,7 @@ copyright: true
 > 针对403的问题，Gitalk开发团队已经做了修复，解决方法如下：更新版本到 1.7.2 或者修改配置增加`proxy: https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token`
 > 当然也可以重新配置个人代理，有机会试一下，这里插个眼
 
-### Update 2022.01.07 ###
+### Update 2022.01.07
 
 - 来更新了，试了用Cloudflare创建代理
 - 有免费的版本，每天十万条，每十分钟一千条记录

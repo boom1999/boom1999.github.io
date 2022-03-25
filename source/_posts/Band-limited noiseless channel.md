@@ -9,7 +9,7 @@ copyright: true
 
 :pushpin:
 
-### Consider a band-limited noiseless channel. The channel response in frequency domain is H(f)=1, |f|≤3Hz, otherwise, H(f)=0 ###
+### Consider a band-limited noiseless channel. The channel response in frequency domain is H(f)=1, |f|≤3Hz, otherwise, H(f)=0
 
 :umbrella::clock1130::sleeping:
 
@@ -17,7 +17,7 @@ copyright: true
 
 ---
 
-### :memo: Code ###
+### :memo: Code
 
 - _main.m_
 
@@ -159,7 +159,7 @@ sff = ifftshift(sf);
 st = Fmx*ifft(sff);
 ```
 
-### :chart: Fig ###
+### :chart: Fig
 
 ![Fig.1  8-PAM waveform.][1]
 <center><font size=2>Fig.1  8-PAM waveform.</font></center>
@@ -181,7 +181,7 @@ st = Fmx*ifft(sff);
 <center><font size=2>Fig.5  8-PAM waveform passing noiseless channel waveform.</font></center>
 <br><br><br>
 
-### :grey_question: Discussion ###
+### :grey_question: Discussion
 
 1. The response of the noise-free band-limited channel is lower than the rectangular window of H(f)=1 at the cut-off frequency. After the 8-PAM signal passes through the band-limited channel, the high-frequency information is filtered out, and the restored information waveform becomes smooth; if continue to increase the cut-off frequency, the restored signal waveform will contain more original information, and the same bit error rate will decrease accordingly.
 2. The result of time domain convolution is the same as the result of inverse Fourier transform after frequency multiplication.

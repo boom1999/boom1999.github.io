@@ -8,7 +8,7 @@ categories: Matlab
 
 :pushpin:
 
-### Divide the OFDM cattier bandwidth into multiple sub bands with different parameters, and filter the sub bands, and try to leave as few isolation bands as possible between the sub bands ###
+### Divide the OFDM cattier bandwidth into multiple sub bands with different parameters, and filter the sub bands, and try to leave as few isolation bands as possible between the sub bands
 
 :sun_with_face::clock3::sleeping:
 
@@ -16,11 +16,11 @@ categories: Matlab
 
 ---
 
-## :books: Abstract ##
+## :books: Abstract
 
 - _With the launch of the 3GPP 5G standard, the 5G sky has gradually disappeared, and the bright stars of the candidate technology have dazzled us, and the 5G serialized new air interface technology proposed by Huawei is undoubtedly the brightest star among them. F-OFDM can realize the slicing of the physical layer of the air interface and is backward compatible with the LTE 4G system, and can meet the needs of future 5G development._
 
-## :blue_book: OFDM vs F-OFDM ##
+## :blue_book: OFDM vs F-OFDM
 
 - _OFDM modulates high-rate data to mutually orthogonal sub-carriers through serial/parallel conversion, and introduces cyclic prefixes, which better solves the headache of inter-symbol interference. But the main problem of OFDM is not flexible enough._
 - _For example, the Internet of vehicles service with millisecond delay requires extremely short time-domain symbol and TTI; in the multi-connection scenario of the Internet of things, the amount of data transmitted by a single sensor is extremely low, but the requirements for the number of overall connections of the system are very high. It is necessary to configure a relatively narrow subcarrier spacing in the frequency domain. These flexible requirements cannot be met by OFDM technology._
@@ -28,7 +28,7 @@ categories: Matlab
 - _F-OFDM can provide different sub-carrier spacing and numerology to meet the time-frequency resource requirements of different services. F-OFDM greatly reduces out-of-band leakage by optimizing the filter design, and the guard band overhead between different sub bands can be reduced to about 1%, which not only greatly improves the efficiency of spectrum utilization, but also, it’s possible to provides opportunities for future use of fragmented spectrum._
 - _In general, on the basis of inheriting all the advantages of OFDM (high spectrum utilization, adaptive MIMO, etc.), F-OFDM overcomes some inherent shortcomings of OFDM, and further improves flexibility and spectrum utilization efficiency basic technology to realize 5G air interface slicing._
 
-## :green_book: Benefits or advantages of F-OFDM ##
+## :green_book: Benefits or advantages of F-OFDM
 
 1. Efficient utilization of spectrum.
 2. It suppresses out of band emission and hence guard band consumption can be reduced to minimum level.
@@ -37,13 +37,13 @@ categories: Matlab
 5. Backward and forward compatibility.
 6. Using sub band-based filtering, global synchronization requirement is being relaxed. Hence inter-sub-band asynchronous transmission can be supported.
 
-## :orange_book: Drawbacks or disadvantages of F-FDOM ##
+## :orange_book: Drawbacks or disadvantages of F-FDOM
 
 1. The F-OFDM requires additional pair of transmit and receiver filters in transmitter and receiver chain respectively compare to conventional OFDM.
 2. Like OFDM, CP can also be used in filter-based waveforms such as UFMC, F-OFDM to protect signal from SIS.
 3. Since full-band filtering cannot remove any SIS, it exists in F-OFDM similar to standard OFDM.
 
-## :open_book: Understanding of this example ##
+## :open_book: Understanding of this example
 
 - _This example compares Filtered-OFDM modulation with generic Cyclic Prefix OFDM (CP-OFDM) modulation. For F-OFDM, a well-designed filter is applied to the time domain OFDM symbol to improve the out-of-band radiation of the sub-band signal, while maintaining the complex-domain orthogonality of OFDM symbols. This example also models Filtered-OFDM modulation with configurable parameters. It highlights the filter design technique and the basic transmit/receive processing._
 - _A filter with a rectangular frequency response, i.e. a sinc impulse response, meets these criteria. To make this causal, the low-pass filter is realized using a window, which, effectively truncates the impulse response and offers smooth transitions to zero on both ends._
@@ -52,7 +52,7 @@ categories: Matlab
 - _The example next highlights the basic receive processing for F-OFDM for a single OFDM symbol. The received signal is passed through a matched filter, followed by the normal CP-OFDM receiver. It accounts for both the filtering ramp-up and latency prior to the FFT operation._
 - _No fading channel is considered in this example but noise is added to the received signal to achieve the desired SNR._
 
-## :closed_book: Conclusion ##
+## :closed_book: Conclusion
 
 - _Comparing the plots of the spectral densities for CP-OFDM and F-OFDM schemes, F-OFDM has lower sidelobes. This allows a higher utilization of the allocated spectrum, leading to increased spectral efficiency._
 - _When we design F-OFDM filter, appropriate filtering for F-OFDM satisfies the following criteria:_
@@ -65,7 +65,7 @@ categories: Matlab
 - _F-OFDM and UFMC both use time-domain filtering with subtle differences in the way the filter is designed and applied. For UFMC, the length of filter is constrained to be equal to the cyclic-prefix length, while for F-OFDM, it can exceed the CP length._
 - _For F-OFDM, the filter design leads to a slight loss in orthogonality (strictly speaking) which affects only the edge subcarriers._
 
-## :memo: Code ##
+## :memo: Code
 
 ``` matlab
 %% F-OFDM vs. OFDM Modulation
@@ -245,7 +245,7 @@ disp(['F-OFDM Reception, BER = ' num2str(ber(1)) ' at SNR = ' ...
 rng(s);
 ```
 
-### :chart: 4ASK Fig ###
+### :chart: 4ASK Fig
 
 ![Fig.1  Impulse Response.][1]
 <center><font size=2>Fig.1  Impulse Response.</font></center>
@@ -262,7 +262,7 @@ rng(s);
 ![Fig.4  F-OFDM Reception.][4]
 <center><font size=2>Fig.4  F-OFDM Reception.</font></center>
 
-### :bell: Reference ###
+### :bell: Reference
 
 > 1. Abdoli J., Jia M. and Ma J., "Filtered OFDM: A New Waveform for Future Wireless Systems," 2015 IEEE® 16th International Workshop on Signal Processing Advances in Wireless Communications (SPAWC), Stockholm, 2015, pp. 66-70.
 > 2. R1-162152. "OFDM based flexible waveform for 5G." 3GPP TSG RAN WG1 meeting 84bis. Huawei; HiSilicon. April 2016.

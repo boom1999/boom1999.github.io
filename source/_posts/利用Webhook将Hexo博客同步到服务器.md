@@ -19,7 +19,7 @@ copyright: true
 
 ----
 
-## 服务器Webhook部分 ##
+## 服务器Webhook部分
 
 - 利用宝塔平台的Webhook插件
 
@@ -67,7 +67,7 @@ copyright: true
     fi
 ![宝塔Webhook][1]
 
-## Github设置Webhook ##
+## Github设置Webhook
 
 - 查看密钥
 ![宝塔Webhook查看密钥][2]
@@ -89,7 +89,7 @@ copyright: true
 
 ----
 
-## Tips ##
+## Tips
 
 1. 服务器需要开放8888端口，如果使用其他端口同样需要打开
 2. 两者都是表单数据发送时的编码类型
