@@ -29,7 +29,7 @@
     "hexo-renderer-stylus": "^2.0.0",
     "hexo-server": "^2.0.0",
     "hexo-theme-landscape": "^0.0.3",
-    "hexo-web-push-notification": "^0.3.0",
+    "hexo-web-push-notification": "^0.4.0",
     "markdown-it-emoji": "^2.0.0",
     "save": "^2.4.0"
   },
