@@ -4,24 +4,38 @@ date: 2021-02-01 20:43:37
 type: me
 ---
 
-> 毕业于`浙江工业大学`，本科专业是`通信工程`
-> 目前攻读`南京航空航天大学`电子信息工程学院的`信息与通信工程`硕士学位
-> Hangzhou, China
-> ~~个人博客仅限学习心得和琐碎的记录~~正在像技术博客转型
-> 主攻`C/C++`、`Python`、`Linux`，熟悉常见数据结构和算法~~会一点点基本的前端和`Vue`（现在不考虑走前端路线）~~
-> 熟悉`MATLAB`、`Altium Designer`、`Multisim`、`QuartusⅡ`进行系统仿真、`Keil5`进行单片机开发
-> 熟练使用Git以及Github进行团队协作开发、熟练使用`Latex`、`Markdown`排版
+> Graduated from `Zhejiang University of Technology`, majoring in `Communication Engineering`.
+> Currently studying for a master's degree in `Information and Communication Engineering` from `Nanjing University of Aeronautics and Astronautics`.
+> Field of research: UAV-based target detection, telemetry remote sensing, flight control
+> Hangzhou, China --> Nanjing, China
+> ~~Personal blog: learning experience and trivial records~~. Now it's transforming into a technical blog
+> Mainly focus on `C/C++`, `Python`, `Linux`, familiar with common data structures and algorithms. ~~Know a little bit of basic web design and `Vue` (now I don't consider taking this route)~~
+> I'm familiar with `MATLAB`, `Altium Designer`, `Multisim`, `QuartusⅡ` for system simulation, `Keil` for MCU development
 
-#### More :whale: ####
+#### Languages & Tools 🛠
+<div style="display: inline_block"><br>
+  <img align="center" alt="Python" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/python.svg">
+  <img align="center" alt="c" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/c.svg">
+  <img align="center" alt="cplusplus" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/cplusplus.svg">
+  <img align="center" alt="matlab" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/matlab.svg">
+  <img align="center" alt="typescript" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/typescript.svg">
+  <img align="center" alt="bash" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/bash.svg">
+</div>
+<div style="display: inline_block"><br>
+  <img align="center" alt="linux" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/linux.svg">
+  <img align="center" alt="vim" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/vim.svg">
+  <img align="center" alt="docker" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/docker.svg">
+  <img align="center" alt="git" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/git.svg">
+  <img align="center" alt="latex" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/latex.svg">
+  <img align="center" alt="markdown" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/markdown.svg">
+</div>
 
-- [Github][1]
-- [twitter][2]
-- [Instagram][3]
-- [Email][4]
-
-[1]: https://github.com/boom1999
-[2]: https://twitter.com/ZhichengLing
-[3]: https://www.instagram.com/zhichengling66
-[4]: mailto:lingzhicheng66@gmail.com
+#### Contact :whale: ####
+<div style="display: inline_block"><br>
+  <a href ="https://github.com/boom1999"><img align="center" alt="github" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/github.svg"></a>
+  <a href ="https://twitter.com/ZhichengLing"><img align="center" alt="twitter" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/twitter.svg"></a>
+  <a href ="https://www.instagram.com/zhichengling66"><img align="center" alt="instagram" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/instagram.svg"></a>
+  <a href ="mailto:lingzhicheng66@gmail.com"><img align="center" alt="gmail" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/gmail.svg"></a>
+</div>
 
 <!-- markdownlint-disable-file MD026 -->
