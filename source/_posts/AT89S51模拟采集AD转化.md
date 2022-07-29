@@ -22,7 +22,7 @@ categories: AT89S51
 > 分别连接单片机的 P34、P35、P36、P37 到AD/DA模块的 DI、CS、CLK、DO。
 > 将NE555 模块的跳线帽 J11 跳开，跳线帽安装在其中一根上，以免丢掉。
 
-```asm
+```  assembly
     ORG     0000H
     LJMP    MAIN
 

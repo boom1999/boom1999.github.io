@@ -15,7 +15,7 @@ categories: AT89S51
 
 > P1接LED的ABCDEF，P3.2接K1，P3.3接K4，P0接静态数码管ABCDEF
 
-```asm
+``` assembly
         ORG     0000H
         AJMP    START
     
@@ -131,3 +131,4 @@ categories: AT89S51
         
         END
 ```
+
