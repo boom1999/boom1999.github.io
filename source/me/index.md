@@ -4,11 +4,14 @@ date: 2021-02-01 20:43:37
 type: me
 ---
 
+#### About me :telescope:
 > Graduated from `Zhejiang University of Technology`, majoring in `Communication Engineering`.
 > 
 > Currently studying for a master's degree in `Information and Communication Engineering` from `Nanjing University of Aeronautics and Astronautics`.
 > 
 > Field of research: UAV-based target detection, telemetry remote sensing and flight control.
+> 
+> I hope to join `DJI` in the future and I'm working hard for it.
 > 
 > Hangzhou, China --> Nanjing, China
 > 
@@ -19,6 +22,7 @@ type: me
 > I'm familiar with `MATLAB`, `Altium Designer`, `Multisim`, `QuartusⅡ` for system simulation, `Keil` for MCU development
 
 ----
+
 #### Languages & Tools 🛠
 <div style="display: inline_block"><br>
   <img align="center" alt="Python" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/python.svg" style="display: inline-block">
@@ -38,6 +42,7 @@ type: me
 </div>
 
 ----
+
 #### Contact :whale: ####
 
 <div style="display: inline-block"><br>
