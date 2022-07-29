@@ -18,6 +18,7 @@ type: me
 > 
 > I'm familiar with `MATLAB`, `Altium Designer`, `Multisim`, `QuartusⅡ` for system simulation, `Keil` for MCU development
 
+----
 #### Languages & Tools 🛠
 <div style="display: inline_block"><br>
   <img align="center" alt="Python" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/python.svg" style="display: inline-block">
@@ -36,6 +37,7 @@ type: me
   <img align="center" alt="markdown" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/markdown.svg" style="display: inline-block">
 </div>
 
+----
 #### Contact :whale: ####
 
 <div style="display: inline-block"><br>
