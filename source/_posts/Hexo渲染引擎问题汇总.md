@@ -33,3 +33,15 @@ marked:
 -  smartypants: true
 +  smartypants: false
 ```
+
+### 2.公式渲染问题
+
+这次是一个算法的综述，里面有一些多行公式还有矩阵，之前埋下的坑打算这次一起解决了。
+
+- `hexo-renderer-markdown-it`没法渲染`Latex`的矩阵以及多行公式，在`Vscode`或者`Typora`中可以渲染出来，但是`hexo`不太行，所以换了`hexo-renderer-kramed`，版本是`^0.1.4`
+- 但是出现新的问题，`kramed`会把`*`和`_`渲染成斜体，所以反而出现了很多问题
+
+#### 解决方案
+
+- 首先是用`\ast`替代公式中可能出现的`*`这里主要是会出现`A*`算法
+- 然后取消`_`的斜体转义，`/node_modules/kramed/lib/rules/inline.js`的第20行修改如下：`em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,`
