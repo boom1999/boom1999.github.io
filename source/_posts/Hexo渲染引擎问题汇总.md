@@ -1,6 +1,6 @@
 ---
 title: 渲染问题汇总
-date: 2021-07-24
+date: 2022-12-03
 tags: 
     - debug
 categories: 总结
@@ -68,3 +68,56 @@ marked:
 - [ ] 待办事项2
 - [x] 待办事项3
 - [ ] 待办事项4
+
+### 4.表格渲染问题
+
+- 问题：换用`hexo-renderer-kramed`不就后发现之前用`marked`能成功渲染Tables的地方无法渲染
+- 找了`n`小时后来发现只要`GFM`的Table语法，和前一行严格保持一行以上的间距，并且在Table块之前本行无空格，就能和原来的`marked`一样渲染出正常的表格
+- 但是紧接着会多一个不算问题的问题，如果使用多个`-`标记的用于分层，并且在非第一层的层与层之间之间存在上述方法修改的Table，会导致Table后面跟着的下一个层级变丑，例如：
+
+
+- 原来
+  - 原来
+    - 这一层的样式
+
+- - - 变成了这样
+
+- 其实合理怀疑是`Kramed`的空格渲染问题，有空排查一下
+
+> 下面附上`GFM`的Table语法
+
+Tables aren't part of the core Markdown spec, but they are part of GFM and Markdown Here supports them. They are an easy way of adding tables to your email -- a task that would otherwise require copy-pasting from another application.
+
+```
+Colons can be used to align columns.
+
+| Tables        | Are           | Cool  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      | centered      |   $12 |
+| zebra stripes | are neat      |    $1 |
+
+There must be at least 3 dashes separating each header cell.
+The outer pipes (|) are optional, and you don't need to make the 
+raw Markdown line up prettily. You can also use inline Markdown.
+
+Markdown | Less | Pretty
+--- | --- | ---
+*Still* | `renders` | **nicely**
+1 | 2 | 3
+```
+
+Colons can be used to align columns.
+
+| Tables        | Are           | Cool  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      | centered      |   $12 |
+| zebra stripes | are neat      |    $1 |
+
+There must be at least 3 dashes separating each header cell. The outer pipes (|) are optional, and you don't need to make the raw Markdown line up prettily. You can also use inline Markdown.
+
+Markdown | Less | Pretty
+--- | --- | ---
+*Still* | `renders` | **nicely**
+1 | 2 | 3

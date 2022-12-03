@@ -95,20 +95,22 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
     z = a+bi = $re^{i\theta}$
     `real(z)`、`imag(z)`、`abs(z)`、`angle(z)`、`conj(z)`
   - Exponential and logarithm functions
-    | Name | Description | Name | Description |
-    |:-------:|:-------:|:-------:|:-------:|
-    |  `exp(x)`  |  $e^{x}$  |  `log1p(x)`  |  ln(1+x)  |
-    |  `pow2(x)`  |  $2^{x}$  |  `log2(x)`  |  $log_{2}{x}$  |
-    |  `log(x)`  |  lnx  |  `log10(x)`  |  $log_{10}{x}$、$lg(x)$  |
+
+| Name | Description | Name | Description |
+|:-------:|:-------:|:-------:|:-------:|
+|  `exp(x)`  |  $e^{x}$  |  `log1p(x)`  |  ln(1+x)  |
+|  `pow2(x)`  |  $2^{x}$  |  `log2(x)`  |  $log_{2}{x}$  |
+|  `log(x)`  |  lnx  |  `log10(x)`  |  $log_{10}{x}$、$lg(x)$  |
 
   - Array and matrix
-    | Name | Description | Name | Description |
-    |:-------:|:-------:|:-------:|:-------:|
-    |  `ones`  |  All one  |  `zeros`  |  All zeros  |
-    |  `length`  |  length  |  `size`  |  Dimension of array  |
-    |  `sum`  |  sum  |  `mean`  |  Mean of array  |
-    |  `reshape`  |  Reshape the array  |  `sort`  |  Sort the array  |
-    |  `min`  |  minimum  |  `max`  |  maximum  |
+
+| Name | Description | Name | Description |
+|:-------:|:-------:|:-------:|:-------:|
+|  `ones`  |  All one  |  `zeros`  |  All zeros  |
+|  `length`  |  length  |  `size`  |  Dimension of array  |
+|  `sum`  |  sum  |  `mean`  |  Mean of array  |
+|  `reshape`  |  Reshape the array  |  `sort`  |  Sort the array  |
+|  `min`  |  minimum  |  `max`  |  maximum  |
 
   - Rounding functions
     `round`、`fix`、`floor`、`ceil`
@@ -176,11 +178,11 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
 
   - Other signal generation functions
   
-  | Name | Description | Name | Description |
-  |:-------:|:-------:|:-------:|:-------:|
-  |  `sawtooth`  |  Sawtooth or triangle wave  |  `pulstran`  |  Pulse train  |
-  |  `square`  |  Square wave  |  `rectpule`  |  A period square wave  |
-  |  `sinc`  |  Sinc wave  |  `tripuls`  |  A period triangle wave  |
+| Name | Description | Name | Description |
+|:-------:|:-------:|:-------:|:-------:|
+|  `sawtooth`  |  Sawtooth or triangle wave  |  `pulstran`  |  Pulse train  |
+|  `square`  |  Square wave  |  `rectpule`  |  A period square wave  |
+|  `sinc`  |  Sinc wave  |  `tripuls`  |  A period triangle wave  |
 
 - Signal Operations
   
@@ -238,14 +240,15 @@ A = [1,2,3;4,5,6;7,8,9] % 三行三列矩阵
 
   - Continuous-time，continuous-frequency: FT
   
-  | T2F | F2T |
-  |:-------:|:-------:|
-  |  $X(f)=\int_{-\infty}^{+\infty}x(t) e^{-j2\pi ft}dt$  |  $x(t)=\int_{-\infty}^{+\infty}X(f) e^{j2\pi ft}df$  |
+| T2F | F2T |
+|:-------:|:-------:|
+|  $X(f)=\int_{-\infty}^{+\infty}x(t) e^{-j2\pi ft}dt$  |  $x(t)=\int_{-\infty}^{+\infty}X(f) e^{j2\pi ft}df$  |
+
   - Discrete-time, discrete-frequency: DFT / FFT
   
-  | T2F | F2T |
-  |:-------:|:-------:|
-  |  $X(k)=\sum_{n=0}^{N-1}x(n) e^{-j\frac{2pi}{N}nk}$  |  $x(t)=\frac{1}{N}\sum_{n=0}^{N-1}X(k) e^{j\frac{2pi}{N}nk}$  |
+| T2F | F2T |
+|:-------:|:-------:|
+|  $X(k)=\sum_{n=0}^{N-1}x(n) e^{-j\frac{2pi}{N}nk}$  |  $x(t)=\frac{1}{N}\sum_{n=0}^{N-1}X(k) e^{j\frac{2pi}{N}nk}$  |
 
 - Energy and Power
 
@@ -341,20 +344,17 @@ For a random process $x(t)$, for an arbitrary $t_1$，$x(t_1)$ is a random varia
 - Ergodicity and Stationary
 
   - Ergodicity
-    <font size=2>
     >1.The expectation of x(t) is a constant.
     `mean(x)=constant`
     >2.Its autocorrelation only depends on the time difference.
     `Ry is autocorrelation of {Yn}.`
     `After 100 times, Ry is has nothing to do with time.`
-    </font>
+
 
   - Stationary
-    <font size=2>
     >1.The expectation of x(t) equals the time-average. An arbitrary realization of the random process will go through all the possible states.
     If one line has 1000 components, use `mean` to calculate expectation.
     Use the first component of each line, the `mean` of one row is time-average.
-    </font>
 
   - <a href="https://www.lingzhicheng.cn/2021/04/21/Modulate%20and%20demodulate" target="_blank">e.g. Modulate and demodulate</a>
 
@@ -364,24 +364,24 @@ For a random process $x(t)$, for an arbitrary $t_1$，$x(t_1)$ is a random varia
     `m(t)`means the message signal.
     - DSB-Am
 
-    | Time-domain | Frequency-domain |
-    |:-------:|:-------:|
-    |  $s(t)=A_{c}m(t)cos(2\pi{f_c}t)$  |  $S(f)=\frac{A_c}{2}[M(f-{f_c})+M(f+{f_c})]$  |
+| Time-domain | Frequency-domain |
+|:-------:|:-------:|
+|  $s(t)=A_{c}m(t)cos(2\pi{f_c}t)$  |  $S(f)=\frac{A_c}{2}[M(f-{f_c})+M(f+{f_c})]$  |
 
-    - Conventional AM
+- - - Conventional AM
 
-    | Time-domain | Frequency-domain |
-    |:-------:|:-------:|
-    |  $s(t)=A_{c}(1+am(t))cos(2\pi{f_c}t)$  |  $S(f)=\frac{A_c}{2}[\delta (f-{f_c})+aM(f-{f_c})+aM(f+{f_c})]$  |
+| Time-domain | Frequency-domain |
+|:-------:|:-------:|
+|  $s(t)=A_{c}(1+am(t))cos(2\pi{f_c}t)$  |  $S(f)=\frac{A_c}{2}[\delta (f-{f_c})+aM(f-{f_c})+aM(f+{f_c})]$  |
 
-    - SSB-AM(T-domain)
+- - - SSB-AM(T-domain)
     $s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)\pm \frac{A_{c}}{2}m(t)sin(2\pi{f_c}t)$
     **matlab code：$hilbert(m)=m(t)+j\hat{m}(t)$**
 
-    | U_SSB | L_SSB |
-    |:-------:|:-------:|
-    |  $s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)-\frac{A_{c}}{2}\hat{m}(t)sin(2\pi{f_c}t)$  |  $s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)+\frac{A_{c}}{2}\hat{m}(t)sin(2\pi{f_c}t)$  |
-    |  $\frac{A_{c}}{2}Re[(m(t)+j\hat{m}(t))e^{j2\pi f_c t}]$  |  $\frac{A_{c}}{2}Re[(m(t)+j\hat{m}(t))e^{-j2\pi f_c t}]$  |
+| U_SSB | L_SSB |
+|:-------:|:-------:|
+|  $s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)-\frac{A_{c}}{2}\hat{m}(t)sin(2\pi{f_c}t)$  |  $s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)+\frac{A_{c}}{2}\hat{m}(t)sin(2\pi{f_c}t)$  |
+|  $\frac{A_{c}}{2}Re[(m(t)+j\hat{m}(t))e^{j2\pi f_c t}]$  |  $\frac{A_{c}}{2}Re[(m(t)+j\hat{m}(t))e^{-j2\pi f_c t}]$  |
 
     - e.g.:ear:
 
