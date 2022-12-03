@@ -75,10 +75,10 @@ xlabel('Time')
 
 :chart: Fig
 
-<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_1_mean_and_var.png"></div>
+<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/mean_and_var.png"></div>
 <center><font size=2>Fig.1 Myav and Vyav of y[n].</font></center>
 
- ![The spectrum and auto-correlation of y[n]][2]
+<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_spectrum_and_auto-correlation_of_y[n].png"></div>
 <center><font size=2>Fig.2 The spectrum and auto-correlation of y[n].</font></center>
 
 :grey_question: Discussion
@@ -292,13 +292,13 @@ xlabel('Frequency')
 
 :chart: Fig
 
-<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_power_of_the_modulated_signal_and_message_signal.png" ></div>
+<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_power_of_the_modulated_signal_and_message_signal.png" ></div>
 <center><font size=2>Fig.3 The power of the modulated signal and message signal.</font></center>
 
-![The modulated signal and the spectrum.][4]
+<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_modulated_signal_and_the_spectrum.png" ></div>
 <center><font size=2>Fig.4 The modulated signal and the spectrum.</font></center>
 
-<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/lab3_2_the_pass_band_of_the_low-pass_filter_for_DSB_AM_and_USSB_AM.png"></div>
+<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_pass_band_of_the_low-pass_filter_for_DSB_AM_and_USSB_AM.png"></div>
 
 <center><font size=2>Fig.5 The pass band of the low-pass filter for DSB_AM and USSB_AM.</font></center>
 
