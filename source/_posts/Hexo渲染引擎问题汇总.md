@@ -46,3 +46,25 @@ marked:
 - 首先是用`\ast`替代公式中可能出现的`*`这里主要是会出现`A*`算法
 - 然后取消`_`的斜体转义，`/node_modules/kramed/lib/rules/inline.js`的第20行的`/^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,`修改如下：`em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,`，即去除`_`的转义，以后斜体使用`*`即可，不使用`_`；第11行也做如下修改：``escape: /^\\([\\`*\[\]()#$+\-.!_>])/,``改为``escape: /^\\([`*\[\]()#$+\-.!_>])/,``，这里要注意，其实行内代码最好用四个引号````
 - 还有一点要注意就是，改了源码之后要重启`hexo`服务，修改模块后不会自动刷新
+
+### 3.待办事项渲染问题
+
+- 使用`kramed`渲染不了待办事项，但在`hexo-renderer-marked`的`PR`里找到了相关更新：
+  ``` javascript
+    // Support To-Do List
+    Renderer.prototype.listitem = function(text) {
+      if (/^\s*\[[x ]\]\s*/.test(text)) {
+        text = text.replace(/^\s*\[ \]\s*/, '<input type="checkbox"></input> ').replace(/^\s*\[x\]\s*/, '<input type="checkbox" checked></input> ');
+        return '<li style="list-style: none">' + text + '</li>\n';
+      } else {
+        return '<li>' + text + '</li>\n';
+      }
+    };
+  ```
+- 把渲染函数加入到本地的`hexo`文件夹的`/node_modules/hexo-renderer-kramed/lib/renderer.js`，但注意和`-`标记要间隔至少两行，否则第一个待办会出错
+
+
+- [x] 待办事项1
+- [ ] 待办事项2
+- [x] 待办事项3
+- [ ] 待办事项4
