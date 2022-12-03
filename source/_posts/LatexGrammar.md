@@ -32,8 +32,8 @@ $LaTeX$ (/ˈlɑːtɛx/ LAH-tekh or /ˈleɪtɛx/ LAY-tekh, often stylized as LATE
 } } % It's good!
 ```
 
-## 公式插入
+## Formula Insertion
 
 - Formulas are divided into inline formulas and formula blocks, the former is embedded in a line, and the latter is a separate line.
 
-- [ ] 更新到这里
+- [ ] Updated here
