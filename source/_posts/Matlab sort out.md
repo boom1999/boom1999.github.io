@@ -486,10 +486,10 @@ For AWGN, the noise $N_i$ is Gaussian distributed with mean of zero and variance
   - $A_{m}=(2m-1-M)d, m=1,2,...,M$
   - Multiplied by a sinusoidal carrier：$u_m(t)=A_{m}g_{T}(t)cos(2\pi f_{c}t)$
   - When the pulse shape is rectangular:$x(nT)=
-                                          \begin{cases}
-                                          \sqrt \frac{2}{T}, & 0\leq t\leq T \\\\
-                                          0, & otherwise
-                                          \end{cases} $
+    \begin{cases}
+      \sqrt \frac{2}{T}, & 0\leq t\leq T \\\\
+      0, & otherwise
+    \end{cases} $
   - Usually called amplitude shift keying, which is not bandlimited.
 
 - Carrier phase modulation(PSK)
