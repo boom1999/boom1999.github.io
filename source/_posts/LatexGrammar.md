@@ -627,8 +627,8 @@ $$
 
 - Others
 
-`\int, \iint, \iiint, \oint, \oiint, \oiiint`
-$$ \int, \iint, \iiint, \oint, \oiint, \oiiint $$​​
+`\int, \iint, \iiint, \oint`
+$ \int, \iint, \iiint, \oint $
 
 - Intersection, union and reunion
 
