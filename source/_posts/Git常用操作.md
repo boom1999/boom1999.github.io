@@ -67,9 +67,7 @@ copyright: true
 - 查看文件内容检查是否配置成功
     ` $ ls -la `
 
-```至此git仓库初始化结束，默认叫master分支```
-
----
+> 至此git仓库初始化结束，默认叫master分支
 
 - 新建测试（dev）分支
     ` $ git checkout -b dev `
