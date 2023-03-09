@@ -5,6 +5,7 @@ menu:
   标签: /tags
   网盘: https://www.pan.lingzhicheng.cn
   影集: https://www.gallery.lingzhicheng.cn
+  行程: https://www.todo.lingzhicheng.cn
   友链: /friends
   关于我: /me
 
@@ -219,6 +220,10 @@ friends_link:
   IOS大佬hyh:
     url: https://ethanwong.cn/
     img: /images/hyh.png
+
+  往往不:
+    url: https://www.wangwangbu.com/
+    img: /images/wwb.jpg
 
   
   
