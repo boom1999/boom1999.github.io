@@ -47,11 +47,10 @@ type: me
 
 <div style="display: inline-block"><br>
   <a href ="mailto:lingzhicheng1999@outlook.com" style="display: inline-block"><img align="center" alt="outlook" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/outlook.svg"></a>
-</div>
   <a href ="mailto:lingzhicheng66@gmail.com" style="display: inline-block"><img align="center" alt="gmail" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/gmail.svg"></a>
-</div>
   <a href ="https://github.com/boom1999" style="display: inline-block"><img align="center" alt="github" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/github.svg"></a>
   <a href ="https://www.instagram.com/zhichengling66" style="display: inline-block"><img align="center" alt="instagram" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/instagram.svg"></a>
   <a href ="https://twitter.com/ZhichengLing" style="display: inline-block"><img align="center" alt="twitter" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/twitter.svg"></a>
+</div>
 
 <!-- markdownlint-disable-file MD026 -->
