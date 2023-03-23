@@ -1,13 +1,13 @@
 # 侧边栏菜单
 menu:
-  文章: /archives
-  分类: /categories
-  标签: /tags
-  网盘: https://www.pan.lingzhicheng.cn
-  影集: https://www.gallery.lingzhicheng.cn
+  Archives: /archives
+  Categories: /categories
+  Tags: /tags
+  Pan: https://www.pan.lingzhicheng.cn
+  Gallery: https://www.gallery.lingzhicheng.cn
   Todo: https://www.todo.lingzhicheng.cn
-  友链: /friends
-  关于我: /me
+  Friends: /friends
+  Me: /me
 
 # 站点次标题和打字动效
 # https://github.com/mattboldt/typed.js
@@ -59,10 +59,10 @@ share_text: share
 
 # 分页文字
 nav_text:
-  page_prev: 上一页
-  page_next: 下一页
-  post_prev: 上一篇
-  post_next: 下一篇
+  page_prev: Prev page
+  page_next: Next page
+  post_prev: Prev post
+  post_next: Next post
 
 # 文章页是否显示目录
 toc: true

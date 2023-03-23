@@ -5,21 +5,21 @@ type: me
 ---
 
 #### About me :telescope:
+> Hangzhou, China --> Nanjing, China
+> 
 > Graduated from `Zhejiang University of Technology`, majoring in `Communication Engineering`.
 > 
 > Currently studying for a master's degree in `Information and Communication Engineering` from `Nanjing University of Aeronautics and Astronautics`.
 > 
-> Field of research: UAV-based target detection, telemetry remote sensing and flight control.
+> Field of research: UAV-based optical target localization and adaptive parameter optimization, UAV track planning.
 > 
-> I hope to join `DJI` in the future and I'm working hard for it.
-> 
-> Hangzhou, China --> Nanjing, China
+> Companies looking forward to joining: [`DJI`](https://www.dji.com), [`CASIC`](http://www.casic.com.cn/), [`CETC`](http://www.cetc.com.cn/), [`HUAWEI`](https://www.huawei.com/cn/)
 > 
 > ~~Personal blog: learning experience and trivial records~~. Now it's transforming into a technical blog
 > 
-> Mainly focus on `C/C++`, `Python`, `Linux`, familiar with common data structures and algorithms. ~~Know a little bit of basic web design and `Vue` (now I don't consider taking this route)~~
+> Mainly focus on `C/C++`, `Python`, `Linux`, `go`, and familiar with common data structures and algorithms. ~~Know a little bit of basic web design and `Vue` (now I don't consider taking this route)~~
 > 
-> I'm familiar with `MATLAB`, `Altium Designer`, `Multisim`, `QuartusⅡ` for system simulation, `Keil` for MCU development
+> I'm familiar with `MATLAB`.~~`Altium Designer`, `Multisim`, `QuartusⅡ` for system simulation, `Keil` for MCU development(Less used now).~~
 
 ----
 
@@ -46,10 +46,12 @@ type: me
 #### Contact :whale: ####
 
 <div style="display: inline-block"><br>
-  <a href ="https://github.com/boom1999" style="display: inline-block"><img align="center" alt="github" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/github.svg"></a>
-  <a href ="https://twitter.com/ZhichengLing" style="display: inline-block"><img align="center" alt="twitter" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/twitter.svg"></a>
-  <a href ="https://www.instagram.com/zhichengling66" style="display: inline-block"><img align="center" alt="instagram" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/instagram.svg"></a>
+  <a href ="mailto:lingzhicheng1999@outlook.com" style="display: inline-block"><img align="center" alt="outlook" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/outlook.svg"></a>
+</div>
   <a href ="mailto:lingzhicheng66@gmail.com" style="display: inline-block"><img align="center" alt="gmail" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/gmail.svg"></a>
 </div>
+  <a href ="https://github.com/boom1999" style="display: inline-block"><img align="center" alt="github" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/github.svg"></a>
+  <a href ="https://www.instagram.com/zhichengling66" style="display: inline-block"><img align="center" alt="instagram" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/instagram.svg"></a>
+  <a href ="https://twitter.com/ZhichengLing" style="display: inline-block"><img align="center" alt="twitter" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/twitter.svg"></a>
 
 <!-- markdownlint-disable-file MD026 -->
