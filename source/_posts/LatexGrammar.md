@@ -20,6 +20,8 @@ $LaTeX$ (/ˈlɑːtɛx/ LAH-tekh or /ˈleɪtɛx/ LAY-tekh, often stylized as LATE
 
 ## Install :sweat_smile:
 > Leave a hole here, and I will attach an installation tutorial when I have time later.
+> Okey, let's go! I used to use `VsCode` + `TexLive`, which is more convenient, because `VsCode` has a built-in `LaTeX Workshop` extension, which can be used directly after installation. 
+> For the convenience of reading, a seprarate article about installation and use is written, and the link is [here](https://www.lingzhicheng.cn/2023/03/27/TexLive+VsCode/).
 
 ## Attention:exclamation:	
 
