@@ -17,7 +17,7 @@ categories: Latex
 - $ LaTeX $ can be used as **a standalone document preparation system**, or as **an intermediate format**. In the latter role, for example, it is sometimes used as part of a pipeline for translating `DocBook` and `other XML-based formats` to `PDF`. The typesetting system offers programmable desktop publishing features and extensive facilities for automating most aspects of typesetting and desktop publishing, including **numbering and cross-referencing of tables and figures, chapter and section headings, graphics, page layout, indexing and bibliographies**.
 
 - Without further ado, let’s go directly to the picture! 
-- ##TODO 这里要加一个结果图
+![Tex example][1]
 
 
 ## :pushpin: 2.VsCode installation and language configuration
@@ -273,7 +273,7 @@ categories: Latex
 - `"latex-workshop.view.pdf.viewer": "external"` If you need to change the Tex PDF back to the internal reader, just change `external` to `tab`.
 
 <!-- markdownlint-disable-file MD025 MD028 MD033 -->
-[1]: bing.com
+[1]: https://www.lingzhicheng.cn/usr/file/picture/tex/tex_example.jpg
 [2]: https://code.visualstudio.com/
 [3]: https://code.visualstudio.com/docs/getstarted/locales
 [4]: https://tug.org/texlive/acquire-iso.html
