@@ -4,6 +4,7 @@ date: 2023-03-27
 tags: 
     - 总结
 categories: Latex
+copyright: true
 ---
 
 > Okey, let's go! I used to use `VsCode` + `TexLive`, which is more convenient, because `VsCode` has a built-in `LaTeX Workshop` extension, which can be used directly after installation. 
@@ -216,31 +217,32 @@ categories: Latex
    2. `true` enables the menu.
    3. `Build LaTex project.` *(Ctrl+Alt+B)*
    4. `SyncTex from cursor.` *(Ctrl+Alt+J)*
+
 ``` json
 "latex-workshop.showContextMenu": true
 ```
 
-3. `"latex-workshop.intellisense.package.enabled": true` enables the package name completion in the `\usepackage{}` command.
-4. `"latex-workshop.message.error.show": true` shows the error message in the status bar.
-5. `"latex-workshop.message.warning.show": true` shows the warning message in the status bar.
-6. `"latex-workshop.latex.tools":[...]` defines default settings for the compilation.
-7. `"latex-workshop.latex.recipes": [...]` defines default settings and compilation order for the recipe compilation chains:
+1. `"latex-workshop.intellisense.package.enabled": true` enables the package name completion in the `\usepackage{}` command.
+2. `"latex-workshop.message.error.show": true` shows the error message in the status bar.
+3. `"latex-workshop.message.warning.show": true` shows the warning message in the status bar.
+4. `"latex-workshop.latex.tools":[...]` defines default settings for the compilation.
+5. `"latex-workshop.latex.recipes": [...]` defines default settings and compilation order for the recipe compilation chains:
    1. Recipe: XeLaTex
    2. Recipe: PDFLaTex
    3. Recipe: BibTeX
    4. Recipe: LaTeXmk
    5. Recipe: xelatex -> bibtex -> xelatex*2
    6. Recipe: pdflatex -> bibtex -> pdflatex*2
-8. Difference between XeLaTex and PDFLaTex:
+6. Difference between XeLaTex and PDFLaTex:
    1. **PDFLaTeX uses TeX standard fonts**, so when generating PDF, all non-TeX standard fonts will be replaced, and the generated PDF files will embed all fonts by default; and compiled with XeLaTeX, if there are many pictures or other elements in the paper If no fonts are embedded, the generated PDF.
    2. **The XeTeX corresponding to XeLaTeX has better support for fonts**, allows users to use operating system fonts instead of TeX's standard fonts, and has better support for non-Latin fonts.
    3. **PDFLaTeX compiles faster** than XeLaTeX.
-9. `"latex-workshop.latex.clean.fileTypes"` It is to clear some unnecessary files in the result generated during the compilation process.
-10. `"latex-workshop.latex.autoClean.run"`
+7. `"latex-workshop.latex.clean.fileTypes"` It is to clear some unnecessary files in the result generated during the compilation process.
+8.  `"latex-workshop.latex.autoClean.run"`
     1. `onFailed` cleans the project when compilation fails.
     2. `onBuilt` cleans the project when compilation is done, whether successful or failed.
-11. `"latex-workshop.latex.recipe.default": "lastUsed"` sets the default compilation chain to the last used one. Get used to using the compiled chain you used last time, or you can change it to first to use the first compiled chain.
-12. `"latex-workshop.view.pdf.internal.synctex.keybinding": "double-click"` sets the default key binding for the SyncTex function. The default is double-click, and you can also set it to `ctrl+alt+j` or `ctrl+alt+click`.
+9.  `"latex-workshop.latex.recipe.default": "lastUsed"` sets the default compilation chain to the last used one. Get used to using the compiled chain you used last time, or you can change it to first to use the first compiled chain.
+10. `"latex-workshop.view.pdf.internal.synctex.keybinding": "double-click"` sets the default key binding for the SyncTex function. The default is double-click, and you can also set it to `ctrl+alt+j` or `ctrl+alt+click`.
 
 ## :notebook: 5. SumatraPDF
 
