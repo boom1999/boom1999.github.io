@@ -225,6 +225,10 @@ friends_link:
     url: https://www.wangwangbu.com/
     img: /images/wwb.jpg
 
+  往往不:
+    url: http://silverbullete.com/
+    img: /images/zw.png
+
   
   
 # 评论：1、Valine(推荐)；2、Gitalk；3、Twikoo; 4.MiniValine
