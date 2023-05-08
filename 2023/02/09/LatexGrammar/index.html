@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta name="google-site-verification" content="QbUVAi0K2ZB_P4A6jbbi-GVB4BXs3n6GqgIEGHlySnk" />
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="Torch, Summary, UAV, Git" />
+   
+  <meta name="description" content="No fear of words,no fear of years" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    Latex Grammar |  Haisenberg
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-LatexGrammar"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Latex Grammar
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2023/02/09/LatexGrammar/" class="article-date">
+  <time datetime="2023-02-09T00:00:00.000Z" itemprop="datePublished">2023-02-09</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Latex/">Latex</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">5.1k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">31 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>$LaTeX$ (/ˈlɑːtɛx/ LAH-tekh or /ˈleɪtɛx/ LAY-tekh, often stylized as LATEX) is a <strong>software system</strong> for document preparation. When writing, the writer uses plain text as opposed to the formatted text found in WYSIWYG word processors like Microsoft Word, LibreOffice Writer and Apple Pages. The writer uses <strong>markup tagging conventions</strong> to define the general structure of a document to stylise text throughout a document (such as bold and italics), and to add citations and cross-references. A TeX distribution such as TeX Live or MiKTeX is used to produce an output file (such as PDF or DVI) suitable for printing or digital distribution.</p>
+<span id="more"></span>
+<hr>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><ul>
+<li><p>$ LaTeX $ is widely used in <strong>academia</strong> for the communication and publication of scientific documents in many fields, including <strong>mathematics, computer science, engineering, physics, chemistry, economics, linguistics, quantitative psychology, philosophy, and political science</strong>. It also has a prominent role in the preparation and publication of books and articles that contain complex multilingual materials, such as Arabic and Greek. LaTeX uses the TeX typesetting program for formatting its output, and is itself written in the <strong>$TeX$ macro language</strong>.</p>
+</li>
+<li><p>$ LaTeX $ can be used as <strong>a standalone document preparation system</strong>, or as <strong>an intermediate format</strong>. In the latter role, for example, it is sometimes used as part of a pipeline for translating <code>DocBook</code> and <code>other XML-based formats</code> to <code>PDF</code>. The typesetting system offers programmable desktop publishing features and extensive facilities for automating most aspects of typesetting and desktop publishing, including <strong>numbering and cross-referencing of tables and figures, chapter and section headings, graphics, page layout, indexing and bibliographies</strong>.</p>
+</li>
+</ul>
+<h2 id="Install-sweat-smile"><a href="#Install-sweat-smile" class="headerlink" title="Install :sweat_smile:"></a>Install <span class="github-emoji"><span>😅</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f605.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></h2><blockquote>
+<p>Leave a hole here, and I will attach an installation tutorial when I have time later.<br>Okey, let’s go! I used to use <code>VsCode</code> + <code>TexLive</code>, which is more convenient, because <code>VsCode</code> has a built-in <code>LaTeX Workshop</code> extension, which can be used directly after installation.<br>For the convenience of reading, a seprarate article about installation and use is written, and the link is <a href="https://www.lingzhicheng.cn/2023/03/27/TexLive+VsCode/">here</a>.</p>
+</blockquote>
+<h2 id="Attention-exclamation"><a href="#Attention-exclamation" class="headerlink" title="Attention:exclamation:"></a>Attention<span class="github-emoji"><span>❗</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/2757.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></h2><blockquote>
+<p>Before starting, it is important to note that:</p>
+<p>$ Markdown $ is rendered as <code>HTML</code> and its syntax conflicts with $ LaTeX $, which affects the effect of the article. E.g. braces should be avoided repeatedly, spaces should be added.</p>
+</blockquote>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">}} <span class="comment">% It's bad.</span></span><br><span class="line">} } <span class="comment">% It's good!</span></span><br></pre></td></tr></tbody></table></figure>
+<h2 id="Formula-Insertion"><a href="#Formula-Insertion" class="headerlink" title="Formula Insertion"></a>Formula Insertion</h2><ul>
+<li><p>Formulas are divided into inline formulas and formula blocks, the former is embedded in a line, and the latter is a separate line.</p>
+</li>
+<li><p>Inline formulas<br>$ f(x) = a+b $</p>
+</li>
+</ul>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span> f(x) = a+b <span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<p>​​​​​</p>
+<ul>
+<li>Formula blocks</li>
+</ul>
+<script type="math/tex; mode=display">
+x+1 = 2*3</script><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">x+1 = 2*3</span><br><span class="line">$$</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Numbering</li>
+</ul>
+<script type="math/tex; mode=display">
+x+1 = 2*3 \tag{1.1}</script><figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line">x+1 = 2*3 <span class="keyword">\tag</span>{1.1}</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<h2 id="Basic-operations"><a href="#Basic-operations" class="headerlink" title="Basic operations"></a>Basic operations</h2><h3 id="Four-operations-and-brackets"><a href="#Four-operations-and-brackets" class="headerlink" title="Four operations and brackets"></a>Four operations and brackets</h3><blockquote>
+<p>The basic four-rule arithmetic can be done directly with the keyboard’s +-*</p>
+</blockquote>
+<ul>
+<li><code>\times</code> stands for $ \times $, <code>\div</code> stands for $ \div $, <code>\cdot</code> stands for $ \cdot $</li>
+</ul>
+<p>Example: <script type="math/tex">a + b - c*2 + d/e = 5 \times 3 + 8 \div 4 - f \cdot g</script><br>$ a + b - c*2 + d/e = 5 \times 3 + 8 \div 4 - f \cdot g $</p>
+<ul>
+<li>The curly braces need to be escaped with a slash.</li>
+</ul>
+<p>Example: <script type="math/tex">(1+2) \quad [1+2] \quad \{1+2\}</script><br>$ (1+2) \quad [1+2] \quad \{1+2\} $</p>
+<ul>
+<li>The <code>\left</code> and <code>\right</code> commands are used to generate auto-match height brackets or parenthetical characters.</li>
+</ul>
+<p>Example: <script type="math/tex">(\dfrac{1}{2})^2 \quad \left( \dfrac{1}{2} \right) ^2</script><br>$ (\dfrac{1}{2})^2 \quad \left( \dfrac{1}{2} \right) ^2 $</p>
+<ul>
+<li><code>&lt;&gt;</code>, <code>Abs</code> and <code>Norms()</code></li>
+</ul>
+<script type="math/tex; mode=display">\left\langle \dfrac ab \right\rangle \quad \left| \dfrac ab \right| \quad \left\| \dfrac ab \right\|</script><p>$ \left\langle \dfrac ab \right\rangle \quad \left| \dfrac ab \right| \quad \left| \dfrac ab \right| $</p>
+<ul>
+<li>Rounding function</li>
+</ul>
+<script type="math/tex; mode=display">\left\lfloor \dfrac ab \right\rfloor \quad \left\lceil \dfrac ab \right\rceil</script><p>$ \left\lfloor \dfrac ab \right\rfloor \quad \left\lceil \dfrac ab \right\rceil $</p>
+<ul>
+<li>Slashes with arrows</li>
+</ul>
+<p><code>\left/ \dfrac ab \right\backslash</code><br>$ \left/ \dfrac ab \right\backslash $</p>
+<p><code>\left\uparrow \dfrac ab \right\downarrow \quad \left\Uparrow \dfrac ab \right\Downarrow \quad \left\updownarrow \dfrac ab \right\Updownarrow</code><br>$ \left\uparrow \dfrac ab \right\downarrow \quad \left\Uparrow \dfrac ab \right\Downarrow \quad \left\updownarrow \dfrac ab \right\Updownarrow $</p>
+<ul>
+<li>Mixed parentheses</li>
+</ul>
+<p><code>\left[ \dfrac{1}{2}, 1 \right) \quad \left\langle \psi \right|</code><br>$ \left[ \dfrac{1}{2}, 1 \right) \quad \left\langle \psi \right| $</p>
+<ul>
+<li>Single parentheses</li>
+</ul>
+<blockquote>
+<p>Use <code>\left.</code> or <code>\right.</code> to omit.</p>
+</blockquote>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\left</span><span class="keyword">\{</span></span><br><span class="line"><span class="keyword">\begin</span>{array}{l}</span><br><span class="line">x+y=1<span class="keyword">\\</span></span><br><span class="line">x-y=2</span><br><span class="line"><span class="keyword">\end</span>{array}</span><br><span class="line"><span class="keyword">\right</span>.</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span> </span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\left\{
+\begin{array}{l}
+x+y=1\\
+x-y=2
+\end{array}
+\right.</script><script type="math/tex; mode=display">\left. \dfrac ab \right\}</script><p>$ \left. \dfrac ab \right\} $</p>
+<ul>
+<li>The <strong>size</strong> of the brackets</li>
+</ul>
+<blockquote>
+<p>Use <code>\big</code>, <code>\Big</code>, <code>\bigg</code>, <code>\Bigg</code> to control.</p>
+</blockquote>
+<script type="math/tex; mode=display">\left\{ \left[ \left( \left| \left\| a \right\| +1 \right| -2 \right) +3 \right] -4 \right\}*5</script><p>$ \left\{ \left[ \left( \left| \left| a \right| +1 \right| -2 \right) +3 \right] -4 \right\}*5 $<br>​</p>
+<script type="math/tex; mode=display">\Bigg\{ \bigg[ \Big( \big| \left\| a \right\| +1 \big| -2 \Big) +3 \bigg] -4 \Bigg\}*5</script><p>$ \Bigg\{ \bigg[ \Big( \big| \left| a \right| +1 \big| -2 \Big) +3 \bigg] -4 \Bigg\}*5 $</p>
+<h3 id="Superscript-and-subscript"><a href="#Superscript-and-subscript" class="headerlink" title="Superscript and subscript"></a>Superscript and subscript</h3><ul>
+<li>Use <code>_</code> for subscript, <code>^</code> for superscript, and handle only one character, and multiple characters enclosed in <code>{}</code>. <code>'</code> indicates derivation, multiple can be used.</li>
+</ul>
+<p>Example: <code>x_1^{3,4} + x_{1,2}^{2} = y_0 + y'_{6} + y''</code><br>$ x_1^{3,4} + x_{1,2}^{2} = y_0 + y’_{6} + y’’ $</p>
+<h3 id="Fractional-and-radical"><a href="#Fractional-and-radical" class="headerlink" title="Fractional and radical"></a>Fractional and radical</h3><ul>
+<li>Use <code>frac{a}{b}</code> for fractions, <code>sqrt</code> for square roots, and <code>sqrt[n]</code> for nth roots.</li>
+</ul>
+<p>Example: <code>\frac{x}{2} + \sqrt x = \sqrt[3] {x^2+y^2}</code><br>$ \frac{x}{2} + \sqrt x = \sqrt[3] {x^2+y^2} $</p>
+<h2 id="Symbols-functions-and-special-characters"><a href="#Symbols-functions-and-special-characters" class="headerlink" title="Symbols, functions and special characters"></a>Symbols, functions and special characters</h2><h3 id="Tones-and-markers"><a href="#Tones-and-markers" class="headerlink" title="Tones and markers"></a>Tones and markers</h3><ul>
+<li><p>Tones<br><code>\dot{a}</code> $ \dot{a} $<br><code>\ddot{a}</code> $ \ddot{a} $<br><code>\acute{a}</code>  $ \acute{a} $<br><code>\grave{a}</code> $ \grave{a} $<br><code>\check{a}</code> $ \check{a} $<br><code>\breve{a}</code> $ \breve{a} $<br><code>\tilde{a}</code> $ \tilde{a} $<br><code>\widetilde{a}</code> $ \widetilde{a} $<br><code>\bar{a}</code> $ \bar{a} $<br><code>\mathring{a}</code> $ \mathring{a} $</p>
+</li>
+<li><p>Markers<br><code>\hat{a}</code> $ \hat{a} $<br><code>\widehat{a}</code> $ \widehat{a} $<br><code>\vec{a}</code> $ \vec{a} $</p>
+</li>
+</ul>
+<h3 id="Basic-functions"><a href="#Basic-functions" class="headerlink" title="Basic functions"></a>Basic functions</h3><ul>
+<li>Exponential function</li>
+</ul>
+<p>Example: <code>\exp_a b, \exp b, x^2</code><br>$ \exp_a b, \exp b, x^2 $</p>
+<ul>
+<li>Logarithm</li>
+</ul>
+<p>Example: <code>\log a, \lg b, \ln c, \log_{2} d</code><br>$ \log a, \lg b, \ln c, \log_{2} d $</p>
+<ul>
+<li>Trigonometric function</li>
+</ul>
+<p>Example: <code>\sin a, \cos b, \tan c, \cot d, \sec e, \csc f</code><br>$ \sin a, \cos b, \tan c, \cot d, \sec e, \csc f $</p>
+<ul>
+<li>Inverse trigonometric functions</li>
+</ul>
+<p>Example: <code>\arcsin a, \arccos b, \arctan c</code><br>​​$ \arcsin a, \arccos b, \arctan c $</p>
+<blockquote>
+<p><code>\arccot</code>, <code>\arcsec</code> and <code>\arccsc</code> in $Latex$ is not defined and can be replaced by <code>\text{arccot}x</code> or <code>\operatorname{function}</code> $—&gt;$ $\text{arccot}x$</p>
+</blockquote>
+<ul>
+<li>Hyperbolic functions</li>
+</ul>
+<p>Example: <code>\sinh a, \cosh b, \tanh c, \coth d</code><br>$ \sinh a, \cosh b, \tanh c, \coth d $</p>
+<ul>
+<li>Absolute value</li>
+</ul>
+<p>Example: <code>\left\vert a \right\vert, |b|, | \dfrac cd |, \left| \dfrac cd \right|</code><br>$ \left\vert a \right\vert, |b|, | \dfrac cd |, \left| \dfrac cd \right| $</p>
+<ul>
+<li>Maximum and minimum</li>
+</ul>
+<p>Example:<code>\max(x,y), \min(x,y)</code>​​<br>$ \max(x,y), \min(x,y) $</p>
+<ul>
+<li>Others</li>
+</ul>
+<p>Example: <code>\operatorname{function}</code><br>$ \operatorname{sgn} x $</p>
+<h3 id="Limits"><a href="#Limits" class="headerlink" title="Limits"></a>Limits</h3><p><code>\min x, \max y, \inf a, \sup b</code><br>$ \min x, \max y, \inf a, \sup b $</p>
+<p><code>\lim x, \liminf y, \limsup z</code><br>$ \lim x, \liminf y, \limsup z $</p>
+<p><code>\dim p, \deg q, \det m, \ker\phi</code><br>​$ \dim p, \deg q, \det m, \ker\phi $</p>
+<h3 id="Projection"><a href="#Projection" class="headerlink" title="Projection"></a>Projection</h3><p><code>\Pr j, \hom l, \lVert z \rVert, \arg z</code><br>$ \Pr j, \hom l, \lVert z \rVert, \arg z $</p>
+<h3 id="Differential-and-derivative"><a href="#Differential-and-derivative" class="headerlink" title="Differential and derivative"></a>Differential and derivative</h3><blockquote>
+<p>Treatment of non-italic derivative $ \mathrm{d}x $ with <code>\mathrm{d}x</code></p>
+</blockquote>
+<p><code>dx, \mathrm{d}x, \partial t, \nabla\psi</code><br>​$ dx, \mathrm{d}x, \partial t, \nabla\psi $</p>
+<p><code>\mathrm{d}y/\mathrm{d}x, \frac{\mathrm{d}y}{\mathrm{d}x}, \frac{\partial^2}{\partial x \partial y}z</code><br>$ \mathrm{d}y/\mathrm{d}x, \frac{\mathrm{d}y}{\mathrm{d}x}, \frac{\partial^2}{\partial x \partial y}z $</p>
+<p><code>', \prime, \backprime, f^\prime, f', f'', f^{(3)}, \dot y, \ddot y</code><br>$ ‘, \prime, \backprime, f^\prime, f’, f’’, f^{(3)}, \dot y, \ddot y$</p>
+<h3 id="Special-symbols"><a href="#Special-symbols" class="headerlink" title="Special symbols"></a>Special symbols</h3><p><code>\infty, \aleph, \complement, \backepsilon, \eth, \Finv, \hbar</code><br>$ \infty, \aleph, \complement, \backepsilon, \eth, \Finv, \hbar $</p>
+<p><code>\imath, \jmath, \Bbbk, \ell, \mho, \wp, \Re, \circledS​</code><br>$ \imath, \jmath, \Bbbk, \ell, \mho, \wp, \Re, \circledS​ $</p>
+<h3 id="Mod"><a href="#Mod" class="headerlink" title="Mod"></a>Mod</h3><p><code>\pmod{m}, a \bmod b</code><br>$ \pmod{m}, a \bmod b $</p>
+<p><code>\gcd(m,n), \operatorname{lcm}(m,n)</code><br>$ \gcd(m,n), \operatorname{lcm}(m,n) $​</p>
+<p><code>\mid, \nmid, \shortmid, \nshortmid</code><br>$ \mid, \nmid, \shortmid, \nshortmid $</p>
+<h3 id="Sqrt"><a href="#Sqrt" class="headerlink" title="Sqrt"></a>Sqrt</h3><p><code>\surd, \sqrt{2}, \sqrt[n]{}, \sqrt[3]{x^2+y^2}</code><br>$ \surd, \sqrt{2}, \sqrt[n]{}, \sqrt[3]{x+y} $</p>
+<h3 id="Operations"><a href="#Operations" class="headerlink" title="Operations"></a>Operations</h3><p><code>+, -, \pm, \mp, \dotplus</code><br>$ +, -, \pm, \mp, \dotplus$ </p>
+<p><code>*, /, \times, \div, \divideontimes, \cdot, \ast, \backslash</code><br>$ *, /, \times, \div, \divideontimes, \cdot, \ast, \backslash $</p>
+<p><code>\star, \circ, \bullet</code><br>$ \star, \circ, \bullet $</p>
+<p><code>\boxplus, \boxminus, \boxtimes, \boxdot</code><br>$ \boxplus, \boxminus, \boxtimes, \boxdot $</p>
+<p><code>\oplus, \ominus, \otimes, \oslash, \odot</code><br>$ \oplus, \ominus, \otimes, \oslash, \odot $</p>
+<p><code>\circleddash, \circledcirc, \circledast</code><br>$ \circleddash, \circledcirc, \circledast $<br>​<br><code>\bigoplus, \bigotimes, \bigodot</code><br>$ \bigoplus, \bigotimes, \bigodot $</p>
+<h3 id="Sets"><a href="#Sets" class="headerlink" title="Sets"></a>Sets</h3><p><code>\{, \}, \emptyset, \varnothing</code><br>​$ \{, \}, \empty, \varnothing $</p>
+<p><code>\in, \notin, \not\in, \ni, \not\ni</code><br>​​$ \in, \notin, \not\in, \ni, \not\ni $</p>
+<p><code>\cap, \Cap, \sqcap, \bigcap</code><br>​$ \cap, \Cap, \sqcap, \bigcap $</p>
+<p><code>\cup, \Cup, \sqcup, \bigcup, \bigsqcup, \uplus, \biguplus</code><br>$ \cup, \Cup, \sqcup, \bigcup, \bigsqcup, \uplus, \biguplus $</p>
+<p><code>\setminus, \smallsetminus</code><br>$ \setminus, \smallsetminus $</p>
+<p><code>\subset, \Subset, \sqsubset</code><br>$ \subset, \Subset, \sqsubset $</p>
+<p><code>\supset, \Supset, \sqsupset</code><br>$ \supset, \Supset, \sqsupset $</p>
+<p><code>\subseteq, \nsubseteq, \subsetneq, \varsubsetneq, \sqsubseteq</code><br>$ \subseteq, \nsubseteq, \subsetneq, \varsubsetneq, \sqsubseteq $</p>
+<p><code>\supseteq, \nsupseteq, \supsetneq, \varsupsetneq, \sqsupseteq</code><br>$ \supseteq, \nsupseteq, \supsetneq, \varsupsetneq, \sqsupseteq $</p>
+<p><code>\subseteqq, \nsubseteqq, \subsetneqq, \varsubsetneqq</code><br>$ \subseteqq, \nsubseteqq, \subsetneqq, \varsubsetneqq $</p>
+<h3 id="Relationship-symbol"><a href="#Relationship-symbol" class="headerlink" title="Relationship symbol"></a>Relationship symbol</h3><p><code>=, \ne, \neq, \equiv, \not\equiv</code><br>$ =, \ne, \neq, \equiv, \not\equiv $</p>
+<p><code>\doteq, \doteqdot, :=, \overset{\underset{\mathrm{def} } {} } {=}</code><br>$ \doteq, \doteqdot, :=, \overset{\underset{\mathrm{def} } {} } {=} $</p>
+<p><code>\sim, \nsim, \backsim, \thicksim, \simeq, \backsimeq, \eqsim, \cong, \ncong</code><br>$ \sim, \nsim, \backsim, \thicksim, \simeq, \backsimeq, \eqsim, \cong, \ncong $</p>
+<p><code>\approx, \thickapprox, \approxeq, \asymp, \propto, \varpropto</code><br>$ \approx, \thickapprox, \approxeq, \asymp, \propto, \varpropto $</p>
+<p><code>&lt;, \nless, \ll, \not\ll, \lll, \not\lll, \lessdot</code><br>$ &lt;, \nless, \ll, \not\ll, \lll, \not\lll, \lessdot $</p>
+<p><code>&gt;, \ngtr, \gg, \not\gg, \ggg, \not\ggg, \gtrdot</code><br>$ &gt;, \ngtr, \gg, \not\gg, \ggg, \not\ggg, \gtrdot $</p>
+<p><code>\le, \leq, \lneq, \leqq, \nleq, \nleqq, \lneqq, \lvertneqq</code><br>$ \le, \leq, \lneq, \leqq, \nleq, \nleqq, \lneqq, \lvertneqq $</p>
+<p><code>\ge, \geq, \gneq, \geqq, \ngeq, \ngeqq, \gneqq, \gvertneqq</code><br>$ \ge, \geq, \gneq, \geqq, \ngeq, \ngeqq, \gneqq, \gvertneqq $</p>
+<p><code>\lessgtr, \lesseqgtr, \lesseqqgtr, \gtrless, \gtreqless, \gtreqqless</code><br>$ \lessgtr, \lesseqgtr, \lesseqqgtr, \gtrless, \gtreqless, \gtreqqless $</p>
+<p><code>\leqslant, \nleqslant, \eqslantless</code><br>$ \leqslant, \nleqslant, \eqslantless $</p>
+<p><code>\geqslant, \ngeqslant, \eqslantgtr</code><br>$ \geqslant, \ngeqslant, \eqslantgtr $</p>
+<p><code>\lesssim, \lnsim, \lessapprox, \lnapprox</code><br>$ \lesssim, \lnsim, \lessapprox, \lnapprox $</p>
+<p><code>\gtrsim, \gnsim, \gtrapprox, \gnapprox</code><br>$ \gtrsim, \gnsim, \gtrapprox, \gnapprox $</p>
+<p><code>\prec, \nprec, \preceq, \npreceq, \precneqq</code><br>​$ \prec, \nprec, \preceq, \npreceq, \precneqq $</p>
+<p><code>\succ, \nsucc, \succeq, \nsucceq, \succneqq</code><br>$ \succ, \nsucc, \succeq, \nsucceq, \succneqq $</p>
+<p><code>\preccurlyeq, \curlyeqprec</code><br>$ \preccurlyeq, \curlyeqprec $</p>
+<p><code>\succcurlyeq, \curlyeqsucc</code><br>$ \succcurlyeq, \curlyeqsucc $</p>
+<p><code>\precsim, \precnsim, \precapprox, \precnapprox</code><br>$ \precsim, \precnsim, \precapprox, \precnapprox $</p>
+<p><code>\succsim, \succnsim, \succapprox, \succnapprox</code><br>$ \succsim, \succnsim, \succapprox, \succnapprox $</p>
+<h3 id="Geometric-symbols"><a href="#Geometric-symbols" class="headerlink" title="Geometric symbols"></a>Geometric symbols</h3><p><code>\parallel, \nparallel, \shortparallel, \nshortparallel</code><br>$ \parallel, \nparallel, \shortparallel, \nshortparallel $</p>
+<p><code>\perp, \angle, \sphericalangle, \measuredangle, 45^\circ</code><br>$ \perp, \angle, \sphericalangle, \measuredangle, 45^\circ$</p>
+<p><code>\Box, \blacksquare, \diamond, \Diamond, \lozenge, \blacklozenge, \bigstar, \bigcirc</code><br>​$ \Box, \blacksquare, \diamond, \Diamond, \lozenge, \blacklozenge, \bigstar, \bigcirc $</p>
+<p><code>\triangle, \triangledown ,\bigtriangleup, \bigtriangledown, \vartriangle</code><br>​$ \triangle, \triangledown ,\bigtriangleup, \bigtriangledown, \vartriangle $</p>
+<p><code>\blacktriangle, \blacktriangledown, \blacktriangleleft, \blacktriangleright</code><br>$ \blacktriangle, \blacktriangledown, \blacktriangleleft, \blacktriangleright $</p>
+<h3 id="Logical-symbols"><a href="#Logical-symbols" class="headerlink" title="Logical symbols"></a>Logical symbols</h3><p><code>\forall, \not\forall, \exists, \nexists</code><br>​$ \forall, \not\forall, \exists, \nexists $</p>
+<p><code>\because, \therefore, \And</code><br>$ \because, \therefore, \And $</p>
+<p><code>\lor, \vee, \curlyvee, \bigvee</code><br>$ \lor, \vee, \curlyvee, \bigvee $<br>​<br><code>\land, \wedge, \curlywedge, \bigwedge</code><br>$ \land, \wedge, \curlywedge, \bigwedge $</p>
+<blockquote>
+<p>Use <code>\lor, \land</code> instead of <code>\or, \and</code></p>
+</blockquote>
+<p><code>\bar{x}, \bar{abc}, \overline{x}, \overline{abc}</code><br>$ \bar{x}, \bar{abc}, \overline{x}, \overline{abc} $</p>
+<p><code>\lnot, \neg, \not\operatorname{R}, \bot, \top</code><br>$ \lnot, \neg, \not\operatorname{R}, \bot, \top $</p>
+<p><code>\vdash, \dashv, \vDash, \Vdash, \Vvdash, \models</code><br>​​$ \vdash, \dashv, \vDash, \Vdash, \Vvdash, \models $</p>
+<p><code>\nvdash, \nVdash, \nvDash, \nVDash</code><br>$ \nvdash, \nVdash, \nvDash, \nVDash $</p>
+<p><code>\ulcorner, \urcorner, \llcorner, \lrcorner</code><br>$ \ulcorner, \urcorner, \llcorner, \lrcorner $</p>
+<h3 id="Arrowhead"><a href="#Arrowhead" class="headerlink" title="Arrowhead"></a>Arrowhead</h3><p><code>\to, \rightarrow, \nrightarrow, \longrightarrow</code><br>$ \to, \rightarrow, \nrightarrow, \longrightarrow $</p>
+<p><code>\gets, \leftarrow, \nleftarrow, \longleftarrow</code><br>$ \gets, \leftarrow, \nleftarrow, \longleftarrow $</p>
+<p><code>\leftrightarrow, \nleftrightarrow, \longleftrightarrow</code><br>$ \leftrightarrow, \nleftrightarrow, \longleftrightarrow $ </p>
+<p><code>\uparrow, \downarrow, \updownarrow</code><br>$ \uparrow, \downarrow, \updownarrow $</p>
+<p><code>\Rightarrow, \nRightarrow, \Longrightarrow, \implies</code><br>$ \Rightarrow, \nRightarrow, \Longrightarrow, \implies $</p>
+<p><code>\Leftarrow, \nLeftarrow, \Longleftarrow</code><br>$ \Leftarrow, \nLeftarrow, \Longleftarrow $</p>
+<p><code>\Leftrightarrow, \nLeftrightarrow, \Longleftrightarrow, \iff</code><br>$ \Leftrightarrow, \nLeftrightarrow, \Longleftrightarrow, \iff $</p>
+<p><code>\Uparrow, \Downarrow, \Updownarrow</code><br>$ \Uparrow, \Downarrow, \Updownarrow $</p>
+<p><code>\Rrightarrow, \Lleftarrow</code><br>$ \Rrightarrow, \Lleftarrow $</p>
+<p><code>\nearrow, \swarrow, \nwarrow, \searrow</code><br>$ \nearrow, \swarrow, \nwarrow, \searrow $</p>
+<p><code>\mapsto, \longmapsto</code><br>$ \mapsto, \longmapsto $</p>
+<p><code>\rightharpoonup, \rightharpoondown, \leftharpoonup, \leftharpoondown, \upharpoonleft, \upharpoonright, \downharpoonleft, \downharpoonright, \rightleftharpoons, \leftrightharpoons</code><br>$ \rightharpoonup, \rightharpoondown, \leftharpoonup, \leftharpoondown, \upharpoonleft, \upharpoonright, \downharpoonleft, \downharpoonright, \rightleftharpoons, \leftrightharpoons $</p>
+<p><code>\curvearrowleft, \circlearrowleft, \Lsh, \upuparrows, \rightrightarrows, \rightleftarrows, \rightarrowtail, \looparrowright</code><br>$ \curvearrowleft, \circlearrowleft, \Lsh, \upuparrows, \rightrightarrows, \rightleftarrows, \rightarrowtail, \looparrowright $</p>
+<p><code>\curvearrowright, \circlearrowright, \Rsh, \downdownarrows, \leftleftarrows, \leftrightarrows, \leftarrowtail, \looparrowleft</code><br>$ \curvearrowright, \circlearrowright, \Rsh, \downdownarrows, \leftleftarrows, \leftrightarrows, \leftarrowtail, \looparrowleft $</p>
+<p><code>\hookrightarrow, \hookleftarrow, \multimap, \leftrightsquigarrow, \rightsquigarrow, \twoheadrightarrow, \twoheadleftarrow</code><br>$ \hookrightarrow, \hookleftarrow, \multimap, \leftrightsquigarrow, \rightsquigarrow, \twoheadrightarrow, \twoheadleftarrow $</p>
+<h3 id="Ellipsis"><a href="#Ellipsis" class="headerlink" title="Ellipsis"></a>Ellipsis</h3><p><code>\cdots, \ldots, \vdots, \ddots</code><br>$ \cdots, \ldots, \vdots, \ddots $</p>
+<h3 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h3><p><code>\amalg, \%, \&amp;, \dagger, \ddagger</code><br>​​​$ \amalg, \%, \&amp;, \dagger, \ddagger $</p>
+<p><code>\smile, \frown, \wr, \triangleleft, \triangleright</code><br>$ \smile, \frown, \wr, \triangleleft, \triangleright $</p>
+<p><code>\diamondsuit, \heartsuit, \clubsuit, \spadesuit, \Game, \flat, \natural, \sharp</code><br>$ \diamondsuit, \heartsuit, \clubsuit, \spadesuit, \Game, \flat, \natural, \sharp $</p>
+<p><code>\diagup, \diagdown, \centerdot, \ltimes, \rtimes, \leftthreetimes, \rightthreetimes</code><br>$ \diagup, \diagdown, \centerdot, \ltimes, \rtimes, \leftthreetimes, \rightthreetimes $</p>
+<p><code>\eqcirc, \circeq, \triangleq, \bumpeq, \Bumpeq, \doteqdot, \risingdotseq, \fallingdotseq</code><br>$ \eqcirc, \circeq, \triangleq, \bumpeq, \Bumpeq, \doteqdot, \risingdotseq, \fallingdotseq $</p>
+<p><code>\intercal, \barwedge, \veebar, \doublebarwedge, \between, \pitchfork</code><br>$ \intercal, \barwedge, \veebar, \doublebarwedge, \between, \pitchfork $</p>
+<p><code>\vartriangleleft, \ntriangleleft, \vartriangleright, \ntriangleright</code><br>$ \vartriangleleft, \ntriangleleft, \vartriangleright, \ntriangleright $</p>
+<p><code>\trianglelefteq, \ntrianglelefteq, \trianglerighteq, \ntrianglerighteq</code><br>$ \trianglelefteq, \ntrianglelefteq, \trianglerighteq, \ntrianglerighteq $</p>
+<h3 id="Vector"><a href="#Vector" class="headerlink" title="Vector"></a>Vector</h3><p><code>\vec{a}, \boldsymbol{b}, \overleftarrow{ab}, \overrightarrow{cd}, \overleftrightarrow{ab}, \widehat{abc}</code></p>
+<p>$ \vec{a}, \boldsymbol{b}, \overleftarrow{ab}, \overrightarrow{cd}, \overleftrightarrow{ab}, \widehat{abc} $<br>​​</p>
+<h3 id="Up-and-down-lines"><a href="#Up-and-down-lines" class="headerlink" title="Up and down lines"></a>Up and down lines</h3><p><code>\overset{\frown} {AB}, \overline {abc}, \underline{def}</code><br>$ \overset{\frown} {AB}, \overline {abc}, \underline{def} $</p>
+<p><code>\overbrace{1+2+\cdots+n} \quad \overbrace{1+2+\cdots+n}^{n}</code><br>$ \overbrace{1+2+\cdots+n} \quad \overbrace{1+2+\cdots+n}^{n} $</p>
+<p><code>\begin{matrix} n \\ \overbrace{1+2+\cdots+n} \end{matrix}</code><br>$ \begin{matrix} n \\ \overbrace{1+2+\cdots+n} \end{matrix} $</p>
+<p><code>\underbrace{a+b+\cdots+z} \quad \underbrace{a+b+\cdots+z}_{26}</code><br>$ \underbrace{a+b+\cdots+z} \quad \underbrace{a+b+\cdots+z}_{26} $</p>
+<p><code>\begin{matrix} \underbrace{a+b+\cdots+z} \\ 26 \end{matrix}</code><br>$ \begin{matrix} \underbrace{a+b+\cdots+z} \\ 26 \end{matrix} $ </p>
+<h3 id="Big-operations"><a href="#Big-operations" class="headerlink" title="Big operations"></a>Big operations</h3><blockquote>
+<p>Inlines formulas and formula blocks are different.</p>
+</blockquote>
+<script type="math/tex; mode=display">\sum_{i=1}^{n} i^2</script><p>$ \sum_{i=1}^{n} i^2 $</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\sum_{i=1}^{n} i^2</span><br><span class="line">$$</span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\sum_{i=1}^{n} i^2</script><p>To display an inline formula as positive top and bottom, you can use the limits command to follow the operator:</p>
+<script type="math/tex; mode=display">\sum\limits_{i=1}^{n} i^2</script><p>$ \sum\limits_{i=1}^{n} i^2 $</p>
+<p>To display the formula block as top-right-right, you can use the first-order frameless matrix form or use the nolimits command:</p>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\begin</span>{matrix} <span class="keyword">\sum</span><span class="built_in">_</span>{i=1}<span class="built_in">^</span>{n} i<span class="built_in">^</span>2 <span class="keyword">\end</span>{matrix}</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\begin{matrix} \sum_{i=1}^{n} i^2 \end{matrix}</script><figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\sum</span><span class="keyword">\nolimits</span><span class="built_in">_</span>{i=1}<span class="built_in">^</span>{n} i<span class="built_in">^</span>2</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\sum\nolimits_{i=1}^{n} i^2</script><ul>
+<li>Accumulate and multiply</li>
+</ul>
+<p><code>\sum_{i=1}^{n} i^2 \quad \prod_{i=1}^{n} x_i</code></p>
+<script type="math/tex; mode=display">
+\sum_{i=1}^{n} i^2 \quad \prod_{i=1}^{n} x_i</script><ul>
+<li>Limit</li>
+</ul>
+<p><code>\lim_{x \to \infty} (1+\frac{1}{x})^x = e</code></p>
+<script type="math/tex; mode=display">
+\lim_{x \to \infty} (1+\frac{1}{x})^x = e</script><ul>
+<li>Ordinary integration</li>
+</ul>
+<p><code>\int_{a}^{b} e^x \, \mathrm{d}x</code></p>
+<script type="math/tex; mode=display">
+\int_{a}^{b} e^x \, \mathrm{d}x</script><ul>
+<li>Multiple integration</li>
+</ul>
+<p><code>\iint_{D} f(x,y) \, \mathrm{d}\sigma \quad \iiint_{\Omega} f(x,y,z) \, \mathrm{d}V</code></p>
+<script type="math/tex; mode=display">
+\iint_{D} f(x,y) \, \mathrm{d}\sigma \quad \iiint_{\Omega} f(x,y,z) \, \mathrm{d}V</script><ul>
+<li>Closure curve integral</li>
+</ul>
+<p><code>\oint_{L} f(x,y) \, \mathrm{d}s</code></p>
+<script type="math/tex; mode=display">
+\oint_{L} f(x,y) \, \mathrm{d}s</script><ul>
+<li>Others</li>
+</ul>
+<p><code>\int, \iint, \iiint, \oint</code><br>$ \int, \iint, \iiint, \oint $</p>
+<ul>
+<li>Intersection, union and reunion</li>
+</ul>
+<p><code>\bigcap_{i=1}^{n} A_i \quad , \bigcup_{j=1}^{m} B_j , \coprod_{i \in I} A_i</code></p>
+<script type="math/tex; mode=display">
+\bigcap_{i=1}^{n} A_i \quad , \bigcup_{j=1}^{m} B_j , \coprod_{i \in I} A_i</script><h2 id="Fractional"><a href="#Fractional" class="headerlink" title="Fractional"></a>Fractional</h2><h3 id="Basic-operations-1"><a href="#Basic-operations-1" class="headerlink" title="Basic operations"></a>Basic operations</h3><blockquote>
+<p>You can use <code>\over</code> and <code>{}</code></p>
+</blockquote>
+<p><code>x = { {-b \pm \sqrt{b^2-4ac} } \over {2a} }</code></p>
+<script type="math/tex; mode=display">x = { {-b \pm \sqrt{b^2-4ac} } \over {2a} }</script><h3 id="Typesetting"><a href="#Typesetting" class="headerlink" title="Typesetting"></a>Typesetting</h3><blockquote>
+<p>Normal fractions are automatically scaled down in in-line formulas and displayed as full size in formula blocks.</p>
+</blockquote>
+<script type="math/tex; mode=display">\frac{1}{2}=0.5</script><p>$ \frac{1}{2}=0.5 $</p>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\frac</span>{1}{2}=0.5</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\frac{1}{2}=0.5</script><p>​</p>
+<ul>
+<li><p>The <code>\tfrac</code> command is used to make fractions appear as inline formula styles.</p>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\tfrac</span>{1}{2}=0.5</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\tfrac{1}{2}=0.5</script></li>
+<li><p>The <code>\dfrac</code> command is used to make fractions appear as formula block styles.</p>
+</li>
+</ul>
+<script type="math/tex; mode=display">\dfrac{1}{2}=0.5</script><p>$ \dfrac{1}{2}=0.5 $</p>
+<p>​</p>
+<ul>
+<li>Attention</li>
+</ul>
+<p>In scenarios such as exponential functions, limits, and integrals, try not to use the frac command, and use / express as horizontal fractions.</p>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line">e<span class="built_in">^</span>{<span class="keyword">\frac</span>{i<span class="keyword">\pi</span>}{2} } <span class="keyword">\quad</span> <span class="keyword">\int</span><span class="built_in">_</span>{-<span class="keyword">\frac</span>{<span class="keyword">\pi</span>}{2} }<span class="built_in">^</span>{<span class="keyword">\frac</span>{<span class="keyword">\pi</span>}{2} } <span class="keyword">\sin</span> x <span class="keyword">\,</span> <span class="keyword">\mathrm</span>{d}x</span><br><span class="line"><span class="comment">% Bad</span></span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+e^{\frac{i\pi}{2} } \quad \int_{-\frac{\pi}{2} }^{\frac{\pi}{2} } \sin x \, \mathrm{d}x
+% Bad</script><figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line">e<span class="built_in">^</span>{i<span class="keyword">\pi</span>/2} <span class="keyword">\quad</span> <span class="keyword">\int</span><span class="built_in">_</span>{-<span class="keyword">\pi</span>/2}<span class="built_in">^</span>{<span class="keyword">\pi</span>/2} <span class="keyword">\sin</span> x <span class="keyword">\,</span> <span class="keyword">\mathrm</span>{d}x</span><br><span class="line"><span class="comment">% Good</span></span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+e^{i\pi/2} \quad \int_{-\pi/2}^{\pi/2} \sin x \, \mathrm{d}x
+% Good</script><h3 id="Continuous-fractions"><a href="#Continuous-fractions" class="headerlink" title="Continuous fractions"></a>Continuous fractions</h3><blockquote>
+<p>Enter the conjunction with the <code>\cfrac</code> command, which automatically handles the height of the numerator and denominator.</p>
+</blockquote>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\cfrac</span>{1}{2 + <span class="keyword">\cfrac</span>{1}{2 + <span class="keyword">\cfrac</span>{1}{2 + <span class="keyword">\cdots</span>} } }</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\cfrac{1}{2 + \cfrac{1}{2 + \cfrac{1}{2 + \cdots} } }</script><h3 id="Binomial-coefficients"><a href="#Binomial-coefficients" class="headerlink" title="Binomial coefficients"></a>Binomial coefficients</h3><figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\mathrm</span>{C}<span class="built_in">_</span>n<span class="built_in">^</span>r = <span class="keyword">\binom</span>{n}{r}</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\mathrm{C}_n^r = \binom{n}{r}</script><blockquote>
+<p>Enter with the binom command, tbinom to display binomial coefficients as inline formula styles, and dbinom to display binomial coefficients as formula block styles</p>
+</blockquote>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\tbinom</span>{n}{r} = <span class="keyword">\tbinom</span>{n}{n-r}</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\tbinom{n}{r} = \tbinom{n}{n-r}</script><script type="math/tex; mode=display">\dbinom{n}{r} = \dfrac{n!}{k!\,(n-k)!}</script><p>$ \dbinom{n}{r} = \dfrac{n!}{k!\,(n-k)!} $<br>​</p>
+<h2 id="Matrices-conditional-expressions-and-equations"><a href="#Matrices-conditional-expressions-and-equations" class="headerlink" title="Matrices, conditional expressions and equations"></a>Matrices, conditional expressions and equations</h2><ul>
+<li>Grammar</li>
+</ul>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\begin</span>{type}</span><br><span class="line">content</span><br><span class="line"><span class="keyword">\end</span>{type}</span><br><span class="line">type: matrix、pmatrix、bmatrix、Bmatrix、vmatrix、Vmatrix;</span><br><span class="line">	coditional cases;</span><br><span class="line">	equations aligned、alignedat.</span><br></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>In content, the <code>&amp;</code> symbol indicates the aligned content of each line, and <code>\\</code> indicates a line break at the end.</p>
+</blockquote>
+<h3 id="Frameless-matrix"><a href="#Frameless-matrix" class="headerlink" title="Frameless matrix"></a>Frameless matrix</h3><ul>
+<li>Separate matrix columns with <code>&amp;</code> and matrix rows with <code>\\</code></li>
+</ul>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\begin</span>{matrix}</span><br><span class="line">a <span class="built_in">&amp;</span> b <span class="keyword">\\</span></span><br><span class="line">c <span class="built_in">&amp;</span> d</span><br><span class="line"><span class="keyword">\end</span>{matrix}</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\begin{matrix}
+a & b \\
+c & d
+\end{matrix}</script><h3 id="Box-matrix"><a href="#Box-matrix" class="headerlink" title="Box matrix"></a>Box matrix</h3><ul>
+<li><p><code>pmatrix</code> is parentheses, <code>bmatrix</code> is square brackets, <code>Bmatrix</code> is curly braces, <code>vmatrix</code> is vertical (determinant), and <code>Vmatrix</code> is double vertical bar.</p>
+</li>
+<li><p>Enter ellipses using <code>cdots</code>, <code>ddots</code> and <code>vdots</code>.</p>
+</li>
+</ul>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\begin</span>{pmatrix}</span><br><span class="line">0 <span class="built_in">&amp;</span> <span class="keyword">\cdots</span> <span class="built_in">&amp;</span> 0 <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\vdots</span> <span class="built_in">&amp;</span> <span class="keyword">\ddots</span> <span class="built_in">&amp;</span> <span class="keyword">\vdots</span> <span class="keyword">\\</span></span><br><span class="line">0 <span class="built_in">&amp;</span> <span class="keyword">\cdots</span> <span class="built_in">&amp;</span> 0 <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\end</span>{pmatrix}</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\begin{pmatrix}
+0 & \cdots & 0 \\
+\vdots & \ddots & \vdots \\
+0 & \cdots & 0 \\
+\end{pmatrix}</script><figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\begin</span>{bmatrix}</span><br><span class="line">a <span class="built_in">&amp;</span> b <span class="keyword">\\</span></span><br><span class="line">c <span class="built_in">&amp;</span> d</span><br><span class="line"><span class="keyword">\end</span>{bmatrix}</span><br><span class="line"><span class="keyword">\quad</span></span><br><span class="line"><span class="keyword">\begin</span>{Bmatrix}</span><br><span class="line">a <span class="built_in">&amp;</span> b <span class="keyword">\\</span></span><br><span class="line">c <span class="built_in">&amp;</span> d</span><br><span class="line"><span class="keyword">\end</span>{Bmatrix}</span><br><span class="line"><span class="keyword">\quad</span></span><br><span class="line"><span class="keyword">\begin</span>{vmatrix}</span><br><span class="line">a <span class="built_in">&amp;</span> b <span class="keyword">\\</span></span><br><span class="line">c <span class="built_in">&amp;</span> d</span><br><span class="line"><span class="keyword">\end</span>{vmatrix}</span><br><span class="line"><span class="keyword">\quad</span></span><br><span class="line"><span class="keyword">\begin</span>{Vmatrix}</span><br><span class="line">a <span class="built_in">&amp;</span> b <span class="keyword">\\</span></span><br><span class="line">c <span class="built_in">&amp;</span> d</span><br><span class="line"><span class="keyword">\end</span>{Vmatrix}</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+a & b \\
+c & d
+\end{bmatrix}
+\quad
+\begin{Bmatrix}
+a & b \\
+c & d
+\end{Bmatrix}
+\quad
+\begin{vmatrix}
+a & b \\
+c & d
+\end{vmatrix}
+\quad
+\begin{Vmatrix}
+a & b \\
+c & d
+\end{Vmatrix}</script><h3 id="Matrix-segmentation"><a href="#Matrix-segmentation" class="headerlink" title="Matrix segmentation"></a>Matrix segmentation</h3><ul>
+<li>Add <code>|</code> to the definition where it needs to be divided.</li>
+</ul>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\left</span>[</span><br><span class="line"><span class="keyword">\begin</span>{array}{cc|c}</span><br><span class="line">1 <span class="built_in">&amp;</span> 2 <span class="built_in">&amp;</span> 3 <span class="keyword">\\</span></span><br><span class="line">4 <span class="built_in">&amp;</span> 5 <span class="built_in">&amp;</span> 6</span><br><span class="line"><span class="keyword">\end</span>{array}</span><br><span class="line"><span class="keyword">\right</span>]</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\left[
+\begin{array}{cc|c}
+1 & 2 & 3 \\
+4 & 5 & 6
+\end{array}
+\right]</script><h3 id="Conditional-expressions"><a href="#Conditional-expressions" class="headerlink" title="Conditional expressions"></a>Conditional expressions</h3><ul>
+<li>Use <code>&amp;</code> to separate formulas from conditions.</li>
+</ul>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line">f(n)=</span><br><span class="line"><span class="keyword">\begin</span>{cases}</span><br><span class="line">n/2, <span class="built_in">&amp;</span> <span class="keyword">\text</span>{if } n <span class="keyword">\text</span>{ is even} <span class="keyword">\\</span></span><br><span class="line">3n+1, <span class="built_in">&amp;</span> <span class="keyword">\text</span>{if } n <span class="keyword">\text</span>{ is odd}</span><br><span class="line"><span class="keyword">\end</span>{cases}</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+f(n)=
+\begin{cases}
+n/2, & \text{if } n \text{ is even} \\
+3n+1, & \text{if } n \text{ is odd}
+\end{cases}</script><blockquote>
+<p>Use <code>\text</code> to distinguish between text and mathematical characters</p>
+</blockquote>
+<h3 id="Multi-line-equation"><a href="#Multi-line-equation" class="headerlink" title="Multi-line equation"></a>Multi-line equation</h3><ul>
+<li>Use <code>\alignedat</code> to perform it<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\begin</span>{aligned}</span><br><span class="line">f(x) <span class="built_in">&amp;</span> = (m+n)<span class="built_in">^</span>2 <span class="keyword">\\</span></span><br><span class="line"><span class="built_in">&amp;</span> = m<span class="built_in">^</span>2+2mn+n<span class="built_in">^</span>2 <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\end</span>{aligned}</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\begin{aligned}
+f(x) & = (m+n)^2 \\
+& = m^2+2mn+n^2 \\
+\end{aligned}</script></li>
+</ul>
+<h3 id="Equations"><a href="#Equations" class="headerlink" title="Equations"></a>Equations</h3><ul>
+<li><code>\case</code> is used to indicate left-alignment.</li>
+</ul>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\begin</span>{cases}</span><br><span class="line">x+2y3z=0 <span class="keyword">\\</span></span><br><span class="line">4x-5y+6z=0 <span class="keyword">\\</span></span><br><span class="line">-7x+8y+9z=0 <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\end</span>{cases}</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\begin{cases}
+x+2y3z=0 \\
+4x-5y+6z=0 \\
+-7x+8y+9z=0 \\
+\end{cases}</script><ul>
+<li>Aligned  according to the equal sign is indicated by <code>\aligned</code>.</li>
+</ul>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\begin</span>{cases}</span><br><span class="line">x+2y3z=0 <span class="keyword">\\</span></span><br><span class="line">4x-5y+6z=0 <span class="keyword">\\</span></span><br><span class="line">-7x+8y+9z=0 <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\end</span>{cases}</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\left\{ \begin{aligned}
+x+2y3z=0 \\
+4x-5y+6z=0 \\
+-7x+8y+9z=0 \\
+\end{aligned} \right.</script><h2 id="Arrays-and-tables"><a href="#Arrays-and-tables" class="headerlink" title="Arrays and tables"></a>Arrays and tables</h2><h3 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h3><ul>
+<li>Arrays and tables begin with <code>begin{array}{definite}</code> and end with <code>end{array}</code>. Define the alignment of each column in the definition, and <code>l</code>, <code>c</code> and <code>r</code> can be used to represent left, center, and right, respectively. If you insert a horizontal dividing line, insert <code>\hline</code> between the line contents; If you insert a vertical dividing line, insert <code>|</code>. The table content is separated by <code>&amp;</code> columns and rows by <code>\\</code>.</li>
+</ul>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\begin</span>{array}{c|lcr}</span><br><span class="line">x <span class="built_in">&amp;</span> 1<span class="keyword">\text</span>{(left)} <span class="built_in">&amp;</span> 2<span class="keyword">\text</span>{(center)} <span class="built_in">&amp;</span> 3<span class="keyword">\text</span>{(right)} <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\hline</span></span><br><span class="line">f(x) <span class="built_in">&amp;</span> 0 <span class="built_in">&amp;</span> 1 <span class="built_in">&amp;</span> 2 <span class="keyword">\\</span></span><br><span class="line">g(x) <span class="built_in">&amp;</span> 3 <span class="built_in">&amp;</span> 4 <span class="built_in">&amp;</span> 5 <span class="keyword">\\</span></span><br><span class="line">h(x) <span class="built_in">&amp;</span> 6+i <span class="built_in">&amp;</span> 7-i <span class="built_in">&amp;</span> 1+10i</span><br><span class="line"><span class="keyword">\end</span>{array}</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\begin{array}{c|lcr}
+x & 1\text{(left)} & 2\text{(center)} & 3\text{(right)} \\
+\hline
+f(x) & 0 & 1 & 2 \\
+g(x) & 3 & 4 & 5 \\
+h(x) & 6+i & 7-i & 1+10i
+\end{array}</script><ul>
+<li>You can use arrays and tables to implement similar functions as aligned.</li>
+</ul>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\begin</span>{array}{lcr}</span><br><span class="line">z <span class="built_in">&amp;</span> = <span class="built_in">&amp;</span> a <span class="keyword">\\</span></span><br><span class="line">f(x,y,z) <span class="built_in">&amp;</span> = <span class="built_in">&amp;</span> x+y+z</span><br><span class="line"><span class="keyword">\end</span>{array}</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\begin{array}{lcr}
+z & = & a \\
+f(x,y,z) & = & x+y+z
+\end{array}</script><h3 id="Nesting-of-arrays-and-tables"><a href="#Nesting-of-arrays-and-tables" class="headerlink" title="Nesting of arrays and tables"></a>Nesting of arrays and tables</h3><figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="comment">% outer</span></span><br><span class="line"><span class="keyword">\begin</span>{array}{c}</span><br><span class="line">	<span class="comment">% inner row 1</span></span><br><span class="line">	<span class="keyword">\begin</span>{array}{cc}</span><br><span class="line">		<span class="comment">% inner row 1 column 1</span></span><br><span class="line">		<span class="keyword">\begin</span>{array}{c|cccc}</span><br><span class="line">		<span class="keyword">\min</span> <span class="built_in">&amp;</span> 0 <span class="built_in">&amp;</span> 1 <span class="built_in">&amp;</span> 2 <span class="built_in">&amp;</span> 3 <span class="keyword">\\</span></span><br><span class="line">		<span class="keyword">\hline</span></span><br><span class="line">		0 <span class="built_in">&amp;</span> 0 <span class="built_in">&amp;</span> 0 <span class="built_in">&amp;</span> 0 <span class="built_in">&amp;</span> 0 <span class="keyword">\\</span></span><br><span class="line">		1 <span class="built_in">&amp;</span> 0 <span class="built_in">&amp;</span> 1 <span class="built_in">&amp;</span> 1 <span class="built_in">&amp;</span> 1 <span class="keyword">\\</span></span><br><span class="line">		2 <span class="built_in">&amp;</span> 0 <span class="built_in">&amp;</span> 1 <span class="built_in">&amp;</span> 2 <span class="built_in">&amp;</span> 2 <span class="keyword">\\</span></span><br><span class="line">		3 <span class="built_in">&amp;</span> 0 <span class="built_in">&amp;</span> 1 <span class="built_in">&amp;</span> 2 <span class="built_in">&amp;</span> 3</span><br><span class="line">		<span class="keyword">\end</span>{array}</span><br><span class="line">	<span class="built_in">&amp;</span></span><br><span class="line">		<span class="comment">% inner row 1 column 2</span></span><br><span class="line">		<span class="keyword">\begin</span>{array}{c|cccc}</span><br><span class="line">		<span class="keyword">\max</span> <span class="built_in">&amp;</span> 0 <span class="built_in">&amp;</span> 1 <span class="built_in">&amp;</span> 2 <span class="built_in">&amp;</span> 3 <span class="keyword">\\</span></span><br><span class="line">		<span class="keyword">\hline</span></span><br><span class="line">		0 <span class="built_in">&amp;</span> 0 <span class="built_in">&amp;</span> 1 <span class="built_in">&amp;</span> 2 <span class="built_in">&amp;</span> 3 <span class="keyword">\\</span></span><br><span class="line">		1 <span class="built_in">&amp;</span> 1 <span class="built_in">&amp;</span> 1 <span class="built_in">&amp;</span> 2 <span class="built_in">&amp;</span> 3 <span class="keyword">\\</span></span><br><span class="line">		2 <span class="built_in">&amp;</span> 2 <span class="built_in">&amp;</span> 2 <span class="built_in">&amp;</span> 2 <span class="built_in">&amp;</span> 3 <span class="keyword">\\</span></span><br><span class="line">		3 <span class="built_in">&amp;</span> 3 <span class="built_in">&amp;</span> 3 <span class="built_in">&amp;</span> 3 <span class="built_in">&amp;</span> 3</span><br><span class="line">		<span class="keyword">\end</span>{array}</span><br><span class="line">	<span class="keyword">\end</span>{array}</span><br><span class="line"><span class="keyword">\\</span></span><br><span class="line">	<span class="comment">% inner row 2</span></span><br><span class="line">	<span class="keyword">\begin</span>{array}{c|cccc}</span><br><span class="line">	<span class="keyword">\Delta</span> <span class="built_in">&amp;</span> 0 <span class="built_in">&amp;</span> 1 <span class="built_in">&amp;</span> 2 <span class="built_in">&amp;</span> 3 <span class="keyword">\\</span></span><br><span class="line">	<span class="keyword">\hline</span></span><br><span class="line">	0 <span class="built_in">&amp;</span> 0 <span class="built_in">&amp;</span> 1 <span class="built_in">&amp;</span> 2 <span class="built_in">&amp;</span> 3 <span class="keyword">\\</span></span><br><span class="line">	1 <span class="built_in">&amp;</span> 1 <span class="built_in">&amp;</span> 0 <span class="built_in">&amp;</span> 1 <span class="built_in">&amp;</span> 2 <span class="keyword">\\</span></span><br><span class="line">	2 <span class="built_in">&amp;</span> 2 <span class="built_in">&amp;</span> 1 <span class="built_in">&amp;</span> 0 <span class="built_in">&amp;</span> 1 <span class="keyword">\\</span></span><br><span class="line">	3 <span class="built_in">&amp;</span> 3 <span class="built_in">&amp;</span> 2 <span class="built_in">&amp;</span> 1 <span class="built_in">&amp;</span> 0</span><br><span class="line">	<span class="keyword">\end</span>{array}</span><br><span class="line"><span class="keyword">\end</span>{array}</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+% outer
+\begin{array}{c}
+    % inner row 1
+    \begin{array}{cc}
+        % inner row 1 column 1
+        \begin{array}{c|cccc}
+        \min & 0 & 1 & 2 & 3 \\
+        \hline
+        0 & 0 & 0 & 0 & 0 \\
+        1 & 0 & 1 & 1 & 1 \\
+        2 & 0 & 1 & 2 & 2 \\
+        3 & 0 & 1 & 2 & 3
+        \end{array}
+    &
+        % inner row 1 column 2
+        \begin{array}{c|cccc}
+        \max & 0 & 1 & 2 & 3 \\
+        \hline
+        0 & 0 & 1 & 2 & 3 \\
+        1 & 1 & 1 & 2 & 3 \\
+        2 & 2 & 2 & 2 & 3 \\
+        3 & 3 & 3 & 3 & 3
+        \end{array}
+    \end{array}
+\\
+    % inner row 2
+    \begin{array}{c|cccc}
+    \Delta & 0 & 1 & 2 & 3 \\
+    \hline
+    0 & 0 & 1 & 2 & 3 \\
+    1 & 1 & 0 & 1 & 2 \\
+    2 & 2 & 1 & 0 & 1 \\
+    3 & 3 & 2 & 1 & 0
+    \end{array}
+\end{array}</script><h2 id="Fonts"><a href="#Fonts" class="headerlink" title="Fonts"></a>Fonts</h2><ul>
+<li>Use Large and Small to control font size</li>
+</ul>
+<script type="math/tex; mode=display">A, \large{A}, \small{A}</script><p>$ A, \large{A}, \small{A} $</p>
+<h3 id="Greek-symbols"><a href="#Greek-symbols" class="headerlink" title="Greek symbols"></a>Greek symbols</h3><p><code>$\digamma, \varepsilon, \vartheta, \varkappa, \varpi, \varrho, \varsigma, \varphi $</code><br>$\digamma, \varepsilon, \vartheta, \varkappa, \varpi, \varrho, \varsigma, \varphi $</p>
+<script type="math/tex; mode=display">
+\begin{array}{c|l|c|l}
+A \alpha & \verb|A \alpha| & N \nu & \verb|N \nu| \\
+\hline
+B \beta & \verb|B \beta| & \Xi \xi & \verb|\Xi \xi| \\
+\hline
+\Gamma \gamma & \verb|\Gamma \gamma| & O \omicron & \verb|O \omicron| \\
+\hline
+\Delta \delta & \verb|\Delta \delta| & \Pi \pi & \verb|\Pi \pi| \\
+\hline
+E \epsilon & \verb|E \epsilon| & P \rho & \verb|P \rho| \\
+\hline
+Z \zeta & \verb|Z \zeta| & \Sigma \sigma & \verb|\Sigma \sigma| \\
+\hline
+H \eta & \verb|H \eta| & T \tau & \verb|T \tau| \\
+\hline
+\Theta \theta & \verb|\Theta \theta| & \Upsilon \upsilon & \verb|\Upsilon \upsilon| \\
+\hline
+I \iota & \verb|I \iota| & \Phi \phi & \verb|\Phi \phi| \\
+\hline
+K \kappa & \verb|K \kappa| & X \chi & \verb|X \chi| \\
+\hline
+\Lambda \lambda & \verb|\Lambda \lambda| & \Psi \psi & \verb|\Psi \psi| \\
+\hline
+M \mu & \verb|M \mu| & \Omega \omega & \verb|\Omega \omega| \\
+\end{array}</script><h3 id="Hebrew-symbols"><a href="#Hebrew-symbols" class="headerlink" title="Hebrew symbols"></a>Hebrew symbols</h3><script type="math/tex; mode=display">\aleph, \beth, \gimel, \daleth</script><p>$\aleph, \beth, \gimel, \daleth$</p>
+<h3 id="Special-font-form"><a href="#Special-font-form" class="headerlink" title="Special font form"></a>Special font form</h3><h4 id="Bold"><a href="#Bold" class="headerlink" title="Bold"></a>Bold</h4><ul>
+<li>Use <code>\mathbf{text}</code> or <code>{\bf text}</code>, <code>\mathbb{text}</code> or <code>\Bbb{text}</code>. However, it is not valid for special symbols.</li>
+</ul>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\begin</span>{array}{c|ccc}</span><br><span class="line"><span class="keyword">\text</span>{defalut} <span class="built_in">&amp;</span> SAMPLE <span class="built_in">&amp;</span> sample <span class="built_in">&amp;</span> 0123 <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\hline</span></span><br><span class="line"><span class="keyword">\text</span>{mathbf} <span class="built_in">&amp;</span> <span class="keyword">\mathbf</span>{SAMPLE} <span class="built_in">&amp;</span> <span class="keyword">\mathbf</span>{sample} <span class="built_in">&amp;</span> <span class="keyword">\mathbf</span>{0123} <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\hline</span></span><br><span class="line"><span class="keyword">\text</span>{bf} <span class="built_in">&amp;</span> {<span class="keyword">\bf</span> SAMPLE} <span class="built_in">&amp;</span> {<span class="keyword">\bf</span> sample} <span class="built_in">&amp;</span> {<span class="keyword">\bf</span> 0123} <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\hline</span></span><br><span class="line"><span class="keyword">\text</span>{mathbb} <span class="built_in">&amp;</span> <span class="keyword">\mathbb</span>{SAMPLE} <span class="built_in">&amp;</span> <span class="keyword">\mathbb</span>{sample} <span class="built_in">&amp;</span> <span class="keyword">\mathbb</span>{0123} <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\hline</span></span><br><span class="line"><span class="keyword">\text</span>{Bbb} <span class="built_in">&amp;</span> <span class="keyword">\Bbb</span>{SAMPLE} <span class="built_in">&amp;</span> <span class="keyword">\Bbb</span>{sample} <span class="built_in">&amp;</span> <span class="keyword">\Bbb</span>{0123}</span><br><span class="line"><span class="keyword">\end</span>{array}</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span> </span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\begin{array}{c|ccc}
+\text{defalut} & SAMPLE & sample & 0123 \\
+\hline
+\text{mathbf} & \mathbf{SAMPLE} & \mathbf{sample} & \mathbf{0123} \\
+\hline
+\text{bf} & {\bf SAMPLE} & {\bf sample} & {\bf 0123} \\
+\hline
+\text{mathbb} & \mathbb{SAMPLE} & \mathbb{sample} & \mathbb{0123} \\
+\hline
+\text{Bbb} & \Bbb{SAMPLE} & \Bbb{sample} & \Bbb{0123}
+\end{array}</script><h4 id="Bold-symbols"><a href="#Bold-symbols" class="headerlink" title="Bold symbols"></a>Bold symbols</h4><ul>
+<li>Use <code>\boldsymbol{text}</code>, which is valid for special symbols.</li>
+</ul>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\begin</span>{array}{c|cccccc}</span><br><span class="line"><span class="keyword">\text</span>{defalut} <span class="built_in">&amp;</span> SAMPLE <span class="built_in">&amp;</span> sample <span class="built_in">&amp;</span> 0123 <span class="built_in">&amp;</span> <span class="keyword">\delta</span><span class="keyword">\theta</span><span class="keyword">\sigma</span><span class="keyword">\omega</span> <span class="built_in">&amp;</span> <span class="keyword">\Delta</span><span class="keyword">\Theta</span><span class="keyword">\Sigma</span><span class="keyword">\Omega</span> <span class="built_in">&amp;</span> <span class="keyword">\sin</span><span class="keyword">\in</span><span class="keyword">\to</span> <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\hline</span></span><br><span class="line"><span class="keyword">\text</span>{blodsymbol} <span class="built_in">&amp;</span> <span class="keyword">\boldsymbol</span>{SAMPLE} <span class="built_in">&amp;</span> <span class="keyword">\boldsymbol</span>{sample} <span class="built_in">&amp;</span> <span class="keyword">\boldsymbol</span>{0123} <span class="built_in">&amp;</span> <span class="keyword">\boldsymbol</span>{<span class="keyword">\delta</span><span class="keyword">\theta</span><span class="keyword">\sigma</span><span class="keyword">\omega</span>} <span class="built_in">&amp;</span> <span class="keyword">\boldsymbol</span>{<span class="keyword">\Delta</span><span class="keyword">\Theta</span><span class="keyword">\Sigma</span><span class="keyword">\Omega</span>} <span class="built_in">&amp;</span> <span class="keyword">\boldsymbol</span>{<span class="keyword">\sin</span><span class="keyword">\in</span><span class="keyword">\to</span>} <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\end</span>{array}</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\begin{array}{c|cccccc}
+\text{defalut} & SAMPLE & sample & 0123 & \delta\theta\sigma\omega & \Delta\Theta\Sigma\Omega & \sin\in\to \\
+\hline
+\text{blodsymbol} & \boldsymbol{SAMPLE} & \boldsymbol{sample} & \boldsymbol{0123} & \boldsymbol{\delta\theta\sigma\omega} & \boldsymbol{\Delta\Theta\Sigma\Omega} & \boldsymbol{\sin\in\to} \\
+\end{array}</script><h4 id="Italian-font"><a href="#Italian-font" class="headerlink" title="Italian font"></a>Italian font</h4><ul>
+<li>Use <code>\mathit{text}</code> or <code>{\it text}</code></li>
+</ul>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\begin</span>{array}{c|ccccc}</span><br><span class="line"><span class="keyword">\text</span>{defalut} <span class="built_in">&amp;</span> SAMPLE <span class="built_in">&amp;</span> sample <span class="built_in">&amp;</span> 0123 <span class="built_in">&amp;</span> <span class="keyword">\delta</span><span class="keyword">\theta</span><span class="keyword">\sigma</span><span class="keyword">\omega</span> <span class="built_in">&amp;</span> <span class="keyword">\Delta</span><span class="keyword">\Theta</span><span class="keyword">\Sigma</span><span class="keyword">\Omega</span> <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\hline</span></span><br><span class="line"><span class="keyword">\text</span>{mathit} <span class="built_in">&amp;</span> <span class="keyword">\mathit</span>{SAMPLE} <span class="built_in">&amp;</span> <span class="keyword">\mathit</span>{sample} <span class="built_in">&amp;</span> <span class="keyword">\mathit</span>{0123} <span class="built_in">&amp;</span> <span class="keyword">\mathit</span>{<span class="keyword">\delta</span><span class="keyword">\theta</span><span class="keyword">\sigma</span><span class="keyword">\omega</span>} <span class="built_in">&amp;</span> <span class="keyword">\mathit</span>{<span class="keyword">\Delta</span><span class="keyword">\Theta</span><span class="keyword">\Sigma</span><span class="keyword">\Omega</span>} <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\hline</span></span><br><span class="line"><span class="keyword">\text</span>{it} <span class="built_in">&amp;</span> {<span class="keyword">\it</span> SAMPLE} <span class="built_in">&amp;</span> {<span class="keyword">\it</span> sample} <span class="built_in">&amp;</span> {<span class="keyword">\it</span> 0123} <span class="built_in">&amp;</span> {<span class="keyword">\it</span> <span class="keyword">\delta</span><span class="keyword">\theta</span><span class="keyword">\sigma</span><span class="keyword">\omega</span>} <span class="built_in">&amp;</span> {<span class="keyword">\it</span> <span class="keyword">\Delta</span><span class="keyword">\Theta</span><span class="keyword">\Sigma</span><span class="keyword">\Omega</span>} <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\hline</span></span><br><span class="line"><span class="keyword">\end</span>{array}</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\begin{array}{c|ccccc}
+\text{defalut} & SAMPLE & sample & 0123 & \delta\theta\sigma\omega & \Delta\Theta\Sigma\Omega \\
+\hline
+\text{mathit} & \mathit{SAMPLE} & \mathit{sample} & \mathit{0123} & \mathit{\delta\theta\sigma\omega} & \mathit{\Delta\Theta\Sigma\Omega} \\
+\hline
+\text{it} & {\it SAMPLE} & {\it sample} & {\it 0123} & {\it \delta\theta\sigma\omega} & {\it \Delta\Theta\Sigma\Omega} \\
+\hline
+\end{array}</script><h4 id="Roman-font"><a href="#Roman-font" class="headerlink" title="Roman font"></a>Roman font</h4><ul>
+<li>Use <code>\mathrm{text}</code> or <code>{\rm text}</code></li>
+</ul>
+<script type="math/tex; mode=display">
+\begin{array}{c|ccccc}
+\text{defalut} & SAMPLE & sample & 0123 & \delta\theta\sigma\omega & \Delta\Theta\Sigma\Omega \\
+\hline
+\text{mathrm} & \mathrm{SAMPLE} & \mathrm{sample} & \mathrm{0123} & \mathrm{\delta\theta\sigma\omega} & \mathrm{\Delta\Theta\Sigma\Omega} \\
+\hline
+\text{rm} & {\rm SAMPLE} & {\rm sample} & {\rm 0123} & {\rm \delta\theta\sigma\omega} & {\rm \Delta\Theta\Sigma\Omega} \\
+\end{array}</script><blockquote>
+<p>Tips: Lowercase Greek letters do not support Roman script; For Arabic numerals and uppercase Greek letters, the default font is <code>\rm</code>.</p>
+</blockquote>
+<h4 id="Others-1"><a href="#Others-1" class="headerlink" title="Others"></a>Others</h4><script type="math/tex; mode=display">
+\begin{array}{c|ccccc}
+\text{defalut} & SAMPLE & sample & 0123 & \delta\theta\sigma\omega & \Delta\Theta\Sigma\Omega \\
+\hline
+\text{mathsf} & \mathsf{SAMPLE} & \mathsf{sample} & \mathsf{0123} & \mathsf{\delta\theta\sigma\omega} & \mathsf{\Delta\Theta\Sigma\Omega} \\
+\hline
+\text{sf} & {\sf SAMPLE} & {\sf sample} & {\sf 0123} & {\sf \delta\theta\sigma\omega} & {\sf \Delta\Theta\Sigma\Omega} \\
+\hline
+\text{mathscr} & \mathscr{SAMPLE} & \mathscr{sample} & \mathscr{0123} & \mathscr{\delta\theta\sigma\omega} & \mathscr{\Delta\Theta\Sigma\Omega} \\
+\hline
+\text{mathcal} & \mathcal{SAMPLE} & \mathcal{sample} & \mathcal{0123} & \mathcal{\delta\theta\sigma\omega} & \mathcal{\Delta\Theta\Sigma\Omega} \\
+\hline
+\text{cal} & {\cal SAMPLE} & {\cal sample} & {\cal 0123} & {\cal \delta\theta\sigma\omega} & {\cal \Delta\Theta\Sigma\Omega} \\
+\hline
+\text{mathtt} & \mathtt{SAMPLE} & \mathtt{sample} & \mathtt{0123} & \mathtt{\delta\theta\sigma\omega} & \mathtt{\Delta\Theta\Sigma\Omega} \\
+\hline
+\text{tt} & {\tt SAMPLE} & {\tt sample} & {\tt 0123} & {\tt \delta\theta\sigma\omega} & {\tt \Delta\Theta\Sigma\Omega} \\
+\hline
+\text{mathfrak} & \mathfrak{SAMPLE} & \mathfrak{sample} & \mathfrak{0123} & \mathfrak{ \delta\theta\sigma\omega} & \mathfrak{\Delta\Theta\Sigma\Omega} \\
+\hline
+\text{frak} & {\frak SAMPLE} & {\frak sample} & {\frak 0123} & \frak{ \delta\theta\sigma\omega} & \frak{\Delta\Theta\Sigma\Omega} \\
+\hline
+\text{scriptstyle} & {\scriptstyle SAMPLE} & {\scriptstyle sample} & {\scriptstyle 0123} & \scriptstyle{ \delta\theta\sigma\omega} & \scriptstyle{\Delta\Theta\Sigma\Omega}  \\
+\hline
+\text{scriptstyle+text} & {\scriptstyle \text{SAMPLE} } & {\scriptstyle \text{sample} } & {\scriptstyle \text{0123} } \\
+\end{array}</script><h4 id="Mix-fonts"><a href="#Mix-fonts" class="headerlink" title="Mix fonts"></a>Mix fonts</h4><figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line">f(n)=</span><br><span class="line"><span class="keyword">\begin</span>{cases}</span><br><span class="line">n/2, <span class="built_in">&amp;</span> <span class="keyword">\text</span>{if <span class="built_in">$</span>n<span class="built_in">$</span> is even} <span class="keyword">\\</span></span><br><span class="line">3n+1, <span class="built_in">&amp;</span> <span class="keyword">\text</span>{if <span class="built_in">$</span>n<span class="built_in">$</span> is odd}</span><br><span class="line"><span class="keyword">\end</span>{cases}</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+f(n)=
+\begin{cases}
+n/2, & \text{if $n$ is even} \\
+3n+1, & \text{if $n$ is odd}
+\end{cases}</script><ul>
+<li>Attention block</li>
+</ul>
+<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\begin</span>{matrix}</span><br><span class="line"><span class="keyword">\text</span>{if} n <span class="keyword">\text</span>{is even} <span class="keyword">\\</span> <span class="comment">% Bad</span></span><br><span class="line"><span class="keyword">\text</span>{if } n <span class="keyword">\text</span>{ is even} <span class="keyword">\\</span> <span class="comment">% Good</span></span><br><span class="line"><span class="keyword">\text</span>{if}~n~<span class="keyword">\text</span>{is even} <span class="keyword">\\</span> <span class="comment">% Good</span></span><br><span class="line"><span class="keyword">\text</span>{if}<span class="keyword">\ </span>n<span class="keyword">\ </span><span class="keyword">\text</span>{is even} <span class="keyword">\\</span> <span class="comment">% Good</span></span><br><span class="line"><span class="keyword">\end</span>{matrix}</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure>
+<script type="math/tex; mode=display">
+\begin{matrix}
+\text{if} n \text{is even} \\ % Bad
+\text{if } n \text{ is even} \\ % Good
+\text{if}~n~\text{is even} \\ % Good
+\text{if}\ n\ \text{is even} \\ % Good
+\end{matrix}</script><h2 id="Space"><a href="#Space" class="headerlink" title="Space"></a>Space</h2><blockquote>
+<p>$Latex$ automatically ignores spaces, and the space control from wide to narrow is:</p>
+</blockquote>
+<ul>
+<li>Double quad space: 2 characters wide</li>
+</ul>
+<script type="math/tex; mode=display">\alpha \qquad \beta</script><p>$ \alpha \qquad \beta $</p>
+<ul>
+<li>Quad space: 1 character wide</li>
+</ul>
+<script type="math/tex; mode=display">\alpha \quad \beta</script><p>$ \alpha \quad \beta $<br>​</p>
+<ul>
+<li>Space: 1/3 character wide</li>
+</ul>
+<script type="math/tex; mode=display">\alpha \ \beta ~ \gamma</script><p>$ \alpha \ \beta ~ \gamma $</p>
+<ul>
+<li>Medium space: 2/7 characters wide</li>
+</ul>
+<script type="math/tex; mode=display">\alpha \; \beta</script><p>$ \alpha \; \beta $<br>​</p>
+<ul>
+<li>Small space: 1/6 character width</li>
+</ul>
+<script type="math/tex; mode=display">\alpha \, \beta</script><p>$ \alpha \, \beta $<br>​</p>
+<ul>
+<li>No spaces: 0 characters wide</li>
+</ul>
+<script type="math/tex; mode=display">\alpha \beta</script><p>$ \alpha \beta $<br>​</p>
+<ul>
+<li>Snap: -1/6 character width</li>
+</ul>
+<script type="math/tex; mode=display">\alpha \! \beta</script><p>$ \alpha ! \beta $<br>​</p>
+<h2 id="Color"><a href="#Color" class="headerlink" title="Color"></a>Color</h2><ul>
+<li>Use <code>{\color{color}{text} }</code> to control color of text.</li>
+</ul>
+<script type="math/tex; mode=display">\color{red}{text} \quad \color{yellow}{text} \quad \color{blue}{text} \quad \color{green}{text} \quad \color{purple}{text}</script><p>$ \color{red}{text} \quad \color{yellow}{text} \quad \color{blue}{text} \quad \color{green}{text} \quad \color{purple}{text} $<br>​</p>
+<ul>
+<li>You can also use capital initials to represent complex colors.</li>
+</ul>
+<script type="math/tex; mode=display">\color{Red}{text} \quad \color{Orange}{text} \quad \color{RoyalBlue}{text} \quad \color{Violet}{text} \quad \color{LimeGreen}{text}</script><p>$ \color{Red}{text} \quad \color{Orange}{text} \quad \color{RoyalBlue}{text} \quad \color{Violet}{text} \quad \color{LimeGreen}{text} $</p>
+<ul>
+<li>Use <code>{\color{ #rgb}{text} }</code> to control more complex colors. However, this is not possible in some renderings, so it is not shown here.</li>
+</ul>
+<script type="math/tex; mode=display">\color{ #0FF}{text} \quad \color{ #00F}{text} \quad \color{ #F0F}{text} \quad \color{ #0F0}{text} \quad \color{ #6CF}{text}</script><h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><ul>
+<li>Use the <code>\boxed</code> command or with the border of a 1*1 table</li>
+</ul>
+<script type="math/tex; mode=display">\boxed {E=mc^2}</script><p>$ \boxed {E=mc^2} $<br></p><figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\begin</span>{array}{|c|}</span><br><span class="line"><span class="keyword">\hline</span></span><br><span class="line">E=mc<span class="built_in">^</span>2 <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\hline</span></span><br><span class="line"><span class="keyword">\end</span>{array}</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></tbody></table></figure><p></p>
+<script type="math/tex; mode=display">
+\begin{array}{|c|}
+\hline
+E=mc^2 \\
+\hline
+\end{array}</script><ul>
+<li>Some useful $ Latex $ websites.</li>
+</ul>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://www.tablesgenerator.com">Tables Generator</a></li>
+<li><a target="_blank" rel="noopener" href="http://detexify.kirelabs.org/classify.html">Classify Symbols</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.codecogs.com/latex/eqneditor.php">Equation Editor</a></li>
+</ol>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2023/02/09/LatexGrammar/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%80%BB%E7%BB%93/" rel="tag">总结</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2023/03/27/TexLive+VsCode/" class="article-nav-link">
+        <strong class="article-nav-caption">Prev post</strong>
+        <div class="article-nav-title">
+          
+            Installation for TexLive under VsCode
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2022/12/03/Hexo%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="article-nav-link">
+        <strong class="article-nav-caption">Next post</strong>
+        <div class="article-nav-title">渲染问题汇总</div>
+      </a>
+    
+  </nav>
+
+  
+   
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'a1a50124b0c46fa4fab9',
+    clientSecret: '4a29dee6f998a9272f57ba07f987ea9eed9da5ec',
+    repo: 'blog-comments',
+    owner: 'boom1999',
+    admin: ['boom1999'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: true,  // Facebook-like distraction free mode
+    pagerDirection: 'last',
+    proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2023
+        <span class="division">|</span> Zhicheng Ling
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+          
+          
+          Power <a href="https://hexo.io" target="_blank">Hexo</a>
+          <span class="division">|</span>
+          Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+          
+          <span class="division">|</span>
+        
+          
+          <span>
+  <span><i class="ri-eye-fill"></i> <span id="busuanzi_value_page_pv"></span></span>
+</span>
+          
+      </li>
+    </ul>
+    <ul>
+      
+        <li>
+          <a href="http://beian.miit.gov.cn/" target="_black" rel="nofollow">浙ICP备2020044847号-1</a>
+        </li>
+        
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/haisen-side.svg" alt="Haisenberg"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Categories</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.pan.lingzhicheng.cn">Pan</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.gallery.lingzhicheng.cn">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.todo.lingzhicheng.cn">Todo</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">Friends</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/me">Me</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+  <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
+  fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
+  webpushr('setup',{'key':'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script>
+<script>(function (w, d, s, id) {
+            if (typeof (w.webpushr) !== 'undefined') return; w.webpushr = w.webpushr || function () { (w.webpushr.q = w.webpushr.q || []).push(arguments) }; var js, fjs = d.getElementsByTagName(s)[0]; js = d.createElement(s); js.id = id; js.async = 1; js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window, document, 'script', 'webpushr-jssdk'));webpushr('setup', { 'key': 'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script></body>
+
+</html>

@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta name="google-site-verification" content="QbUVAi0K2ZB_P4A6jbbi-GVB4BXs3n6GqgIEGHlySnk" />
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="Torch, Summary, UAV, Git" />
+   
+  <meta name="description" content="No fear of words,no fear of years" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    数学基础知识 |  Haisenberg
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-mathBasic"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  数学基础知识
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/08/25/mathBasic/" class="article-date">
+  <time datetime="2021-08-25T00:00:00.000Z" itemprop="datePublished">2021-08-25</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%80%BB%E7%BB%93/">总结</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">2.8k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">14 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <ul>
+<li>数学基础知识，稍微做一个整理<span id="more"></span>
+</li>
+</ul>
+<h3 id="高等数学"><a href="#高等数学" class="headerlink" title="高等数学"></a>高等数学</h3><h4 id="1-导数的定义"><a href="#1-导数的定义" class="headerlink" title="1.导数的定义"></a>1.导数的定义</h4><p>导数和微分的概念</p>
+<p>$f’({{x}_{0}})=\underset{\Delta x\to 0}{\mathop{\lim }}\,\frac{f({{x}_{0}}+\Delta x)-f({{x}_{0}})}{\Delta x}$    （1）</p>
+<p>或者：</p>
+<p>$f’({{x}_{0}})=\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{f(x)-f({{x}_{0}})}{x-{{x}_{0}}}$           （2）</p>
+<h4 id="2-左右导数导数的几何意义和物理意义"><a href="#2-左右导数导数的几何意义和物理意义" class="headerlink" title="2.左右导数导数的几何意义和物理意义"></a>2.左右导数导数的几何意义和物理意义</h4><p>函数$f(x)$在$x_0$处的左、右导数分别定义为：</p>
+<p>左导数：${{f'}_{-}}({{x}_{0}})=\underset{\Delta x\to {{0}^{-}}}{\mathop{\lim }}\,\frac{f({{x}_{0}}+\Delta x)-f({{x}_{0}})}{\Delta x}=\underset{x\to x_{0}^{-}}{\mathop{\lim }}\,\frac{f(x)-f({{x}_{0}})}{x-{{x}_{0}}},(x={{x}_{0}}+\Delta x)$</p>
+<p>右导数：${{f'}_{+}}({{x}_{0}})=\underset{\Delta x\to {{0}^{+}}}{\mathop{\lim }}\,\frac{f({{x}_{0}}+\Delta x)-f({{x}_{0}})}{\Delta x}=\underset{x\to x_{0}^{+}}{\mathop{\lim }}\,\frac{f(x)-f({{x}_{0}})}{x-{{x}_{0}}}$</p>
+<h4 id="3-函数的可导性与连续性之间的关系"><a href="#3-函数的可导性与连续性之间的关系" class="headerlink" title="3.函数的可导性与连续性之间的关系"></a>3.函数的可导性与连续性之间的关系</h4><p><strong>Th1:</strong> 函数$f(x)$在$x_0$处可微$\Leftrightarrow f(x)$在$x_0$处可导</p>
+<p><strong>Th2:</strong> 若函数在点$x_0$处可导，则$y=f(x)$在点$x_0$处连续，反之则不成立(即函数连续不一定可导)</p>
+<p><strong>Th3:</strong> ${f}’({{x}_{0}})$存在$\Leftrightarrow {{f'}_{-}}({{x}_{0}})={{f'}_{+}}({{x}_{0}})$</p>
+<h4 id="4-平面曲线的切线和法线"><a href="#4-平面曲线的切线和法线" class="headerlink" title="4.平面曲线的切线和法线"></a>4.平面曲线的切线和法线</h4><p>切线方程 : $y-{{y}_{0}}=f’({{x}_{0}})(x-{{x}_{0}})$<br>法线方程：$y-{{y}_{0}}=-\frac{1}{f’({{x}_{0}})}(x-{{x}_{0}}),f’({{x}_{0}})\ne 0$</p>
+<h4 id="5-四则运算法则"><a href="#5-四则运算法则" class="headerlink" title="5.四则运算法则"></a>5.四则运算法则</h4><p>设函数$ u=u(x)，v=v(x) $在点$ x $可导则<br>(1) $ (u \pm v)’={u}’\pm {v’} $，$ d(u\pm v)=du\pm dv $<br>(2) $ (uv)’=uv’+vu’ $，$ d(uv)=udv+vdu $<br>(3) $ {(\frac{u}{v})}’=\frac{v{u}’-u{v}’}{{v^2}}(v\ne 0) $，$ d(\frac{u}{v})=\frac{vdu-udv}{{v}^{2}} $</p>
+<h4 id="6-基本导数与微分表"><a href="#6-基本导数与微分表" class="headerlink" title="6.基本导数与微分表"></a>6.基本导数与微分表</h4><p>(1) $y=c$（常数），       ${y}’=0$，，        $dy=0$</p>
+<p>(2) $y={{x}^{\alpha }}$($\alpha $为实数)，       ${y}’=\alpha {{x}^{\alpha -1}}$，       $dy=\alpha {{x}^{\alpha -1}}dx$</p>
+<p>(3) $y={{a}^{x}}$，       ${y}’={{a}^{x}}\ln a$，       $dy={{a}^{x}}\ln adx$</p>
+<p>  特例:   ${({e}^{x})’}={{e}^{x}}$，       $ d({e}^{x})={{e}^{x}}dx $</p>
+<p>(4) $y={{\log }_{a}}x$，       ${y}’=\frac{1}{x\ln a}$，$dy=\frac{1}{x\ln a}dx$</p>
+<p>  特例:$y=\ln x$，       $(\ln x{)}’=\frac{1}{x}$，       $d(\ln x)=\frac{1}{x}dx$</p>
+<p>(5) $y=\sin x$</p>
+<p>${y}’=\cos x$，       $d(\sin x)=\cos xdx$</p>
+<p>(6) $y=\cos x$</p>
+<p>${y}’=-\sin x$，       $d(\cos x)=-\sin xdx$</p>
+<p>(7) $y=\tan x$  </p>
+<p>${y}’=\frac{1}{{{\cos }^{2}}x}={{\sec }^{2}}x$，       $d(\tan x)={{\sec }^{2}}xdx$</p>
+<p>(8) $y=\cot x$ ${y}’=-\frac{1}{{{\sin }^{2}}x}=-{{\csc }^{2}}x$，       $d(\cot x)=-{{\csc }^{2}}xdx$</p>
+<p>(9) $y=\sec x$，       ${y}’=\sec x\tan x$</p>
+<p> $d(\sec x)=\sec x\tan xdx$</p>
+<p>(10) $y=\csc x$，       ${y}’=-\csc x\cot x$</p>
+<p>$d(\csc x)=-\csc x\cot xdx$</p>
+<p>(11) $y=\arcsin x$  </p>
+<p>${y}’=\frac{1}{\sqrt{1-{{x}^{2}}}}$</p>
+<p>$d(\arcsin x)=\frac{1}{\sqrt{1-{{x}^{2}}}}dx$</p>
+<p>(12) $y=\arccos x$</p>
+<p>${y}’=-\frac{1}{\sqrt{1-{{x}^{2}}}}$     $d(\arccos x)=-\frac{1}{\sqrt{1-{{x}^{2}}}}dx$</p>
+<p>(13) $y=\arctan x$</p>
+<p>${y}’=\frac{1}{1+{{x}^{2}}}$     $d(\arctan x)=\frac{1}{1+{{x}^{2}}}dx$</p>
+<p>(14) $y=\operatorname{arc}\cot x$</p>
+<p>${y}’=-\frac{1}{1+{{x}^{2}}}$</p>
+<p>$d(\operatorname{arc}\cot x)=-\frac{1}{1+{{x}^{2}}}dx$</p>
+<p>(15) $y=shx$</p>
+<p>${y}’=chx$       $d(shx)=chxdx$</p>
+<p>(16) $y=chx$</p>
+<p>${y}’=shx$       $d(chx)=shxdx$</p>
+<h4 id="7-复合函数，反函数，隐函数以及参数方程所确定的函数的微分"><a href="#7-复合函数，反函数，隐函数以及参数方程所确定的函数的微分" class="headerlink" title="7.复合函数，反函数，隐函数以及参数方程所确定的函数的微分"></a>7.复合函数，反函数，隐函数以及参数方程所确定的函数的微分</h4><p>(1) 反函数的运算法则: 设$y=f(x)$在点$x$的某邻域内单调连续，在点$x$处可导且${f}’(x)\ne 0$，则其反函数在点$x$所对应的$y$处可导，并且有$\frac{dy}{dx}=\frac{1}{\frac{dx}{dy}}$</p>
+<p>(2) 复合函数的运算法则：若$\mu =\varphi (x)$在点$x$可导，而$y=f(\mu )$在对应点$\mu $($\mu =\varphi (x)$)可导，则复合函数$y=f(\varphi (x))$在点$x$可导，且${y’}={f’}(\mu )\cdot {\varphi }’(x)$</p>
+<p>(3) 隐函数导数$\frac{dy}{dx}$的求法一般有三种方法：</p>
+<ul>
+<li>1)方程两边对$x$求导，要记住$y$是$x$的函数，则$y$的函数是$x$的复合函数。例如$\frac{1}{y}$，${{y}^{2}}$，$ln y$，${{{e}}^{y}}$等均是$x$的复合函数，对$x$求导应按复合函数连锁法则做</li>
+<li>2)公式法：由$F(x,y)=0$知 $\frac{dy}{dx}=-\frac{{F'_{x}}(x,y)}{{F'_{y}}(x,y)}$，其中，${F’_x}(x,y)$，<br>${F’_y}(x,y)$分别表示$F(x,y)$对$x$和$y$的偏导数</li>
+<li>3)利用微分形式不变性</li>
+</ul>
+<h4 id="8-常用高阶导数公式"><a href="#8-常用高阶导数公式" class="headerlink" title="8.常用高阶导数公式"></a>8.常用高阶导数公式</h4><blockquote>
+<p>常用几个低次公式要熟记于心</p>
+</blockquote>
+<p>（1）$({{a}^{x}}){{\,}^{(n)}}={{a}^{x}}{{\ln }^{n}}a\quad (a&gt;{0})\quad  ({{{e}}^{x}}){{\,}^{(n)}}={e}{{\,}^{x}}$<br>（2）$(\sin kx{)}{{\,}^{(n)}}={{k}^{n}}\sin (kx+n\cdot \frac{\pi }{{2}})$<br>（3）$(\cos kx{)}{{\,}^{(n)}}={{k}^{n}}\cos (kx+n\cdot \frac{\pi }{{2}})$<br>（4）$({{x}^{m}}){{\,}^{(n)}}=m(m-1)\cdots (m-n+1){{x}^{m-n}}$<br>（5）$(\ln x){{\,}^{(n)}}={{(-{1})}^{(n-{1})}}\frac{(n-{1})!}{{{x}^{n}}}$<br>（6）莱布尼兹公式：<br>若$u(x),v(x)$均$n$阶可导，则${{(uv)}^{(n)}}=\sum\limits_{i={0}}^{n}{{c}_{n}^{i}{u}^{i}{v^{n-i}}}$，其中${{u}^{({0})}}=u$，${{v}^{({0})}}=v$</p>
+<h4 id="9-微分中值定理，泰勒公式"><a href="#9-微分中值定理，泰勒公式" class="headerlink" title="9.微分中值定理，泰勒公式"></a>9.微分中值定理，泰勒公式</h4><p><strong>Th1:</strong> 费马引理</p>
+<p>若函数$f(x)$满足条件：<br>(1)函数$f(x)$在${{x}_{0}}$的某邻域内有定义，并且在此邻域内恒有<br>$f(x)\le f({{x}_{0}})$或$f(x)\ge f({{x}_{0}})$<br>(2) $f(x)$在${{x}_{0}}$处可导<br>则有 ${f}’({{x}_{0}})=0$</p>
+<p><strong>Th2:</strong> 罗尔定理</p>
+<p>设函数$f(x)$满足条件：<br>(1)在闭区间$[a,b]$上连续<br>(2)在$(a,b)$内可导<br>(3)$f(a)=f(b)$<br>则在$(a,b)$内一存在个$\xi $，使  ${f}’(\xi )=0$</p>
+<p><strong>Th3:</strong> 拉格朗日中值定理</p>
+<p>设函数$f(x)$满足条件：<br>(1)在$[a,b]$上连续<br>(2)在$(a,b)$内可导<br>则在$(a,b)$内一存在个$\xi $，使  $\frac{f(b)-f(a)}{b-a}={f}’(\xi )$</p>
+<p><strong>Th4:</strong> 柯西中值定理</p>
+<p>设函数$f(x)$，$g(x)$满足条件：<br>(1) 在$[a,b]$上连续<br>(2) 在$(a,b)$内可导且${f}’(x)$，${g}’(x)$均存在，且${g}’(x)\ne 0$<br>则在$(a,b)$内存在一个$\xi $，使${\frac{f(b)-f(a)}{g(b)-g(a)}}={\frac{{f}'(\xi )}{{g}'(\xi )}}$</p>
+<h4 id="10-洛必达法则"><a href="#10-洛必达法则" class="headerlink" title="10.洛必达法则"></a>10.洛必达法则</h4><p><strong>法则Ⅰ ($\frac{0}{0}$型)</strong></p>
+<p>设函数$f\left( x \right),g\left( x \right)$满足条件：</p>
+<p>$\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,f\left( x \right)=0,\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,g\left( x \right)=0$<br>$f\left( x \right),g\left( x \right)$在${{x}_{0}}$的邻域内可导，(在${{x}_{0}}$处可除外)且${g}’\left( x \right)\ne 0$<br>$\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{{f}'\left( x \right)}{{g}'\left( x \right)}$存在(或$\infty $)
+
+则:
+${\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{f\left( x \right)}{g\left( x \right)}=\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{{f}'\left( x \right)}{{g}'\left( x \right)}}$</p>
+<p><strong>法则Ⅰ’ ($\frac{0}{0}$型)</strong></p>
+<p>设函数$f\left( x \right),g\left( x \right)$满足条件：</p>
+<p>$\underset{x\to \infty }{\mathop{\lim }}\,f\left( x \right)=0,\underset{x\to \infty }{\mathop{\lim }}\,g\left( x \right)=0$<br>存在一个$X&gt;0$,当$\left| x \right|&gt;X$时，$f\left( x \right),g\left( x \right)$可导，且${g}’\left( x \right)\ne 0$<br>$\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{{f}'\left( x \right)}{{g}'\left( x \right)}$存在(或$\infty $)
+
+则:${\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{f\left( x \right)}{g\left( x \right)}=\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{{f}'\left( x \right)}{{g}'\left( x \right)}}$</p>
+<p><strong>法则Ⅱ ($\frac{\infty }{\infty }$型)</strong></p>
+<p>设函数$f\left( x \right),g\left( x \right)$满足条件：</p>
+<p>$\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,f\left( x \right)=\infty ,\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,g\left( x \right)=\infty $<br>$f\left( x \right),g\left( x \right)$在${{x}_{0}}$ 的邻域内可导(在${{x}_{0}}$处可除外)且${g}’\left( x \right)\ne 0$<br>$\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{{f}'\left( x \right)}{{g}'\left( x \right)}$存在(或$\infty $)
+
+则:
+${\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{f\left( x \right)}{g\left( x \right)}}={\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{{f}'\left( x \right)}{{g}'\left( x \right)}}$</p>
+<p><strong>同理法则Ⅱ’ ($\frac{\infty }{\infty }$型)仿法则Ⅰ’ 可写出</strong></p>
+<h4 id="11-泰勒公式"><a href="#11-泰勒公式" class="headerlink" title="11.泰勒公式"></a>11.泰勒公式</h4><p>设函数$f(x)$在点${{x}_{0}}$处的某邻域内具有$n+1$阶导数，则对该邻域内异于${{x}_{0}}$的任意点$x$，在${{x}_{0}}$与$x$之间至少存在一个$\xi$，使得:</p>
+<p>$f(x)=f({{x}_{0}})+{f}’({{x}_{0}})(x-{{x}_{0}})+\frac{1}{2!}{f}’’({{x}_{0}}){{(x-{{x}_{0}})}^{2}}+\cdots +\frac{{{f}^{(n)}}({{x}_{0}})}{n!}{{(x-{{x}_{0}})}^{n}}+{{R}_{n}}(x)$</p>
+<p> 其中 ${{R}_{n}}(x)=\frac{{{f}^{(n+1)}}(\xi )}{(n+1)!}{{(x-{{x}_{0}})}^{n+1}}$ 称为 $f(x)$ 在点 ${{x}_{0}}$ 处的 $n$ 阶泰勒余项。</p>
+<p>令${{x}_{0}}=0$，则$n$阶泰勒公式 <strong>(麦克劳林公式):</strong></p>
+<p>$f(x)=f(0)+{f}’(0)x+\frac{1}{2!}{f}’’(0){{x}^{2}}+\cdots +\frac{{{f}^{(n)}}(0)}{n!}{{x}^{n}}+{{R}_{n}}(x)$</p>
+<p>其中 ${{R}_{n}}(x)=\frac{{{f}^{(n+1)}}(\xi )}{(n+1)!}{{x}^{n+1}}$，$\xi $在0与$x$之间</p>
+<p><strong>常用五种函数在${{x}_{0}}=0$处的泰勒公式</strong></p>
+<p>(1) ${{{e}}^{x}}=1+x+\frac{1}{2!}{{x}^{2}}+\cdots +\frac{1}{n!}{{x}^{n}}+o({{x}^{n}})$</p>
+<p>(2) $\sin x=x-\frac{1}{3!}{{x}^{3}}+\cdots +\frac{{{x}^{n}}}{n!}\sin \frac{n\pi }{2}+o({{x}^{n}})$</p>
+<p>(3) $\cos x=1-\frac{1}{2!}{{x}^{2}}+\cdots +\frac{{{x}^{n}}}{n!}\cos \frac{n\pi }{2}+o({{x}^{n}})$</p>
+<p>(4) $\ln (1+x)=x-\frac{1}{2}{{x}^{2}}+\frac{1}{3}{{x}^{3}}-\cdots +{{(-1)}^{n-1}}\frac{{{x}^{n}}}{n}+o({{x}^{n}})$</p>
+<p>(5) ${{(1+x)}^{m}}=1+mx+\frac{m(m-1)}{2!}{{x}^{2}}+\cdots $ $+\frac{m(m-1)\cdots (m-n+1)}{n!}{{x}^{n}}+o({{x}^{n}})$</p>
+<h4 id="12-函数单调性的判断"><a href="#12-函数单调性的判断" class="headerlink" title="12.函数单调性的判断"></a>12.函数单调性的判断</h4><p><strong>Th1:</strong>  设函数$f(x)$在$(a,b)$区间内可导，如果对$\forall x\in (a,b)$，都有$f’(x)&gt;0$（或$f’(x)&lt;0$），则函数$f(x)$在$(a,b)$内是单调增加的（或单调减少）</p>
+<p><strong>Th2:</strong> （取极值的必要条件）设函数$f(x)$在${{x}_{0}}$处可导，且在${{x}_{0}}$处取极值，则$f’({{x}_{0}})=0$。</p>
+<p><strong>Th3:</strong> （取极值的第一充分条件）设函数$f(x)$在${{x}_{0}}$的某一邻域内可微，且$f’({{x}_{0}})=0$（或$f(x)$在${{x}_{0}}$处连续，但$f’({{x}_{0}})$不存在。）</p>
+<blockquote>
+<p>(1)若当$x$经过${{x}_{0}}$时，$f’(x)$由“+”变“-”，则$f({{x}_{0}})$为极大值<br>(2)若当$x$经过${{x}_{0}}$时，$f’(x)$由“-”变“+”，则$f({{x}_{0}})$为极小值<br>(3)若$f’(x)$经过$x={{x}_{0}}$的两侧不变号，则$f({{x}_{0}})$不是极值</p>
+</blockquote>
+<p><strong>Th4:</strong> （取极值的第二充分条件）设$f(x)$在点${{x}_{0}}$处有$f’’(x)\ne 0$，且$f’({{x}_{0}})=0$，则：</p>
+<blockquote>
+<p>当$f’’({{x}_{0}})&lt;0$时，$f({{x}_{0}})$为极大值<br>当$f’’({{x}_{0}})&gt;0$时，$f({{x}_{0}})$为极小值<br>如果$f’’({{x}_{0}})=0$，失效</p>
+</blockquote>
+<h4 id="13-渐近线的求法"><a href="#13-渐近线的求法" class="headerlink" title="13.渐近线的求法"></a>13.渐近线的求法</h4><p>(1)水平渐近线   若$\underset{x\to +\infty }{\mathop{\lim }}\,f(x)=b$，或$\underset{x\to -\infty }{\mathop{\lim }}\,f(x)=b$，则</p>
+<p>$y=b$称为函数$y=f(x)$的水平渐近线。</p>
+<p>(2)铅直渐近线   若$\underset{x\to x_{0}^{-}}{\mathop{\lim }}\,f(x)=\infty $，或$\underset{x\to x_{0}^{+}}{\mathop{\lim }}\,f(x)=\infty $，则</p>
+<p>$x={{x}_{0}}$称为$y=f(x)$的铅直渐近线。</p>
+<p>(3)斜渐近线   若$a=\underset{x\to \infty }{\mathop{\lim }}\,\frac{f(x)}{x},\quad b=\underset{x\to \infty }{\mathop{\lim }}\,[f(x)-ax]$，则<br>$y=ax+b$称为$y=f(x)$的斜渐近线。</p>
+<h4 id="14-函数凹凸性的判断"><a href="#14-函数凹凸性的判断" class="headerlink" title="14.函数凹凸性的判断"></a>14.函数凹凸性的判断</h4><p><strong>Th1:</strong> （凹凸性的判别定理）若在I上$f{‘’}(x)&lt;0$（或$f''(x)&gt;0$），则$f(x)$在I上是凸的（或凹的）（凹凸是相对于正方向而言的）</p>
+<p><strong>Th2:</strong> （拐点的判别定理1）若在${{x}_{0}}$处$f’’(x)=0$，（或$f’’(x)$不存在），当$x$变动经过${{x}_{0}}$时，$f’’(x)$变号，则$({{x}_{0}},f({{x}_{0}}))$为拐点</p>
+<p><strong>Th3:</strong> （拐点的判别理2）设$f(x)$在${{x}_{0}}$点的某邻域内有三阶导数，且$f’’(x)=0$，$f’’’(x)\ne 0$，则$({{x}_{0}},f({{x}_{0}}))$为拐点</p>
+<blockquote>
+<p><del>有空更新线性代数和概率论部分，但公式比较复杂，涉及矩阵和行列式等，Hexo渲染不方便，大概率鸽了</del><br><a href="https://www.lingzhicheng.cn/usr/file/mathBasic.md">完整Markdown下载</a></p>
+</blockquote>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2021/08/25/mathBasic/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/basic/" rel="tag">basic</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2021/08/26/NunjucksErrors/" class="article-nav-link">
+        <strong class="article-nav-caption">Prev post</strong>
+        <div class="article-nav-title">
+          
+            Nunjucks Errors
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2021/08/16/%E5%9F%BA%E4%BA%8E%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E5%9B%BE%E7%89%87%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/" class="article-nav-link">
+        <strong class="article-nav-caption">Next post</strong>
+        <div class="article-nav-title">基于卷积神经网络的图片验证码识别</div>
+      </a>
+    
+  </nav>
+
+  
+   
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'a1a50124b0c46fa4fab9',
+    clientSecret: '4a29dee6f998a9272f57ba07f987ea9eed9da5ec',
+    repo: 'blog-comments',
+    owner: 'boom1999',
+    admin: ['boom1999'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: true,  // Facebook-like distraction free mode
+    pagerDirection: 'last',
+    proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2023
+        <span class="division">|</span> Zhicheng Ling
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+          
+          
+          Power <a href="https://hexo.io" target="_blank">Hexo</a>
+          <span class="division">|</span>
+          Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+          
+          <span class="division">|</span>
+        
+          
+          <span>
+  <span><i class="ri-eye-fill"></i> <span id="busuanzi_value_page_pv"></span></span>
+</span>
+          
+      </li>
+    </ul>
+    <ul>
+      
+        <li>
+          <a href="http://beian.miit.gov.cn/" target="_black" rel="nofollow">浙ICP备2020044847号-1</a>
+        </li>
+        
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/haisen-side.svg" alt="Haisenberg"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Categories</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.pan.lingzhicheng.cn">Pan</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.gallery.lingzhicheng.cn">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.todo.lingzhicheng.cn">Todo</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">Friends</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/me">Me</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+  <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
+  fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
+  webpushr('setup',{'key':'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script>
+<script>(function (w, d, s, id) {
+            if (typeof (w.webpushr) !== 'undefined') return; w.webpushr = w.webpushr || function () { (w.webpushr.q = w.webpushr.q || []).push(arguments) }; var js, fjs = d.getElementsByTagName(s)[0]; js = d.createElement(s); js.id = id; js.async = 1; js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window, document, 'script', 'webpushr-jssdk'));webpushr('setup', { 'key': 'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script></body>
+
+</html>

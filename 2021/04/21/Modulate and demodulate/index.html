@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta name="google-site-verification" content="QbUVAi0K2ZB_P4A6jbbi-GVB4BXs3n6GqgIEGHlySnk" />
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="Torch, Summary, UAV, Git" />
+   
+  <meta name="description" content="No fear of words,no fear of years" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    Modulate and demodulate |  Haisenberg
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-Modulate and demodulate"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Modulate and demodulate
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/04/21/Modulate%20and%20demodulate/" class="article-date">
+  <time datetime="2021-04-21T00:00:00.000Z" itemprop="datePublished">2021-04-21</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Matlab/">Matlab</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">1.8k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">11 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="pushpin-Modulation-and-demodulation-of-signal-based-on-matlab"><a href="#pushpin-Modulation-and-demodulation-of-signal-based-on-matlab" class="headerlink" title=":pushpin: Modulation and demodulation of signal based on matlab"></a><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Modulation and demodulation of signal based on matlab</h1><p><span class="github-emoji"><span>☀</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/2600.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>🕠</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f560.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>😴</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f634.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><br><span id="more"></span></p>
+<hr>
+<h2 id="Eg1"><a href="#Eg1" class="headerlink" title="Eg1"></a>Eg1</h2><p><span class="github-emoji"><span>📝</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4dd.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Code</p>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% Generate random process.</span></span><br><span class="line"></span><br><span class="line">clear;</span><br><span class="line">clc;</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(1)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% ①Generate a random process y[n]=x1[n]+sin(x2[n]).</span></span><br><span class="line">N = <span class="number">1000</span>;                   <span class="comment">% The maximum value of n,sequence length</span></span><br><span class="line">M = <span class="number">50</span>;                     <span class="comment">% Select a sequence of length 101 = M*2+1 </span></span><br><span class="line">Y = <span class="built_in">zeros</span>(<span class="number">1</span>,N); </span><br><span class="line">Ryav = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="number">2</span>*M+<span class="number">1</span>);      <span class="comment">% 950:1050</span></span><br><span class="line">Syav = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="number">2</span>*M+<span class="number">1</span>);      <span class="comment">% 950:1050</span></span><br><span class="line">Myav = <span class="number">0</span>;</span><br><span class="line">Vyav = <span class="number">0</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Take the ensemble average over one hundred realizations.</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span>:<span class="number">2</span>*M</span><br><span class="line">    X1 = <span class="built_in">randn</span>(<span class="number">1</span>,N);     <span class="comment">% Use 'randn(x,y)' to generate x*y matrix </span></span><br><span class="line">    X2 = <span class="built_in">randn</span>(<span class="number">1</span>,N);</span><br><span class="line">    <span class="keyword">for</span> n = <span class="number">1</span>:N</span><br><span class="line">        Y(n) = X1(n)+<span class="built_in">sin</span>(X2(n));</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    Ry = xcorr(Y,<span class="string">'unbiased'</span>);       <span class="comment">% Autocorrelation of {Yn}</span></span><br><span class="line">    Ry = Ry(N-M:N+M);               <span class="comment">% Original Ry, m is -999 to 999(2*N-1)</span></span><br><span class="line">    Sy = fftshift(<span class="built_in">abs</span>(fft(Ry)));    <span class="comment">% Power spectrum of {Yn}</span></span><br><span class="line">    Ryav=Ryav+Ry;                   <span class="comment">% 100 times</span></span><br><span class="line">    Syav=Syav+Sy;</span><br><span class="line">    Myav_time=Myav+<span class="built_in">mean</span>(Y(<span class="number">1</span>));</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">Ryav=Ryav/<span class="number">100</span>;                      <span class="comment">% Time-average</span></span><br><span class="line">Syav=Syav/<span class="number">100</span>;</span><br><span class="line">Myav_time=Myav_time/(<span class="number">2</span>*M)</span><br><span class="line"></span><br><span class="line"><span class="comment">%% Task(2)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% ① the mean and variance of y[n].</span></span><br><span class="line"><span class="comment">% Use 'mean(Y)' and 'var(Y)' to calculate the mean and variance of y[n].</span></span><br><span class="line">Myav = <span class="built_in">mean</span>(Y)</span><br><span class="line">Vyav = var(Y)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(3)</span></span><br><span class="line"><span class="comment">% ① the spectrum and auto-correlation of y[n].</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">1</span>)</span><br><span class="line">subplot(<span class="number">121</span>)</span><br><span class="line"><span class="built_in">plot</span>(-M:M,Ryav);</span><br><span class="line">title(<span class="string">'Auto-correction of y[n]'</span>)</span><br><span class="line">xlabel(<span class="string">'Time'</span>)</span><br><span class="line">subplot(<span class="number">122</span>)</span><br><span class="line"><span class="built_in">plot</span>(<span class="number">-0.5</span>:<span class="number">0.01</span>:<span class="number">0.5</span>,Syav);</span><br><span class="line">title(<span class="string">'Spectrum of y[n]'</span>)</span><br><span class="line">xlabel(<span class="string">'Time'</span>)</span><br></pre></td></tr></tbody></table></figure>
+<p><span class="github-emoji"><span>💹</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4b9.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Fig</p>
+<div align="center"><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/mean_and_var.png"></div>
+<center><font size="2">Fig.1 Myav and Vyav of y[n].</font></center>
+
+<div align="center"><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_spectrum_and_auto-correlation_of_y[n].png"></div>
+<center><font size="2">Fig.2 The spectrum and auto-correlation of y[n].</font></center>
+
+<span class="github-emoji"><span>❔</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/2754.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Discussion
+
+&gt; - In this task, I use ‘randn(x,y)’ to generate ‘x*y’ matrix. In order to calculate the autocorrelation and power spectrum of y[n] in the time-average, I take the ensemble average over one hundred realizations, and then take their average. The length of x1[n],x2[n] and y[n] are all N in length.
+&gt; - As we all know, the length of ‘xcorr(y)’ is ‘2*N-1’. For original Ry , m is -999 to 999, so I selected (950:1050) of the intervals. After a hundred stacking, use ‘Ryav=Ryav/100’ and ‘Syav=Syav/100’ to calculate the time-average. I  also use 'mean(Y)' and 'var(Y)' to calculate the mean and variance of y[n].
+&gt; - To judge rodman progress is ergodic or stationary, I compare the time average and statistical average and find that the expectation of y[n] is a constant while its autocorrelation only depends on the time difference. Also, the expectation equals the time-average. So, we can say the random process will go through all the possible states. The conclusion is that the rodman progress y[n] is ergodic and stationary.
+
+## Eg2 ##
+
+<span class="github-emoji"><span>📝</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4dd.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Code
+
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% Amplitude modulation. Sampling rate Fs=1500Hz.</span></span><br><span class="line"> </span><br><span class="line">clear;</span><br><span class="line">clc;</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(1)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Initialization.</span></span><br><span class="line">t0 = <span class="number">1</span>;                 <span class="comment">% Signal duration</span></span><br><span class="line">Fs = <span class="number">1500</span>;              <span class="comment">% Sampling rate</span></span><br><span class="line">Ts = <span class="number">1</span>/Fs;              <span class="comment">% Sampling interval</span></span><br><span class="line">Fc = <span class="number">20</span>;                <span class="comment">% Carrier rate</span></span><br><span class="line">t = <span class="number">0</span>:Ts:t0;            <span class="comment">% Time vector</span></span><br><span class="line">N = <span class="built_in">length</span>(t);          <span class="comment">% Length of t</span></span><br><span class="line">N0 = <span class="number">0.0005</span>;            <span class="comment">% Power spectral density of noise</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Message signal and modulated signal(DSB_AM and USSB_AM).</span></span><br><span class="line">m = <span class="built_in">sin</span>(<span class="number">2</span>*<span class="built_in">pi</span>*t);        <span class="comment">% Message signal</span></span><br><span class="line">c = <span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>*Fc*t);     <span class="comment">% Carrier signal</span></span><br><span class="line">Ac_DSB_AM = <span class="number">1</span>;</span><br><span class="line">Ac_USSB_AM = <span class="built_in">sqrt</span>(<span class="number">2</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% DBS_AM modulated signal.</span></span><br><span class="line">u_dsb = Ac_DSB_AM*m.*c;</span><br><span class="line"><span class="comment">% SSB_AM modulated signal.</span></span><br><span class="line">u_ussb = <span class="number">1</span>/<span class="number">2</span>*Ac_USSB_AM*<span class="built_in">real</span>(hilbert(m).*<span class="built_in">exp</span>(<span class="number">1</span><span class="built_in">i</span>*<span class="number">2</span>*<span class="built_in">pi</span>*Fc*t));</span><br><span class="line"><span class="comment">% "equal to " u_ussb = 1/2*Ac_USSB_AM*cos(2*pi*(Fc+1)*t).</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Time domain to frequency domain).</span></span><br><span class="line">[~,M] = T2F(t,m); </span><br><span class="line">[~,U_DSB] = T2F(t,u_dsb);</span><br><span class="line">[df1,U_USSB] = T2F(t,u_ussb);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% ① Calculate the power of the modulated signal and message signal.</span></span><br><span class="line">m_power = sum(<span class="built_in">abs</span>(m).^<span class="number">2</span>)/N</span><br><span class="line">dsb_power = sum(<span class="built_in">abs</span>(u_dsb).^<span class="number">2</span>)/N</span><br><span class="line">ussb_power = sum(<span class="built_in">abs</span>(u_ussb).^<span class="number">2</span>)/N</span><br><span class="line"> </span><br><span class="line"><span class="comment">% ② Plot the modulated signal and the spectrum.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">1</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_dsb)</span><br><span class="line">title(<span class="string">'DSB Signal'</span>)</span><br><span class="line">xlabel(<span class="string">'Time'</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_ussb)</span><br><span class="line">title(<span class="string">'USSB Signal'</span>)</span><br><span class="line">xlabel(<span class="string">'Time'</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,<span class="built_in">abs</span>(U_DSB))</span><br><span class="line">title(<span class="string">'Spectrum of the Modulated DSB Signal'</span>)</span><br><span class="line">xlabel(<span class="string">'Frequency'</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,<span class="built_in">abs</span>(U_USSB))</span><br><span class="line">title(<span class="string">'Spectrum of the Modulated USSB Signal'</span>)</span><br><span class="line">xlabel(<span class="string">'Frequency'</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(2)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Demodulate the above signals.</span></span><br><span class="line"><span class="comment">% Coherent carrier mixing.</span></span><br><span class="line">y_dsb = u_dsb.*c;</span><br><span class="line">y_ussb = u_ussb.*c;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Time domain to frequency domain).</span></span><br><span class="line">[~,Y_DSB]=T2F(t,y_dsb);</span><br><span class="line">[df1,Y_USSB]=T2F(t,y_ussb);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Initialization of lowpass filter.</span></span><br><span class="line">H_DSB = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="built_in">length</span>(df1));</span><br><span class="line">H_USSB = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="built_in">length</span>(df1));</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="built_in">length</span>(df1)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">abs</span>(df1(<span class="built_in">i</span>))&lt;<span class="number">2</span></span><br><span class="line">        H_DSB(<span class="built_in">i</span>)=<span class="number">2</span>*Ac_DSB_AM;</span><br><span class="line">        H_USSB(<span class="built_in">i</span>)=<span class="number">2</span>*Ac_USSB_AM;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Lowpass filter filtering(Spectrum of the filter output).</span></span><br><span class="line">DEM_DSB=H_DSB.*Y_DSB;</span><br><span class="line">DEM_USSB=H_USSB.*Y_USSB;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Frequency domain to time domain).</span></span><br><span class="line">[~,dem_w_dsb]=F2T(df1,DEM_DSB);</span><br><span class="line">[dt1,dem_w_ussb]=F2T(df1,DEM_USSB);</span><br><span class="line">dem_w_dsb=dem_w_dsb(<span class="number">1</span>:<span class="built_in">length</span>(t));</span><br><span class="line">dem_w_ussb=dem_w_ussb(<span class="number">1</span>:<span class="built_in">length</span>(t));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% ① The pass band of the low-pass filter for DSB_AM and USSB_AM.</span></span><br><span class="line">passband_dsb = <span class="number">2</span>*<span class="number">1</span></span><br><span class="line">passband_ussb = <span class="number">2</span>*<span class="number">1</span></span><br><span class="line"><span class="comment">% ② Plot the demodulated signal and the spectrum.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">2</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_w_dsb))</span><br><span class="line">title(<span class="string">'Demodulated DSB signal'</span>)</span><br><span class="line">xlabel(<span class="string">'Time'</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_w_ussb))</span><br><span class="line">title(<span class="string">'Demodulated USSB signal'</span>)</span><br><span class="line">xlabel(<span class="string">'Time'</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,(<span class="built_in">abs</span>(DEM_DSB)))</span><br><span class="line">title(<span class="string">'Spectrum of the Demodulated DSB signal'</span>)</span><br><span class="line">xlabel(<span class="string">'Frequency'</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,(<span class="built_in">abs</span>(DEM_USSB)))</span><br><span class="line">title(<span class="string">'Spectrum of the Demodulated USSB signal'</span>)</span><br><span class="line">xlabel(<span class="string">'Frequency'</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(3)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Add the thermal noise.</span></span><br><span class="line">noise = <span class="built_in">randn</span>(<span class="number">1</span>,<span class="built_in">length</span>(t))*<span class="built_in">sqrt</span>(N0/<span class="number">2</span>*Fs);</span><br><span class="line">u_n_dsb = u_dsb + noise;</span><br><span class="line">u_n_ussb = u_ussb + noise;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Coherent carrier mixing.</span></span><br><span class="line">y_n_dsb = u_n_dsb.*c;</span><br><span class="line">y_n_ussb = u_n_ussb.*c;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Time domain to frequency domain).</span></span><br><span class="line">[~,Y_N_DSB]=T2F(t,y_n_dsb);</span><br><span class="line">[df1,Y_N_USSB]=T2F(t,y_n_ussb);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Lowpass filter filtering(Spectrum of the filter output).</span></span><br><span class="line"><span class="comment">% Filters have been initialized already.</span></span><br><span class="line">DEM_N_DSB=H_DSB.*Y_N_DSB;</span><br><span class="line">DEM_N_USSB=H_USSB.*Y_N_USSB;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Frequency domain to time domain).</span></span><br><span class="line">[~,dem_n_dsb]=F2T(df1,DEM_N_DSB);</span><br><span class="line">[dt1,dem_n_ussb]=F2T(df1,DEM_N_USSB);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% ①Plot the modulated signal and demodulated signal(time domain).</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">3</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_n_dsb)</span><br><span class="line">title(<span class="string">'Modulated DSB signal with noise'</span>)</span><br><span class="line">xlabel(<span class="string">'Time'</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,u_n_ussb)</span><br><span class="line">title(<span class="string">'Modulated USSB signal with noise'</span>)</span><br><span class="line">xlabel(<span class="string">'Time'</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_n_dsb))</span><br><span class="line">title(<span class="string">'Demodulated DSB signal with noise'</span>)</span><br><span class="line">xlabel(<span class="string">'Time'</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_n_ussb))</span><br><span class="line">title(<span class="string">'Demodulated USSB signal with noise'</span>)</span><br><span class="line">xlabel(<span class="string">'Time'</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Task(4)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% What is the disadvantage</span></span><br><span class="line"><span class="comment">% if we apply a low-pass filter with a band much wider than necessary?</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Initialization of lowpass filter much wider than necessary.</span></span><br><span class="line">H_W_DSB = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="built_in">length</span>(df1));</span><br><span class="line">H_W_USSB = <span class="built_in">zeros</span>(<span class="number">1</span>,<span class="built_in">length</span>(df1));</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="built_in">length</span>(df1)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">abs</span>(df1(<span class="built_in">i</span>))&lt;<span class="number">200</span>      <span class="comment">% 200 &gt;&gt; 2</span></span><br><span class="line">        H_W_DSB(<span class="built_in">i</span>)=<span class="number">2</span>*Ac_DSB_AM;</span><br><span class="line">        H_W_USSB(<span class="built_in">i</span>)=<span class="number">2</span>*Ac_USSB_AM;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Lowpass filter filtering(Spectrum of the filter output).</span></span><br><span class="line">DEM_W_DSB=H_W_DSB.*Y_DSB;</span><br><span class="line">DEM_W_USSB=H_W_USSB.*Y_USSB;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Fourier transform(Frequency domain to time domain).</span></span><br><span class="line">[~,dem_w_dsb]=F2T(df1,DEM_W_DSB);</span><br><span class="line">[dt1,dem_w_ussb]=F2T(df1,DEM_W_USSB);</span><br><span class="line">dem_w_dsb=dem_w_dsb(<span class="number">1</span>:<span class="built_in">length</span>(t));</span><br><span class="line">dem_w_ussb=dem_w_ussb(<span class="number">1</span>:<span class="built_in">length</span>(t));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% The demodulated signal and the spectrum.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">4</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>) </span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_w_dsb))</span><br><span class="line">title(<span class="string">'Demodulated DSB signal with a much wider band'</span>)</span><br><span class="line">xlabel(<span class="string">'Time'</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(dt1,<span class="built_in">real</span>(dem_w_ussb))</span><br><span class="line">title(<span class="string">'Demodulated USSB signal with a much wider band'</span>)</span><br><span class="line">xlabel(<span class="string">'Time'</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,(<span class="built_in">abs</span>(DEM_DSB)))</span><br><span class="line">title(<span class="string">'Spectrum of the Demodulated DSB signal with a much wider band'</span>)</span><br><span class="line">xlabel(<span class="string">'Frequency'</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">plot</span>(df1,(<span class="built_in">abs</span>(DEM_USSB)))</span><br><span class="line">title(<span class="string">'Spectrum of the Demodulated USSB signal with a much wider band'</span>)</span><br><span class="line">xlabel(<span class="string">'Frequency'</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<span class="github-emoji"><span>💹</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4b9.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Fig
+
+<div align="center"><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_power_of_the_modulated_signal_and_message_signal.png"></div>
+<center><font size="2">Fig.3 The power of the modulated signal and message signal.</font></center>
+
+<div align="center"><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_modulated_signal_and_the_spectrum.png"></div>
+<center><font size="2">Fig.4 The modulated signal and the spectrum.</font></center>
+
+<div align="center"><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_pass_band_of_the_low-pass_filter_for_DSB_AM_and_USSB_AM.png"></div>
+
+<center><font size="2">Fig.5 The pass band of the low-pass filter for DSB_AM and USSB_AM.</font></center>
+
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_demodulated_signal_and_the_spectrum.png" alt="The demodulated signal and the spectrum."></p>
+<center><font size="2">Fig.6 The demodulated signal and the spectrum.</font></center>
+
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_modulated_signal_and_demodulated_signal_with_noise.png" alt="The modulated signal and demodulated signal with noise."></p>
+<center><font size="2">Fig.7 The modulated signal and demodulated signal with noise.</font></center>
+
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/much_wider_band_the_demodulated_signal_and_the_spectrum.png" alt="The demodulated signal and the spectrum(much wider band)."></p>
+<center><font size="2">Fig.8 The demodulated signal and the spectrum(much wider band).</font></center>
+
+<p><span class="github-emoji"><span>❔</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/2754.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Discussion</p>
+<blockquote>
+<p>In this task, signal duration is t0=1 , message signal m=sin(2<em>pi</em>t), carrier signal c=cos(2<em>pi</em>Fc*t), there are two modulation methods DBS_AM and SSB_AM. In the SSB_AM, we use the upper sideband modulation, USSB_AM.<br>The modulated signals:</p>
+</blockquote>
+<ul>
+<li><p>DSB-AM signal :</p>
+<p>  $s(t) = A_{c}m(t)cos(2\pi f_{c}t)$</p>
+</li>
+<li><p>USSB-AM signal:</p>
+<p>  $u(t) = {A_{c}\over2}m(t)cos(2\pi f_{c}t)-{A_{c}\over2}{\hat{m}}(t)sin(2\pi f_{c}t)$</p>
+</li>
+</ul>
+<blockquote>
+<p>One thing to note is that the   of DSB-AM and USSB-AM are different. The former is 1 and the latter is $\sqrt{2}$. Use ‘sum(abs(m).^2)/N’ to calculate their power (see fig.3). The modulated signal and the spectrum (see fig.4)<br>Then demodulating the above signals, I use coherent carrier to demodulate them and then pass them through a low-pass filter with different gains.<br>The demodulated signals:</p>
+</blockquote>
+<ul>
+<li><p>DSB-AM signal:</p>
+<p>  $y(t) = A_{C}cos(2\pi f_{c}t)cos(2\pi f_{c}t) = {A_{c}\over2}m(t)+{A_{c}\over2}m(t)cos(4\pi f_{c}t)$</p>
+</li>
+<li><p>USSB-AM signal:</p>
+<p>  $y(t) = {A_{c}\over2}m(t)cos^2(2\pi f_{c}t)-{A_{c}\over2}{\hat{m}}(t)sin(2\pi f_{c}t)cos(2\pi f_{c}t) = {A_{c}\over4}m(t)+{A_{c}\over4}cos(4\pi f_{c}t)-{A_{c}\over4}{\hat{m}}(t)sin(4\pi f_{c}t)$</p>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>In order to recover the original signal m(t), one thing is to use a low-pass filter to filter out unwanted components, and the other thing is to choose right gain. To divide the Ac, for the DSB-AM, what needs to be kept is  , and then the gain is obviously  ; For the USSB-AM, what needs to be kept is  , and then the gain is obviously   . As the band of original signal m(t) is f=1, so I set the passband of the low-pass filter to 2Hz (see fig.5) . The cut-off frequency is 2HZ, which is twice the maximum frequency of the original signal, then the original signal is recovered well in both modulation methods (see fig.6).</li>
+<li>In fact, for the noise, all of the frequency in array of ($f_{m}$,$f_{c}$) are ok, although the amplitude of the demodulated signal will change due to the constant gain after mixing noise, the original signal is restored almost without distortion (see fit.7).</li>
+<li>If we apply a low-pass filter with a band much wider than necessary, when filtering, it will mix in the high frequency components with the frequency spectrum nearby. The high frequency component is just the continuation of the baseband component at high frequency, if it is not too wide, may we can barely recover the original signal. If the cut-off frequency is set too wide, it may cause signal aliasing and amplitude changes.</li>
+</ul>
+</blockquote>
+<!-- markdownlint-disable-file MD025 MD033 -->
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2021/04/21/Modulate%20and%20demodulate/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/modulate/" rel="tag">modulate</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2021/05/25/Band-limited%20noiseless%20channel/" class="article-nav-link">
+        <strong class="article-nav-caption">Prev post</strong>
+        <div class="article-nav-title">
+          
+            Band-limited noiseless channel
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2021/03/25/Git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" class="article-nav-link">
+        <strong class="article-nav-caption">Next post</strong>
+        <div class="article-nav-title">Git常用操作</div>
+      </a>
+    
+  </nav>
+
+  
+   
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'a1a50124b0c46fa4fab9',
+    clientSecret: '4a29dee6f998a9272f57ba07f987ea9eed9da5ec',
+    repo: 'blog-comments',
+    owner: 'boom1999',
+    admin: ['boom1999'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: true,  // Facebook-like distraction free mode
+    pagerDirection: 'last',
+    proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2023
+        <span class="division">|</span> Zhicheng Ling
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+          
+          
+          Power <a href="https://hexo.io" target="_blank">Hexo</a>
+          <span class="division">|</span>
+          Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+          
+          <span class="division">|</span>
+        
+          
+          <span>
+  <span><i class="ri-eye-fill"></i> <span id="busuanzi_value_page_pv"></span></span>
+</span>
+          
+      </li>
+    </ul>
+    <ul>
+      
+        <li>
+          <a href="http://beian.miit.gov.cn/" target="_black" rel="nofollow">浙ICP备2020044847号-1</a>
+        </li>
+        
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/haisen-side.svg" alt="Haisenberg"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Categories</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.pan.lingzhicheng.cn">Pan</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.gallery.lingzhicheng.cn">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.todo.lingzhicheng.cn">Todo</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">Friends</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/me">Me</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+  <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
+  fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
+  webpushr('setup',{'key':'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script>
+<script>(function (w, d, s, id) {
+            if (typeof (w.webpushr) !== 'undefined') return; w.webpushr = w.webpushr || function () { (w.webpushr.q = w.webpushr.q || []).push(arguments) }; var js, fjs = d.getElementsByTagName(s)[0]; js = d.createElement(s); js.id = id; js.async = 1; js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window, document, 'script', 'webpushr-jssdk'));webpushr('setup', { 'key': 'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script></body>
+
+</html>

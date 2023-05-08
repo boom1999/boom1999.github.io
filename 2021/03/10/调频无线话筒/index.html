@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta name="google-site-verification" content="QbUVAi0K2ZB_P4A6jbbi-GVB4BXs3n6GqgIEGHlySnk" />
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="Torch, Summary, UAV, Git" />
+   
+  <meta name="description" content="No fear of words,no fear of years" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    调频无线话筒 |  Haisenberg
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-调频无线话筒"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  调频无线话筒
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/03/10/%E8%B0%83%E9%A2%91%E6%97%A0%E7%BA%BF%E8%AF%9D%E7%AD%92/" class="article-date">
+  <time datetime="2021-03-10T00:00:00.000Z" itemprop="datePublished">2021-03-10</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%80%BB%E7%BB%93/">总结</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">1.8k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">6 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>较为详细的实验总结，需要的可以借鉴参考</p>
+<span id="more"></span>
+<ul>
+<li><p><strong>浙江工业大学信息工程学院通信电子线路课程设计</strong></p>
+</li>
+<li><p>设计制作：熟悉和掌握通信电子线路的一般设计步骤与方法、电路制作和调试一般步骤和方法</p>
+</li>
+<li>CAD设计：掌握电子电路的制图工具，进一步了解和掌握电子线路设计中原理图和PCB图的设计方法和技能</li>
+</ul>
+<hr>
+<h2 id="一、实验目的"><a href="#一、实验目的" class="headerlink" title="一、实验目的"></a>一、实验目的</h2><blockquote>
+<p>掌握调频发射机整机电路的设计与调试方法，以及高频电路的调试中常见故障的分析与 排除；学会如何将高频单元电路组合起来实现满足工程实际要求的整机电路的设计与调试技术</p>
+</blockquote>
+<h2 id="二、参考设计"><a href="#二、参考设计" class="headerlink" title="二、参考设计"></a>二、参考设计</h2><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/System.png" alt="系统框图"></p>
+<center><font size="2">图1 小功率调频无线话筒的系统框图</font></center>
+
+<blockquote>
+<p>对于小功率的调频无线话筒，设计时在保证技术指标的前提下，应力求电路简单、性能 稳定可靠。单元电路级数尽可能少，以减小级间的相互感应、干扰和自激，工作在调频广播频段（87MHz~108MHz）。高频功放在发射功 率较小时可工作于甲类状态</p>
+</blockquote>
+<h3 id="高频部分等效电路"><a href="#高频部分等效电路" class="headerlink" title="高频部分等效电路"></a>高频部分等效电路</h3><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/equal.png" alt="等效电路"></p>
+<center><font size="2">图2 高频部分等效电路</font></center>
+
+<h2 id="三、仪器与工具"><a href="#三、仪器与工具" class="headerlink" title="三、仪器与工具"></a>三、仪器与工具</h2><blockquote>
+<p>1.直流稳压电源<br>2.数字万用表<br>3、示波器（≥100MHz）<br>4、调频收音机（87~108MHz）<br>5、烙铁、镊子、斜口钳等</p>
+</blockquote>
+<h2 id="四、技术指标"><a href="#四、技术指标" class="headerlink" title="四、技术指标"></a>四、技术指标</h2><h3 id="4-1发射功率"><a href="#4-1发射功率" class="headerlink" title="4.1发射功率"></a>4.1发射功率</h3><blockquote>
+<p>发射机输送到天线上的功率，当天线长度L与发射频率波长可以和$\lambda$比拟时，天线才能有效地将信号发送出去</p>
+</blockquote>
+<h3 id="4-2工作频率或波段"><a href="#4-2工作频率或波段" class="headerlink" title="4.2工作频率或波段"></a>4.2工作频率或波段</h3><blockquote>
+<p>发射机的工作频率之其载波频率，根据调制方式，在国家有关部门所规定的范围内选取，广播通信常用波段可查阅有关书籍，对于调频发射机，工作频率一般在超短波范围内（30MHz ~ 300MHz）。调频广播段规定为87MHz ~ 108MHz</p>
+</blockquote>
+<h3 id="4-3总效率"><a href="#4-3总效率" class="headerlink" title="4.3总效率"></a>4.3总效率</h3><blockquote>
+<p>发射机发射的总功率$P_{A}$与其消耗的总功率$P_{C}^{‘}$之比称为发射机的总效率$\eta_{A}$</p>
+</blockquote>
+<h3 id="4-4输出阻抗"><a href="#4-4输出阻抗" class="headerlink" title="4.4输出阻抗"></a>4.4输出阻抗</h3><blockquote>
+<p>一般要求50Ω</p>
+</blockquote>
+<h3 id="4-5残波辐射"><a href="#4-5残波辐射" class="headerlink" title="4.5残波辐射"></a>4.5残波辐射</h3><blockquote>
+<p>功率与有效输出功率之比</p>
+</blockquote>
+<h3 id="4-6信杂比"><a href="#4-6信杂比" class="headerlink" title="4.6信杂比"></a>4.6信杂比</h3><blockquote>
+<p>在规定频偏的情况下经理想解调后有用信号功率与载波功率之比</p>
+</blockquote>
+<h3 id="4-7失真度"><a href="#4-7失真度" class="headerlink" title="4.7失真度"></a>4.7失真度</h3><blockquote>
+<p>在规定频偏的情况下经理想解调后单音频信号的失真度</p>
+</blockquote>
+<h3 id="4-8频率响应"><a href="#4-8频率响应" class="headerlink" title="4.8频率响应"></a>4.8频率响应</h3><blockquote>
+<p>在规定频偏的情况下经理想解调后输出音频的幅频响应</p>
+</blockquote>
+<h2 id="五、系统原理分析"><a href="#五、系统原理分析" class="headerlink" title="五、系统原理分析"></a>五、系统原理分析</h2><h3 id="5-1音频放大"><a href="#5-1音频放大" class="headerlink" title="5.1音频放大"></a>5.1音频放大</h3><blockquote>
+<p>低频放大，由三极管实现功能</p>
+<p>微型麦克风将采集的语言信号转换成电压信号输入电路，R15微麦克风偏置电阻，用来确定麦克风的静态工作点。C16电容用来稳定放大器，同时起到低通滤波的作用。R16、R17、R18、R19、R20为三极管9013的偏置电阻。C17为旁路电容，三极管静态工作时，不起任何作用。当输入交流信号时，R19被C17短路，C14、C15接地起到滤波作用。C18为隔离电容</p>
+<p>理论上该部分能对输入的语音信号放大10倍左右，被放大后的语音信号就是调频系统的基带信号</p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/Audio_amplification_module.png" alt="音频放大"></p>
+<center><font size="2">图3 音频放大模块</font></center>
+
+<h3 id="5-2高频振荡与频率调制"><a href="#5-2高频振荡与频率调制" class="headerlink" title="5.2高频振荡与频率调制"></a>5.2高频振荡与频率调制</h3><blockquote>
+<p>调频系统中，用一个频率高的信号作为载波。载波的频率将被基带信号所控制，携带基带信号的全部信息</p>
+<p>采用电容三端式振荡器，加了变容二极管Cx1和反馈网络，外接电源后只要有一个微小的开关扰动就能自激振荡，最终输出频率为几十兆的正弦波。通过调节可调电感L1，可逐渐改变正弦波的频率直至达到期望值</p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/High_frequency_oscillation_and_frequency_modulation_module.png" alt="高频振荡与频率调制"></p>
+<center><font size="2">图4 高频振荡与频率调制模块</font></center>
+
+<h3 id="5-3缓冲隔离与高频功放"><a href="#5-3缓冲隔离与高频功放" class="headerlink" title="5.3缓冲隔离与高频功放"></a>5.3缓冲隔离与高频功放</h3><blockquote>
+<p>缓冲高频振荡部分输出的信号，同时隔离前后级电路</p>
+<p>采用射极跟随器，三极管T2 9018的静态工作点由偏置电阻R7、R8、R9确定。此处同样设置了一个简单的模拟滤波电路，由C12、C13、L4构成，C9为隔离电容</p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/Buffer_isolation_module.png" alt="缓冲隔离"></p>
+<center><font size="2">图5 缓冲隔离模块</font></center>
+
+<blockquote>
+<p>高频振荡电路输出的调制信号幅值一般较小，而话筒天线传输出去的信号是在无线信道中传播的，必然存在一定程度上的幅值衰减，所以必须在震荡电路之后添加一个高频功率放大器。</p>
+<p>高频功放由三极管T3 9018，电阻R10、R11、R12作为偏置电阻确定静态工作点。C10和可调电感L3组成LC回路，谐振在载频上，输出波形的峰峰值$V_{pp}$可由L3调节</p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/High-frequency_amplifier_module.png" alt="高频功放"></p>
+<center><font size="2">图6 高频功放模块</font></center>
+
+<h2 id="六、-操作步骤与数据记录"><a href="#六、-操作步骤与数据记录" class="headerlink" title="六、 操作步骤与数据记录"></a>六、 操作步骤与数据记录</h2><blockquote>
+<p>熟悉参考电路原理图，理解各个电路部分的功能，明确整理设计思路；<br>根据原理图，对预配置的实际元器件进行合理布局；<br>利用现有的实际元器件，在万用板上进行电路安装；<br>检查各个元器件的安装，然后进行焊接；<br>利用万用表，依次检查麦克风的输出电压，各个三极管的静态工作点；<br>利用示波器，观察JP2处的输出波形，注意其频率值，轻弹麦克风发生波形变化；<br>麦克风正极加Vpp=50mV，f=1KHz的正弦波，示波器测JP2左侧波形放大倍数；<br>在上述步骤均正常的情况下，高频示波器ns档位测试稳定波形，观察JP3处的波形，调节L1和L3使幅值和频率满足要求；<br>利用调频收音机，实际调试整个无线话筒的功能，测试工作频段，可使用的实测距离等；<br>完成实验，记录数据，验收。</p>
+</blockquote>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>三极管/电极</th>
+<th>基极b/V</th>
+<th>发射极e/V</th>
+<th>集电极c/V</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1 9018</td>
+<td>2.918</td>
+<td>2.190</td>
+<td>6.901</td>
+</tr>
+<tr>
+<td>T2 9018</td>
+<td>5.356</td>
+<td>4.818</td>
+<td>9.030</td>
+</tr>
+<tr>
+<td>T3 9018</td>
+<td>2.872</td>
+<td>2.102</td>
+<td>9.006</td>
+</tr>
+<tr>
+<td>T4 9018</td>
+<td>2.533</td>
+<td>1.879</td>
+<td>5.663</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p>高频振荡实际频率89.5MHz，发射距离约45m；<br>麦克风两端电压7.4V<br>R5和R6之间的电压值为V=4.094V，接近4V，达到预期值<br>麦克风正极加Vpp=50mV，f=1KHz的正弦波，放大倍数约为11倍<br>天线输出信号的峰峰值Vpp=1.70V，达到预期值</p>
+</blockquote>
+<h3 id="❗建议"><a href="#❗建议" class="headerlink" title="❗建议"></a>❗建议</h3><p>80~100MHz内强信号广播较多，如若性能不佳，可尝试改变L1将频率调整至80MHz以下或100MHz以上，干扰较小</p>
+<h3 id="附录👇"><a href="#附录👇" class="headerlink" title="附录👇"></a><em>附录👇</em></h3><h4 id="附1：SCH"><a href="#附1：SCH" class="headerlink" title="附1：SCH"></a><em>附1：SCH</em></h4><blockquote>
+<p>SCH图👇</p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/SCH_new.png" alt="修改之后的SCH图"></p>
+<center><font size="2">图7 SCH</font></center>
+
+<h4 id="附2：PCB"><a href="#附2：PCB" class="headerlink" title="附2：PCB"></a><em>附2：PCB</em></h4><blockquote>
+<p>经过优化的PCB图👇</p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/PCB_new.png" alt="经过优化的PCB图"></p>
+<center><font size="2">图8 PCB</font></center>
+
+<blockquote>
+<p>较为紧凑，封装与实物所用略有不同，稍有出入。实物上C9在焊接时两引脚掰开，中间空了一格走地线，PCB图中有所不同</p>
+</blockquote>
+<h4 id="附3：实物图正面"><a href="#附3：实物图正面" class="headerlink" title="附3：实物图正面"></a><em>附3：实物图正面</em></h4><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/Real_positive.jpg" alt="Real_positive"></p>
+<center><font size="2">实物图正面</font></center>
+
+<h4 id="附4：实物图反面"><a href="#附4：实物图反面" class="headerlink" title="附4：实物图反面"></a><em>附4：实物图反面</em></h4><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/Real_opposite.jpg" alt="Real_opposite"></p>
+<center><font size="2">实物图反面</font></center>
+
+<h4 id="附5：源文件下载"><a href="#附5：源文件下载" class="headerlink" title="附5：源文件下载"></a><em>附5：源文件下载</em></h4><!-- markdownlint-disable-file MD025 MD033 MD028-->
+<p><a href="https://www.lingzhicheng.cn/usr/file/2021FM.zip">Altium Designer工程源文件</a></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2021/03/10/%E8%B0%83%E9%A2%91%E6%97%A0%E7%BA%BF%E8%AF%9D%E7%AD%92/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PCB/" rel="tag">PCB</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%97%A0%E7%BA%BF/" rel="tag">无线</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%AB%98%E9%A2%91%E7%94%B5%E8%B7%AF/" rel="tag">高频电路</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2021/03/25/Git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" class="article-nav-link">
+        <strong class="article-nav-caption">Prev post</strong>
+        <div class="article-nav-title">
+          
+            Git常用操作
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/" class="article-nav-link">
+        <strong class="article-nav-caption">Next post</strong>
+        <div class="article-nav-title">VS2019代码提示延迟很高，部分快捷键无法使用的问题</div>
+      </a>
+    
+  </nav>
+
+  
+   
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'a1a50124b0c46fa4fab9',
+    clientSecret: '4a29dee6f998a9272f57ba07f987ea9eed9da5ec',
+    repo: 'blog-comments',
+    owner: 'boom1999',
+    admin: ['boom1999'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: true,  // Facebook-like distraction free mode
+    pagerDirection: 'last',
+    proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2023
+        <span class="division">|</span> Zhicheng Ling
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+          
+          
+          Power <a href="https://hexo.io" target="_blank">Hexo</a>
+          <span class="division">|</span>
+          Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+          
+          <span class="division">|</span>
+        
+          
+          <span>
+  <span><i class="ri-eye-fill"></i> <span id="busuanzi_value_page_pv"></span></span>
+</span>
+          
+      </li>
+    </ul>
+    <ul>
+      
+        <li>
+          <a href="http://beian.miit.gov.cn/" target="_black" rel="nofollow">浙ICP备2020044847号-1</a>
+        </li>
+        
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/haisen-side.svg" alt="Haisenberg"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Categories</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.pan.lingzhicheng.cn">Pan</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.gallery.lingzhicheng.cn">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.todo.lingzhicheng.cn">Todo</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">Friends</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/me">Me</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+  <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
+  fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
+  webpushr('setup',{'key':'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script>
+<script>(function (w, d, s, id) {
+            if (typeof (w.webpushr) !== 'undefined') return; w.webpushr = w.webpushr || function () { (w.webpushr.q = w.webpushr.q || []).push(arguments) }; var js, fjs = d.getElementsByTagName(s)[0]; js = d.createElement(s); js.id = id; js.async = 1; js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window, document, 'script', 'webpushr-jssdk'));webpushr('setup', { 'key': 'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script></body>
+
+</html>

@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta name="google-site-verification" content="QbUVAi0K2ZB_P4A6jbbi-GVB4BXs3n6GqgIEGHlySnk" />
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="Torch, Summary, UAV, Git" />
+   
+  <meta name="description" content="No fear of words,no fear of years" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    Band-limited noiseless channel |  Haisenberg
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-Band-limited noiseless channel"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Band-limited noiseless channel
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/05/25/Band-limited%20noiseless%20channel/" class="article-date">
+  <time datetime="2021-05-25T00:00:00.000Z" itemprop="datePublished">2021-05-25</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Matlab/">Matlab</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">677</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">4 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
+<h3 id="Consider-a-band-limited-noiseless-channel-The-channel-response-in-frequency-domain-is-H-f-1-f-≤3Hz-otherwise-H-f-0"><a href="#Consider-a-band-limited-noiseless-channel-The-channel-response-in-frequency-domain-is-H-f-1-f-≤3Hz-otherwise-H-f-0" class="headerlink" title="Consider a band-limited noiseless channel. The channel response in frequency domain is H(f)=1, |f|≤3Hz, otherwise, H(f)=0"></a>Consider a band-limited noiseless channel. The channel response in frequency domain is H(f)=1, |f|≤3Hz, otherwise, H(f)=0</h3><p><span class="github-emoji"><span>☔</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/2614.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>🕦</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f566.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>😴</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f634.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
+<span id="more"></span>
+<hr>
+<h3 id="memo-Code"><a href="#memo-Code" class="headerlink" title=":memo: Code"></a><span class="github-emoji"><span>📝</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4dd.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Code</h3><ul>
+<li>_main.m_</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% Simulate the band-limited channel.</span></span><br><span class="line"></span><br><span class="line">clear;</span><br><span class="line">clc;</span><br><span class="line"></span><br><span class="line">Ts = <span class="number">1</span>;                 <span class="comment">% Symbol interval.</span></span><br><span class="line">Tb = Ts/<span class="number">3</span>;              <span class="comment">% Bit interval.</span></span><br><span class="line">fs = <span class="number">1000</span>;              <span class="comment">% Sampling rate.</span></span><br><span class="line">dt = <span class="number">1</span>/fs;              <span class="comment">% Sampling interval.</span></span><br><span class="line">N = <span class="number">10</span>;                 <span class="comment">% Number of symbols.</span></span><br><span class="line">t = -N/<span class="number">2</span> : dt : N/<span class="number">2</span>;    <span class="comment">% Sequence transmission time. </span></span><br><span class="line">m = [<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>];  <span class="comment">% Equally spaced.</span></span><br><span class="line">Am = <span class="number">-3.5</span>+m;            <span class="comment">% The amplitude of the m-th waveform.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">%% Task(1) Randomly generate a sequence of ten 8-PAM signals.</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="built_in">length</span>(t)</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">fix</span>((<span class="built_in">i</span><span class="number">-1</span>)/fs)==((<span class="built_in">i</span><span class="number">-1</span>)/fs))</span><br><span class="line">        temp=randi(<span class="number">7</span>);</span><br><span class="line">        Sm(<span class="built_in">i</span>)=Am(temp);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        Sm(<span class="built_in">i</span>)=Sm(<span class="built_in">i</span><span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">[f,Sf] = T2F(t,Sm);      <span class="comment">% TF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">1</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,Sm);</span><br><span class="line">xlabel(<span class="string">'t'</span>);ylabel(<span class="string">'Amplitude '</span>); </span><br><span class="line">title(<span class="string">'8-PAM waveform'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">2</span>)</span><br><span class="line"><span class="built_in">plot</span>(f,<span class="built_in">abs</span>(Sf));</span><br><span class="line">xlabel(<span class="string">'f/Ts'</span> );ylabel(<span class="string">''</span>);</span><br><span class="line">title(<span class="string">'8-PAM spectrum'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">%% Task(2) Consider a band-limited noiseless channel.</span></span><br><span class="line"><span class="comment">% Generate a band-limited noiseless channel H(f)=1, |f|≤3Hz.</span></span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span> : <span class="built_in">length</span>(f)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">abs</span>(f(k))&gt;<span class="number">3</span></span><br><span class="line">        Hf1(k)=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        Hf1(k)=Ts;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span> : <span class="built_in">length</span>(f)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">abs</span>(f(k))&gt;<span class="number">300</span></span><br><span class="line">        Hf2(k)=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        Hf2(k)=Ts;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Plot the band-limited noiseless channel.</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">3</span>)</span><br><span class="line"><span class="built_in">plot</span>(f,Hf1,f,Hf2);</span><br><span class="line">grid on;</span><br><span class="line">xlabel (<span class="string">'f/Ts'</span>); ylabel(<span class="string">'Noiseless channel spectrum'</span>);</span><br><span class="line">axis([ - <span class="number">400</span> <span class="number">400</span> <span class="number">0</span>  <span class="number">1.2</span>]);</span><br><span class="line"><span class="built_in">legend</span>(<span class="string">'cut-off f=3'</span>,<span class="string">'cut-off f=300'</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">% Passing through this channel.</span></span><br><span class="line">value_t=t(<span class="number">1</span>);</span><br><span class="line">Xf1 = Sf.*Hf1;</span><br><span class="line">Xf1 = Xf1.*<span class="built_in">exp</span>(<span class="number">1</span><span class="built_in">i</span>*<span class="number">2</span>*<span class="built_in">pi</span>*f*value_t);</span><br><span class="line">[t,Xt1] = F2T(f,Xf1);      <span class="comment">% FT</span></span><br><span class="line"></span><br><span class="line">Xf2 = Sf.*Hf2;</span><br><span class="line">Xf2 = Xf2.*<span class="built_in">exp</span>(<span class="number">1</span><span class="built_in">i</span>*<span class="number">2</span>*<span class="built_in">pi</span>*f*value_t);</span><br><span class="line">[t,Xt2] = F2T(f,Xf2);      <span class="comment">% FT</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">4</span>)</span><br><span class="line">subplot(<span class="number">121</span>)</span><br><span class="line"><span class="built_in">plot</span>(f,<span class="built_in">abs</span>(Xf1));</span><br><span class="line">xlabel(<span class="string">'f/Ts'</span>);ylabel(<span class="string">''</span>); </span><br><span class="line">axis([ <span class="number">-5</span> <span class="number">5</span> <span class="number">0</span> <span class="number">6</span>]);</span><br><span class="line">title(<span class="string">'8-PAM waveform passomg noiseless channel spectrum'</span>);</span><br><span class="line"><span class="built_in">legend</span>(<span class="string">'cut-off f=3'</span>);</span><br><span class="line">subplot(<span class="number">122</span>)</span><br><span class="line"><span class="built_in">plot</span>(f,<span class="built_in">abs</span>(Xf2));</span><br><span class="line">xlabel(<span class="string">'f/Ts'</span>);ylabel(<span class="string">''</span>); </span><br><span class="line">axis([ <span class="number">-50</span> <span class="number">50</span> <span class="number">0</span> <span class="number">6</span>]);</span><br><span class="line">title(<span class="string">'8-PAM waveform passomg noiseless channel spectrum'</span>);</span><br><span class="line"><span class="built_in">legend</span>(<span class="string">'cut-off f=300'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">5</span>)</span><br><span class="line">subplot(<span class="number">121</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,<span class="built_in">real</span>(Xt1));</span><br><span class="line">axis([ <span class="number">0</span> N <span class="number">-4</span> <span class="number">4</span>]);</span><br><span class="line">xlabel(<span class="string">'t'</span>);ylabel(<span class="string">'Amplitude'</span>); </span><br><span class="line">title(<span class="string">'8-PAM waveform passing noiseless channel waveform'</span>);</span><br><span class="line"><span class="built_in">legend</span>(<span class="string">'cut-off f=3'</span>);</span><br><span class="line"></span><br><span class="line">subplot(<span class="number">122</span>)</span><br><span class="line"><span class="built_in">plot</span>(t,<span class="built_in">real</span>(Xt2));</span><br><span class="line">axis([ <span class="number">0</span> N <span class="number">-4</span> <span class="number">4</span>]);</span><br><span class="line">xlabel(<span class="string">'t'</span>);ylabel(<span class="string">'Amplitude'</span>); </span><br><span class="line">title(<span class="string">'8-PAM waveform passing noiseless channel waveform'</span>);</span><br><span class="line"><span class="built_in">legend</span>(<span class="string">'cut-off f=300'</span>);</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>_T2F.m_</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[f,sf]</span>=<span class="title">T2F</span><span class="params">(t,st)</span></span></span><br><span class="line"><span class="comment">%input is time and the signal vectors</span></span><br><span class="line"><span class="comment">%output is freguency and signal spectrum</span></span><br><span class="line"></span><br><span class="line">dt=t(<span class="number">2</span>)-t(<span class="number">1</span>);</span><br><span class="line">T=t(<span class="keyword">end</span>)-t(<span class="number">1</span>)+dt;</span><br><span class="line">df=<span class="number">1</span>/T; <span class="comment">%smapling rate</span></span><br><span class="line">N=<span class="built_in">length</span>(st);</span><br><span class="line"></span><br><span class="line">f=-N/<span class="number">2</span>*df:df:(N/<span class="number">2</span><span class="number">-1</span>)*df; <span class="comment">%频域抽样点</span></span><br><span class="line">sf=fft(st);</span><br><span class="line">sf=T/N*fftshift(sf).*<span class="built_in">exp</span>(-<span class="built_in">j</span>*<span class="number">2</span>*<span class="built_in">pi</span>*f*t(<span class="number">1</span>));   <span class="comment">%补偿时间移位</span></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>_F2T.m_</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% Inverse Fourier Transform</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[t,st]</span> = <span class="title">F2T</span><span class="params">(f,sf)</span></span></span><br><span class="line"><span class="comment">% output is time ande signal sequence</span></span><br><span class="line"><span class="comment">% input is frequency and signal spectrum</span></span><br><span class="line"></span><br><span class="line">df = f(<span class="number">2</span>) - f(<span class="number">1</span>);</span><br><span class="line">Fmx = f(<span class="keyword">end</span>) - f(<span class="number">1</span>) + df;</span><br><span class="line">dt = <span class="number">1</span>/Fmx;                 <span class="comment">% sampling rate</span></span><br><span class="line">N = <span class="built_in">length</span>(sf);</span><br><span class="line">T = N*dt;</span><br><span class="line"></span><br><span class="line">t = <span class="number">0</span>:dt:T-dt;              <span class="comment">% time sequence</span></span><br><span class="line">sff = ifftshift(sf);</span><br><span class="line">st = Fmx*ifft(sff);</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="chart-Fig"><a href="#chart-Fig" class="headerlink" title=":chart: Fig"></a><span class="github-emoji"><span>💹</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4b9.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Fig</h3><p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/Band_limited_channel/8-PAM_waveform.png" alt="Fig.1  8-PAM waveform."></p>
+<p></p><center><font size="2">Fig.1  8-PAM waveform.</font></center><br><br><br><br><p></p>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/Band_limited_channel/8-PAM_spectrum.png" alt="Fig.2  8-PAM spectrum."></p>
+<p></p><center><font size="2">Fig.2  8-PAM spectrum.</font></center><br><br><br><br><p></p>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/Band_limited_channel/Noiseless_channel_spectrum.png" alt="Fig.3  Noiseless channel spectrum."></p>
+<p></p><center><font size="2">Fig.3  Noiseless channel spectrum.</font></center><br><br><br><br><p></p>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/Band_limited_channel/8-PAM_waveform_passing_noiseless_channel_spectrum.png" alt="Fig.4  8-PAM waveform passing noiseless channel spectrum."></p>
+<p></p><center><font size="2">Fig.4  8-PAM waveform passing noiseless channel spectrum.</font></center><br><br><br><br><p></p>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/Band_limited_channel/8-PAM_waveform_passing_noiseless_channel_waveform.png" alt="Fig.5  8-PAM waveform passing noiseless channel waveform."></p>
+<p></p><center><font size="2">Fig.5  8-PAM waveform passing noiseless channel waveform.</font></center><br><br><br><br><p></p>
+<h3 id="grey-question-Discussion"><a href="#grey-question-Discussion" class="headerlink" title=":grey_question: Discussion"></a><span class="github-emoji"><span>❔</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/2754.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Discussion</h3><ol>
+<li>The response of the noise-free band-limited channel is lower than the rectangular window of H(f)=1 at the cut-off frequency. After the 8-PAM signal passes through the band-limited channel, the high-frequency information is filtered out, and the restored information waveform becomes smooth; if continue to increase the cut-off frequency, the restored signal waveform will contain more original information, and the same bit error rate will decrease accordingly.</li>
+<li>The result of time domain convolution is the same as the result of inverse Fourier transform after frequency multiplication.</li>
+<li>Under a band-limited noiseless channel, the larger the passband, the smoother the signal.<!-- markdownlint-disable-file MD025 MD033 -->
+</li>
+</ol>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2021/05/25/Band-limited%20noiseless%20channel/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/modulate/" rel="tag">modulate</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2021/05/30/ASK%20and%20PSK/" class="article-nav-link">
+        <strong class="article-nav-caption">Prev post</strong>
+        <div class="article-nav-title">
+          
+            ASK and PSK
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2021/04/21/Modulate%20and%20demodulate/" class="article-nav-link">
+        <strong class="article-nav-caption">Next post</strong>
+        <div class="article-nav-title">Modulate and demodulate</div>
+      </a>
+    
+  </nav>
+
+  
+   
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'a1a50124b0c46fa4fab9',
+    clientSecret: '4a29dee6f998a9272f57ba07f987ea9eed9da5ec',
+    repo: 'blog-comments',
+    owner: 'boom1999',
+    admin: ['boom1999'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: true,  // Facebook-like distraction free mode
+    pagerDirection: 'last',
+    proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2023
+        <span class="division">|</span> Zhicheng Ling
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+          
+          
+          Power <a href="https://hexo.io" target="_blank">Hexo</a>
+          <span class="division">|</span>
+          Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+          
+          <span class="division">|</span>
+        
+          
+          <span>
+  <span><i class="ri-eye-fill"></i> <span id="busuanzi_value_page_pv"></span></span>
+</span>
+          
+      </li>
+    </ul>
+    <ul>
+      
+        <li>
+          <a href="http://beian.miit.gov.cn/" target="_black" rel="nofollow">浙ICP备2020044847号-1</a>
+        </li>
+        
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/haisen-side.svg" alt="Haisenberg"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Categories</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.pan.lingzhicheng.cn">Pan</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.gallery.lingzhicheng.cn">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.todo.lingzhicheng.cn">Todo</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">Friends</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/me">Me</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+  <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
+  fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
+  webpushr('setup',{'key':'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script>
+<script>(function (w, d, s, id) {
+            if (typeof (w.webpushr) !== 'undefined') return; w.webpushr = w.webpushr || function () { (w.webpushr.q = w.webpushr.q || []).push(arguments) }; var js, fjs = d.getElementsByTagName(s)[0]; js = d.createElement(s); js.id = id; js.async = 1; js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window, document, 'script', 'webpushr-jssdk'));webpushr('setup', { 'key': 'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script></body>
+
+</html>

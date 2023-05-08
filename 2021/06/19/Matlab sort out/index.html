@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta name="google-site-verification" content="QbUVAi0K2ZB_P4A6jbbi-GVB4BXs3n6GqgIEGHlySnk" />
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="Torch, Summary, UAV, Git" />
+   
+  <meta name="description" content="No fear of words,no fear of years" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    Matlab sort out |  Haisenberg
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-Matlab sort out"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Matlab sort out
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/06/19/Matlab%20sort%20out/" class="article-date">
+  <time datetime="2021-06-19T00:00:00.000Z" itemprop="datePublished">2021-06-19</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Matlab/">Matlab</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">2.6k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">15 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h3 id="Personal-matlab-sort-out-about-communication-simulations-finally"><a href="#Personal-matlab-sort-out-about-communication-simulations-finally" class="headerlink" title="Personal matlab sort out about communication simulations finally"></a>Personal matlab sort out about communication simulations finally</h3><span id="more"></span>
+<h2 id="1-Basics"><a href="#1-Basics" class="headerlink" title="1.Basics"></a>1.Basics</h2><ul>
+<li>Scalars</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">10</span></span><br><span class="line">a = <span class="number">10</span>+<span class="number">1</span><span class="built_in">i</span>       <span class="comment">% 推荐使用1i</span></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Vectors</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span> <span class="number">3</span> <span class="number">5</span>]     <span class="comment">% 1行3列</span></span><br><span class="line">a = [<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>]     <span class="comment">% 使用,与否效果相同</span></span><br><span class="line">a = <span class="number">1</span>:<span class="number">2</span>:<span class="number">7</span>       <span class="comment">% begin:step:end</span></span><br><span class="line">a = [<span class="number">1</span>;<span class="number">3</span>;<span class="number">5</span>]     <span class="comment">% 3行1列</span></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Matrices</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>;<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>;<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>] <span class="comment">% 三行三列矩阵</span></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Operations</li>
+</ul>
+<ol>
+<li><p><code>*</code> 和<code>.*</code>的区别</p>
+<blockquote>
+<p>在进行数值运算和数值乘矩阵运算，两者无区别，<code>a*b=a.*b; a*B=a.*B; B*a=B.*a</code>（其中小写字母表示数值，大写字母表示矩阵，下同）。<br>在处理矩阵乘矩阵时，<code>*</code>表示普通的矩阵乘法，要求前面矩阵的列数等于后面矩阵的行数；<code>.*</code>表示两个矩阵对应元素相乘，要求两个矩阵行数列数都相等。</p>
+</blockquote>
+ <figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]*[<span class="number">1</span>,<span class="number">2</span>;<span class="number">3</span>,<span class="number">4</span>;<span class="number">5</span>,<span class="number">6</span>]       <span class="comment">% 矩阵乘法</span></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"><span class="number">22</span>    <span class="number">28</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].*[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]            <span class="comment">% 矩阵点乘</span></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"><span class="number">4</span>    <span class="number">10</span>    <span class="number">18</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p><code>/</code> 和<code>./</code>的区别</p>
+<blockquote>
+<p>数值运行时，这两种没有区别，<code>a/b=a./b</code><br>数值与矩阵运算，数值在前时只能用<code>./</code>;数值在后时<code>a/b=a./b</code><br>矩阵与矩阵，<code>A/B</code>可以看作是<code>A*inv(B)</code>;<code>A./B</code>表示A矩阵和B矩阵对应元素相除，需要矩阵维度保持一致。<br>另外有<code>\</code>和<code>.\</code>表示前除，类似小学时候详细区的分除和被除运算，一般习惯不使用这种。</p>
+</blockquote>
+ <figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; [<span class="number">4</span>,<span class="number">5</span>]/[<span class="number">1</span>,<span class="number">2</span>;<span class="number">3</span>,<span class="number">4</span>]                    <span class="comment">% 矩阵除法</span></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"><span class="number">-0.5000</span>    <span class="number">1.5000</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]./[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]                   <span class="comment">% 矩阵点除</span></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"><span class="number">4.0000</span>    <span class="number">2.5000</span>    <span class="number">2.0000</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p><code>A(1,1)</code>、<code>A(:,1)</code>、<code>A(1,:)</code>、<code>A(:,:)</code></p>
+</li>
+<li><p><code>[1+2*1i,3+4*1i]'</code>和<code>[1+2*1i,3+4*1i].'</code>都表示矩阵的转置,实数情况下<code>A'</code>和<code>A.'</code>没有区别；复数情况下<code>A'</code>会产生<code>A</code>的转置共轭矩阵，<code>A.'</code>产生普通的转置矩阵。</p>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>+<span class="number">2</span>*<span class="number">1</span><span class="built_in">i</span>,<span class="number">3</span>+<span class="number">4</span>*<span class="number">1</span><span class="built_in">i</span>]'=[<span class="number">1</span><span class="number">-2</span>*<span class="number">1</span><span class="built_in">i</span>;<span class="number">3</span><span class="number">-4</span>*<span class="number">1</span><span class="built_in">i</span>]</span><br><span class="line">[<span class="number">1</span>+<span class="number">2</span>*<span class="number">1</span><span class="built_in">i</span>,<span class="number">3</span>+<span class="number">4</span>*<span class="number">1</span><span class="built_in">i</span>].'=[<span class="number">1</span>+<span class="number">2</span>*<span class="number">1</span><span class="built_in">i</span>;<span class="number">3</span>+<span class="number">4</span>*<span class="number">1</span><span class="built_in">i</span>]</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ol>
+<ul>
+<li><p>Special number</p>
+<p>  <code>pi</code><br>  <code>Inf</code>、<code>inf</code>:infinity,i.e.,1/0<br>  <code>NaN</code>、<code>nan</code>:not a number,e.g.,0/0<br>  <code>eps</code>:accuracy of the matlab,eps= 2-52 ≈ 2.2204×10-16</p>
+</li>
+<li><p>General functions</p>
+<ul>
+<li>Trigonometric functions:<br><code>cos(x)</code>、<code>sin(x)</code>、<code>tan(x)</code></li>
+<li>Complex:<br>z = a+bi = $re^{i\theta}$<br><code>real(z)</code>、<code>imag(z)</code>、<code>abs(z)</code>、<code>angle(z)</code>、<code>conj(z)</code></li>
+<li>Exponential and logarithm functions</li>
+</ul>
+</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Description</th>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>exp(x)</code></td>
+<td style="text-align:center">$e^{x}$</td>
+<td style="text-align:center"><code>log1p(x)</code></td>
+<td style="text-align:center">ln(1+x)</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>pow2(x)</code></td>
+<td style="text-align:center">$2^{x}$</td>
+<td style="text-align:center"><code>log2(x)</code></td>
+<td style="text-align:center">$log_{2}{x}$</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>log(x)</code></td>
+<td style="text-align:center">lnx</td>
+<td style="text-align:center"><code>log10(x)</code></td>
+<td style="text-align:center">$log_{10}{x}$、$lg(x)$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>Array and matrix</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Description</th>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>ones</code></td>
+<td style="text-align:center">All one</td>
+<td style="text-align:center"><code>zeros</code></td>
+<td style="text-align:center">All zeros</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>length</code></td>
+<td style="text-align:center">length</td>
+<td style="text-align:center"><code>size</code></td>
+<td style="text-align:center">Dimension of array</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>sum</code></td>
+<td style="text-align:center">sum</td>
+<td style="text-align:center"><code>mean</code></td>
+<td style="text-align:center">Mean of array</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>reshape</code></td>
+<td style="text-align:center">Reshape the array</td>
+<td style="text-align:center"><code>sort</code></td>
+<td style="text-align:center">Sort the array</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>min</code></td>
+<td style="text-align:center">minimum</td>
+<td style="text-align:center"><code>max</code></td>
+<td style="text-align:center">maximum</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>Rounding functions<br><code>round</code>、<code>fix</code>、<code>floor</code>、<code>ceil</code></li>
+<li>Figure plotting<br><code>plot()</code>、<code>subplot(n,m,i)</code>、<code>figure(i)</code>、<code>xlabel()</code>、<code>ylabel()</code><br><code>title()</code>、<code>legend()</code>、<code>hold on</code>、<code>grid on</code>、<code>semilogy()</code>…</li>
+<li>Function format<br><code>function [outputs]=function_name(inputs)</code></li>
+</ul>
+<h2 id="2-Signals-and-linear-systems"><a href="#2-Signals-and-linear-systems" class="headerlink" title="2.Signals and linear systems"></a>2.Signals and linear systems</h2><ul>
+<li><p>Basic sequence</p>
+<ul>
+<li>Impulse signal and sequence</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">t = <span class="number">-5</span>:<span class="number">0.01</span>:<span class="number">5</span>;</span><br><span class="line">y = (t==<span class="number">0</span>);</span><br><span class="line">subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>);</span><br><span class="line"><span class="built_in">plot</span>(t, y, <span class="string">'r’);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">n = -5:5;</span></span><br><span class="line"><span class="string">x = (n==0);</span></span><br><span class="line"><span class="string">subplot(1,2,2);</span></span><br><span class="line"><span class="string">stem(n, x);</span></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Step signal and sequence</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">t =<span class="number">-5</span>:<span class="number">0.01</span>:<span class="number">5</span>;</span><br><span class="line">y=(t&gt;=<span class="number">0</span>);</span><br><span class="line">subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>);</span><br><span class="line"><span class="built_in">plot</span>(t, y, <span class="string">'r'</span>)</span><br><span class="line"></span><br><span class="line">n = <span class="number">-5</span>:<span class="number">5</span>;</span><br><span class="line">x = (n&gt;=<span class="number">0</span>);</span><br><span class="line">subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>);</span><br><span class="line">stem(n, x);</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Real exponential sequence<br>x(n)=$a^n$, $\forall n$,  $a\in R$</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">n=[ns:nf];</span><br><span class="line">x=a.^n;</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Exponential sequence<br>x(n)=$e^{(\delta +j\omega)n}$</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">n=[ns:nf];</span><br><span class="line">x=<span class="built_in">exp</span>((delta+jw)*n);</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Sinine, cosine sequence<br>$x(n)=cos(\omega n+\theta)$</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">n=[ns:nf];</span><br><span class="line">x=<span class="built_in">cos</span>(w*n+sita);</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Other signal generation functions</li>
+</ul>
+</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Description</th>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>sawtooth</code></td>
+<td style="text-align:center">Sawtooth or triangle wave</td>
+<td style="text-align:center"><code>pulstran</code></td>
+<td style="text-align:center">Pulse train</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>square</code></td>
+<td style="text-align:center">Square wave</td>
+<td style="text-align:center"><code>rectpule</code></td>
+<td style="text-align:center">A period square wave</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>sinc</code></td>
+<td style="text-align:center">Sinc wave</td>
+<td style="text-align:center"><code>tripuls</code></td>
+<td style="text-align:center">A period triangle wave</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li><p>Signal Operations</p>
+<ul>
+<li>Moving<br>y(n)=x(n-m)</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y(n)=x(n-m)</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Periodic extension<br>$y(n)=x((n))_{M}$</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y(n)=x(<span class="built_in">mod</span>(n,M)+<span class="number">1</span>)</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Flipping<br>y(n)=x(-n)</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y=<span class="built_in">fliplr</span>(x)</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Correlation with two sequences<br>$y(m)=\sum^n x_1(n+m)x_2^*(n)$</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y=xcorr(x1,x2)</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Cumulative sum<br>$y(n)=\sum_{i=1}^n x(i)$</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y=cumsum(x)</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Convolution of two sequences<br>$y(n)=x_1(n)*x_2(n)=\sum^mx_1(m)x_x(n-m)$</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y=conv(x1,x2)</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Convolution of two _continuous-time_ signals：<br>$f(t)=\int_{-\infty}^{+\infty}f_1(\tau)f_2(t-\tau)d\tau$<br>$f(t)=\sum_{k=-\infty}^{+\infty}f_1(k\Delta)f_2(t-k\Delta)\Delta$</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y=conv(x1,x2)*dt</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Fourier transform</p>
+<ul>
+<li>Continuous-time，continuous-frequency: FT</li>
+</ul>
+</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">T2F</th>
+<th style="text-align:center">F2T</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$X(f)=\int_{-\infty}^{+\infty}x(t) e^{-j2\pi ft}dt$</td>
+<td style="text-align:center">$x(t)=\int_{-\infty}^{+\infty}X(f) e^{j2\pi ft}df$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>Discrete-time, discrete-frequency: DFT / FFT</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">T2F</th>
+<th style="text-align:center">F2T</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$X(k)=\sum_{n=0}^{N-1}x(n) e^{-j\frac{2pi}{N}nk}$</td>
+<td style="text-align:center">$x(t)=\frac{1}{N}\sum_{n=0}^{N-1}X(k) e^{j\frac{2pi}{N}nk}$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li><p>Energy and Power</p>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dt=t(<span class="number">2</span>)-t(<span class="number">1</span>);</span><br><span class="line">df=f(<span class="number">2</span>)-f(<span class="number">1</span>);</span><br><span class="line">N=<span class="built_in">length</span>(t);</span><br><span class="line">T=t(<span class="keyword">end</span>)-t(<span class="number">1</span>)+dt;   <span class="comment">% T=N*dt</span></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><p>Energy</p>
+<ul>
+<li>T-domain<br>$x[n]=x(n\Delta t)$<br>$E=\int_{-\infty}^{+\infty} |x(t)|^2dt \approx\sum_{n=0}^M x[n]·x^*[n]·\Delta t$</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% E=sum(x.*conj(x))*dt;</span></span><br><span class="line">E=sum(<span class="built_in">abs</span>(x).^<span class="number">2</span>)*dt;</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>F-domain<br>$X[k]=X(k\Delta f)$<br>$E=\int_{-\infty}^{+\infty} |X(f)|^2df \approx\sum_{k=0}^{k-1} X[k]·X^*[k]·\Delta f$</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% E=sum(x.*conj(x))*df;</span></span><br><span class="line">E=sum(<span class="built_in">abs</span>(x).^<span class="number">2</span>)*df;</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Power</p>
+<ul>
+<li>T-domain<br>$P=\lim_{T\rightarrow\infty}\frac{1}{T}\int_0^T |x(t)|^2dt \approx\frac{1}{N}\sum_{n=0}^{N-1} |x[n]|^2$</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% P=sum(x.*conj(x))/N;</span></span><br><span class="line">P=sum(<span class="built_in">abs</span>(x).^<span class="number">2</span>)/N;</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>F-domain<br>_$X_Tf$ is the spectrum of x(t) within [0,T]_<br>$P=\lim_{T\rightarrow\infty}\frac{1}{T}\int_{-\infty}^{+\infty} |X_T(f)|^2df \approx\frac{1}{N}\sum_{k=0}^{K-1} |X[k]|^2\Delta f$</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% P=sum(x.*conj(x))*df/T;</span></span><br><span class="line">P=sum(<span class="built_in">abs</span>(x).^<span class="number">2</span>)*df/T;</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Autocorrelation and Power spectral density(PSD)</p>
+<ul>
+<li><p>Autocorrelation<br>$x[n]=x(n\Delta t)$<br>$R(\tau)=\int_{-\infty}^{+\infty} x(t)x^<em> (t+\tau)dt \approx\sum_{n=0}^M x[n]·x^</em>[n+\tau]·\Delta t$<br>$R_T(\tau)=\lim_{T\rightarrow\infty}\frac{R(\tau)}{T}$</p>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">R(tau)=sum(x(t).*<span class="built_in">conj</span>(x(t+tau))*dt/(N*dt);</span><br><span class="line"></span><br><span class="line"><span class="comment">%% or</span></span><br><span class="line">R=xcorr(x);</span><br><span class="line">R=R*Ts/T;   <span class="comment">% R=R/N</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>PSD<br>$P_T(f)=\lim_{T\rightarrow\infty}\frac{|X_T(f)|^2}{T}$</p>
+</li>
+<li>Wiener-Khinchin theorem<br>$FT(R_T(\tau))=P_T(f)$</li>
+</ul>
+</li>
+<li><p><span class="github-emoji"><span>🌀</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f300.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>Component</p>
+<ul>
+<li><p>hilbert change<br>通过希尔伯特变换，返回的实部是本身即同向分量(quadrature component)，虚部是延迟90°后的信号即正交分量(in-phase component)</p>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">x_a = hilbert(x);</span><br><span class="line">fc = <span class="number">50</span>;                        <span class="comment">% Carrier fc=50Hz</span></span><br><span class="line">x_l = x_a.*<span class="built_in">exp</span>(<span class="number">-1</span><span class="built_in">i</span>*<span class="number">2</span>*<span class="built_in">pi</span>*fc*t);  <span class="comment">% Lowpass equivalent</span></span><br><span class="line">x_i = <span class="built_in">real</span>(x_l);                <span class="comment">% In-phase component</span></span><br><span class="line">x_q = <span class="built_in">imag</span>(x_l);                <span class="comment">% Quadrature component</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-Randon-process-and-analog-modulation"><a href="#3-Randon-process-and-analog-modulation" class="headerlink" title="3.Randon process and analog modulation"></a>3.Randon process and analog modulation</h2><p>For a random process $x(t)$, for an arbitrary $t_1$，$x(t_1)$ is a random variable.</p>
+<ul>
+<li><p>Variables and Distributions</p>
+<p>Function:$F_x(x)=Pr(X\leq x)$</p>
+<ul>
+<li>Probability density function:$p(x)=\frac{dF_x(x)}{dx}$</li>
+<li>Expectation:$E[X]=\int_{-\infty}^{+\infty}xp(x)dx$</li>
+<li>Moment:$E[X^n] =\int_{-\infty}^{+\infty} x^n p(x)dx$</li>
+<li>Variance:$E[(X-m_x)^2] =E[X^2] -m_x^2$</li>
+</ul>
+</li>
+<li><p>Ergodicity and Stationary</p>
+<ul>
+<li>Ergodicity<blockquote>
+<p>1.The expectation of x(t) is a constant.<br><code>mean(x)=constant</code><br>2.Its autocorrelation only depends on the time difference.<br><code>Ry is autocorrelation of {Yn}.</code><br><code>After 100 times, Ry is has nothing to do with time.</code></p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>Stationary</p>
+<blockquote>
+<p>1.The expectation of x(t) equals the time-average. An arbitrary realization of the random process will go through all the possible states.<br>If one line has 1000 components, use <code>mean</code> to calculate expectation.<br>Use the first component of each line, the <code>mean</code> of one row is time-average.</p>
+</blockquote>
+</li>
+<li><p><a href="https://www.lingzhicheng.cn/2021/04/21/Modulate%20and%20demodulate" target="_blank">e.g. Modulate and demodulate</a></p>
+</li>
+</ul>
+<ul>
+<li><p>Analog modulation</p>
+<ul>
+<li>Amplitude modulation(mainly)<br><code>m(t)</code>means the message signal.<ul>
+<li>DSB-Am</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Time-domain</th>
+<th style="text-align:center">Frequency-domain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$s(t)=A_{c}m(t)cos(2\pi{f_c}t)$</td>
+<td style="text-align:center">$S(f)=\frac{A_c}{2}[M(f-{f_c})+M(f+{f_c})]$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li><ul>
+<li><ul>
+<li>Conventional AM</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Time-domain</th>
+<th style="text-align:center">Frequency-domain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$s(t)=A_{c}(1+am(t))cos(2\pi{f_c}t)$</td>
+<td style="text-align:center">$S(f)=\frac{A_c}{2}[\delta (f-{f_c})+aM(f-{f_c})+aM(f+{f_c})]$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li><ul>
+<li><ul>
+<li>SSB-AM(T-domain)<br>$s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)\pm \frac{A_{c}}{2}m(t)sin(2\pi{f_c}t)$<br><strong>matlab code：$hilbert(m)=m(t)+j\hat{m}(t)$</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">U_SSB</th>
+<th style="text-align:center">L_SSB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)-\frac{A_{c}}{2}\hat{m}(t)sin(2\pi{f_c}t)$</td>
+<td style="text-align:center">$s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)+\frac{A_{c}}{2}\hat{m}(t)sin(2\pi{f_c}t)$</td>
+</tr>
+<tr>
+<td style="text-align:center">$\frac{A_{c}}{2}Re[(m(t)+j\hat{m}(t))e^{j2\pi f_c t}]$</td>
+<td style="text-align:center">$\frac{A_{c}}{2}Re[(m(t)+j\hat{m}(t))e^{-j2\pi f_c t}]$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<pre><code>- e.g.:ear:
+
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Fs = <span class="number">1500</span>;              <span class="comment">% Sampling rate</span></span><br><span class="line">Ts = <span class="number">1</span>/Fs;              <span class="comment">% Sampling interval</span></span><br><span class="line">Fc = <span class="number">20</span>;                <span class="comment">% Carrier rate</span></span><br><span class="line">t = <span class="number">0</span>:Ts:<span class="number">1</span>;             <span class="comment">% Time vector</span></span><br><span class="line"></span><br><span class="line">m = <span class="built_in">sin</span>(<span class="number">2</span>*<span class="built_in">pi</span>*t);        <span class="comment">% Message signal</span></span><br><span class="line">c = <span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>*Fc*t);     <span class="comment">% Carrier signal</span></span><br><span class="line">Ac_DSB_AM = <span class="number">1</span>;</span><br><span class="line">Ac_USSB_AM = <span class="built_in">sqrt</span>(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% DBS_AM modulated signal.</span></span><br><span class="line">u_dsb = Ac_DSB_AM*m.*c;</span><br><span class="line"><span class="comment">% SSB_AM modulated signal.</span></span><br><span class="line">u_ussb = <span class="number">1</span>/<span class="number">2</span>*Ac_USSB_AM*<span class="built_in">real</span>(hilbert(m).*<span class="built_in">exp</span>(<span class="number">1</span><span class="built_in">i</span>*<span class="number">2</span>*<span class="built_in">pi</span>*Fc*t));</span><br></pre></td></tr></tbody></table></figure>
+</code></pre><h2 id="4-Baseband-signal-transmission"><a href="#4-Baseband-signal-transmission" class="headerlink" title="4.Baseband signal transmission"></a>4.Baseband signal transmission</h2><p>AWGN: add white gauss noise<br>Two optimum receivers for AWGN: signal correlator and matched filter.<br>For AWGN, the noise $N_i$ is Gaussian distributed with mean of zero and variance of $\frac{EN_0}{2}$.</p>
+<ul>
+<li><p>Binary modulations</p>
+<ul>
+<li>Received signal<ul>
+<li>$r(t)=s_i(t)+n(t)，0\leq t \leq T_b，i=0,1$</li>
+<li>Determine whether a 0 or 1 was transmitted.</li>
+</ul>
+</li>
+<li>Signal correlator<ul>
+<li>$r_0=\int_0^{T_b}r(t)s_0(t)dt=E+n_0$</li>
+<li>$r_1=\int_0^{T_b}r(t)s_1(t)dt=n_1$</li>
+</ul>
+</li>
+<li>Match filter<ul>
+<li>Sample at $t=T_b$</li>
+<li>$h_i(t)=s_i(T_{b}-t)，0\leq t \leq T_b，i=0,1$</li>
+</ul>
+</li>
+<li>Detector<ul>
+<li>The detector observe the correlator or matched filter output and decides on whether the transmitted signal waveform is either $s_0(t)$ or $s_1(t)$.</li>
+<li>Comparing $r_0$ or $r_1$. If $r_0&gt;r_1$, it decides 0 is transmitted.</li>
+<li>$P_e=Q(\frac{E}{\delta})=Q(\frac{E}{\sqrt{\frac{EN_0}{2}}})=Q(\sqrt{\frac{2E}{N_0}})$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Other binary modulations</p>
+<ul>
+<li>Antipodal signal<ul>
+<li>$P_e(\alpha_{opt})=Q(\frac{\frac{E}{2}}{\delta})=Q(\frac{\frac{E}{2}}{\sqrt{\frac{EN_0}{2}}})=Q(\sqrt{\frac{E}{2N_0}})$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Monto Carlo simulation</p>
+<ul>
+<li>Source output <code>dsource=0</code>or<code>dsource=1</code></li>
+<li>Detection<ul>
+<li>Match filter output <code>r=E+gngauss(sgma)</code>or<code>r=-E+gngauss(sgma)</code></li>
+<li>Detector <code>r&lt;0</code>?  <code>decis=0</code>or<code>decis=1</code></li>
+<li>Error counter <code>decis!=dsource</code>?  <code>numoferr+=1</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Constellation diagram</p>
+<ul>
+<li>$x_1=\sqrt{E}+n_1$</li>
+<li>$n_1=\sqrt{\frac{N_0}{2}}*randn(100,1)$</li>
+<li>$x_0=\sqrt{E}+n_0$</li>
+<li>$n_0=\sqrt{\frac{N_0}{2}}*randn(100,1)$</li>
+</ul>
+</li>
+</ul>
+<h2 id="5-Pulse-Amplitude-Modulation-PAM"><a href="#5-Pulse-Amplitude-Modulation-PAM" class="headerlink" title="5.Pulse Amplitude Modulation(PAM)"></a>5.Pulse Amplitude Modulation(PAM)</h2><ul>
+<li><p>Theoretical symbol error rate</p>
+<ul>
+<li>$P_M=\frac{2(M-1)}{M}Q(\sqrt{\frac{6(log_{2}M)E_{avb}}{(M^2{-}1)N_0}})$</li>
+<li><code>SNR=exp(snr_in_dB*log(10)/10)</code>equals to<code>SNR=10^(snr_in_dB/10)</code></li>
+</ul>
+</li>
+<li><p>Bit error rate and energy</p>
+<ul>
+<li><code>smld_err_pb=smld_err_p/M</code></li>
+<li><p>Energy(M-PAM)(N symbols)<br>$E_{av}=\frac{1}{N}\sum_{k=1}^{N}\int_{0}^{T}s_{k}^{2}(t)dt$<br>$E=\frac{E_{av}}{M}$</p>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% 8PAM,M=3;there is 8 symbols.</span></span><br><span class="line">Eav = sum(Am.^<span class="number">2</span>)/<span class="number">8</span>      <span class="comment">% Average energy per symbol.</span></span><br><span class="line">E = Eav/<span class="number">3</span>               <span class="comment">% Average energy per bit.</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Raised-cosine and ISI</p>
+<ul>
+<li>RC<ul>
+<li>$x_{rc}(t)=\frac{sin(\pi t/T_s)}{\pi t/T_s}\frac{cos(\alpha \pi t/T_s))}{1-4\alpha ^2 t^2 /T_s^2}$</li>
+</ul>
+</li>
+<li>ISI<ul>
+<li>$x(nT)=<br>\begin{cases}<br>  1, &amp; n=0 \\\\<br>  0, &amp; others<br>\end{cases} $</li>
+<li>F-domain：$\sum_{m=-\infty}^{+\infty}X(f+\frac{m}{T})=T$</li>
+</ul>
+</li>
+<li>Under a band-limited noiseless channel, the larger the passband, the smoother the signal.<ul>
+<li><a href="https://www.lingzhicheng.cn/2021/05/25/Band-limited%20noiseless%20channel/" target="_blank">e.g. Band-limited noiseless channel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-speech-balloon-Digital-transmission-via-carrier-modulation"><a href="#6-speech-balloon-Digital-transmission-via-carrier-modulation" class="headerlink" title="6.:speech_balloon:Digital transmission via carrier modulation"></a>6.<span class="github-emoji"><span>💬</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4ac.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>Digital transmission via carrier modulation</h2><ul>
+<li><p>Carrier amplitude modulation（ASK）</p>
+<ul>
+<li>In baseband digital PAM, the signal waveforms are：$s_m(t)=A_{m}g_{T}(t)$</li>
+<li>$A_{m}=(2m-1-M)d, m=1,2,…,M$</li>
+<li>Multiplied by a sinusoidal carrier：$u_m(t)=A_{m}g_{T}(t)cos(2\pi f_{c}t)$</li>
+<li>When the pulse shape is rectangular:$x(nT)=<br>\begin{cases}<br>  \sqrt \frac{2}{T}, &amp; 0\leq t\leq T \\\\<br>  0, &amp; otherwise<br>\end{cases} $</li>
+<li>Usually called amplitude shift keying, which is not bandlimited.</li>
+</ul>
+</li>
+<li><p>Carrier phase modulation(PSK)</p>
+<ul>
+<li>The information is impressed on the phase of the carrier.</li>
+<li>The range of the phase：$0\leq \theta \leq 2\pi$</li>
+<li>$\theta _{m}=\frac{2\pi m}{M}, m=0,1,…,M-1$</li>
+<li>Modulated signal waveform：$u_m(t)=Ag_{T}(t)cos(2\pi f_{c}t+\frac{2\pi m}{M}), m=0,1,…,M-1$</li>
+<li>Usually called phase shift keying.</li>
+<li><a href="https://www.lingzhicheng.cn/2021/05/30/ASK%20and%20PSK/" target="_blank">e.g. ASK and PSK</a></li>
+</ul>
+</li>
+<li><p>Quadrature amplitude modulation(QAM)</p>
+<ul>
+<li>Two quadrature carriers,$sin(2\pi f_{c}t)$and$cos(2\pi f_{c}t)$</li>
+<li>Each is modulated by independent information bits.</li>
+<li>$u_m(t)=A_{mc}g_{T}(t)cos(2\pi f_{c}t)+A_{ms}g_{T}(t)sin(2\pi f_{c}t), m=0,1,…,M$</li>
+<li>Carried bits per symbol：$log_{2}M$</li>
+<li>Can be viewed as a form of combined amplitude and digital-phase modulation.</li>
+<li>Rewrite：$u_{mn}(t)=A_{m}g_{T}(t)cos(2\pi f_{c}t+\theta _{n}),m=1,2,…,M_1,n=1,2,…,M_2$</li>
+<li>This time, carried bits per symbol：$log_{2}M_{1}+log_{2}M_{2}$</li>
+</ul>
+</li>
+<li><p>Carrier frequency modulation(FSK)</p>
+<ul>
+<li>For channel lack of phase stability, digital transmission by frequency modulation can be applied.</li>
+<li>M-ary FSK can be used to transmit a block of $k=log_{2}M$ bits per symbol.</li>
+<li>$u_m(t)=\sqrt{\frac{2E_s}{T}}cos(2\pi f_{c}t+2\pi m\Delta ft), m=0,1,…,M-1,0\leq t\leq T$</li>
+<li>To guarantee orthogonality, ∆𝒇 is a multiple of 1/2T.</li>
+</ul>
+</li>
+<li><p>Sampling</p>
+<ul>
+<li>sampling.m</li>
+</ul>
+<figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[T,Samp_Sig]</span>=<span class="title">Sampling</span><span class="params">(t,Fs,sig)</span> </span></span><br><span class="line"><span class="comment">%Fucntion Name:Sampling </span></span><br><span class="line"><span class="comment">%Input: T,Fs:sig OutPut:Samp_Sig </span></span><br><span class="line"><span class="comment">%When you call the Function ,u input the time for a symbol,the </span></span><br><span class="line"><span class="comment">%Sampling rate and the source signal,then output the Samplint Signal.</span></span><br><span class="line">Ts=<span class="number">1</span>/Fs;</span><br><span class="line">Sig=sig;</span><br><span class="line">len=<span class="built_in">length</span>(Sig);</span><br><span class="line">T=<span class="number">0</span>:Ts:len*t-Ts;</span><br><span class="line">Samp_Sig=T; </span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">0</span>:<span class="number">1</span>:len<span class="number">-1</span></span><br><span class="line">  <span class="keyword">for</span> <span class="built_in">j</span>=<span class="number">1</span>:<span class="number">1</span>:t/Ts</span><br><span class="line">      Samp_Sig(<span class="built_in">i</span>*t/Ts+<span class="built_in">j</span>)=Sig(<span class="built_in">i</span>+<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">end</span>    </span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+<h2 id="open-file-folder-Source-file-zip"><a href="#open-file-folder-Source-file-zip" class="headerlink" title=":open_file_folder:Source file.zip"></a><span class="github-emoji"><span>📂</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4c2.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><a href="https://www.lingzhicheng.cn/usr/file/Matlab_sort_out_code.zip">Source file.zip</a></h2><!-- markdownlint-disable-file MD033 -->
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2021/06/19/Matlab%20sort%20out/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sort-out/" rel="tag">sort out</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2021/08/16/%E5%9F%BA%E4%BA%8E%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E5%9B%BE%E7%89%87%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/" class="article-nav-link">
+        <strong class="article-nav-caption">Prev post</strong>
+        <div class="article-nav-title">
+          
+            基于卷积神经网络的图片验证码识别
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2021/06/15/F-OFDM%20vs%20OFDM/" class="article-nav-link">
+        <strong class="article-nav-caption">Next post</strong>
+        <div class="article-nav-title">F-OFDM vs OFDM</div>
+      </a>
+    
+  </nav>
+
+  
+   
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'a1a50124b0c46fa4fab9',
+    clientSecret: '4a29dee6f998a9272f57ba07f987ea9eed9da5ec',
+    repo: 'blog-comments',
+    owner: 'boom1999',
+    admin: ['boom1999'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: true,  // Facebook-like distraction free mode
+    pagerDirection: 'last',
+    proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2023
+        <span class="division">|</span> Zhicheng Ling
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+          
+          
+          Power <a href="https://hexo.io" target="_blank">Hexo</a>
+          <span class="division">|</span>
+          Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+          
+          <span class="division">|</span>
+        
+          
+          <span>
+  <span><i class="ri-eye-fill"></i> <span id="busuanzi_value_page_pv"></span></span>
+</span>
+          
+      </li>
+    </ul>
+    <ul>
+      
+        <li>
+          <a href="http://beian.miit.gov.cn/" target="_black" rel="nofollow">浙ICP备2020044847号-1</a>
+        </li>
+        
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/haisen-side.svg" alt="Haisenberg"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Categories</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.pan.lingzhicheng.cn">Pan</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.gallery.lingzhicheng.cn">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.todo.lingzhicheng.cn">Todo</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">Friends</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/me">Me</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+  <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
+  fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
+  webpushr('setup',{'key':'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script>
+<script>(function (w, d, s, id) {
+            if (typeof (w.webpushr) !== 'undefined') return; w.webpushr = w.webpushr || function () { (w.webpushr.q = w.webpushr.q || []).push(arguments) }; var js, fjs = d.getElementsByTagName(s)[0]; js = d.createElement(s); js.id = id; js.async = 1; js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window, document, 'script', 'webpushr-jssdk'));webpushr('setup', { 'key': 'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script></body>
+
+</html>

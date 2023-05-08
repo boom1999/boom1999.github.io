@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta name="google-site-verification" content="QbUVAi0K2ZB_P4A6jbbi-GVB4BXs3n6GqgIEGHlySnk" />
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="Torch, Summary, UAV, Git" />
+   
+  <meta name="description" content="No fear of words,no fear of years" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    F-OFDM vs OFDM |  Haisenberg
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-F-OFDM vs OFDM"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  F-OFDM vs OFDM
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/06/15/F-OFDM%20vs%20OFDM/" class="article-date">
+  <time datetime="2021-06-15T00:00:00.000Z" itemprop="datePublished">2021-06-15</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Matlab/">Matlab</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">1.8k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">11 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
+<h3 id="Divide-the-OFDM-cattier-bandwidth-into-multiple-sub-bands-with-different-parameters-and-filter-the-sub-bands-and-try-to-leave-as-few-isolation-bands-as-possible-between-the-sub-bands"><a href="#Divide-the-OFDM-cattier-bandwidth-into-multiple-sub-bands-with-different-parameters-and-filter-the-sub-bands-and-try-to-leave-as-few-isolation-bands-as-possible-between-the-sub-bands" class="headerlink" title="Divide the OFDM cattier bandwidth into multiple sub bands with different parameters, and filter the sub bands, and try to leave as few isolation bands as possible between the sub bands"></a>Divide the OFDM cattier bandwidth into multiple sub bands with different parameters, and filter the sub bands, and try to leave as few isolation bands as possible between the sub bands</h3><p><span class="github-emoji"><span>🌞</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f31e.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>🕒</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f552.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>😴</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f634.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
+<span id="more"></span>
+<hr>
+<h2 id="books-Abstract"><a href="#books-Abstract" class="headerlink" title=":books: Abstract"></a><span class="github-emoji"><span>📚</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4da.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Abstract</h2><ul>
+<li><em>With the launch of the 3GPP 5G standard, the 5G sky has gradually disappeared, and the bright stars of the candidate technology have dazzled us, and the 5G serialized new air interface technology proposed by Huawei is undoubtedly the brightest star among them. F-OFDM can realize the slicing of the physical layer of the air interface and is backward compatible with the LTE 4G system, and can meet the needs of future 5G development.</em></li>
+</ul>
+<h2 id="blue-book-OFDM-vs-F-OFDM"><a href="#blue-book-OFDM-vs-F-OFDM" class="headerlink" title=":blue_book: OFDM vs F-OFDM"></a><span class="github-emoji"><span>📘</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d8.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> OFDM vs F-OFDM</h2><ul>
+<li><em>OFDM modulates high-rate data to mutually orthogonal sub-carriers through serial/parallel conversion, and introduces cyclic prefixes, which better solves the headache of inter-symbol interference. But the main problem of OFDM is not flexible enough.</em></li>
+<li><em>For example, the Internet of vehicles service with millisecond delay requires extremely short time-domain symbol and TTI; in the multi-connection scenario of the Internet of things, the amount of data transmitted by a single sensor is extremely low, but the requirements for the number of overall connections of the system are very high. It is necessary to configure a relatively narrow subcarrier spacing in the frequency domain. These flexible requirements cannot be met by OFDM technology.</em></li>
+<li><em>We can understand the time-frequency resources of the system as a carriage. If the OFDM scheme is adopted for decoration, the train can only provide fixed-size hard seats (sub-carrier spacing). Everyone, regardless of fat or thin, rich or not, can only sitting on a hard seat of the same size, this situation is obviously not humane enough. For 5G, we hope that the seats and spaces can be flexibly customized according to the height, short, fat and thin of passengers. Hard seats, soft seats, sleepers, boxes…you can adjust them whatever you wang. This the adaptive harmony train, and F-OFDM technology is based on this idea.</em></li>
+<li><em>F-OFDM can provide different sub-carrier spacing and numerology to meet the time-frequency resource requirements of different services. F-OFDM greatly reduces out-of-band leakage by optimizing the filter design, and the guard band overhead between different sub bands can be reduced to about 1%, which not only greatly improves the efficiency of spectrum utilization, but also, it’s possible to provides opportunities for future use of fragmented spectrum.</em></li>
+<li><em>In general, on the basis of inheriting all the advantages of OFDM (high spectrum utilization, adaptive MIMO, etc.), F-OFDM overcomes some inherent shortcomings of OFDM, and further improves flexibility and spectrum utilization efficiency basic technology to realize 5G air interface slicing.</em></li>
+</ul>
+<h2 id="green-book-Benefits-or-advantages-of-F-OFDM"><a href="#green-book-Benefits-or-advantages-of-F-OFDM" class="headerlink" title=":green_book: Benefits or advantages of F-OFDM"></a><span class="github-emoji"><span>📗</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d7.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Benefits or advantages of F-OFDM</h2><ol>
+<li>Efficient utilization of spectrum.</li>
+<li>It suppresses out of band emission and hence guard band consumption can be reduced to minimum level.</li>
+<li>Optimized numerology can be applied to suit the needs of certain type of services within each sub bands.</li>
+<li>Possibility to incorporate other waveforms such as GFDM, FBMC, UFMC etc.</li>
+<li>Backward and forward compatibility.</li>
+<li>Using sub band-based filtering, global synchronization requirement is being relaxed. Hence inter-sub-band asynchronous transmission can be supported.</li>
+</ol>
+<h2 id="orange-book-Drawbacks-or-disadvantages-of-F-FDOM"><a href="#orange-book-Drawbacks-or-disadvantages-of-F-FDOM" class="headerlink" title=":orange_book: Drawbacks or disadvantages of F-FDOM"></a><span class="github-emoji"><span>📙</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d9.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Drawbacks or disadvantages of F-FDOM</h2><ol>
+<li>The F-OFDM requires additional pair of transmit and receiver filters in transmitter and receiver chain respectively compare to conventional OFDM.</li>
+<li>Like OFDM, CP can also be used in filter-based waveforms such as UFMC, F-OFDM to protect signal from SIS.</li>
+<li>Since full-band filtering cannot remove any SIS, it exists in F-OFDM similar to standard OFDM.</li>
+</ol>
+<h2 id="open-book-Understanding-of-this-example"><a href="#open-book-Understanding-of-this-example" class="headerlink" title=":open_book: Understanding of this example"></a><span class="github-emoji"><span>📖</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d6.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Understanding of this example</h2><ul>
+<li><em>This example compares Filtered-OFDM modulation with generic Cyclic Prefix OFDM (CP-OFDM) modulation. For F-OFDM, a well-designed filter is applied to the time domain OFDM symbol to improve the out-of-band radiation of the sub-band signal, while maintaining the complex-domain orthogonality of OFDM symbols. This example also models Filtered-OFDM modulation with configurable parameters. It highlights the filter design technique and the basic transmit/receive processing.</em></li>
+<li><em>A filter with a rectangular frequency response, i.e. a sinc impulse response, meets these criteria. To make this causal, the low-pass filter is realized using a window, which, effectively truncates the impulse response and offers smooth transitions to zero on both ends.</em></li>
+<li><em>In F-OFDM, the sub-band CP-OFDM signal is passed through the designed filter. As the filter’s passband corresponds to the signal’s bandwidth, only the few subcarriers close to the edge are affected. A key consideration is that the filter length can be allowed to exceed the cyclic prefix length for F-OFDM. The inter-symbol interference incurred is minimized due to the filter design using windowing (with soft truncation).</em></li>
+<li><em>Transmit-end processing operations are shown in the following F-OFDM transmitter diagram.</em></li>
+<li><em>The example next highlights the basic receive processing for F-OFDM for a single OFDM symbol. The received signal is passed through a matched filter, followed by the normal CP-OFDM receiver. It accounts for both the filtering ramp-up and latency prior to the FFT operation.</em></li>
+<li><em>No fading channel is considered in this example but noise is added to the received signal to achieve the desired SNR.</em></li>
+</ul>
+<h2 id="closed-book-Conclusion"><a href="#closed-book-Conclusion" class="headerlink" title=":closed_book: Conclusion"></a><span class="github-emoji"><span>📕</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Conclusion</h2><ul>
+<li><em>Comparing the plots of the spectral densities for CP-OFDM and F-OFDM schemes, F-OFDM has lower sidelobes. This allows a higher utilization of the allocated spectrum, leading to increased spectral efficiency.</em></li>
+<li><em>When we design F-OFDM filter, appropriate filtering for F-OFDM satisfies the following criteria:</em></li>
+</ul>
+<blockquote>
+<ol>
+<li>Should have a flat passband over the subcarriers in the sub-band.</li>
+<li>Should have a sharp transition band to minimize guard-bands.</li>
+<li>Should have sufficient stop-band attenuation.</li>
+</ol>
+</blockquote>
+<ul>
+<li><em>Universal Filtered Multi-Carrier (UFMC) modulation scheme is another approach to sub-band filtered OFDM. For more information, see the UFMC vs. OFDM Modulation example. This F-OFDM example uses a single sub-band while the UFMC example uses multiple sub-bands.</em></li>
+<li><em>F-OFDM and UFMC both use time-domain filtering with subtle differences in the way the filter is designed and applied. For UFMC, the length of filter is constrained to be equal to the cyclic-prefix length, while for F-OFDM, it can exceed the CP length.</em></li>
+<li><em>For F-OFDM, the filter design leads to a slight loss in orthogonality (strictly speaking) which affects only the edge subcarriers.</em></li>
+</ul>
+<h2 id="memo-Code"><a href="#memo-Code" class="headerlink" title=":memo: Code"></a><span class="github-emoji"><span>📝</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4dd.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Code</h2><figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% F-OFDM vs. OFDM Modulation</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line">s = rng(<span class="number">211</span>);       <span class="comment">% Set RNG state for repeatability</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">%% System Parameters</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"><span class="comment">% Define system parameters for the example. These parameters can be</span></span><br><span class="line"><span class="comment">% modified to explore their impact on the system.</span></span><br><span class="line"> </span><br><span class="line">numFFT = <span class="number">1024</span>;           <span class="comment">% Number of FFT points</span></span><br><span class="line">numRBs = <span class="number">50</span>;             <span class="comment">% Number of resource blocks</span></span><br><span class="line">rbSize = <span class="number">12</span>;             <span class="comment">% Number of subcarriers per resource block</span></span><br><span class="line">cpLen = <span class="number">72</span>;              <span class="comment">% Cyclic prefix length in samples</span></span><br><span class="line"> </span><br><span class="line">bitsPerSubCarrier = <span class="number">8</span>;   <span class="comment">% 2: QPSK, 4: 16QAM, 6: 64QAM, 8: 256QAM</span></span><br><span class="line">snrdB = <span class="number">18</span>;              <span class="comment">% SNR in dB</span></span><br><span class="line"> </span><br><span class="line">toneOffset = <span class="number">2.5</span>;        <span class="comment">% Tone offset or excess bandwidth (in subcarriers)</span></span><br><span class="line">L = <span class="number">513</span>;                 <span class="comment">% Filter length (=filterOrder+1), odd</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">%% Filtered-OFDM Filter Design</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line">numDataCarriers = numRBs*rbSize;    <span class="comment">% number of data subcarriers in subband</span></span><br><span class="line">halfFilt = <span class="built_in">floor</span>(L/<span class="number">2</span>);</span><br><span class="line">n = -halfFilt:halfFilt;  </span><br><span class="line"> </span><br><span class="line"><span class="comment">% Sinc function prototype filter</span></span><br><span class="line">pb = sinc((numDataCarriers+<span class="number">2</span>*toneOffset).*n./numFFT);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Sinc truncation window</span></span><br><span class="line">w = (<span class="number">0.5</span>*(<span class="number">1</span>+<span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>.*n/(L<span class="number">-1</span>)))).^<span class="number">0.6</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Normalized lowpass filter coefficients</span></span><br><span class="line">fnum = (pb.*w)/sum(pb.*w);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Filter impulse response</span></span><br><span class="line">h = fvtool(fnum, <span class="string">'Analysis'</span>, <span class="string">'impulse'</span>, ...</span><br><span class="line">    <span class="string">'NormalizedFrequency'</span>, <span class="string">'off'</span>, <span class="string">'Fs'</span>, <span class="number">15.36e6</span>);</span><br><span class="line">h.CurrentAxes.XLabel.String = <span class="string">'Time (\mus)'</span>;</span><br><span class="line">h.FigureToolbar = <span class="string">'off'</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Use dsp filter objects for filtering</span></span><br><span class="line">filtTx = dsp.FIRFilter(<span class="string">'Structure'</span>, <span class="string">'Direct form symmetric'</span>, ...</span><br><span class="line">    <span class="string">'Numerator'</span>, fnum);</span><br><span class="line">filtRx = clone(filtTx); <span class="comment">% Matched filter for the Rx</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% QAM Symbol mapper</span></span><br><span class="line">qamMapper = comm.RectangularQAMModulator( ...</span><br><span class="line">    <span class="string">'ModulationOrder'</span>, <span class="number">2</span>^bitsPerSubCarrier, <span class="string">'BitInput'</span>, <span class="built_in">true</span>, ...</span><br><span class="line">    <span class="string">'NormalizationMethod'</span>, <span class="string">'Average power'</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% F-OFDM Transmit Processing</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Set up a figure for spectrum plot</span></span><br><span class="line">hFig = <span class="built_in">figure</span>(<span class="string">'Position'</span>, figposition([<span class="number">46</span> <span class="number">50</span> <span class="number">30</span> <span class="number">30</span>]));</span><br><span class="line">axis([<span class="number">-0.5</span> <span class="number">0.5</span> <span class="number">-200</span> <span class="number">-20</span>]);</span><br><span class="line"><span class="built_in">hold</span> on; </span><br><span class="line">grid on</span><br><span class="line">xlabel(<span class="string">'Normalized frequency'</span>);</span><br><span class="line">ylabel(<span class="string">'PSD (dBW/Hz)'</span>)</span><br><span class="line">title([<span class="string">'F-OFDM, '</span> num2str(numRBs) <span class="string">' Resource blocks, '</span>  ...</span><br><span class="line">    num2str(rbSize) <span class="string">' Subcarriers each'</span>])</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Generate data symbols</span></span><br><span class="line">bitsIn = randi([<span class="number">0</span> <span class="number">1</span>], bitsPerSubCarrier*numDataCarriers, <span class="number">1</span>);</span><br><span class="line">symbolsIn = qamMapper(bitsIn);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Pack data into an OFDM symbol </span></span><br><span class="line">offset = (numFFT-numDataCarriers)/<span class="number">2</span>; <span class="comment">% for band center</span></span><br><span class="line">symbolsInOFDM = [<span class="built_in">zeros</span>(offset,<span class="number">1</span>); symbolsIn; ...</span><br><span class="line">                 <span class="built_in">zeros</span>(numFFT-offset-numDataCarriers,<span class="number">1</span>)];</span><br><span class="line">ifftOut = ifft(ifftshift(symbolsInOFDM));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Prepend cyclic prefix</span></span><br><span class="line">txSigOFDM = [ifftOut(<span class="keyword">end</span>-cpLen+<span class="number">1</span>:<span class="keyword">end</span>); ifftOut]; </span><br><span class="line"> </span><br><span class="line"><span class="comment">% Filter, with zero-padding to flush tail. Get the transmit signal</span></span><br><span class="line">txSigFOFDM = filtTx([txSigOFDM; <span class="built_in">zeros</span>(L<span class="number">-1</span>,<span class="number">1</span>)]);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Plot power spectral density (PSD) </span></span><br><span class="line">[psd,f] = periodogram(txSigFOFDM, rectwin(<span class="built_in">length</span>(txSigFOFDM)), ...</span><br><span class="line">                      numFFT*<span class="number">2</span>, <span class="number">1</span>, <span class="string">'centered'</span>); </span><br><span class="line"><span class="built_in">plot</span>(f,<span class="number">10</span>*<span class="built_in">log10</span>(psd)); </span><br><span class="line"> </span><br><span class="line"><span class="comment">% Compute peak-to-average-power ratio (PAPR)</span></span><br><span class="line">PAPR = comm.CCDF(<span class="string">'PAPROutputPort'</span>, <span class="built_in">true</span>, <span class="string">'PowerUnits'</span>, <span class="string">'dBW'</span>);</span><br><span class="line">[~,~,paprFOFDM] = PAPR(txSigFOFDM);</span><br><span class="line"><span class="built_in">disp</span>([<span class="string">'Peak-to-Average-Power-Ratio for F-OFDM = '</span> num2str(paprFOFDM) <span class="string">' dB'</span>]);</span><br><span class="line"> </span><br><span class="line"><span class="comment">%% OFDM Modulation with Corresponding Parameters</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Plot power spectral density (PSD) for OFDM signal</span></span><br><span class="line">[psd,f] = periodogram(txSigOFDM, rectwin(<span class="built_in">length</span>(txSigOFDM)), numFFT*<span class="number">2</span>, ...</span><br><span class="line">                      <span class="number">1</span>, <span class="string">'centered'</span>); </span><br><span class="line">hFig1 = <span class="built_in">figure</span>(<span class="string">'Position'</span>, figposition([<span class="number">46</span> <span class="number">15</span> <span class="number">30</span> <span class="number">30</span>])); </span><br><span class="line"><span class="built_in">plot</span>(f,<span class="number">10</span>*<span class="built_in">log10</span>(psd)); </span><br><span class="line">grid on</span><br><span class="line">axis([<span class="number">-0.5</span> <span class="number">0.5</span> <span class="number">-100</span> <span class="number">-20</span>]);</span><br><span class="line">xlabel(<span class="string">'Normalized frequency'</span>); </span><br><span class="line">ylabel(<span class="string">'PSD (dBW/Hz)'</span>)</span><br><span class="line">title([<span class="string">'OFDM, '</span> num2str(numRBs*rbSize) <span class="string">' Subcarriers'</span>])</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Compute peak-to-average-power ratio (PAPR)</span></span><br><span class="line">PAPR2 = comm.CCDF(<span class="string">'PAPROutputPort'</span>, <span class="built_in">true</span>, <span class="string">'PowerUnits'</span>, <span class="string">'dBW'</span>);</span><br><span class="line">[~,~,paprOFDM] = PAPR2(txSigOFDM);</span><br><span class="line"><span class="built_in">disp</span>([<span class="string">'Peak-to-Average-Power-Ratio for OFDM = '</span> num2str(paprOFDM) <span class="string">' dB'</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">%% F-OFDM Receiver with No Channel</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Add WGN</span></span><br><span class="line">rxSig = awgn(txSigFOFDM, snrdB, <span class="string">'measured'</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">%%</span></span><br><span class="line"><span class="comment">% Receive processing operations are shown in the following F-OFDM receiver</span></span><br><span class="line"><span class="comment">% diagram.</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Receive matched filter</span></span><br><span class="line">rxSigFilt = filtRx(rxSig);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Account for filter delay </span></span><br><span class="line">rxSigFiltSync = rxSigFilt(L:<span class="keyword">end</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Remove cyclic prefix</span></span><br><span class="line">rxSymbol = rxSigFiltSync(cpLen+<span class="number">1</span>:<span class="keyword">end</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Perform FFT </span></span><br><span class="line">RxSymbols = fftshift(fft(rxSymbol));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Select data subcarriers</span></span><br><span class="line">dataRxSymbols = RxSymbols(offset+(<span class="number">1</span>:numDataCarriers));</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Plot received symbols constellation</span></span><br><span class="line"><span class="keyword">switch</span> bitsPerSubCarrier</span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span>  <span class="comment">% QPSK</span></span><br><span class="line">        refConst = qammod((<span class="number">0</span>:<span class="number">3</span>).', <span class="number">4</span>, <span class="string">'UnitAveragePower'</span>, <span class="built_in">true</span>);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">4</span>  <span class="comment">% 16QAM</span></span><br><span class="line">        refConst = qammod((<span class="number">0</span>:<span class="number">15</span>).', <span class="number">16</span>,<span class="string">'UnitAveragePower'</span>, <span class="built_in">true</span>);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">6</span>  <span class="comment">% 64QAM</span></span><br><span class="line">        refConst = qammod((<span class="number">0</span>:<span class="number">63</span>).', <span class="number">64</span>,<span class="string">'UnitAveragePower'</span>, <span class="built_in">true</span>);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">8</span>  <span class="comment">% 256QAM</span></span><br><span class="line">        refConst = qammod((<span class="number">0</span>:<span class="number">255</span>).', <span class="number">256</span>,<span class="string">'UnitAveragePower'</span>, <span class="built_in">true</span>);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">constDiagRx = comm.ConstellationDiagram( ...</span><br><span class="line">    <span class="string">'ShowReferenceConstellation'</span>, <span class="built_in">true</span>, ...</span><br><span class="line">    <span class="string">'ReferenceConstellation'</span>, refConst, ...</span><br><span class="line">    <span class="string">'Position'</span>, figposition([<span class="number">20</span> <span class="number">15</span> <span class="number">25</span> <span class="number">30</span>]), ...</span><br><span class="line">    <span class="string">'MeasurementInterval'</span>, <span class="built_in">length</span>(dataRxSymbols), ...</span><br><span class="line">    <span class="string">'Title'</span>, <span class="string">'F-OFDM Demodulated Symbols'</span>, ...</span><br><span class="line">    <span class="string">'Name'</span>, <span class="string">'F-OFDM Reception'</span>, ...</span><br><span class="line">    <span class="string">'XLimits'</span>, [<span class="number">-1.5</span> <span class="number">1.5</span>], <span class="string">'YLimits'</span>, [<span class="number">-1.5</span> <span class="number">1.5</span>]);</span><br><span class="line">constDiagRx(dataRxSymbols);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Channel equalization is not necessary here as no channel is modeled</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">% Demapping and BER computation</span></span><br><span class="line">qamDemod = comm.RectangularQAMDemodulator(<span class="string">'ModulationOrder'</span>, ...</span><br><span class="line">    <span class="number">2</span>^bitsPerSubCarrier, <span class="string">'BitOutput'</span>, <span class="built_in">true</span>, ...</span><br><span class="line">    <span class="string">'NormalizationMethod'</span>, <span class="string">'Average power'</span>);</span><br><span class="line">BER = comm.ErrorRate;</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Perform hard decision and measure errors</span></span><br><span class="line">rxBits = qamDemod(dataRxSymbols);</span><br><span class="line">ber = BER(bitsIn, rxBits);</span><br><span class="line"> </span><br><span class="line"><span class="built_in">disp</span>([<span class="string">'F-OFDM Reception, BER = '</span> num2str(ber(<span class="number">1</span>)) <span class="string">' at SNR = '</span> ...</span><br><span class="line">    num2str(snrdB) <span class="string">' dB'</span>]);</span><br><span class="line"> </span><br><span class="line"><span class="comment">% Restore RNG state</span></span><br><span class="line">rng(s);</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="chart-4ASK-Fig"><a href="#chart-4ASK-Fig" class="headerlink" title=":chart: 4ASK Fig"></a><span class="github-emoji"><span>💹</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4b9.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 4ASK Fig</h3><p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/Impluse_Response.bmp" alt="Fig.1  Impulse Response."></p>
+<center><font size="2">Fig.1  Impulse Response.</font></center>
+
+
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/F-OFDM_normalized_frequency.bmp" alt="Fig.2  F-OFDM normalized frequency."></p>
+<center><font size="2">Fig.2  F-OFDM normalized frequency.</font></center>
+
+
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/OFDM_normalized_frequency.bmp" alt="Fig.2  OFDM normalized frequency."></p>
+<center><font size="2">Fig.3  OFDM normalized frequency.</font></center>
+
+
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/F-OFDM_Reception.png" alt="Fig.4  F-OFDM Reception."></p>
+<center><font size="2">Fig.4  F-OFDM Reception.</font></center>
+
+<h3 id="bell-Reference"><a href="#bell-Reference" class="headerlink" title=":bell: Reference"></a><span class="github-emoji"><span>🔔</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f514.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Reference</h3><blockquote>
+<ol>
+<li>Abdoli J., Jia M. and Ma J., “Filtered OFDM: A New Waveform for Future Wireless Systems,” 2015 IEEE® 16th International Workshop on Signal Processing Advances in Wireless Communications (SPAWC), Stockholm, 2015, pp. 66-70.</li>
+<li>R1-162152. “OFDM based flexible waveform for 5G.” 3GPP TSG RAN WG1 meeting 84bis. Huawei; HiSilicon. April 2016.</li>
+<li>R1-165425. “F-OFDM scheme and filter design.” 3GPP TSG RAN WG1 meeting 85. Huawei; HiSilicon. May 2016.</li>
+</ol>
+</blockquote>
+<!-- markdownlint-disable-file MD025 MD033 -->
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2021/06/15/F-OFDM%20vs%20OFDM/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/modulate/" rel="tag">modulate</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2021/06/19/Matlab%20sort%20out/" class="article-nav-link">
+        <strong class="article-nav-caption">Prev post</strong>
+        <div class="article-nav-title">
+          
+            Matlab sort out
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2021/05/30/ASK%20and%20PSK/" class="article-nav-link">
+        <strong class="article-nav-caption">Next post</strong>
+        <div class="article-nav-title">ASK and PSK</div>
+      </a>
+    
+  </nav>
+
+  
+   
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'a1a50124b0c46fa4fab9',
+    clientSecret: '4a29dee6f998a9272f57ba07f987ea9eed9da5ec',
+    repo: 'blog-comments',
+    owner: 'boom1999',
+    admin: ['boom1999'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: true,  // Facebook-like distraction free mode
+    pagerDirection: 'last',
+    proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2023
+        <span class="division">|</span> Zhicheng Ling
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+          
+          
+          Power <a href="https://hexo.io" target="_blank">Hexo</a>
+          <span class="division">|</span>
+          Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+          
+          <span class="division">|</span>
+        
+          
+          <span>
+  <span><i class="ri-eye-fill"></i> <span id="busuanzi_value_page_pv"></span></span>
+</span>
+          
+      </li>
+    </ul>
+    <ul>
+      
+        <li>
+          <a href="http://beian.miit.gov.cn/" target="_black" rel="nofollow">浙ICP备2020044847号-1</a>
+        </li>
+        
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/haisen-side.svg" alt="Haisenberg"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Categories</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.pan.lingzhicheng.cn">Pan</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.gallery.lingzhicheng.cn">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.todo.lingzhicheng.cn">Todo</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">Friends</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/me">Me</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+  <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
+  fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
+  webpushr('setup',{'key':'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script>
+<script>(function (w, d, s, id) {
+            if (typeof (w.webpushr) !== 'undefined') return; w.webpushr = w.webpushr || function () { (w.webpushr.q = w.webpushr.q || []).push(arguments) }; var js, fjs = d.getElementsByTagName(s)[0]; js = d.createElement(s); js.id = id; js.async = 1; js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window, document, 'script', 'webpushr-jssdk'));webpushr('setup', { 'key': 'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script></body>
+
+</html>

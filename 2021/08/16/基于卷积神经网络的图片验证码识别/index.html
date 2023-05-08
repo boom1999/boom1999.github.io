@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta name="google-site-verification" content="QbUVAi0K2ZB_P4A6jbbi-GVB4BXs3n6GqgIEGHlySnk" />
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="Torch, Summary, UAV, Git" />
+   
+  <meta name="description" content="No fear of words,no fear of years" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    基于卷积神经网络的图片验证码识别 |  Haisenberg
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-基于卷积神经网络的图片验证码识别"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  基于卷积神经网络的图片验证码识别
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/08/16/%E5%9F%BA%E4%BA%8E%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E5%9B%BE%E7%89%87%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/" class="article-date">
+  <time datetime="2021-08-16T00:00:00.000Z" itemprop="datePublished">2021-08-16</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Tensorflow/">Tensorflow</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">2.1k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">11 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
+<ul>
+<li>基于卷积神经网络训练模型识别图片验证码，0~9数字和26个字母大写和小写组合识别</li>
+<li>PIL模块生成验证码训练集和测试集，添加干扰点和干扰线来模拟实际复杂环境，os保存以及读取，通过去噪以及灰度化处理提高识别率，通过卷积神经网络池化后全连接层处理，识别成功率达到约96%<br><span class="github-emoji"><span>💨</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4a8.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>🕥</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f565.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>😴</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f634.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span id="more"></span>
+</li>
+</ul>
+<h2 id="生成训练集和测试集"><a href="#生成训练集和测试集" class="headerlink" title="生成训练集和测试集"></a>生成训练集和测试集</h2><h3 id="设置数字和字母"><a href="#设置数字和字母" class="headerlink" title="设置数字和字母"></a>设置数字和字母</h3><ul>
+<li><code>random_num</code>随机产生数字，<code>random_upper</code>随机产生大写字母，<code>random_lower</code>随机产生小写字母</li>
+<li><code>random.choice()</code>随机选择三种情况</li>
+</ul>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">getRandomChar</span>():</span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    chr(i) return the Unicode of i</span></span><br><span class="line"><span class="string">    :return: None</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    random_num = <span class="built_in">str</span>(random.randint(<span class="number">0</span>, <span class="number">9</span>))  <span class="comment"># 0~9</span></span><br><span class="line">    random_upper = <span class="built_in">chr</span>(random.randint(<span class="number">65</span>, <span class="number">90</span>))  <span class="comment"># A~Z</span></span><br><span class="line">    random_lower = <span class="built_in">chr</span>(random.randint(<span class="number">97</span>, <span class="number">122</span>))  <span class="comment"># a~z</span></span><br><span class="line">    random_char = random.choice([random_num, random_upper, random_lower])</span><br><span class="line">    <span class="keyword">return</span> random_char</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="设置随机颜色"><a href="#设置随机颜色" class="headerlink" title="设置随机颜色"></a>设置随机颜色</h3><ul>
+<li><code>is_light</code>是颜色深浅的标签</li>
+<li>总的来说RGB值&gt;127的颜色较深，True代表浅色，False代表深色</li>
+</ul>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">getRandomColor</span>(<span class="params">is_light=<span class="literal">True</span></span>):</span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Generate colors, default light color</span></span><br><span class="line"><span class="string">    :param is_light: Distinguish between light and dark colors</span></span><br><span class="line"><span class="string">    :return: r, g, b</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    r = random.randint(<span class="number">0</span>, <span class="number">127</span>) + <span class="built_in">int</span>(is_light) * <span class="number">128</span></span><br><span class="line">    g = random.randint(<span class="number">0</span>, <span class="number">127</span>) + <span class="built_in">int</span>(is_light) * <span class="number">128</span></span><br><span class="line">    b = random.randint(<span class="number">0</span>, <span class="number">127</span>) + <span class="built_in">int</span>(is_light) * <span class="number">128</span></span><br><span class="line">    <span class="keyword">return</span> r, g, b</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="设置干扰"><a href="#设置干扰" class="headerlink" title="设置干扰"></a>设置干扰</h3><ul>
+<li>设置干扰线，随机产生起点和终点的坐标，<code>is_light</code>设置为<code>True</code>，干扰线浅色</li>
+<li>设置干扰点，随机产生干扰点的坐标，<code>is_light</code>设置为<code>True</code>，干扰点浅色</li>
+<li><code>numLine</code>和<code>nunmPoint</code>自由设置，干扰线和干扰点数量越大，后期识别成功率越低</li>
+</ul>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">drawLine</span>(<span class="params">draw</span>):</span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Draw interference lines, numLine feels free</span></span><br><span class="line"><span class="string">    x1,x2,y1,y2: The begin point and the end point of the line</span></span><br><span class="line"><span class="string">    :param draw:</span></span><br><span class="line"><span class="string">    :return: None</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    numLine = <span class="number">5</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(numLine):</span><br><span class="line">        x1 = random.randint(<span class="number">0</span>, width)</span><br><span class="line">        x2 = random.randint(<span class="number">0</span>, width)</span><br><span class="line">        y1 = random.randint(<span class="number">0</span>, height)</span><br><span class="line">        y2 = random.randint(<span class="number">0</span>, height)</span><br><span class="line">        draw.line((x1, y1, x2, y2), fill=getRandomColor(is_light=<span class="literal">True</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">drawPoint</span>(<span class="params">draw</span>):</span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Draw interference points, numPoint feels free</span></span><br><span class="line"><span class="string">    :param draw:</span></span><br><span class="line"><span class="string">    :return: None</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    numPoint = <span class="number">50</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(numPoint):</span><br><span class="line">        x = random.randint(<span class="number">0</span>, width)</span><br><span class="line">        y = random.randint(<span class="number">0</span>, height)</span><br><span class="line">        draw.point((x, y), fill=getRandomColor(is_light=<span class="literal">True</span>))</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="保存验证码"><a href="#保存验证码" class="headerlink" title="保存验证码"></a>保存验证码</h3><ul>
+<li>使用<code>PIL</code>的<code>Image</code>、<code>ImageDraw</code>、<code>ImageFont</code>的模块（由于<code>PIL</code>不再适配高版本Python，安装需要用<code>pip install pillow</code>）</li>
+<li>保存验证码<code>label.png</code>，直接打上标签，不用之手手动打标签</li>
+<li>背景采用浅色，<code>numOfNum=4</code>验证码长度为4</li>
+</ul>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">createImg</span>(<span class="params">folder</span>):</span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Use drawPoint(), drawLine(), getRandomColor(), getRandomChar() to generate an Img by random</span></span><br><span class="line"><span class="string">    :param folder: train or test folder</span></span><br><span class="line"><span class="string">    :return: None</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># Generate background color by random</span></span><br><span class="line">    bg_color = getRandomColor(is_light=<span class="literal">True</span>)</span><br><span class="line">    <span class="comment"># Generate a Img</span></span><br><span class="line">    img = Image.new(mode=<span class="string">"RGB"</span>, size=(width, height), color=bg_color)</span><br><span class="line">    <span class="comment"># Get picture brush</span></span><br><span class="line">    draw = ImageDraw.Draw(img)</span><br><span class="line">    <span class="comment"># Set the font</span></span><br><span class="line">    font = ImageFont.truetype(font=<span class="string">"C:/Users/lingz/AppData/Local/Microsoft/Windows/Fonts/Monaco.ttf"</span>, size=<span class="number">16</span>)</span><br><span class="line">    <span class="comment"># Set the Img name</span></span><br><span class="line">    file_name = <span class="string">''</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Generate number or char, set the numOfNum to change the number of it</span></span><br><span class="line">    numOfNum = <span class="number">4</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(numOfNum):</span><br><span class="line">        random_txt = getRandomChar()</span><br><span class="line">        <span class="comment"># Default: the bk_color is light, the txt_color is dark</span></span><br><span class="line">        txt_color = getRandomColor(is_light=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Avoid the text color == the background color, re-generate txt_color</span></span><br><span class="line">        <span class="keyword">while</span> txt_color == bg_color:</span><br><span class="line">            txt_color = getRandomColor(is_light=<span class="literal">False</span>)</span><br><span class="line">        <span class="comment"># Fill the txt, the first para is the coordinates of the upper left corner</span></span><br><span class="line">        <span class="comment"># If numOfNum = 4, then (15,0),(30,0),(45,0),(60,0), four nums of chars</span></span><br><span class="line">        draw.text((<span class="number">15</span> + <span class="number">15</span> * i, <span class="number">0</span>), text=random_txt, fill=txt_color, font=font)</span><br><span class="line">        file_name += random_txt</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Draw interference lines and points</span></span><br><span class="line">    drawLine(draw)</span><br><span class="line">    drawPoint(draw)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Save the Img</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">"./{}/{}.png"</span>.<span class="built_in">format</span>(folder, file_name), <span class="string">"wb"</span>) <span class="keyword">as</span> train:</span><br><span class="line">        img.save(train, <span class="built_in">format</span>=<span class="string">"png"</span>)</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/CodeIdVerify/DataSet.png" alt="Fig.1 产生数据集"></p>
+<center><font size="2">Fig.1 产生数据集</font></center>
+
+<h3 id="自动删除文件"><a href="#自动删除文件" class="headerlink" title="自动删除文件"></a>自动删除文件</h3><ul>
+<li>用于每次生成数据时自动清空原有数据</li>
+</ul>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">creat_del_file</span>(<span class="params">path_data</span>):</span><br><span class="line">    os.path.exists(path_data) <span class="keyword">or</span> os.makedirs(path_data)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> os.listdir(path_data):</span><br><span class="line">        file_data = path_data + <span class="string">"\\"</span> + i</span><br><span class="line">        os.remove(file_data)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Original %s set is deleted."</span> % path_data)</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="卷积神经网络训练和识别"><a href="#卷积神经网络训练和识别" class="headerlink" title="卷积神经网络训练和识别"></a>卷积神经网络训练和识别</h2><h3 id="编码准备工作"><a href="#编码准备工作" class="headerlink" title="编码准备工作"></a>编码准备工作</h3><ul>
+<li><code>model_dir</code>存放训练后的模型</li>
+<li><code>char_set</code>和<code>alphabet</code>存放字符集用于数据读取</li>
+<li><code>char_to_int</code>用于获取字典中的下标，用于之后的<code>one_hot</code>编码</li>
+</ul>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">model_dir = <span class="string">r'model.h5'</span></span><br><span class="line">char_set = [<span class="string">'0'</span>, <span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>, <span class="string">'4'</span>, <span class="string">'5'</span>, <span class="string">'6'</span>, <span class="string">'7'</span>, <span class="string">'8'</span>, <span class="string">'9'</span>] + [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, <span class="string">'e'</span>, <span class="string">'f'</span>, <span class="string">'g'</span>, <span class="string">'h'</span>, <span class="string">'i'</span>, <span class="string">'j'</span>, <span class="string">'k'</span>,</span><br><span class="line">                                                                 <span class="string">'l'</span>, <span class="string">'m'</span>, <span class="string">'n'</span>, <span class="string">'o'</span>, <span class="string">'p'</span>, <span class="string">'q'</span>, <span class="string">'r'</span>, <span class="string">'s'</span>, <span class="string">'t'</span>, <span class="string">'u'</span>, <span class="string">'v'</span>,</span><br><span class="line">                                                                 <span class="string">'w'</span>, <span class="string">'x'</span>, <span class="string">'y'</span>, <span class="string">'z'</span>] + [<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>, <span class="string">'D'</span>, <span class="string">'E'</span>, <span class="string">'F'</span>,</span><br><span class="line">                                                                                        <span class="string">'G'</span>, <span class="string">'H'</span>, <span class="string">'I'</span>, <span class="string">'J'</span>, <span class="string">'K'</span>, <span class="string">'L'</span>,</span><br><span class="line">                                                                                        <span class="string">'M'</span>, <span class="string">'N'</span>, <span class="string">'O'</span>, <span class="string">'P'</span>, <span class="string">'Q'</span>, <span class="string">'R'</span>,</span><br><span class="line">                                                                                        <span class="string">'S'</span>, <span class="string">'T'</span>, <span class="string">'U'</span>, <span class="string">'V'</span>, <span class="string">'W'</span>, <span class="string">'X'</span>,</span><br><span class="line">                                                                                        <span class="string">'Y'</span>, <span class="string">'Z'</span>]</span><br><span class="line">alphabet = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, <span class="string">'e'</span>, <span class="string">'f'</span>, <span class="string">'g'</span>, <span class="string">'h'</span>, <span class="string">'i'</span>, <span class="string">'j'</span>, <span class="string">'k'</span>,</span><br><span class="line">            <span class="string">'l'</span>, <span class="string">'m'</span>, <span class="string">'n'</span>, <span class="string">'o'</span>, <span class="string">'p'</span>, <span class="string">'q'</span>, <span class="string">'r'</span>, <span class="string">'s'</span>, <span class="string">'t'</span>, <span class="string">'u'</span>, <span class="string">'v'</span>,</span><br><span class="line">            <span class="string">'w'</span>, <span class="string">'x'</span>, <span class="string">'y'</span>, <span class="string">'z'</span>] + [<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>, <span class="string">'D'</span>, <span class="string">'E'</span>, <span class="string">'F'</span>,</span><br><span class="line">                                   <span class="string">'G'</span>, <span class="string">'H'</span>, <span class="string">'I'</span>, <span class="string">'J'</span>, <span class="string">'K'</span>, <span class="string">'L'</span>,</span><br><span class="line">                                   <span class="string">'M'</span>, <span class="string">'N'</span>, <span class="string">'O'</span>, <span class="string">'P'</span>, <span class="string">'Q'</span>, <span class="string">'R'</span>,</span><br><span class="line">                                   <span class="string">'S'</span>, <span class="string">'T'</span>, <span class="string">'U'</span>, <span class="string">'V'</span>, <span class="string">'W'</span>, <span class="string">'X'</span>,</span><br><span class="line">                                   <span class="string">'Y'</span>, <span class="string">'Z'</span>]</span><br><span class="line">char_to_int = <span class="built_in">dict</span>((c, i) <span class="keyword">for</span> i, c <span class="keyword">in</span> <span class="built_in">enumerate</span>(char_set))</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="读取图片处理数据"><a href="#读取图片处理数据" class="headerlink" title="读取图片处理数据"></a>读取图片处理数据</h3><ul>
+<li><code>x_data</code>数据，<code>y_data</code>标签</li>
+<li>循环导入验证码，经过<code>deNoising()</code>降噪和灰度化处理，转化成np后存入<code>x_data</code>，并且使用按照<code>.</code>切割以获取验证码的标签值存入<code>y_data</code></li>
+<li><code>unicode_to_int</code>和<code>unicode_to_int_index</code>来暂存unicode和字典下标的转化，np中读取到的数据是<code>unicode</code>，若要使用<code>one_hot</code>编码处理最好转化成<code>np.int</code>，所以先判断每个字符集是否在<code>alphabet_list</code>中，若在则先暂存，用<code>np.int</code>的<code>0</code>全部替换，再用<code>y_data = y_data.astype(np.int)</code>转换类型，最后在进行一次遍历，从暂存列表中取出<code>index</code>和<code>value</code>完成转换</li>
+</ul>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">generateTrainData</span>(<span class="params">filePath</span>):</span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Generate data set, 0~9, a~z, A~Z turn to 0~61</span></span><br><span class="line"><span class="string">    :param filePath: The Img in this folder need to be processed</span></span><br><span class="line"><span class="string">    :return: x_data is data, shape=(num, 20, 80)</span></span><br><span class="line"><span class="string">             y_data is label, shape=(num, 4)</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># os.listdir(filePath) return list of files and folders</span></span><br><span class="line">    <span class="comment"># If the path has Chinese characters, it will be garbled, deal with unicode()</span></span><br><span class="line">    train_file_name_list = os.listdir(filePath)</span><br><span class="line">    x_data = []</span><br><span class="line">    y_data = []</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Process each Img</span></span><br><span class="line">    <span class="keyword">for</span> selected_train_file_name <span class="keyword">in</span> train_file_name_list:</span><br><span class="line">        <span class="keyword">if</span> selected_train_file_name.endswith(<span class="string">'.png'</span>):</span><br><span class="line">            <span class="comment"># Get Img object, os.path.join(PathA, PathB) return PathA\PathB</span></span><br><span class="line">            captcha_image = Image.<span class="built_in">open</span>(os.path.join(filePath, selected_train_file_name))</span><br><span class="line">            <span class="comment"># deNoising</span></span><br><span class="line">            captcha_image = deNoising(captcha_image)</span><br><span class="line"></span><br><span class="line">            captcha_image_np = np.array(captcha_image)</span><br><span class="line"></span><br><span class="line">            img_np = np.array(captcha_image_np)</span><br><span class="line">            x_data.append(img_np)</span><br><span class="line">            <span class="comment"># split('.')[0] to get label from label.png</span></span><br><span class="line">            y_data.append(np.array(<span class="built_in">list</span>(selected_train_file_name.split(<span class="string">'.'</span>)[<span class="number">0</span>])))</span><br><span class="line"></span><br><span class="line">    x_data = np.array(x_data).astype(np.<span class="built_in">float</span>)</span><br><span class="line">    y_data = np.array(y_data)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Temporarily store letters into array</span></span><br><span class="line">    unicode_to_int = [<span class="string">'x'</span>]</span><br><span class="line">    unicode_to_int_index = [<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> index_0, alphabet_list <span class="keyword">in</span> <span class="built_in">enumerate</span>(y_data):</span><br><span class="line">        <span class="keyword">for</span> index_1, value <span class="keyword">in</span> <span class="built_in">enumerate</span>(alphabet_list):</span><br><span class="line">            <span class="keyword">if</span> (alphabet_list[index_1]) <span class="keyword">in</span> alphabet:</span><br><span class="line">                unicode_to_int.append(alphabet_list[index_1])</span><br><span class="line">                alphabet_list[index_1] = <span class="number">0</span></span><br><span class="line">                unicode_to_int_index.append(index_0)</span><br><span class="line">                unicode_to_int_index.append(index_1)</span><br><span class="line">    y_data = y_data.astype(np.<span class="built_in">int</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">del</span> (unicode_to_int[<span class="number">0</span>])</span><br><span class="line">    <span class="keyword">del</span> (unicode_to_int_index[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(unicode_to_int)):</span><br><span class="line">        y_data[unicode_to_int_index[<span class="number">2</span> * i]][unicode_to_int_index[<span class="number">2</span> * i + <span class="number">1</span>]] = char_to_int.get(unicode_to_int[i])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> x_data, y_data</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="去噪和灰度化处理"><a href="#去噪和灰度化处理" class="headerlink" title="去噪和灰度化处理"></a>去噪和灰度化处理</h3><ul>
+<li>阈值<code>threshold</code>设置为128用来区分RGB深浅，和之前的浅色背景、浅色干扰、深色验证码相对应</li>
+<li>若大于阈值，直接变成白色<code>(255,255,255)</code>，其他变成黑色<code>(0，0，0)</code></li>
+<li><code>convert('L')</code>直接转化为二值图像，每个像素点八个bit</li>
+</ul>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">deNoising</span>(<span class="params">image</span>):</span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    image.getpixel((x,y)):get RGB,return (*,*,*)</span></span><br><span class="line"><span class="string">    :param image: RGB Img</span></span><br><span class="line"><span class="string">    :return: Grayscale Img</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># Set threshold to filter</span></span><br><span class="line">    threshold = <span class="number">128</span></span><br><span class="line">    <span class="comment"># Change to Grayscale</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(image.width):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(image.height):</span><br><span class="line">            r, g, b = image.getpixel((i, j))</span><br><span class="line">            <span class="comment"># For each pixel, if rgb&gt;threshold,equals to light color==&gt;bk_pixel,then set white(255,255,255)</span></span><br><span class="line">            <span class="keyword">if</span> r &gt; threshold <span class="keyword">or</span> g &gt; threshold <span class="keyword">or</span> b &gt; threshold:</span><br><span class="line">                r = <span class="number">255</span></span><br><span class="line">                g = <span class="number">255</span></span><br><span class="line">                b = <span class="number">255</span></span><br><span class="line">                image.putpixel((i, j), (r, g, b))</span><br><span class="line">            <span class="comment"># else,equals to dark color==&gt;txt_pixel,set black(0,0,0)</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                r = <span class="number">0</span></span><br><span class="line">                g = <span class="number">0</span></span><br><span class="line">                b = <span class="number">0</span></span><br><span class="line">                image.putpixel((i, j), (r, g, b))</span><br><span class="line">    <span class="comment"># Turn to grayscale Img</span></span><br><span class="line">    image = image.convert(<span class="string">'L'</span>)</span><br><span class="line">    <span class="keyword">return</span> image</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="卷积模型"><a href="#卷积模型" class="headerlink" title="卷积模型"></a>卷积模型</h3><ul>
+<li>使用Tensorflow2版本会简单许多</li>
+</ul>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">tf.summary.trace_on(graph=<span class="literal">True</span>, profiler=<span class="literal">True</span>)</span><br><span class="line">model = Sequential([</span><br><span class="line">    layers.Conv2D(<span class="number">32</span>, kernel_size=[<span class="number">3</span>, <span class="number">3</span>], padding=<span class="string">"same"</span>, activation=tf.nn.relu),</span><br><span class="line">    layers.MaxPool2D(pool_size=[<span class="number">2</span>, <span class="number">2</span>], strides=<span class="number">2</span>, padding=<span class="string">'same'</span>),</span><br><span class="line">    layers.Dropout(<span class="number">0.5</span>),</span><br><span class="line">    layers.Conv2D(<span class="number">64</span>, kernel_size=[<span class="number">3</span>, <span class="number">3</span>], padding=<span class="string">"same"</span>, activation=tf.nn.relu),</span><br><span class="line">    layers.MaxPool2D(pool_size=[<span class="number">2</span>, <span class="number">2</span>], strides=<span class="number">2</span>, padding=<span class="string">'same'</span>),</span><br><span class="line">    layers.Dropout(<span class="number">0.3</span>),</span><br><span class="line">    layers.Conv2D(<span class="number">64</span>, kernel_size=[<span class="number">3</span>, <span class="number">3</span>], padding=<span class="string">"same"</span>, activation=tf.nn.relu),</span><br><span class="line">    layers.MaxPool2D(pool_size=[<span class="number">2</span>, <span class="number">2</span>], strides=<span class="number">2</span>, padding=<span class="string">'same'</span>),</span><br><span class="line">    layers.Dropout(<span class="number">0.25</span>),</span><br><span class="line"></span><br><span class="line">    layers.Flatten(),</span><br><span class="line"></span><br><span class="line">    layers.Dense(<span class="number">2480</span>),</span><br><span class="line">    layers.Dense(<span class="number">248</span>),  <span class="comment"># 4*62</span></span><br><span class="line">    layers.Reshape([<span class="number">4</span>, <span class="number">62</span>])</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line">model.build(input_shape=[<span class="literal">None</span>, <span class="number">20</span>, <span class="number">80</span>, <span class="number">1</span>])</span><br><span class="line">model.summary()</span><br><span class="line">optimizer = optimizers.Adam(lr=<span class="number">0.43</span> * <span class="number">1e-3</span>)</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="训练数据"><a href="#训练数据" class="headerlink" title="训练数据"></a>训练数据</h3><ul>
+<li>同时使用Tensorboard可视化数据，要注意tf1和tf2的tensorboard使用不一样，需要手动将数据写入日志保存</li>
+</ul>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">IdentifyTrain</span>():</span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Save model.h5</span></span><br><span class="line"><span class="string">    :return: None</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># Repeat training</span></span><br><span class="line">    training_time = <span class="number">40</span></span><br><span class="line">    loss = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(training_time):</span><br><span class="line">        <span class="keyword">for</span> step, (x, y) <span class="keyword">in</span> <span class="built_in">enumerate</span>(train_db):</span><br><span class="line">            <span class="keyword">if</span> x.shape == (<span class="number">64</span>, <span class="number">20</span>, <span class="number">80</span>, <span class="number">1</span>):</span><br><span class="line">                <span class="keyword">with</span> tf.GradientTape() <span class="keyword">as</span> tape:</span><br><span class="line">                    logits = IdentifyImg.model(x)</span><br><span class="line">                    y_one_hot = tf.one_hot(y, depth=<span class="number">62</span>)</span><br><span class="line">                    loss_ce = tf.losses.MSE(y_one_hot, logits)</span><br><span class="line">                    loss_ce = tf.reduce_mean(loss_ce)</span><br><span class="line">                    <span class="keyword">if</span> loss_ce &lt; loss:</span><br><span class="line">                        IdentifyImg.model.save(<span class="string">'model.h5'</span>)</span><br><span class="line">                        loss = loss_ce</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">"Save new model.h5 successfully! acc："</span>, <span class="built_in">float</span>(<span class="number">1</span> - loss_ce))</span><br><span class="line">                grads = tape.gradient(loss_ce, IdentifyImg.model.trainable_variables)</span><br><span class="line">                IdentifyImg.optimizer.apply_gradients(<span class="built_in">zip</span>(grads, IdentifyImg.model.trainable_variables))</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> step % <span class="number">100</span> == <span class="number">0</span>:</span><br><span class="line">                <span class="built_in">print</span>(epoch, step)</span><br><span class="line">        <span class="keyword">with</span> IdentifyImg.summary_writer.as_default():</span><br><span class="line">            tf.summary.scalar(<span class="string">'train_loss'</span>, loss, step=epoch)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Finally model acc: "</span>, <span class="built_in">float</span>(<span class="number">1</span> - loss))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Generate train set</span></span><br><span class="line">(x_train, y_train) = IdentifyImg.generateTrainData(train_data_dir)</span><br><span class="line"><span class="built_in">print</span>(x_train.shape, y_train.shape)</span><br><span class="line"></span><br><span class="line"><span class="comment"># load_dataset</span></span><br><span class="line">batch_size = <span class="number">64</span></span><br><span class="line">train_db = tf.data.Dataset.from_tensor_slices((x_train, y_train))</span><br><span class="line">train_db = train_db.<span class="built_in">map</span>(IdentifyImg.preprocess).batch(batch_size)</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="测试数据"><a href="#测试数据" class="headerlink" title="测试数据"></a>测试数据</h3><ul>
+<li>调用训练时存下的模型，判断是否四个验证码都相同，返回正确率，通过调整学习率<code>optimizer</code>以及卷积模型，正确识别率达到96%以上。</li>
+</ul>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">IdentifyTest</span>():</span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    correct_rate is over 93% now</span></span><br><span class="line"><span class="string">    :return: correct_rate = correct_quantity/total_number</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    correct_quantity = <span class="number">0</span></span><br><span class="line">    total_number = x_test.shape[<span class="number">0</span>]</span><br><span class="line">    IdentifyImg.model = tf.keras.models.load_model(<span class="string">'model.h5'</span>, <span class="built_in">compile</span>=<span class="literal">False</span>)</span><br><span class="line">    <span class="keyword">for</span> step, (x, y) <span class="keyword">in</span> <span class="built_in">enumerate</span>(test_db):</span><br><span class="line">        <span class="keyword">if</span> x.shape == (<span class="number">1</span>, <span class="number">20</span>, <span class="number">80</span>, <span class="number">1</span>):</span><br><span class="line">            logits = IdentifyImg.model(x)</span><br><span class="line">            logits = tf.nn.softmax(logits)</span><br><span class="line">            pred = tf.cast(tf.argmax(logits, axis=<span class="number">2</span>), dtype=tf.int32)</span><br><span class="line">            true_flag = <span class="built_in">int</span>(tf.reduce_sum(tf.cast(tf.equal(pred, y), dtype=tf.int32))) == <span class="number">4</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">'Pre：'</span>, np.array(IdentifyImg.char_set)[pred[<span class="number">0</span>].numpy()], <span class="string">'Real：'</span>,</span><br><span class="line">                  np.array(IdentifyImg.char_set)[y[<span class="number">0</span>].numpy()], <span class="string">'Same：'</span>, true_flag)</span><br><span class="line">            <span class="keyword">if</span> true_flag:</span><br><span class="line">                correct_quantity += <span class="number">1</span></span><br><span class="line">    correct_rate = correct_quantity / total_number</span><br><span class="line">    <span class="keyword">return</span> correct_rate</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Generate test set</span></span><br><span class="line">(x_test, y_test) = IdentifyImg.generateTrainData(test_data_dir)</span><br><span class="line"><span class="built_in">print</span>(x_test.shape, y_test.shape)</span><br><span class="line"><span class="comment"># (num of Img, 20:width, 80:height) (num of Img, 4)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># load_dataset</span></span><br><span class="line">test_db = tf.data.Dataset.from_tensor_slices((x_test, y_test))</span><br><span class="line">test_db = test_db.<span class="built_in">map</span>(IdentifyImg.preprocess).batch(<span class="number">1</span>)</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h2><figure class="highlight md"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── README.md</span><br><span class="line">├── <span class="strong">__pycache__</span></span><br><span class="line">├── logs</span><br><span class="line">├── test</span><br><span class="line">│&nbsp;&nbsp; └── xxx.png </span><br><span class="line">├── train</span><br><span class="line">│&nbsp;&nbsp; └── xxx.png </span><br><span class="line">├── GenerateImg.py</span><br><span class="line">├── IdentifyImg.py</span><br><span class="line">├── IdentifyTest.py</span><br><span class="line">├── IdentifyTrain.py</span><br><span class="line">└── model.h5</span><br><span class="line"></span><br><span class="line">4 directories, 6 files</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="Download-Source-File"><a href="#Download-Source-File" class="headerlink" title="Download Source File"></a><a href="https://www.lingzhicheng.cn/usr/file/CodeIdVerify.zip">Download Source File</a></h3><!-- markdownlint-disable-file MD025 MD033 -->
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2021/08/16/%E5%9F%BA%E4%BA%8E%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E5%9B%BE%E7%89%87%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">卷积神经网络</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/" rel="tag">验证码识别</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2021/08/25/mathBasic/" class="article-nav-link">
+        <strong class="article-nav-caption">Prev post</strong>
+        <div class="article-nav-title">
+          
+            数学基础知识
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2021/06/19/Matlab%20sort%20out/" class="article-nav-link">
+        <strong class="article-nav-caption">Next post</strong>
+        <div class="article-nav-title">Matlab sort out</div>
+      </a>
+    
+  </nav>
+
+  
+   
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'a1a50124b0c46fa4fab9',
+    clientSecret: '4a29dee6f998a9272f57ba07f987ea9eed9da5ec',
+    repo: 'blog-comments',
+    owner: 'boom1999',
+    admin: ['boom1999'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: true,  // Facebook-like distraction free mode
+    pagerDirection: 'last',
+    proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2023
+        <span class="division">|</span> Zhicheng Ling
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+          
+          
+          Power <a href="https://hexo.io" target="_blank">Hexo</a>
+          <span class="division">|</span>
+          Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+          
+          <span class="division">|</span>
+        
+          
+          <span>
+  <span><i class="ri-eye-fill"></i> <span id="busuanzi_value_page_pv"></span></span>
+</span>
+          
+      </li>
+    </ul>
+    <ul>
+      
+        <li>
+          <a href="http://beian.miit.gov.cn/" target="_black" rel="nofollow">浙ICP备2020044847号-1</a>
+        </li>
+        
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/haisen-side.svg" alt="Haisenberg"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Categories</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.pan.lingzhicheng.cn">Pan</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.gallery.lingzhicheng.cn">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.todo.lingzhicheng.cn">Todo</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">Friends</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/me">Me</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+  <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
+  fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
+  webpushr('setup',{'key':'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script>
+<script>(function (w, d, s, id) {
+            if (typeof (w.webpushr) !== 'undefined') return; w.webpushr = w.webpushr || function () { (w.webpushr.q = w.webpushr.q || []).push(arguments) }; var js, fjs = d.getElementsByTagName(s)[0]; js = d.createElement(s); js.id = id; js.async = 1; js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window, document, 'script', 'webpushr-jssdk'));webpushr('setup', { 'key': 'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script></body>
+
+</html>

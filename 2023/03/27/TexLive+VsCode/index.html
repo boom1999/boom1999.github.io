@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta name="google-site-verification" content="QbUVAi0K2ZB_P4A6jbbi-GVB4BXs3n6GqgIEGHlySnk" />
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="Torch, Summary, UAV, Git" />
+   
+  <meta name="description" content="No fear of words,no fear of years" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    Installation for TexLive under VsCode |  Haisenberg
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-TexLive+VsCode"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Installation for TexLive under VsCode
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2023/03/27/TexLive+VsCode/" class="article-date">
+  <time datetime="2023-03-27T00:00:00.000Z" itemprop="datePublished">2023-03-27</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Latex/">Latex</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">1.6k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">9 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <blockquote>
+<p>Okey, let’s go! I used to use <code>VsCode</code> + <code>TexLive</code>, which is more convenient, because <code>VsCode</code> has a built-in <code>LaTeX Workshop</code> extension, which can be used directly after installation. </p>
+</blockquote>
+<span id="more"></span>
+<h2 id="books-1-Forwards"><a href="#books-1-Forwards" class="headerlink" title=":books: 1.Forwards"></a><span class="github-emoji"><span>📚</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4da.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 1.Forwards</h2><ul>
+<li><p>$ LaTeX $ is widely used in <strong>academia</strong> for the communication and publication of scientific documents in many fields, including <strong>mathematics, computer science, engineering, physics, chemistry, economics, linguistics, quantitative psychology, philosophy, and political science</strong>. It also has a prominent role in the preparation and publication of books and articles that contain complex multilingual materials, such as Arabic and Greek. LaTeX uses the TeX typesetting program for formatting its output, and is itself written in the <strong>$TeX$ macro language</strong>.</p>
+</li>
+<li><p>$ LaTeX $ can be used as <strong>a standalone document preparation system</strong>, or as <strong>an intermediate format</strong>. In the latter role, for example, it is sometimes used as part of a pipeline for translating <code>DocBook</code> and <code>other XML-based formats</code> to <code>PDF</code>. The typesetting system offers programmable desktop publishing features and extensive facilities for automating most aspects of typesetting and desktop publishing, including <strong>numbering and cross-referencing of tables and figures, chapter and section headings, graphics, page layout, indexing and bibliographies</strong>.</p>
+</li>
+<li><p>Without further ado, let’s go directly to the picture!<br><img src="https://www.lingzhicheng.cn/usr/file/picture/tex/tex_example.jpg" alt="Tex example"></p>
+</li>
+</ul>
+<h2 id="pushpin-2-VsCode-installation-and-language-configuration"><a href="#pushpin-2-VsCode-installation-and-language-configuration" class="headerlink" title=":pushpin: 2.VsCode installation and language configuration"></a><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 2.VsCode installation and language configuration</h2><blockquote>
+<p>By default, everyone can install vscode and be familiar with the basic operations, so I won’t repeat it here. If you don’t know how to install it, you can refer to the <a target="_blank" rel="noopener" href="https://code.visualstudio.com/"> official website</a>, only list a few points here.</p>
+</blockquote>
+<ol>
+<li>Pay attention to modifying the <strong>installation path</strong>, because more <strong>plug-ins</strong> may be installed later (not only $LaTeX$, but also other scenarios).</li>
+<li>For convenience, it is recommended to create a desktop shortcut, and add the “Open with Code” action to the Windows Explorer file context menu, and add it to the <code>PATH</code>.</li>
+<li>如果你需要改为中文环境<span class="github-emoji"><span>🇨🇳</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f1e8-1f1f3.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>，可以安装中文插件，可以在左边栏的拓展中搜索<a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/getstarted/locales">Chinese (Simplified) Language Pack for Visual Studio Code</a>.</li>
+</ol>
+<h2 id="file-folder-3-TexLive-Download-and-Installation"><a href="#file-folder-3-TexLive-Download-and-Installation" class="headerlink" title=":file_folder: 3.TexLive Download and Installation"></a><span class="github-emoji"><span>📁</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4c1.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 3.TexLive Download and Installation</h2><blockquote>
+<p><code>TexLive</code> is used here, if you want to use <code>MikTex</code> or others, you can refer to other articles.</p>
+</blockquote>
+<ul>
+<li><p>Install TexLive via <a target="_blank" rel="noopener" href="https://tug.org/texlive/acquire-iso.html">ISO image</a>, you can choose download from a nearby CTAN mirror or manually choose CTAN mirror.<br><img src="https://www.lingzhicheng.cn/usr/file/picture/tex/ISO_image.jpg" alt="ISO image"></p>
+</li>
+<li><p><span class="github-emoji"><span>💿</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4bf.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> You can choose a <strong>suitable mirror</strong> to download according to your network status. If the download speed is too <em>slow</em>, you can try to choose a mirror station that is closer to download. It may take about ten minutes.</p>
+<ul>
+<li>This directory contains the ISO image for the official TeX Live release; md5 and sha512 checksums are provided, and the sha checksum is GPG-signed. The generic names (texliveYYYY.iso and texlive.iso) are symlinks to the dated release .iso.</li>
+<li>If you have problems with installation or running TeX after installation, please check your environment variables: settings, including PATH, that end up referencing previously-installed TeX systems (TeX Live or otherwise), can cause trouble, especially on Windows.</li>
+</ul>
+</li>
+<li><p><span class="github-emoji"><span>📋</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cb.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Wait for the download to complete, open the ISO file, and open the batch file <code>install-tl-windows.bat</code> as an administrator.</p>
+<ul>
+<li>If you are using Windows 10 or 11, you can right-click the ISO file and select “Mount” to mount the ISO file as a virtual disk. Then you can open the batch file as an administrator.</li>
+<li>If you are using Windows 7, you can use the <a target="_blank" rel="noopener" href="https://www.7-zip.org/">7-Zip</a> software to open the ISO file, and then open the batch file as an administrator.<br><img src="https://www.lingzhicheng.cn/usr/file/picture/tex/open_ISO.jpg" alt="Open ISO"></li>
+</ul>
+</li>
+<li><p>Then it <em>freezes</em> for a while, which is normal, and the GUI for installation appears.</p>
+<div align="center">
+<img src="https://www.lingzhicheng.cn/usr/file/picture/tex/installer_gui.jpg" alt="installer gui" width="30%" height="30%" text-align:center="">
+</div>
+</li>
+<li><p><span class="github-emoji"><span>🔧</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f527.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Modify the installation path, usually <code>Disk:/texlive/year</code>, such as<code>D:/texlive/2023</code>, and then click <code>Install</code>. It may take a while, depending on your computer performance, so take a break with a cup of coffee.</p>
+</li>
+<li><p>There is an Advanced option. Generally speaking, after changing <code>TEXDIR</code>, the <code>TEXMFLOCAL</code> path will also be modified. If you are not familiar with other options, don’t to modify them (especially for novices).</p>
+</li>
+<li><p><span class="github-emoji"><span>✅</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/2705.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> After the installation is complete, click <code>Finish</code> to exit the installation interface.</p>
+<div align="center">
+<img src="https://www.lingzhicheng.cn/usr/file/picture/tex/close_gui.jpg" alt="close gui" width="50%" height="50%" text-align:center="">
+</div>
+</li>
+<li><p>Check if the installation is successful. Use <code>xelatex -v</code> in <em>CMD</em>.<br><img src="https://www.lingzhicheng.cn/usr/file/picture/tex/installation_success.jpg" alt="Installation successfully"></p>
+</li>
+</ul>
+<h2 id="hammer-4-Extension-installation-and-environment-settings"><a href="#hammer-4-Extension-installation-and-environment-settings" class="headerlink" title=":hammer: 4. Extension installation and environment settings"></a><span class="github-emoji"><span>🔨</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f528.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 4. Extension installation and environment settings</h2><h3 id="nut-and-bolt-4-1-Install-LaTex-Workshop-extension-in-Vscode"><a href="#nut-and-bolt-4-1-Install-LaTex-Workshop-extension-in-Vscode" class="headerlink" title=":nut_and_bolt: 4.1 Install LaTex Workshop extension in Vscode."></a><span class="github-emoji"><span>🔩</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f529.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 4.1 Install <code>LaTex Workshop</code> extension in Vscode.</h3><ul>
+<li>Open the Extensions sidebar in VS Code. <code>View → Extensions</code> or <code>Ctrl+Shift+X</code>.</li>
+<li>Search for <code>LaTeX Workshop</code>.</li>
+<li>Click Install. It will be installed into the <code>~/.vscode/extensions</code> directory.</li>
+<li><p>Reload VS Code after installation.<br><img src="https://www.lingzhicheng.cn/usr/file/picture/tex/install_latex_workshop.jpg" alt="Install LaTex Workshop"></p>
+</li>
+<li><p>If your <code>Tex Live</code> version is relatively old, additional manual configuration of environment variables may be required.</p>
+</li>
+</ul>
+<h3 id="bookmark-tabs-4-2-Environment-settings"><a href="#bookmark-tabs-4-2-Environment-settings" class="headerlink" title=":bookmark_tabs: 4.2 Environment settings"></a><span class="github-emoji"><span>📑</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d1.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 4.2 Environment settings</h3><ul>
+<li>There are two environment configuration schemes in Vscode, one is to use buttons and option settings directly, and the other is to use <code>json</code> to set.<br><img src="https://www.lingzhicheng.cn/usr/file/picture/tex/workshop_setting_1.jpg" alt="workshop_setting"></li>
+<li>Click <code>Open settings (JSON)</code> in the upper right corner to use the code settings.<em><a target="_blank" rel="noopener" href="https://www.json.org/json-en.html">JSON</a> is a lightweight text data format with a certain structure. If you are not familiar with it, you can spend a few minutes to understand it.</em></li>
+<li><strong>Add</strong> the following settings after other settings.</li>
+</ul>
+<figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">{</span></span><br><span class="line">    <span class="attr">"latex-workshop.latex.autoBuild.run"</span><span class="punctuation">:</span> <span class="string">"never"</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"latex-workshop.showContextMenu"</span><span class="punctuation">:</span> <span class="keyword">true</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"latex-workshop.intellisense.package.enabled"</span><span class="punctuation">:</span> <span class="keyword">true</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"latex-workshop.message.error.show"</span><span class="punctuation">:</span> <span class="keyword">false</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"latex-workshop.message.warning.show"</span><span class="punctuation">:</span> <span class="keyword">false</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"latex-workshop.latex.tools"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">{</span></span><br><span class="line">            <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"xelatex"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"command"</span><span class="punctuation">:</span> <span class="string">"xelatex"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"args"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">"-synctex=1"</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">"-interaction=nonstopmode"</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">"-file-line-error"</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">"%DOCFILE%"</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">{</span></span><br><span class="line">            <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"pdflatex"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"command"</span><span class="punctuation">:</span> <span class="string">"pdflatex"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"args"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">"-synctex=1"</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">"-interaction=nonstopmode"</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">"-file-line-error"</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">"%DOCFILE%"</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">{</span></span><br><span class="line">            <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"latexmk"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"command"</span><span class="punctuation">:</span> <span class="string">"latexmk"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"args"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">"-synctex=1"</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">"-interaction=nonstopmode"</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">"-file-line-error"</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">"-pdf"</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">"-outdir=%OUTDIR%"</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">"%DOCFILE%"</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">{</span></span><br><span class="line">            <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"bibtex"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"command"</span><span class="punctuation">:</span> <span class="string">"bibtex"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"args"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">"%DOCFILE%"</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">}</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"latex-workshop.latex.recipes"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">{</span></span><br><span class="line">            <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"XeLaTeX"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"tools"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">"xelatex"</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">{</span></span><br><span class="line">            <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"PDFLaTeX"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"tools"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">"pdflatex"</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">{</span></span><br><span class="line">            <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"BibTeX"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"tools"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">"bibtex"</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">{</span></span><br><span class="line">            <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"LaTeXmk"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"tools"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">"latexmk"</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">{</span></span><br><span class="line">            <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"xelatex -&gt; bibtex -&gt; xelatex*2"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"tools"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">"xelatex"</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">"bibtex"</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">"xelatex"</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">"xelatex"</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">{</span></span><br><span class="line">            <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"pdflatex -&gt; bibtex -&gt; pdflatex*2"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"tools"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">"pdflatex"</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">"bibtex"</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">"pdflatex"</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">"pdflatex"</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"latex-workshop.latex.clean.fileTypes"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">"*.aux"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"*.bbl"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"*.blg"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"*.idx"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"*.ind"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"*.lof"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"*.lot"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"*.out"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"*.toc"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"*.acn"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"*.acr"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"*.alg"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"*.glg"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"*.glo"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"*.gls"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"*.ist"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"*.fls"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"*.log"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"*.fdb_latexmk"</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"latex-workshop.latex.autoClean.run"</span><span class="punctuation">:</span> <span class="string">"onFailed"</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"latex-workshop.latex.recipe.default"</span><span class="punctuation">:</span> <span class="string">"lastUsed"</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"latex-workshop.view.pdf.internal.synctex.keybinding"</span><span class="punctuation">:</span> <span class="string">"double-click"</span></span><br><span class="line"><span class="punctuation">}</span></span><br></pre></td></tr></tbody></table></figure>
+<h3 id="black-nib-4-3-Detailed-introduction-of-environment-configuration-parameters"><a href="#black-nib-4-3-Detailed-introduction-of-environment-configuration-parameters" class="headerlink" title=":black_nib: 4.3 Detailed introduction of environment configuration parameters"></a><span class="github-emoji"><span>✒</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/2712.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 4.3 Detailed introduction of environment configuration parameters</h3><blockquote>
+<p>If you don’t want to read it, you can just skip it, it’s not that important.</p>
+</blockquote>
+<ol>
+<li>Set when to automatically build <code>LaTeX</code> using the default (first) compilation chain.<ol>
+<li><code>onSave</code> builds the project upon saving a tex file in vscode.</li>
+<li><code>onFileChange</code> builds the project upon detecting a file change in any of the dependencies, even modified by other applications.</li>
+</ol>
+</li>
+</ol>
+<figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">"latex-workshop.latex.autoBuild.run"</span><span class="punctuation">:</span> <span class="string">"never"</span></span><br></pre></td></tr></tbody></table></figure>
+<ol>
+<li>Enable contextual LaTeX menu: Right click will have <strong>two more options</strong>, more convenient.<ol>
+<li>Default: <code>false</code></li>
+<li><code>true</code> enables the menu.</li>
+<li><code>Build LaTex project.</code> <em>(Ctrl+Alt+B)</em></li>
+<li><code>SyncTex from cursor.</code> <em>(Ctrl+Alt+J)</em></li>
+</ol>
+</li>
+</ol>
+<figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">"latex-workshop.showContextMenu"</span><span class="punctuation">:</span> <span class="keyword">true</span></span><br></pre></td></tr></tbody></table></figure>
+<ol>
+<li><code>"latex-workshop.intellisense.package.enabled": true</code> enables the package name completion in the <code>\usepackage{}</code> command.</li>
+<li><code>"latex-workshop.message.error.show": true</code> shows the error message in the status bar.</li>
+<li><code>"latex-workshop.message.warning.show": true</code> shows the warning message in the status bar.</li>
+<li><code>"latex-workshop.latex.tools":[...]</code> defines default settings for the compilation.</li>
+<li><code>"latex-workshop.latex.recipes": [...]</code> defines default settings and compilation order for the recipe compilation chains:<ol>
+<li>Recipe: XeLaTex</li>
+<li>Recipe: PDFLaTex</li>
+<li>Recipe: BibTeX</li>
+<li>Recipe: LaTeXmk</li>
+<li>Recipe: xelatex -&gt; bibtex -&gt; xelatex*2</li>
+<li>Recipe: pdflatex -&gt; bibtex -&gt; pdflatex*2</li>
+</ol>
+</li>
+<li>Difference between XeLaTex and PDFLaTex:<ol>
+<li><strong>PDFLaTeX uses TeX standard fonts</strong>, so when generating PDF, all non-TeX standard fonts will be replaced, and the generated PDF files will embed all fonts by default; and compiled with XeLaTeX, if there are many pictures or other elements in the paper If no fonts are embedded, the generated PDF.</li>
+<li><strong>The XeTeX corresponding to XeLaTeX has better support for fonts</strong>, allows users to use operating system fonts instead of TeX’s standard fonts, and has better support for non-Latin fonts.</li>
+<li><strong>PDFLaTeX compiles faster</strong> than XeLaTeX.</li>
+</ol>
+</li>
+<li><code>"latex-workshop.latex.clean.fileTypes"</code> It is to clear some unnecessary files in the result generated during the compilation process.</li>
+<li><code>"latex-workshop.latex.autoClean.run"</code><ol>
+<li><code>onFailed</code> cleans the project when compilation fails.</li>
+<li><code>onBuilt</code> cleans the project when compilation is done, whether successful or failed.</li>
+</ol>
+</li>
+<li><code>"latex-workshop.latex.recipe.default": "lastUsed"</code> sets the default compilation chain to the last used one. Get used to using the compiled chain you used last time, or you can change it to first to use the first compiled chain.</li>
+<li><code>"latex-workshop.view.pdf.internal.synctex.keybinding": "double-click"</code> sets the default key binding for the SyncTex function. The default is double-click, and you can also set it to <code>ctrl+alt+j</code> or <code>ctrl+alt+click</code>.</li>
+</ol>
+<h2 id="notebook-5-SumatraPDF"><a href="#notebook-5-SumatraPDF" class="headerlink" title=":notebook: 5. SumatraPDF"></a><span class="github-emoji"><span>📓</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d3.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 5. SumatraPDF</h2><blockquote>
+<p>Vscode’s built-in PDF reading cannot fully satisfy large-scale use, and an external reader must be used if necessary. It is recommended to use the combination of <code>SumatraPDF</code> and $Tex$, mainly because it can be synchronized in two directions, and it is also relatively lightweight.</p>
+</blockquote>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.sumatrapdfreader.org/download-free-pdf-viewer">Official download link</a></p>
+</li>
+<li><p>Add settings in <code>settings.json</code>. <em>Pay attention to modify the three paths below.</em></p>
+<figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">{</span></span><br><span class="line">    <span class="attr">"latex-workshop.view.pdf.viewer"</span><span class="punctuation">:</span> <span class="string">"external"</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"latex-workshop.view.pdf.ref.viewer"</span><span class="punctuation">:</span><span class="string">"auto"</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"latex-workshop.view.pdf.external.viewer.command"</span><span class="punctuation">:</span> <span class="string">"D:/SumatraPDF/SumatraPDF.exe"</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"latex-workshop.view.pdf.external.viewer.args"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">"%PDF%"</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"latex-workshop.view.pdf.external.synctex.command"</span><span class="punctuation">:</span> <span class="string">"D:/SumatraPDF/SumatraPDF.exe"</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"latex-workshop.view.pdf.external.synctex.args"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">"-forward-search"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"%TEX%"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"%LINE%"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"-reuse-instance"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"-inverse-search"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"code \"D:/VSCode/resources/app/out/cli.js\" -r -g \"%f:%l\""</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"%PDF%"</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">}</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p><code>"latex-workshop.view.pdf.viewer": "external"</code> If you need to change the Tex PDF back to the internal reader, just change <code>external</code> to <code>tab</code>.</p>
+</li>
+</ul>
+<!-- markdownlint-disable-file MD025 MD028 MD033 -->
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2023/03/27/TexLive+VsCode/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%80%BB%E7%BB%93/" rel="tag">总结</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2023/02/09/LatexGrammar/" class="article-nav-link">
+        <strong class="article-nav-caption">Next post</strong>
+        <div class="article-nav-title">Latex Grammar</div>
+      </a>
+    
+  </nav>
+
+  
+   
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'a1a50124b0c46fa4fab9',
+    clientSecret: '4a29dee6f998a9272f57ba07f987ea9eed9da5ec',
+    repo: 'blog-comments',
+    owner: 'boom1999',
+    admin: ['boom1999'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: true,  // Facebook-like distraction free mode
+    pagerDirection: 'last',
+    proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2023
+        <span class="division">|</span> Zhicheng Ling
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+          
+          
+          Power <a href="https://hexo.io" target="_blank">Hexo</a>
+          <span class="division">|</span>
+          Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+          
+          <span class="division">|</span>
+        
+          
+          <span>
+  <span><i class="ri-eye-fill"></i> <span id="busuanzi_value_page_pv"></span></span>
+</span>
+          
+      </li>
+    </ul>
+    <ul>
+      
+        <li>
+          <a href="http://beian.miit.gov.cn/" target="_black" rel="nofollow">浙ICP备2020044847号-1</a>
+        </li>
+        
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/haisen-side.svg" alt="Haisenberg"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Categories</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.pan.lingzhicheng.cn">Pan</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.gallery.lingzhicheng.cn">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.todo.lingzhicheng.cn">Todo</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">Friends</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/me">Me</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+  <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
+  fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
+  webpushr('setup',{'key':'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script>
+<script>(function (w, d, s, id) {
+            if (typeof (w.webpushr) !== 'undefined') return; w.webpushr = w.webpushr || function () { (w.webpushr.q = w.webpushr.q || []).push(arguments) }; var js, fjs = d.getElementsByTagName(s)[0]; js = d.createElement(s); js.id = id; js.async = 1; js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window, document, 'script', 'webpushr-jssdk'));webpushr('setup', { 'key': 'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script></body>
+
+</html>

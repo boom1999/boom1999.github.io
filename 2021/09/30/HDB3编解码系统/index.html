@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta name="google-site-verification" content="QbUVAi0K2ZB_P4A6jbbi-GVB4BXs3n6GqgIEGHlySnk" />
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="Torch, Summary, UAV, Git" />
+   
+  <meta name="description" content="No fear of words,no fear of years" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    HDB3 Decode And Endecode System |  Haisenberg
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-HDB3编解码系统"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  HDB3 Decode And Endecode System
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/09/30/HDB3%E7%BC%96%E8%A7%A3%E7%A0%81%E7%B3%BB%E7%BB%9F/" class="article-date">
+  <time datetime="2021-09-30T00:00:00.000Z" itemprop="datePublished">2021-09-30</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Principle-of-Communication/">Principle of Communication</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">6k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">24 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
+<ul>
+<li>HDB3编解码系统，由Verilog HDL实现QuartusⅡ和Modelsim联合进行功能仿真，在FPGA芯片实测。</li>
+<li>整体功能模块时序逻辑都比较简单，没有进行时序仿真，直接上FPGA实测，基本没有大问题。</li>
+<li>FPGA主芯片采用ALTREA EP2C8T144C8N，故需要使用QuartusⅡ13.0及以下版本，否则无法使用芯片库，可用采用多版本共存方式，Altera允许多个版本同时使用，并且有清除的版本区分。</li>
+<li>数模转换 D/A ：实现数字模拟转换功能，将数字信号采集变成模拟信号输出，使用National Semiconductor DAC 0832</li>
+<li>模数转换 A/D ：实现模拟数字转换功能，将模拟信号采集后变成数字信号输出，使用Maxim Integrated ADC MAX7820</li>
+<li>整体包括分频器设计、M 序列设计、映射表设计、编码电路设计、D/A 转换设计、A/D 采样设计、 位同步设计、解码电路设计、编解码系统总体电路设计。<br><span class="github-emoji"><span>💨</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4a8.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>🕤</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f564.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>😴</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f634.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span id="more"></span>
+</li>
+</ul>
+<h2 id="Principle"><a href="#Principle" class="headerlink" title="Principle"></a>Principle</h2><ul>
+<li>HDB3码为三阶高密度双极性码，是AMI码的一种改进型，保持了AMI的优点而克服了其的缺点，使连“0”个数不超过三个；</li>
+<li>编码规则如下：<ul>
+<li>i.先检查消息码的连“0”个数。当连“0”数目小于等于3时，则于AMI码的编码规则一样。</li>
+<li>ii.当连“0”数目超过3个时，则将每4个连“0”化作一小节，用“000V”替代。（V取值+1或-1）应与其前一个相邻的非“0”脉冲的极性相同（因为这破坏了极性交替的规则，所以V称为破坏脉冲）。</li>
+<li>iii.相邻的V码极性必须交替。当V码取值能满足之前的条件时但不能满足此要求时，则将“0000”用“B00V”替代。B的取值与后面的V脉冲一致，用于解决此问题。因此，B称为调节脉冲。</li>
+<li>iv.V码后面的传号码极性也要交替。</li>
+</ul>
+</li>
+<li>编码比较复杂，但解码却比较简单，从编码规则上看，每一个破坏脉冲V总是与前一非“0”脉冲同极性（包括B在内），也就是说从收到的符号序列中可以容易地找到破坏点V，于是也判定V符号以及前面的三个符号必是连“0”符号，从而恢复4个连“0”码，再将所有-1变成+1后便得到原始消息码。</li>
+<li>m序列是最长线性反馈移位寄存器序列的简称。它是由线性反馈的移存器产生的周期最长的序列。在这种反馈移存器中避免出现全“0”状态，否则移存器的状态将不会改变，n级移存器共有 种可能的状态，除去全“0”状态外，还有 状态可用。产生m序列的充要条件就是移位寄存器的特征多项式为本原多项式，可根据n阶的m序列本原多项式的反复移位来产生我们需要的m序列。</li>
+</ul>
+<h2 id="Design"><a href="#Design" class="headerlink" title="Design"></a>Design</h2><ul>
+<li>由原始的的32.768MHz时钟，经过第一次256分频用于后续的码元定时恢复，继续经过16分频产生8KHz的码元时钟，由M序列产生模块生成随机的M序列来模拟传输过程中的随机信号，根据AMI码和HDB3的编码规则对M序列进行调整，产生单极性的HDB3码，但由于存在0、+1、-1三种情况，至少需要两位数据才能存储，所以进行一次双极性变换，对应转化成八位数据，至此完成编码过程。</li>
+</ul>
+<h2 id="Frame-Diagram"><a href="#Frame-Diagram" class="headerlink" title="Frame Diagram"></a>Frame Diagram</h2><p><img src="https://www.lingzhicheng.cn/usr/file/picture/HDB3/1.FrameDiagram.png" alt="Fig.1 Frame Diagram"></p>
+<center><font size="2">Fig.1 Frame Diagram</font></center>
+
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><h3 id="分频设计"><a href="#分频设计" class="headerlink" title="分频设计"></a>分频设计</h3><ul>
+<li>even256_div模块<ul>
+<li>模块even256_div的作用是将最开始的32.768MHz系统时钟进行偶数256分频，产生新的时钟信号，供给后续16分频模块使用，同时用于解码部分的码元定时恢复模块判决时钟使用。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight verilog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> even256_div(clk,rst,clk_out);</span><br><span class="line"></span><br><span class="line"><span class="keyword">input</span> clk,rst;</span><br><span class="line"><span class="keyword">output</span> clk_out;</span><br><span class="line"><span class="keyword">reg</span> clk_out;</span><br><span class="line"><span class="keyword">reg</span>[<span class="number">7</span>:<span class="number">0</span>] count;</span><br><span class="line"><span class="comment">// 偶数分频</span></span><br><span class="line"><span class="keyword">parameter</span> N=<span class="number">256</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> rst)</span><br><span class="line">    <span class="keyword">if</span>(!rst) <span class="keyword">begin</span></span><br><span class="line">        <span class="comment">// 复位初始化</span></span><br><span class="line">        count&lt;=<span class="number">1'b0</span>;</span><br><span class="line">        clk_out&lt;=<span class="number">1'b0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(N%<span class="number">2</span>==<span class="number">0</span>)<span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span>(count&lt;N/<span class="number">2</span>-<span class="number">1</span>) count &lt;=count+<span class="number">1'b1</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">            <span class="comment">// 计数到一半，时钟翻转实现分频</span></span><br><span class="line">            count&lt;=<span class="number">1'b0</span>;</span><br><span class="line">            clk_out&lt;=~clk_out;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>even16_div模块<ul>
+<li>模块even16_div的作用是将256分频输出的时钟再次进行偶数分频，得到的时钟就是用于m序列产生的码元时钟。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight verilog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> even16_div(clk,rst,clk_out);</span><br><span class="line">    </span><br><span class="line"><span class="keyword">input</span> clk,rst;</span><br><span class="line"><span class="keyword">output</span> clk_out;</span><br><span class="line"><span class="keyword">reg</span> clk_out;</span><br><span class="line"><span class="keyword">reg</span>[<span class="number">3</span>:<span class="number">0</span>] count;</span><br><span class="line"><span class="comment">// 偶数分频</span></span><br><span class="line"><span class="keyword">parameter</span> N=<span class="number">16</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> rst)</span><br><span class="line">    <span class="keyword">if</span>(!rst) <span class="keyword">begin</span></span><br><span class="line">        <span class="comment">// 复位初始化</span></span><br><span class="line">        count&lt;=<span class="number">1'b0</span>;</span><br><span class="line">        clk_out&lt;=<span class="number">1'b0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(N%<span class="number">2</span>==<span class="number">0</span>)<span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span>(count&lt;N/<span class="number">2</span>-<span class="number">1</span>) count &lt;=count+<span class="number">1'b1</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">            <span class="comment">// 计数到一半，时钟翻转实现分频</span></span><br><span class="line">            count&lt;=<span class="number">1'b0</span>;</span><br><span class="line">            clk_out&lt;=~clk_out;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></tbody></table></figure>
+<h3 id="M序列设计"><a href="#M序列设计" class="headerlink" title="M序列设计"></a>M序列设计</h3><ul>
+<li>m_sequence模块<ul>
+<li>模块m_sequence的作用是根据7阶m序列的本原多项式，循环位移，使用16分频的码元时钟产生伪随机序列模拟基带传输信号。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight verilog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> m_sequence(clk,rst,ena,data_out,load);</span><br><span class="line"></span><br><span class="line"><span class="keyword">input</span> clk;                        <span class="comment">//时钟信号</span></span><br><span class="line"><span class="keyword">input</span> rst;                        <span class="comment">//复位信号，低电平有效</span></span><br><span class="line"><span class="keyword">input</span> ena;                        <span class="comment">//控制信号，高电平时序列发生器开始工作</span></span><br><span class="line"><span class="keyword">output</span> data_out;</span><br><span class="line"><span class="keyword">output</span> load;                      <span class="comment">//控制信号，为高电平时表示伪随机序列开始</span></span><br><span class="line"><span class="keyword">reg</span> data_out,load;</span><br><span class="line"><span class="keyword">reg</span> [<span class="number">6</span>:<span class="number">0</span>]temp;                    <span class="comment">//7级移位寄存器产生周期为127的m序列</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> rst) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span>(!rst) <span class="keyword">begin</span></span><br><span class="line">            data_out &lt;= <span class="number">0</span>;</span><br><span class="line">            load &lt;= <span class="number">1'b0</span>;            <span class="comment">//控制信号设为无效</span></span><br><span class="line">            temp &lt;= <span class="number">7'b1111_111</span>;     <span class="comment">//移位寄存器初始状态设为全1</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">begin</span>                       <span class="comment">//开始产生序列信号</span></span><br><span class="line">        <span class="keyword">if</span>(ena) <span class="keyword">begin</span>                <span class="comment">//判断序列发生器的控制信号是否有效</span></span><br><span class="line">                <span class="comment">//若控制信号有效</span></span><br><span class="line">                load &lt;= <span class="number">1'b1</span>;        <span class="comment">//将控制伪随机序列产生的信号设为有效        </span></span><br><span class="line">                temp &lt;= {temp[<span class="number">5</span>:<span class="number">0</span>],temp[<span class="number">2</span>]^temp[<span class="number">6</span>]};        <span class="comment">//对应f(x)=x^7+x^3+1</span></span><br><span class="line">                <span class="comment">//当控制伪随机数列产生的信号使能时将移位寄存器的最高位做为m序列进行输出</span></span><br><span class="line">            <span class="keyword">if</span>(load)    data_out &lt;= temp[<span class="number">6</span>];</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">else</span> load &lt;= <span class="number">1'b0</span>;    <span class="comment">//若控制信号无效，则不开始产生伪随机序列</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></tbody></table></figure>
+<h3 id="编码电路设计"><a href="#编码电路设计" class="headerlink" title="编码电路设计"></a>编码电路设计</h3><ul>
+<li>模块add_v的作用是找到m序列中4个连续的0，并将第四个连0变成v。<ul>
+<li>输入信号为“0”码和“1”码，输出信号用两位二进制数“00”“01”，“11”分别表示信号为“0”、“1”、“V”；</li>
+<li>设置了一个寄存器用于存储当前码元位置处连“0”个的个数；</li>
+<li>对输入信号进行判断，若输入高电平，则计数器复位，输出为“01”；若输入低电平，则将计数器加一，并判断此时计数器的值是否为“4”，若计数器的值为“4”，则表示出现四个连“0”，将该“0”信号变为“V”且计数器复位，输出为“11”，否则，输出为“00”。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight verilog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> add_v(rst,data_in,data_out,clk);</span><br><span class="line"></span><br><span class="line"><span class="keyword">input</span> data_in,rst,clk;</span><br><span class="line"><span class="keyword">output</span> [<span class="number">1</span>:<span class="number">0</span>]data_out;</span><br><span class="line"><span class="keyword">reg</span> [<span class="number">1</span>:<span class="number">0</span>]data_out;            <span class="comment">//用00、01、11分别表示输入信号为“0、1、V”</span></span><br><span class="line"><span class="keyword">reg</span> [<span class="number">1</span>:<span class="number">0</span>]counter;               <span class="comment">//设置连0计数器</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span>@(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> rst) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span>(!rst) <span class="keyword">begin</span></span><br><span class="line">        counter &lt;= <span class="number">0</span>;</span><br><span class="line">        data_out &lt;= <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(data_in == <span class="number">1'b1</span>) <span class="keyword">begin</span>  <span class="comment">//判断输入信号是否为1</span></span><br><span class="line">        counter &lt;= <span class="number">0</span>;                <span class="comment">//若为1则计数器复位，输出“01”</span></span><br><span class="line">        data_out &lt;= <span class="number">2'b01</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(data_in == <span class="number">1'b0</span>) <span class="keyword">begin</span>                        <span class="comment">//若输入信号为0，计数器+1</span></span><br><span class="line">        counter &lt;= counter + <span class="number">1</span>; </span><br><span class="line">        <span class="keyword">if</span>(counter == <span class="number">2'b11</span>) <span class="keyword">begin</span>    <span class="comment">//判断连0个数是否达到4个，因为非阻塞赋值，此时计数器值应为3时，表示出现4个连0</span></span><br><span class="line">            data_out &lt;= <span class="number">2'b11</span>;        <span class="comment">//将0的输出变为V</span></span><br><span class="line">            counter &lt;= <span class="number">0</span>;            <span class="comment">//计数器复位</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">else</span> data_out &lt;= <span class="number">2'b00</span>;       <span class="comment">//若连0数不为4，输出“00”</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>模块add_b的作用是为了保证在添加“V”码后的序列中，相邻的“V”码极性必须交替，当“V”码取值不能满足此要求时，则将“000V”用“B00V”替代。<ul>
+<li>输入信号为add_v模块的输出，输出信号用两位二进制数“00”、“01”、“10”、“11”分别表示信号为“0”、“1”、“B”、“V”；</li>
+<li>设置两个寄存器分别用于存储“1”码和“V”码的个数；</li>
+<li>设置四位移位寄存器方便实现用“B00V”替代“000V”的功能；</li>
+<li>对输入信号进行判断，若输入为“00”，将“1”码计数器加上“V”码计数器的值，并复位“V”码计数器；若输入为“01”，先将“1”码计数器加一，然后加上“V”码计数器的值，最后复位“V”码计数器；若输入为“11”，则“V”码计数器加一；</li>
+<li>用“1”码计数器和“V”码计数器的值判断最终的输出信号，若输入不为“11”，则输出不变；若输入为“11”，判断此时“1”码计数器的值，当此前“1”码的个数为奇数时，输出不变，当此前“1”码的个数为偶数时，输出“10”。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight verilog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> add_b(rst,data_in,data_out,clk);</span><br><span class="line"></span><br><span class="line"><span class="keyword">input</span> clk,rst;</span><br><span class="line"><span class="keyword">input</span> [<span class="number">1</span>:<span class="number">0</span>]data_in;</span><br><span class="line"><span class="keyword">output</span> [<span class="number">1</span>:<span class="number">0</span>]data_out;        <span class="comment">//用00、01、10、11分别表示输入信号为“0、1、B、V”</span></span><br><span class="line"><span class="keyword">reg</span> counter1;                    <span class="comment">//设置“01”的计数器</span></span><br><span class="line"><span class="keyword">reg</span> counterv;                    <span class="comment">//设置“11”的计数器</span></span><br><span class="line"><span class="keyword">reg</span> [<span class="number">1</span>:<span class="number">0</span>]buffer[<span class="number">3</span>:<span class="number">0</span>];        <span class="comment">//取代节选择</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span>@(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> rst) <span class="keyword">begin</span></span><br><span class="line"><span class="comment">//设置四位移位寄存器方便插“B”的实现</span></span><br><span class="line">    <span class="keyword">if</span>(!rst) <span class="keyword">begin</span></span><br><span class="line">        buffer[<span class="number">3</span>]&lt;=<span class="number">0</span>;</span><br><span class="line">        buffer[<span class="number">2</span>]&lt;=<span class="number">0</span>;</span><br><span class="line">        buffer[<span class="number">1</span>]&lt;=<span class="number">0</span>;</span><br><span class="line">        buffer[<span class="number">0</span>]&lt;=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">        buffer[<span class="number">3</span>]&lt;=buffer[<span class="number">2</span>];</span><br><span class="line">        buffer[<span class="number">2</span>]&lt;=buffer[<span class="number">1</span>];</span><br><span class="line">        buffer[<span class="number">1</span>]&lt;=buffer[<span class="number">0</span>];</span><br><span class="line">        buffer[<span class="number">0</span>]&lt;=data_in;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span>@(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> rst) <span class="keyword">begin</span></span><br><span class="line"><span class="comment">//对输入进行判断</span></span><br><span class="line">    <span class="keyword">if</span>(!rst) <span class="keyword">begin</span></span><br><span class="line">        counter1 = <span class="number">0</span>;</span><br><span class="line">        counterv = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(data_in == <span class="number">2'b11</span>) <span class="comment">//如果输入为“11”，则counterv加1</span></span><br><span class="line">        counterv &lt;= counterv + <span class="number">1'b1</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(data_in == <span class="number">2'b01</span>) <span class="keyword">begin</span> <span class="comment">//如果输入为“01”，则counter1加1</span></span><br><span class="line">        counter1 &lt;= counter1 + <span class="number">1'b1</span> + counterv;</span><br><span class="line">        counterv &lt;= <span class="number">1'b0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">        counter1 &lt;= counter1 + counterv;</span><br><span class="line">        counterv &lt;= <span class="number">1'b0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//若输入为“11”,如果此前1的个数为奇数，则输出不变，若为偶数，则输出“10”</span></span><br><span class="line"><span class="comment">//若输入不为“11”,则输出不变</span></span><br><span class="line"><span class="keyword">assign</span> data_out = (counter1%<span class="number">2</span> == <span class="number">0</span>) &amp;&amp; (counterv == <span class="number">1</span>)? <span class="number">2'b10</span> : buffer[<span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>模块polar的作用是单极性信号变为双极性信号。<ul>
+<li>输入信号为add_b模块的输出，输出信号用“00”表示“0”码，用“10”表示“+1、+B、+V”码，用“01”表示“-1、-B、-V”；</li>
+<li>设置极性判断标志位，当其为“1”时，表示“+1”和“-V”，当其为“0”时，表示“-1”和“+V”；</li>
+<li>对输入信号进行判断，若输入为“11”（V码），利用极性判断标志位判断该码正负；若输入为“01”（1码）或者“10”（B码），利用极性判断标志位判断该码正负，同时将极性判断标志位翻转；若输入为“00”（0码），则输出为“00”。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight verilog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> polar(rst,data_in,data_outP,data_outN,clk);</span><br><span class="line"></span><br><span class="line"><span class="keyword">input</span> [<span class="number">1</span>:<span class="number">0</span>]data_in;</span><br><span class="line"><span class="keyword">input</span> rst,clk;</span><br><span class="line"><span class="keyword">output</span> data_outP,data_outN;    <span class="comment">//用P与N表示正负</span></span><br><span class="line"><span class="keyword">reg</span> [<span class="number">1</span>:<span class="number">0</span>] polar_out;                 <span class="comment">//“00”表示0，“10”表示+1，“01”表示-1</span></span><br><span class="line"><span class="keyword">reg</span> data_outN,data_outP;</span><br><span class="line"><span class="keyword">reg</span> even;                             <span class="comment">//设置极性判断标志,1表示+1和-V，0表示—1和+V</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span>@(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> rst) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span>(!rst) even &lt;= <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(data_in == <span class="number">2'b11</span>) <span class="keyword">begin</span>    <span class="comment">//若输入为“11（V）”</span></span><br><span class="line">        <span class="keyword">if</span>(even ==     <span class="number">1</span>)                          <span class="comment">//判断极性标志，若even为1</span></span><br><span class="line">            polar_out &lt;= <span class="number">2'b01</span>;             <span class="comment">//输出为“01（-1）”</span></span><br><span class="line">        <span class="keyword">else</span>                                     <span class="comment">//若even为0</span></span><br><span class="line">            polar_out &lt;= <span class="number">2'b10</span>;             <span class="comment">//输出为“10（+1）”</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="comment">//若输入为“01（1）”或者“10（B）”</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(data_in == <span class="number">2'b01</span> || data_in == <span class="number">2'b10</span>) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span>(even == <span class="number">1</span>) <span class="keyword">begin</span>              <span class="comment">//判断极性标志，若even为1</span></span><br><span class="line">            even &lt;= <span class="number">0</span>;                     <span class="comment">//将even翻转</span></span><br><span class="line">            polar_out &lt;= <span class="number">2'b10</span>;         <span class="comment">//输出为“10（+1）”</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">begin</span>                          <span class="comment">//若even为0</span></span><br><span class="line">            even &lt;= <span class="number">1</span>;                      <span class="comment">//将even翻转</span></span><br><span class="line">            polar_out &lt;= <span class="number">2'b01</span>;         <span class="comment">//输出为“01（-1）”</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(data_in == <span class="number">2'b00</span>)        <span class="comment">//若输入为“00（0）”</span></span><br><span class="line">        polar_out &lt;= <span class="number">2'b00</span>;            <span class="comment">//输出为“00（0）”</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span>@(polar_out <span class="keyword">or</span> rst) <span class="keyword">begin</span>    </span><br><span class="line"><span class="comment">//将输出寄存器的两位数分别赋值给输出端口data_outP和data_outN</span></span><br><span class="line">    <span class="keyword">if</span>(!rst) <span class="keyword">begin</span></span><br><span class="line">        data_outP &lt;= <span class="number">0</span>;</span><br><span class="line">        data_outN &lt;= <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(polar_out == <span class="number">2'b01</span>) <span class="keyword">begin</span></span><br><span class="line">        data_outP &lt;= <span class="number">0</span>;                <span class="comment">//PN=01表示-1</span></span><br><span class="line">        data_outN &lt;= <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(polar_out == <span class="number">2'b10</span>) <span class="keyword">begin</span></span><br><span class="line">        data_outP &lt;= <span class="number">1</span>;                <span class="comment">//PN=10表示+1</span></span><br><span class="line">        data_outN &lt;= <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">        data_outP &lt;= <span class="number">0</span>;                <span class="comment">//PN=00表示0</span></span><br><span class="line">        data_outN &lt;= <span class="number">0</span>;            </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>模块change的作用是将双极性信号变更为8位二进制数。<ul>
+<li>输入信号为polar模块的输出，输出信号则为8位二进制数；</li>
+<li>对输入信号进行判断，若输入信号为“00”，则输出信号为“10000000”；若输入信号为“10”，则输出信号为“11111111”，若输入信号为“01”，则输出信号为“00000000”。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight verilog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> change(rst,data_inP,data_inN,data_out,clk);</span><br><span class="line"></span><br><span class="line"><span class="comment">//二输入八输出模块，将PN信号转换为八位输出信号作为DAC的输入</span></span><br><span class="line"><span class="keyword">input</span> rst,clk,data_inP,data_inN;</span><br><span class="line"><span class="keyword">output</span> [<span class="number">7</span>:<span class="number">0</span>]data_out;</span><br><span class="line"><span class="keyword">reg</span> [<span class="number">7</span>:<span class="number">0</span>]data_out;</span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span>@(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> rst)    <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span>(!rst)</span><br><span class="line">        data_out &lt;= <span class="number">8'b10000000</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(data_inP == <span class="number">1</span> &amp;&amp; data_inN == <span class="number">0</span>) <span class="keyword">begin</span>        <span class="comment">//PN=10对应输出HFF</span></span><br><span class="line">        data_out &lt;= <span class="number">8'b11111111</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(data_inP == <span class="number">0</span> &amp;&amp; data_inN ==<span class="number">1</span>) <span class="keyword">begin</span>        <span class="comment">//PN=01对应输出H00</span></span><br><span class="line">        data_out &lt;= <span class="number">8'b00000000</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(data_inP == <span class="number">0</span> &amp;&amp; data_inN ==<span class="number">0</span>) <span class="keyword">begin</span>        <span class="comment">//PN=00对应输出H80</span></span><br><span class="line">        data_out &lt;= <span class="number">8'b10000000</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></tbody></table></figure>
+<h3 id="D-A转换设计"><a href="#D-A转换设计" class="headerlink" title="D/A转换设计"></a>D/A转换设计</h3><ul>
+<li>模拟数据传输过程在实验箱上用一条信号连接线来表示，用DA转换器将双极性的数字信号转换成模拟信号，经过信号连接线至AD转换器，转换成双极性的0和1输出到解码模块。由于使用Quartus Ⅱ时没有AD和DA转换器，所以直接连接了双极性输出和输入断，跳过了模拟传输过程，但实际上的AD转换器输出并不是完美的双极性数据，需要根据实验箱的调整而对代码进行多次调试。</li>
+</ul>
+<h3 id="A-D采样设计"><a href="#A-D采样设计" class="headerlink" title="A/D采样设计"></a>A/D采样设计</h3><ul>
+<li>由AD转换器输出的八位数据，由于模拟传输过程和转化过程存在时延差，需要设计一个码元定时恢复模块，用最初256分频产生的时钟信号不断检测二维数据，根据实际的数据特征来产生与16分频信号相同的8KHz信号，并且判断码元的起始时刻，此处码元定时恢复模块输出的码元时钟将用于整个解码模块。解码模块根据HDB3码的特征，找到相应的+1码和-1码，并且判断V码和B码并清零，实现解码。</li>
+</ul>
+<h3 id="位同步设计"><a href="#位同步设计" class="headerlink" title="位同步设计"></a>位同步设计</h3><ul>
+<li>模块recover的作用是将八位二进制信号变更为一位的单极性信号，即码元定时恢复。<ul>
+<li>对输入信号进行判断，八位输出信号有三种情况，8’h00、8’h80、8’hFF，分别代表-1，0和+1这三种情况，仿真时可以用三种情况的数字特征来进行边缘检测和时钟定时恢复；</li>
+<li>在实际调试过程中，AD转换输出的三种信号并不是确定的值，会存在毛刺现象，所以需要根据实际情况调整，我们采集到的数据是大于8’h58为+1，8’h30~8’h3f为0，小于8’h0f为-1，故根据三个区间，用256分频的时钟去采样，初始置flag为0，如果检测到区间发生跃变，则置1，同时进行定时恢复，连续八个时钟翻转一次，得到码元定时恢复的时钟提供后续模块使用。</li>
+</ul>
+</li>
+</ul>
+<h3 id="解码电路设计"><a href="#解码电路设计" class="headerlink" title="解码电路设计"></a>解码电路设计</h3><ul>
+<li>模块trans8to1的作用是将八位二进制数据转换为P和N双极性信号。<ul>
+<li>输入信号为AD转换的8位输出，输出信号则为P和N各一位的二进制数代表双极性；</li>
+<li>对输入信号进行判断，若输入信号为“3’h00”，则输出信号为“P=0,N=1”；若输入信号为“3’h80”，则输出信号为“P=0,N=0”，若输入信号为“3’hFF”，则输出信号为“P=1,N=0”；</li>
+<li>但实际情况是，真实的AD转换输出不会是刚好的3’h00、3’h80和3’hFF，经过实际检测，输出的范围分别是3’h00~8’h0f、8’h30~8’h3f、大于8’h58，和理想的情况相差较大，如果实际操作时用理想的三种情况检测，将不能恢复出双极性信号。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight verilog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> trans8to1(rst_n, indata_8, outdata_P, outdata_N,clk);</span><br><span class="line"></span><br><span class="line"><span class="keyword">input</span> rst_n,clk;</span><br><span class="line"><span class="keyword">input</span> [<span class="number">7</span>:<span class="number">0</span>] indata_8;</span><br><span class="line"><span class="keyword">output</span> outdata_P, outdata_N;</span><br><span class="line"><span class="keyword">reg</span> outdata_P, outdata_N;</span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> rst_n) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span>(!rst_n) <span class="keyword">begin</span></span><br><span class="line">        <span class="comment">// 复位初始化</span></span><br><span class="line">        outdata_P &lt;= <span class="number">0</span>;</span><br><span class="line">        outdata_N &lt;= <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">    <span class="comment">// 三个区间分别对应三种双极性P和N的值来表示+1、0和-1</span></span><br><span class="line">    <span class="keyword">if</span>(indata_8 &gt;= <span class="number">8'h58</span>) <span class="keyword">begin</span></span><br><span class="line">            outdata_P&lt;=<span class="number">1</span>;</span><br><span class="line">            outdata_N&lt;=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(indata_8 &lt;= <span class="number">8'h3f</span> &amp;&amp; indata_8 &gt;= <span class="number">8'h30</span>) <span class="keyword">begin</span></span><br><span class="line">            outdata_P&lt;=<span class="number">0</span>;</span><br><span class="line">            outdata_N&lt;=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(indata_8 &lt;= <span class="number">8'h0f</span>) <span class="keyword">begin</span></span><br><span class="line">            outdata_P&lt;=<span class="number">0</span>;</span><br><span class="line">            outdata_N&lt;=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>模块findv的作用是根据P和N两位数据进行逻辑判定，找到V码，输出只包含0和1的序列。<ul>
+<li>设置两个flag来表示+1和-1的个数状态，根据HDB3码中的连续同号的1来找到V码；</li>
+<li>如果PN是10，则flag2置0，flag1自加1，如果flag1自加+后为2则表示有两个连续的+1；</li>
+<li>如果PN是01，则flag1置0，flag2自加1，如果flag2自加+后为2则表示有两个连续的-1；</li>
+<li>无论是找到连续的+1还是-1都全部置11表示连续的1，正常不连续的+1和-1用01表示，其他状况都清00表示0基本还原原始序列。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight verilog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> findv(rst_n, indata_P, indata_N, outdata,clk);</span><br><span class="line"></span><br><span class="line"><span class="keyword">input</span> rst_n,clk;</span><br><span class="line"><span class="keyword">input</span> indata_P, indata_N;</span><br><span class="line"><span class="keyword">output</span> <span class="keyword">reg</span> [<span class="number">1</span>:<span class="number">0</span>] outdata;</span><br><span class="line"><span class="keyword">reg</span> [<span class="number">1</span>:<span class="number">0</span>]flag1;</span><br><span class="line"><span class="keyword">reg</span> [<span class="number">1</span>:<span class="number">0</span>]flag2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">    flag1=<span class="number">2'b00</span>;</span><br><span class="line">    flag2=<span class="number">2'b00</span>;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> rst_n) <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span>(!rst_n) <span class="keyword">begin</span></span><br><span class="line">        <span class="comment">// 复位初始化</span></span><br><span class="line">        flag1=<span class="number">2'b00</span>;</span><br><span class="line">        flag2=<span class="number">2'b00</span>;</span><br><span class="line">        outdata &lt;= <span class="number">2'b00</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span>(indata_P==<span class="number">1'b1</span> &amp;&amp; indata_N==<span class="number">1'b0</span>) <span class="keyword">begin</span></span><br><span class="line">        <span class="comment">// 如果PN是10，则flag2置0，flag1自加1，如果flag1自加+后为2则表示有两个连续的+1</span></span><br><span class="line">            flag2&lt;=<span class="number">2'b00</span>;</span><br><span class="line">            flag1=flag1+<span class="number">2'b01</span>;</span><br><span class="line">            <span class="keyword">if</span>(flag1==<span class="number">2'b10</span>) <span class="keyword">begin</span></span><br><span class="line">                outdata&lt;=<span class="number">2'b11</span>;</span><br><span class="line">                flag1&lt;=<span class="number">2'b00</span>;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">            <span class="keyword">else</span> outdata&lt;=<span class="number">2'b01</span>;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(indata_P==<span class="number">1'b0</span> &amp;&amp; indata_N==<span class="number">1'b1</span>) <span class="keyword">begin</span></span><br><span class="line">        <span class="comment">// 如果PN是01，则flag1置0，flag2自加1，如果flag2自加+后为2则表示有两个连续的-1</span></span><br><span class="line">            flag1&lt;=<span class="number">2'b00</span>;</span><br><span class="line">            flag2=flag2+<span class="number">2'b01</span>;</span><br><span class="line">            <span class="keyword">if</span>(flag2==<span class="number">2'b10</span>) <span class="keyword">begin</span></span><br><span class="line">                outdata&lt;=<span class="number">2'b11</span>;</span><br><span class="line">                flag2&lt;=<span class="number">2'b00</span>;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">            <span class="keyword">else</span> outdata&lt;=<span class="number">2'b01</span>;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        <span class="comment">// 其他情况为00则正常置00</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(indata_P==<span class="number">1'b0</span> &amp;&amp; indata_N==<span class="number">1'b0</span>) outdata&lt;=<span class="number">2'b00</span>;</span><br><span class="line">        <span class="comment">//else outdata&lt;=2'b01;</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>模块delvb的作用是将序列进行最后的处理，根据HDB3的连0规则将多余的1清零，恢复出原始的m序列完成最终的解码。<ul>
+<li>设置一个buffer来暂存前四位数据，HDB3的编解码规则是对连续的四个0进行处理，之前的模块已经找到了V码，这里需要对V码以及B码清零；</li>
+<li>但实际上只要找到了V码，将V码本身和之前的三位一共四位全部清零，就可以不用考虑B码的影响；</li>
+<li>检测indata的输入若为11则表示这是一个V码，则使用buffer将四位数据清零，输出接到buffer的前三位，用counterv的0和1状况来判定清零还是直接buffer输出，完成最终的解码。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight verilog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> delvb(rst_n, indata, outdata,clk);</span><br><span class="line"></span><br><span class="line"><span class="keyword">input</span> rst_n,clk;</span><br><span class="line"><span class="keyword">input</span> [<span class="number">1</span>:<span class="number">0</span>]indata;</span><br><span class="line"><span class="keyword">output</span> outdata;</span><br><span class="line"><span class="keyword">reg</span> [<span class="number">3</span>:<span class="number">0</span>]buffer;</span><br><span class="line"><span class="keyword">reg</span> bufferdata;</span><br><span class="line"><span class="keyword">reg</span> counterv;</span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span>@(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> rst_n)</span><br><span class="line"><span class="keyword">begin</span><span class="comment">// 设置四位buffer暂存前四位数据</span></span><br><span class="line"><span class="keyword">if</span> (!rst_n) <span class="keyword">begin</span></span><br><span class="line">    buffer[<span class="number">3</span>]&lt;=<span class="number">0</span>;</span><br><span class="line">    buffer[<span class="number">2</span>]&lt;=<span class="number">0</span>;</span><br><span class="line">    buffer[<span class="number">1</span>]&lt;=<span class="number">0</span>;</span><br><span class="line">    buffer[<span class="number">0</span>]&lt;=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">    buffer[<span class="number">3</span>]&lt;=buffer[<span class="number">2</span>];</span><br><span class="line">    buffer[<span class="number">2</span>]&lt;=buffer[<span class="number">1</span>];</span><br><span class="line">    buffer[<span class="number">1</span>]&lt;=buffer[<span class="number">0</span>];</span><br><span class="line">    buffer[<span class="number">0</span>]&lt;=bufferdata;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> rst_n) <span class="keyword">begin</span></span><br><span class="line">    <span class="comment">// 复位初始化</span></span><br><span class="line">    <span class="keyword">if</span>(!rst_n) bufferdata &lt;= <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span>(indata==<span class="number">2'b01</span>) <span class="keyword">begin</span></span><br><span class="line">        <span class="comment">// 如果是正常的01，则数据还是1</span></span><br><span class="line">            counterv &lt;= <span class="number">0</span>;</span><br><span class="line">            bufferdata&lt;=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(indata==<span class="number">2'b00</span>) <span class="keyword">begin</span></span><br><span class="line">        <span class="comment">// 如果是正常的00，则数据还是0</span></span><br><span class="line">            counterv &lt;= <span class="number">0</span>;</span><br><span class="line">            bufferdata&lt;=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(indata==<span class="number">2'b11</span>) <span class="keyword">begin</span></span><br><span class="line">        <span class="comment">// 如果是的11，则表示该位为V码，将counterv标记1</span></span><br><span class="line">            counterv &lt;= <span class="number">1</span>;</span><br><span class="line">            bufferdata&lt;=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">assign</span> outdata = (counterv == <span class="number">1</span>)  ? <span class="number">0</span> : buffer[<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></tbody></table></figure>
+<h3 id="编解码系统总体电路设计"><a href="#编解码系统总体电路设计" class="headerlink" title="编解码系统总体电路设计"></a>编解码系统总体电路设计</h3><ul>
+<li>顶层模块的作用是将所有的功能模块进行连接，并将部分功能模块的输出端口拉出，以方便最终的仿真及FPGA引脚的绑定。<ul>
+<li>分频功能的连接：将系统时钟作为even256_div模块的输入，其输出为系统时钟的256分频时钟，将其作为even_div16模块的输入，其输出为256分频时钟的16分频时钟；</li>
+<li>M序列生成功能的连接：用16分频时钟作为m_sequence模块的驱动时钟，输入使能信号，输出为m序列；</li>
+<li>HDB3编码功能的连接：该功能下模块的驱动时钟都为16分频时钟，将m_sequence模块的输出作为add_v模块的输入，将add_v模块的输出作为add_b模块的输入，将add_b模块的输出作为polar模块的输入，将polar模块的输出作为change模块的输入，输出8位二进制数；</li>
+<li>码元定时恢复功能的连接：用256分频时钟作为recover模块的驱动时钟，ad转换器的输出作为recover模块的输入，输出为码元定时恢复时钟；</li>
+<li>HDB3译码功能的连接:该功能下模块的驱动时钟都为码元定时恢复时钟，ad转换器的输出作为trans8to1模块的输入，将trans8to1模块的输出作为findv模块的输入，将findv模块的输出作为delvb模块的输入，delvb模块的输出即为译码恢复的m序列。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight verilog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> HDB3(rst,</span><br><span class="line">                clk,clk_256,clk_16,clk_recover,clk_256_ad,clk_256_da,</span><br><span class="line">                ena,</span><br><span class="line">                data_out,data_out_ad,outm,outv,outb,outP,outN,data_out_check,</span><br><span class="line">                finallyout,outdata_P,outdata_N,outdata_v</span><br><span class="line">                );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">input</span>  rst,clk,ena;</span><br><span class="line"><span class="keyword">input</span> [<span class="number">7</span>:<span class="number">0</span>]data_out_ad;</span><br><span class="line"><span class="keyword">output</span> clk_256,clk_16,clk_recover,clk_256_ad,clk_256_da;</span><br><span class="line"><span class="keyword">output</span> [<span class="number">7</span>:<span class="number">0</span>]data_out_check;</span><br><span class="line"><span class="keyword">output</span> [<span class="number">7</span>:<span class="number">0</span>]data_out;</span><br><span class="line"><span class="keyword">output</span> [<span class="number">1</span>:<span class="number">0</span>]outv;</span><br><span class="line"><span class="keyword">output</span> [<span class="number">1</span>:<span class="number">0</span>]outb;</span><br><span class="line"><span class="keyword">output</span> outm,outP,outN;</span><br><span class="line"><span class="keyword">output</span> outdata_P,outdata_N;</span><br><span class="line"><span class="keyword">output</span> [<span class="number">1</span>:<span class="number">0</span>]outdata_v;</span><br><span class="line"><span class="keyword">output</span> finallyout;</span><br><span class="line"><span class="comment">//分频</span></span><br><span class="line">even256_div div256(clk,rst,clk_256);</span><br><span class="line">even16_div div16(clk_256,rst,clk_16);</span><br><span class="line"><span class="comment">//m序列</span></span><br><span class="line">m_sequence m(clk_16,rst,ena,outm,load);</span><br><span class="line"><span class="comment">//编码</span></span><br><span class="line">add_v u1(rst,outm,outv,clk_16);</span><br><span class="line">add_b u2(rst,outv,outb,clk_16);</span><br><span class="line">polar u3(rst,outb,outP,outN,clk_16);</span><br><span class="line">change u4(rst,outP,outN,data_out,clk_16);</span><br><span class="line"><span class="comment">//码元定时恢复</span></span><br><span class="line">recover u8(clk_256, rst, data_out_ad, clk_recover);</span><br><span class="line"><span class="comment">//译码</span></span><br><span class="line">trans8to1 u5(rst, data_out_ad, outdata_P, outdata_N,clk_recover);</span><br><span class="line">findv u6(rst, outdata_P, outdata_N, outdata_v,clk_recover);</span><br><span class="line">delvb u7(rst, outdata_v, finallyout,clk_recover);</span><br><span class="line"></span><br><span class="line"><span class="keyword">assign</span> clk_256_ad = clk_256;</span><br><span class="line"><span class="keyword">assign</span> clk_256_da = clk_256;</span><br><span class="line"><span class="keyword">assign</span> data_out_check = data_out_ad;</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></tbody></table></figure>
+<h2 id="调试与验证"><a href="#调试与验证" class="headerlink" title="调试与验证"></a>调试与验证</h2><p><img src="https://www.lingzhicheng.cn/usr/file/picture/HDB3/2.FPGA.png" alt="Fig.2 FPGA"></p>
+<center><font size="2">Fig.2 FPGA</font></center>
+
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/HDB3/3.引脚分配.jpg" alt="Fig.3 引脚分配"></p>
+<center><font size="2">Fig.3 引脚分配</font></center>
+
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/HDB3/4.jpg" alt="Fig.4 FPGA连接"></p>
+<center><font size="2">Fig.4 FPGA连接</font></center>
+
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/HDB3/5.256分频和16分频.jpg" alt="Fig.5 256分频和16分频"></p>
+<center><font size="2">Fig.5 256分频和16分频</font></center>
+
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/HDB3/6.16分频和m序列.jpg" alt="Fig.6 16分频和m序列"></p>
+<center><font size="2">Fig.6 16分频和m序列</font></center>
+
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/HDB3/7.16分频和码元定时恢复时钟.jpg" alt="Fig.7 16分频和码元定时恢复时钟"></p>
+<center><font size="2">Fig.7 16分频和码元定时恢复时钟</font></center>
+
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/HDB3/8.m序列和模拟传输信号.jpg" alt="Fig.8 m序列和模拟传输信号"></p>
+<center><font size="2">Fig.8 m序列和模拟传输信号</font></center>
+
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/HDB3/9.恢复的m序列和码元定时恢复时钟.jpg" alt="Fig.9 恢复的m序列和码元定时恢复时钟"></p>
+<center><font size="2">Fig.9 恢复的m序列和码元定时恢复时钟</font></center>
+
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/HDB3/10.m序列前后.jpg" alt="Fig.10 m序列前后"></p>
+<center><font size="2">Fig.10 m序列前后</font></center>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<p>问题1：在FPGA仿真时，ad转换器输入的八位二进制数在一开始无法在示波器上检测到。</p>
+</blockquote>
+<ul>
+<li>解决方法：一开始我们认为是因为ad转换器自身的问题，导致输出的8位二进制数只在较低位发生变化，但经过多次检测后，我们认为实际8位二进制数并没有输入进我们的顶层模块，于是我们通过对顶层模块代码进行检查，发现产生该问题的原因是输入8位二进制数的端口本应设置为输入端口吗，但我们设置为了输出端口，所以导致信号并没有传输进来，所以无法检测到。</li>
+</ul>
+<blockquote>
+<p>问题2：码元定时恢复不理解是什么意思，导致并不能准确的恢复出时钟。</p>
+</blockquote>
+<ul>
+<li>解决办法：请教老师后发现原来是用256分频所得的时钟来对八位信号进行采样，根据采集到的信号变化确定码元的起始位置，再根据数字特征定时翻转，起到恢复出16分频时钟的作用。</li>
+</ul>
+<blockquote>
+<p>问题3：实际的AD转换器和理想状态不同，用理想的条件去检测无法正常将8位AD输出转成双极性数据。</p>
+</blockquote>
+<ul>
+<li>解决办法：这个问题困扰的时间最久，由于AD转换输出的8位数字信号并不是非常完美的，存在跳变以及根据实验箱的实际情况并不会根据0~5V输出00~FF，于是将AD输出的八位信号分别绑定到FPGA的其他空余引脚，对每个引脚上的数据进行分析，判定-1，0和+1分别对应该位的0状态还是1状态，最终得到我们需要的三种状态区间，高四位可以比较准确的判定，而第四位的0和1状态反复跳变，最终确定的区间为：3’h00——8’h0f代表-1，8’h30——8’h3f代表0，大于8’h58代表+1</li>
+</ul>
+<h2 id="Download-Source-File"><a href="#Download-Source-File" class="headerlink" title="Download Source File"></a>Download Source File</h2><h3 id="Project-File"><a href="#Project-File" class="headerlink" title="Project File"></a><a href="https://www.lingzhicheng.cn/usr/file/HDB3_quartus+modelism.zip">Project File</a></h3><h3 id="Wave-File"><a href="#Wave-File" class="headerlink" title="Wave File"></a><a href="https://www.lingzhicheng.cn/usr/file/HDB3wavefile.zip">Wave File</a></h3><!-- markdownlint-disable-file MD025 MD033 -->
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2021/09/30/HDB3%E7%BC%96%E8%A7%A3%E7%A0%81%E7%B3%BB%E7%BB%9F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Modelsim/" rel="tag">Modelsim</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Quartus-%E2%85%A1/" rel="tag">Quartus Ⅱ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Verilog-HDL/" rel="tag">Verilog HDL</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2021/10/20/%E6%8A%93%E5%8F%96%E9%81%93%E5%AE%A2%E5%B7%B4%E5%B7%B4%E5%86%85%E5%AE%B9/" class="article-nav-link">
+        <strong class="article-nav-caption">Prev post</strong>
+        <div class="article-nav-title">
+          
+            抓取道客巴巴内容
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2021/08/26/NunjucksErrors/" class="article-nav-link">
+        <strong class="article-nav-caption">Next post</strong>
+        <div class="article-nav-title">Nunjucks Errors</div>
+      </a>
+    
+  </nav>
+
+  
+   
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'a1a50124b0c46fa4fab9',
+    clientSecret: '4a29dee6f998a9272f57ba07f987ea9eed9da5ec',
+    repo: 'blog-comments',
+    owner: 'boom1999',
+    admin: ['boom1999'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: true,  // Facebook-like distraction free mode
+    pagerDirection: 'last',
+    proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2023
+        <span class="division">|</span> Zhicheng Ling
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+          
+          
+          Power <a href="https://hexo.io" target="_blank">Hexo</a>
+          <span class="division">|</span>
+          Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+          
+          <span class="division">|</span>
+        
+          
+          <span>
+  <span><i class="ri-eye-fill"></i> <span id="busuanzi_value_page_pv"></span></span>
+</span>
+          
+      </li>
+    </ul>
+    <ul>
+      
+        <li>
+          <a href="http://beian.miit.gov.cn/" target="_black" rel="nofollow">浙ICP备2020044847号-1</a>
+        </li>
+        
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/haisen-side.svg" alt="Haisenberg"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Categories</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.pan.lingzhicheng.cn">Pan</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.gallery.lingzhicheng.cn">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.todo.lingzhicheng.cn">Todo</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">Friends</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/me">Me</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+  <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
+  fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
+  webpushr('setup',{'key':'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script>
+<script>(function (w, d, s, id) {
+            if (typeof (w.webpushr) !== 'undefined') return; w.webpushr = w.webpushr || function () { (w.webpushr.q = w.webpushr.q || []).push(arguments) }; var js, fjs = d.getElementsByTagName(s)[0]; js = d.createElement(s); js.id = id; js.async = 1; js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window, document, 'script', 'webpushr-jssdk'));webpushr('setup', { 'key': 'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script></body>
+
+</html>
