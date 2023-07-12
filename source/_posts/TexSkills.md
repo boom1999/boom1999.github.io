@@ -16,13 +16,11 @@ copyright: true
 ### 1.1. Packages for Code: `minted`
 
 - import package `minted` for code highlighting.
-
 ```latex
 \usepackage{minted}
 ```
 
 - Before using `minted`, you should have `python version>2.7` and install `pygments` first.
-
 ```bash
 python -V
 
@@ -91,7 +89,6 @@ You must have `pygmentize' installed to use this package.
 - You will find `pygmentize.exe` in path: `C:\Users\username\AppData\Local\Programs\Python\Python37\Scripts`, add the path to the system path, then it will work.
 
 - Example for `minted` package
-
 ```latex
 \begin{minted}[linenos=true,frame=lines,framesep=2mm]{python}
 def quick_sort(arr):
