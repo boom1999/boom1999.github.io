@@ -107,13 +107,13 @@
 </blockquote>
 <span id="more"></span>
 <h2 id="books-1-Packages"><a href="#books-1-Packages" class="headerlink" title=":books: 1. Packages"></a><span class="github-emoji"><span>📚</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4da.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 1. Packages</h2><h3 id="1-1-Packages-for-Code-minted"><a href="#1-1-Packages-for-Code-minted" class="headerlink" title="1.1. Packages for Code: minted"></a>1.1. Packages for Code: <code>minted</code></h3><ul>
-<li>import package <code>minted</code> for code highlighting.</li>
-</ul>
+<li><p>import package <code>minted</code> for code highlighting.</p>
 <figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\usepackage</span>{minted}</span><br></pre></td></tr></tbody></table></figure>
-<ul>
-<li>Before using <code>minted</code>, you should have <code>python version&gt;2.7</code> and install <code>pygments</code> first.</li>
-</ul>
+</li>
+<li><p>Before using <code>minted</code>, you should have <code>python version&gt;2.7</code> and install <code>pygments</code> first.</p>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python -V</span><br><span class="line"></span><br><span class="line">pip install pygments</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
 <ul>
 <li>It may be show error message<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You must invoke LaTeX with the -shell-escape flag`. </span><br></pre></td></tr></tbody></table></figure></li>
 <li>The reason is that the <code>minted</code> package needs to call the <code>pygments</code> package to highlight the code, and the <code>pygments</code> package needs to call the system command. The <code>-shell-escape</code> parameter is used to allow the <code>minted</code> package to call the system command.</li>
@@ -126,10 +126,10 @@
 <li><p>You will find <code>pygmentize.exe</code> in path: <code>C:\Users\username\AppData\Local\Programs\Python\Python37\Scripts</code>, add the path to the system path, then it will work.</p>
 </li>
 <li><p>Example for <code>minted</code> package</p>
-</li>
-</ul>
 <figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\begin</span>{minted}[linenos=true,frame=lines,framesep=2mm]{python}<span class="string"></span></span><br><span class="line"><span class="string">def quick_sort(arr):</span></span><br><span class="line"><span class="string">    if len(arr) &lt; 2:</span></span><br><span class="line"><span class="string">        return arr</span></span><br><span class="line"><span class="string">    else:</span></span><br><span class="line"><span class="string">        pivot = arr[0]</span></span><br><span class="line"><span class="string">        less = [i for i in arr[1:] if i &lt;= pivot]</span></span><br><span class="line"><span class="string">        greater = [i for i in arr[1:] if i &gt; pivot]</span></span><br><span class="line"><span class="string">        return quick_sort(less) + [pivot] + quick_sort(greater)</span></span><br><span class="line"><span class="string"></span><span class="keyword">\end</span>{minted}</span><br></pre></td></tr></tbody></table></figure>
 <p><img src="https://www.lingzhicheng.cn/usr/file/picture/tex/minted.jpg" alt="minted_file"></p>
+</li>
+</ul>
 <!-- markdownlint-disable-file MD025 MD028 MD033 -->
  
       <!-- reward -->
