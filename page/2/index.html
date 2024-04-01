@@ -118,6 +118,126 @@
     
     
     <article
+  id="post-抓取道客巴巴内容"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/10/20/%E6%8A%93%E5%8F%96%E9%81%93%E5%AE%A2%E5%B7%B4%E5%B7%B4%E5%86%85%E5%AE%B9/"
+    >抓取道客巴巴内容</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/10/20/%E6%8A%93%E5%8F%96%E9%81%93%E5%AE%A2%E5%B7%B4%E5%B7%B4%E5%86%85%E5%AE%B9/" class="article-date">
+  <time datetime="2021-10-20T00:00:00.000Z" itemprop="datePublished">2021-10-20</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%80%BB%E7%BB%93/">总结</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
+<ul>
+<li>一般需要登陆账号付费购买，并且会员还不便宜，淘宝单次购买比较划算</li>
+<li>这里直接从控制台抓取道客巴巴文档，存为png格式图片，可以根据自己的需求转化为PDF<br><span class="github-emoji"><span>☀</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/2600.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>🕤</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f564.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>😴</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f634.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></li></ul> 
+      <a class="article-more-link" href="/2021/10/20/%E6%8A%93%E5%8F%96%E9%81%93%E5%AE%A2%E5%B7%B4%E5%B7%B4%E5%86%85%E5%AE%B9/"
+        >More...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" rel="tag">使用教程</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
+
+    
+    <article
+  id="post-HDB3编解码系统"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/09/30/HDB3%E7%BC%96%E8%A7%A3%E7%A0%81%E7%B3%BB%E7%BB%9F/"
+    >HDB3 Decode And Endecode System</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/09/30/HDB3%E7%BC%96%E8%A7%A3%E7%A0%81%E7%B3%BB%E7%BB%9F/" class="article-date">
+  <time datetime="2021-09-30T00:00:00.000Z" itemprop="datePublished">2021-09-30</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Principle-of-Communication/">Principle of Communication</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
+<ul>
+<li>HDB3编解码系统，由Verilog HDL实现QuartusⅡ和Modelsim联合进行功能仿真，在FPGA芯片实测。</li>
+<li>整体功能模块时序逻辑都比较简单，没有进行时序仿真，直接上FPGA实测，基本没有大问题。</li>
+<li>FPGA主芯片采用ALTREA EP2C8T144C8N，故需要使用QuartusⅡ13.0及以下版本，否则无法使用芯片库，可用采用多版本共存方式，Altera允许多个版本同时使用，并且有清除的版本区分。</li>
+<li>数模转换 D/A ：实现数字模拟转换功能，将数字信号采集变成模拟信号输出，使用National Semiconductor DAC 0832</li>
+<li>模数转换 A/D ：实现模拟数字转换功能，将模拟信号采集后变成数字信号输出，使用Maxim Integrated ADC MAX7820</li>
+<li>整体包括分频器设计、M 序列设计、映射表设计、编码电路设计、D/A 转换设计、A/D 采样设计、 位同步设计、解码电路设计、编解码系统总体电路设计。<br><span class="github-emoji"><span>💨</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4a8.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>🕤</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f564.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>😴</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f634.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></li></ul> 
+      <a class="article-more-link" href="/2021/09/30/HDB3%E7%BC%96%E8%A7%A3%E7%A0%81%E7%B3%BB%E7%BB%9F/"
+        >More...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Modelsim/" rel="tag">Modelsim</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Quartus-%E2%85%A1/" rel="tag">Quartus Ⅱ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Verilog-HDL/" rel="tag">Verilog HDL</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
+
+    
+    <article
   id="post-NunjucksErrors"
   class="article article-type-post"
   itemscope
@@ -559,130 +679,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/modulate/" rel="tag">modulate</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-    
-</article>
-
-    
-    <article
-  id="post-Git常用操作"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/03/25/Git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/"
-    >Git常用操作</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2021/03/25/Git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" class="article-date">
-  <time datetime="2021-03-25T00:00:00.000Z" itemprop="datePublished">2021-03-25</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%80%BB%E7%BB%93/">总结</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <p><span class="github-emoji"><span>🐳</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f433.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>总结Git日常基本操作，不定时添加一些遇到的问题，以及从小白入门连接本地git和github等<br><span class="github-emoji"><span>🔔</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f514.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>默认已有Github或Gitee等账号,已下载安装git</p>
-<ul>
-<li><p><a href="#LocalGit">本地<span class="github-emoji"><span>💻</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4bb.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>Git配置</a></p>
-<blockquote>
-<p><a href="#UserInfo"><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>配置用户信息</a></p>
-<p><a href="#SSH"><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>生成SSH Key</a></p>
-</blockquote>
-</li>
-<li><p><a href="#UploadRepo">Upload repositories from <span class="github-emoji"><span>💻</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4bb.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>to<span class="github-emoji"><span>☁</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/2601.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></a></p>
-</li>
-<li><p><a href="#CloneRepo">Clone repositories from <span class="github-emoji"><span>☁</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/2601.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>to<span class="github-emoji"><span>💻</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4bb.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></a></p>
-</li>
-<li><p><a href="#GitBasic"><span class="github-emoji"><span>📘</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d8.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>Git基本指令汇总</a></p>
-</li>
-</ul> 
-      <a class="article-more-link" href="/2021/03/25/Git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/"
-        >More...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Github/" rel="tag">Github</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-    
-</article>
-
-    
-    <article
-  id="post-调频无线话筒"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/03/10/%E8%B0%83%E9%A2%91%E6%97%A0%E7%BA%BF%E8%AF%9D%E7%AD%92/"
-    >调频无线话筒</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2021/03/10/%E8%B0%83%E9%A2%91%E6%97%A0%E7%BA%BF%E8%AF%9D%E7%AD%92/" class="article-date">
-  <time datetime="2021-03-10T00:00:00.000Z" itemprop="datePublished">2021-03-10</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%80%BB%E7%BB%93/">总结</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <p>较为详细的实验总结，需要的可以借鉴参考</p> 
-      <a class="article-more-link" href="/2021/03/10/%E8%B0%83%E9%A2%91%E6%97%A0%E7%BA%BF%E8%AF%9D%E7%AD%92/"
-        >More...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PCB/" rel="tag">PCB</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%97%A0%E7%BA%BF/" rel="tag">无线</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%AB%98%E9%A2%91%E7%94%B5%E8%B7%AF/" rel="tag">高频电路</a></li></ul>
 
     </footer>
   </div>

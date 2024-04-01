@@ -14,7 +14,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    正则表达式整理（持续更新） |  Haisenberg
+    Hexo同步部署再Github和服务器 |  Haisenberg
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -48,7 +48,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-正则表达式整理"
+  id="post-利用Webhook将Hexo博客同步到服务器"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -59,18 +59,18 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  正则表达式整理（持续更新）
+  Hexo同步部署再Github和服务器
 </h1>
  
 
     </header>
      
     <div class="article-meta">
-      <a href="/2021/02/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B4%E7%90%86/" class="article-date">
-  <time datetime="2021-02-17T00:00:00.000Z" itemprop="datePublished">2021-02-17</time>
+      <a href="/2024/04/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="article-date">
+  <time datetime="2024-04-01T00:00:00.000Z" itemprop="datePublished">2024-04-01</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/python/">python</a>
+    <a class="article-category-link" href="/categories/blog/">blog</a>
   </div>
   
 <div class="word_count">
@@ -78,7 +78,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">487</span>
+            <span class="post-count">699</span>
         </span>
     </span>
 
@@ -87,7 +87,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">1 min</span>
+            <span class="post-count">3 min</span>
         </span>
     </span>
 </div>
@@ -103,121 +103,49 @@
     <div class="article-entry" itemprop="articleBody">
        
   <blockquote>
-<p>偶尔会用到正则匹配，下面做一个常用的正则表达式整理以便往后查询</p>
+<p>寄人篱下不是长久之计，下文展开介绍利用Webhook将Hexo博客部署到自己的服务器上，同时github-peges作为镜像站使用，接上一篇，默认分支hexo_backup作为源文件备份，master作主页</p>
 </blockquote>
 <span id="more"></span>
-<h2 id="最常用的匹配"><a href="#最常用的匹配" class="headerlink" title="最常用的匹配"></a>最常用的匹配</h2><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>字符</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong><code>\d</code></strong></td>
-<td>表示任意数字，就是阿拉伯数字<code>0~9</code>这些。</td>
-</tr>
-<tr>
-<td><code>\D</code></td>
-<td>大写的表示与小写的相反，表示不是数字。</td>
-</tr>
-<tr>
-<td><code>\w</code></td>
-<td>代表字母，数字，下划线。<code>a-z</code>、<code>A-Z</code>、<code>0~9</code>、<code>_</code>。</td>
-</tr>
-<tr>
-<td><code>\W</code></td>
-<td>大写的表示与小写的相反，不是字母、不是数字也不是下划线。</td>
-</tr>
-<tr>
-<td><strong><code>\n</code></strong></td>
-<td>代表一个回换行。</td>
-</tr>
-<tr>
-<td><code>\r</code></td>
-<td>代表一个回车。</td>
-</tr>
-<tr>
-<td><code>\f</code></td>
-<td>代表换页。</td>
-</tr>
-<tr>
-<td><code>\t</code></td>
-<td>代表一个<code>Tab</code>。</td>
-</tr>
-<tr>
-<td><code>\s</code></td>
-<td>代表所有的空白符，也就是上面四个：<code>\n</code>、<code>\r</code>、<code>\f</code>、<code>\t</code>。</td>
-</tr>
-<tr>
-<td><code>\S</code></td>
-<td>大写的表示与小写的相反，代表所有不是空白的字符。</td>
-</tr>
-<tr>
-<td><code>\A</code></td>
-<td>代表字符串的开始。</td>
-</tr>
-<tr>
-<td><code>\Z</code></td>
-<td>代表字符串的结束。</td>
-</tr>
-<tr>
-<td><strong><code>^</code></strong></td>
-<td>匹配字符串开始的位置。</td>
-</tr>
-<tr>
-<td><strong><code>$</code></strong></td>
-<td>匹配字符串结束的位置。</td>
-</tr>
-<tr>
-<td><strong><code>.</code></strong></td>
-<td>代表所有的单个字符，除了换行<code>\n</code>,回车<code>\r</code>。</td>
-</tr>
-<tr>
-<td><code>[...]</code></td>
-<td>代表在<code>[]</code>范围内的字符，比如<code>[a-z]</code>就代表<code>a-z</code>的字母。</td>
-</tr>
-<tr>
-<td><code>[^...]</code></td>
-<td>与上一个相反，代表不在<code>[]</code>范围内的字符。</td>
-</tr>
-<tr>
-<td><code>{n}</code></td>
-<td>匹配在<code>{n}</code>前面的东西，比如<code>o{2}</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>food</code>中的两个<code>o</code>。</td>
-</tr>
-<tr>
-<td><code>{n,m}</code></td>
-<td>匹配在<code>{n,m}</code>前面的东西，比如<code>o{1,3}</code>将匹配<code>fooooood</code>中的前三个<code>o</code>。</td>
-</tr>
-<tr>
-<td><code>{n, }</code></td>
-<td>匹配在<code>{n,}</code>前面的东西，比如<code>o{2,}</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>foooood</code>中的所有<code>o</code>。</td>
-</tr>
-<tr>
-<td><code>*</code></td>
-<td>和<code>{0,}</code>一样，匹配<code>*</code>前面的0次或多次。比如<code>zo*</code>能匹配<code>z</code>、<code>zo</code>以及<code>zoo</code>。</td>
-</tr>
-<tr>
-<td><code>+</code></td>
-<td>和<code>{1,}</code>一样，匹配+前面1次或多次。比如<code>zo+</code>能匹配<code>zo</code>以及<code>zoo</code>但不能匹配<code>z</code></td>
-</tr>
-<tr>
-<td><code>?</code></td>
-<td>和<code>{0,1}</code>一样，匹配<code>?</code>前面0次或1次</td>
-</tr>
-<tr>
-<td><code>()</code></td>
-<td>匹配括号里的内容</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="re-match"><a href="#re-match" class="headerlink" title="re.match"></a>re.match</h2><blockquote>
-<p>传入两个参数，第一个是匹配的规则，第二个是需要被过滤的内容</p>
+<ul>
+<li>前提条件：已有github.io仓库，hexo博客已经上线测试可以使用，已有<code>nginx</code>、<code>git</code>、<code>node</code>等基础，可参考上一篇笔记</li>
+<li>省略了一些次要步骤，域名解析、备案等</li>
+</ul>
+<hr>
+<h2 id="服务器Webhook部分-2021-02-01"><a href="#服务器Webhook部分-2021-02-01" class="headerlink" title="服务器Webhook部分: 2021-02-01"></a>服务器Webhook部分: 2021-02-01</h2><ul>
+<li>利用宝塔平台的Webhook插件</li>
+</ul>
+<blockquote>
+<p>名称随意，实例脚本如下<br>gitPath=”/www/wwwroot/YourWebsiteLocation/“<br>gitHttp=”<a target="_blank" rel="noopener" href="https://github.com/YourGithubName/xxxxxxxx.github.io.git">https://github.com/YourGithubName/xxxxxxxx.github.io.git</a>“<br>若失败，可考虑加上<code>sudo</code>使用管理员权限</p>
 </blockquote>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">content = <span class="string">'you have 100 bananas.'</span></span><br><span class="line">res = re.match(<span class="string">'^yo.*(\d+)\s.*s$'</span>,content)</span><br><span class="line"><span class="built_in">print</span>(res.group(<span class="number">1</span>))</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">echo ""</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">输出当前时间</span></span><br><span class="line">date --date='0 days ago' "+%Y-%m-%d %H:%M:%S"</span><br><span class="line">echo "Start"</span><br><span class="line">    </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">git项目路径</span></span><br><span class="line">gitPath=" "</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">git 网址</span></span><br><span class="line">gitHttp=" "</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">延迟高可以加https://ghproxy.com/代理</span></span><br><span class="line"></span><br><span class="line">echo "Web站点路径：$gitPath"</span><br><span class="line">     </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">判断项目路径是否存在</span></span><br><span class="line">if [ -d "$gitPath" ]; then</span><br><span class="line">    cd $gitPath</span><br><span class="line">    #判断是否存在git目录</span><br><span class="line">    if [ ! -d ".git" ]; then</span><br><span class="line">            echo "在该目录下克隆 git"</span><br><span class="line">            sudo git clone $gitHttp gittemp</span><br><span class="line">            sudo mv gittemp/.git .</span><br><span class="line">            sudo rm -rf gittemp</span><br><span class="line">    fi</span><br><span class="line">    echo"拉取最新的项目文件"</span><br><span class="line">    sudo git reset --hard origin/master</span><br><span class="line">    sudo git pull origin master</span><br><span class="line">    echo"设置目录权限"</span><br><span class="line">    sudo chown -R www:www $gitPath</span><br><span class="line">    date --date='0 days ago' "+%Y-%m-%d %H:%M:%S"</span><br><span class="line">    echo "End"</span><br><span class="line">    exit</span><br><span class="line">else</span><br><span class="line">    echo "该项目路径不存在"</span><br><span class="line">    echo "End"</span><br><span class="line">    exit</span><br><span class="line">fi</span><br></pre></td></tr></tbody></table></figure>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook01.png" alt="宝塔Webhook"></p>
+<h2 id="Github设置Webhook"><a href="#Github设置Webhook" class="headerlink" title="Github设置Webhook"></a>Github设置Webhook</h2><ul>
+<li><p>查看密钥<br><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook02.png" alt="宝塔Webhook查看密钥"></p>
+</li>
+<li><p>切换到Github项目的Settings-Webhooks</p>
+</li>
+<li><p>Add Webhook</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>Payload URL:</strong> <code>http://服务器ip:8888?hook?access_key=xxxxx</code><br><strong>Content type:</strong> <code>application/json</code><br><strong>Secret:</strong> <code>Key</code><br><strong>Which events would you like to trigger this webhook?</strong><br>choose：Just the push event.<br>√<strong>Active</strong></p>
+</blockquote>
+<ul>
+<li>测试，本地更改sources后<code>hexo g</code>+<code>hexo d</code></li>
+<li>第一次红了是因为将Github中Webhook的Content type设置成了<code>application/x-www-form-urlencoded</code>，改成<code>application/json</code>通过<br><img src="https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook03.png" alt="Webhook测试"></li>
+</ul>
+<hr>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><ol>
+<li>服务器需要开放8888端口，如果使用其他端口同样需要打开</li>
+<li>两者都是表单数据发送时的编码类型<br> application/x-www-form-urlencoded —&gt; key=value&amp;key=value</li>
+<li>一般情况下都会正常同步，如果长时间未update，可能是DNS的问题，可以考虑选择一个连接速度较快的GitHub的ip添加到/etc/hosts并且刷新</li>
+</ol>
+<hr>
+<h2 id="Update-20240401"><a href="#Update-20240401" class="headerlink" title="Update: 20240401"></a>Update: 20240401</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://mirror.ghproxy.com/">原有的代理喜提GFW，改用备用站点</a></p>
+</blockquote>
+<p>相应的，WebHook部分适当修改</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">echo ""</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">输出当前时间</span></span><br><span class="line">date --date='0 days ago' "+%Y-%m-%d %H:%M:%S"</span><br><span class="line">echo "Start"</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">git项目路径</span></span><br><span class="line">gitPath=" "</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">git 网址</span></span><br><span class="line">gitSSH="https://mirror.ghproxy.com/https://github.com/username/repo"</span><br><span class="line"> </span><br><span class="line">echo "Web站点路径：$gitPath"</span><br><span class="line"><span class="meta prompt_"> </span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">判断项目路径是否存在</span></span><br><span class="line">if [ -d "$gitPath" ]; then</span><br><span class="line">    cd $gitPath</span><br><span class="line">    #判断是否存在git目录</span><br><span class="line"> if [ ! -d ".git" ]; then  </span><br><span class="line">        echo "Cloning the git repository into the directory"  </span><br><span class="line">        sudo git clone $gitSSH .  </span><br><span class="line">    fi</span><br><span class="line">    echo "拉取最新的项目文件"</span><br><span class="line">    sudo git reset -- hard origin/master</span><br><span class="line">    sudo git pull origin master</span><br><span class="line">    </span><br><span class="line">    echo "设置目录权限"</span><br><span class="line">    sudo chown -R www:www $gitPath</span><br><span class="line"> date --date='0 days ago' "+%Y-%m-%d %H:%M:%S"</span><br><span class="line">    echo "End"</span><br><span class="line">    exit</span><br><span class="line">else</span><br><span class="line">    echo "该项目路径不存在"</span><br><span class="line">    echo "End"</span><br><span class="line">    exit</span><br><span class="line">fi</span><br></pre></td></tr></tbody></table></figure>
  
       <!-- reward -->
       
@@ -225,6 +153,18 @@
     
 
     <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
     
     <footer class="article-footer">
        
@@ -270,12 +210,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2021/02/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B4%E7%90%86/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2024/04/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re-match/" rel="tag">re.match</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webhook/" rel="tag">webhook</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%90%8C%E6%AD%A5/" rel="tag">同步</a></li></ul>
 
     </footer>
   </div>
@@ -283,19 +223,19 @@
    
   <nav class="article-nav">
     
-      <a href="/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/" class="article-nav-link">
+      <a href="/2024/04/01/TencentTest20240331/" class="article-nav-link">
         <strong class="article-nav-caption">Prev post</strong>
         <div class="article-nav-title">
           
-            VS2019代码提示延迟很高，部分快捷键无法使用的问题
+            (no title)
           
         </div>
       </a>
     
     
-      <a href="/2021/01/31/hexo_begin/" class="article-nav-link">
+      <a href="/2023/07/12/TexSkills/" class="article-nav-link">
         <strong class="article-nav-caption">Next post</strong>
-        <div class="article-nav-title">Hexo_begin</div>
+        <div class="article-nav-title">Skills for TexLive under VsCode</div>
       </a>
     
   </nav>
