@@ -1,1 +1,1 @@
-{"title":"","id":"2024/04/01/TencentTest20240331/","date_published":"04/01/2024","summary":"","url":"https://www.lingzhicheng.cn/2024/04/01/TencentTest20240331/","tags":[],"categories":[]}
+{"title":"腾讯2024暑期实习笔试","id":"2024/04/01/TencentTest20240331/","date_published":"04/01/2024","summary":"\n打卡题目，无向图的邻接表，遍历判断\n判断分段拼接链表后，是否整段升序\n连通图，非连通的图增加一条边恰好连通的方案数\n异或前缀和+动态规划\n遍历+回溯判断矩阵构成字符串\n","url":"https://www.lingzhicheng.cn/2024/04/01/TencentTest20240331/","tags":["LinkedList","UndirectedGraph","BackTrack"],"categories":["笔试"]}
