@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta name="google-site-verification" content="QbUVAi0K2ZB_P4A6jbbi-GVB4BXs3n6GqgIEGHlySnk" />
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="Torch, Summary, UAV, Git" />
+   
+  <meta name="description" content="No fear of words,no fear of years" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    MapReduce in Distributed Systems |  Haisenberg
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-MapReduce"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  MapReduce in Distributed Systems
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2024/04/14/MapReduce/" class="article-date">
+  <time datetime="2024-04-14T00:00:00.000Z" itemprop="datePublished">2024-04-14</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Distributed-Systems/">Distributed Systems</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">6.5k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">29 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
+<ul>
+<li>MIT 6.824 Distributed Systems Lab-1-Golang<br><span class="github-emoji"><span>💨</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4a8.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>🕥</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f565.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>😴</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f634.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span id="more"></span>
+</li>
+</ul>
+<h1 id="MIT-6-824-Distributed-Systems"><a href="#MIT-6-824-Distributed-Systems" class="headerlink" title="MIT 6.824 Distributed Systems"></a>MIT 6.824 Distributed Systems</h1><h1 id="Lecture-01-Introduction"><a href="#Lecture-01-Introduction" class="headerlink" title="Lecture 01 - Introduction"></a>Lecture 01 - Introduction</h1><h2 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.824/schedule.html">MIT 6.5840 Schedule: Spring 2024</a></li>
+<li><a target="_blank" rel="noopener" href="http://nil.csail.mit.edu/6.824/2020/schedule.html">MIT 6.824 Schedule: Spring 2020</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=cQP8WApzIQQ&amp;list=PLrw6a1wE39_tb2fErI4-WkMbsvGQk9_UB">Youtube 2020</a></li>
+<li>BiliBili Translated:<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1x7411M7Sf/?spm_id_from=333.999.0.0&amp;vd_source=2c248c46a7ba66244aa5b9fb5b07d4fc">https://www.bilibili.com/video/BV1x7411M7Sf/?spm_id_from=333.999.0.0&amp;vd_source=2c248c46a7ba66244aa5b9fb5b07d4fc</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1R7411t71W/?spm_id_from=333.1007.top_right_bar_window_default_collection.content.click&amp;vd_source=2c248c46a7ba66244aa5b9fb5b07d4fc">https://www.bilibili.com/video/BV1R7411t71W/?spm_id_from=333.1007.top_right_bar_window_default_collection.content.click&amp;vd_source=2c248c46a7ba66244aa5b9fb5b07d4fc</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="MapReduce-基本工作方式"><a href="#MapReduce-基本工作方式" class="headerlink" title="MapReduce 基本工作方式"></a>MapReduce 基本工作方式</h2><p><img src="https://www.lingzhicheng.cn/usr/file/picture/MIT/MapReduce.PNG" alt="Read MapReduce(2024) png"></p>
+<p><a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.824/papers/mapreduce.pdf">Read MapReduce(2024)</a></p>
+<p><strong>Map：</strong> 接受一个键值对(key-value pair)，产生一组中间键值对。MapReduce 会将 Map 函数产生的中间键值对传递给一个 Reduce 函数。</p>
+<p><strong>Reduce：</strong> 接受一个键以及相关的一组值，将这组值进行合并产生一组规模更小的值(通常只有一个或零个值)。</p>
+<p>在实现的过程中，Reduce 函数使用 Iterator 读取中间结果，为了防止值过多，而无法全部放到内存中。</p>
+<p><strong>Types:</strong></p>
+<p><code>map    (k1,v1)       -&gt; list(k2,v2)</code></p>
+<p><code>reduce (k2,list(v2)) -&gt; list(v2)</code></p>
+<p>词频统计伪代码：</p>
+<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">map</span>(String key, String value):</span><br><span class="line">    <span class="comment">// key: document name</span></span><br><span class="line">    <span class="comment">// value: document contents</span></span><br><span class="line">    <span class="keyword">for</span> each word w in value:</span><br><span class="line">        <span class="built_in">EmitIntermediate</span>(w, <span class="string">"1"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">reduce</span>(String key, Iterator values):</span><br><span class="line">    <span class="comment">// key: a word</span></span><br><span class="line">    <span class="comment">// values: a list of counts</span></span><br><span class="line">    <span class="type">int</span> result = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> each v in values:</span><br><span class="line">        result += <span class="built_in">ParseInt</span>(v);</span><br><span class="line">    <span class="built_in">Emit</span>(<span class="built_in">AsString</span>(result));</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="Process"><a href="#Process" class="headerlink" title="Process"></a>Process</h3><ol>
+<li>用户程序将输入文件切分为 M 个 16～64MB 之间的 split，并在集群中创建程序副本。</li>
+<li>程序副本分为 1 个 Master 和多个 Worker。Master 选取空闲的 Worker，并为其分配 Map 任务或 Reduce 任务。Master 存储任务的状态(空闲，工作中，完成)和 worker 机器(非空闲任务的机器)的标识。</li>
+<li>Mapper 读取对应的 split 并<strong>调用用户定义的 map 函数</strong>解析为键值对，将输出的中间结果键值对存储到内存中。</li>
+<li>Mapper 将缓存的键值对通过 Partition 函数(通常为 hash(key) mod R)划分为 R 个部分，并周期性地写入本地磁盘，同时将本地磁盘上中间结果的位置信息发送给 Master。</li>
+<li>Master 将收到的中间结果的位置信息发送给 Reducer，Reducer 通过 RPC 读取存储在 Mapper 本地磁盘上的中间结果。在读取完毕后，<u>Reducer 会根据 key 对中间结果进行排序</u>。</li>
+<li>对每一个 key 和其对应的一组值，<strong>调用用户定义的 Reduce 函数</strong>进行处理，输出结果存储在对应的 Reduce Partition 文件中。</li>
+<li>当所有的 Map 任务和 Reduce 任务完成后，Master 通知用户程序。</li>
+</ol>
+<h3 id="容错机制"><a href="#容错机制" class="headerlink" title="容错机制"></a>容错机制</h3><ul>
+<li>worker 失效</li>
+</ul>
+<p>Master 会<strong>周期性地 ping</strong> 每一个 Worker，如果某个 Worker 在一段时间内没有响应，Master 就会认为这个 Worker 已经不可用，对其上分配的任务<strong>重新分配</strong>给其他 Worker。</p>
+<ul>
+<li>master 失效</li>
+</ul>
+<p>Master 会周期性地将集群的当前状态作为 <strong>checkpoint</strong> 写入到磁盘中。Master 发生故障后，重新启动 Master 即可利用存储在磁盘中的最近的 checkpoint 进行<strong>恢复</strong>。</p>
+<h3 id="数据存储机制"><a href="#数据存储机制" class="headerlink" title="数据存储机制"></a>数据存储机制</h3><p>由于网络带宽是一种相当匮乏的计算资源，MapReduce 将数据存储在本地磁盘，由 GFS 进行管理。GFS 把每一份文件划分为多个 64MB 的 block，通常情况下，每个 block 会在不同的机器上保存三份副本。Master 在调度 Map 任务时会考虑输入数据的位置信息，采取<strong>就近原则</strong>，即尽量将 Map 任务<strong>调度到包含相关输入数据副本的机器上执行</strong>。因而大部分输入数据可以从本地读取，消耗非常少的网络带宽。</p>
+<h3 id="负载均衡机制"><a href="#负载均衡机制" class="headerlink" title="负载均衡机制"></a>负载均衡机制</h3><p>Master 将 Map 任务和 Reduce 任务划分为 M 和 R 个片段，<strong>M 和 R 的数量应远大于集群中 Worker 的数量</strong>。每个 Worker 执行大量不同的任务有助于提高集群的动态负载均衡能力，并且加快故障恢复的速度。</p>
+<h3 id="备份任务机制"><a href="#备份任务机制" class="headerlink" title="备份任务机制"></a>备份任务机制</h3><p>如果集群中某个 Worker 花了很长时间才完成最后几个 Map 任务或 Reduce 任务，导致 MapReduce 总执行时间延长，这样的 Worker 被称为落后者(Straggler)。MapReduce 提供了备份任务机制来缓解这种情况。当 MapReduce 快要完成时，<strong>Master 为剩下的正在运行的任务启动备份任务，将其分配给其他的空闲 Worker 来执行</strong>，并在其中一个 Worker 完成后将该任务视作已完成。通过备份任务机制，大大减少了 MapReduce 的执行时间。</p>
+<h2 id="Lab1-MapReduce"><a href="#Lab1-MapReduce" class="headerlink" title="Lab1: MapReduce"></a>Lab1: MapReduce</h2><p>Lab source: <a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.824/labs/lab-mr.html">https://pdos.csail.mit.edu/6.824/labs/lab-mr.html</a></p>
+<ul>
+<li><p>System <code>(hostnamectl)</code></p>
+<ul>
+<li>Static hostname: ubuntu</li>
+<li>Icon name: computer-vm</li>
+<li>Chassis: vm</li>
+<li>Virtualization: vmware</li>
+<li>Operating System: Ubuntu 18.04.6 LTS</li>
+<li>Kernel: Linux 5.4.0-144-generic</li>
+<li>Architecture: x86-64</li>
+</ul>
+</li>
+<li><p>Goland version <code>(go version)</code></p>
+<ul>
+<li>go version go1.19.5 linux/amd64</li>
+</ul>
+</li>
+<li><p>GCC <code>(gcc -version)</code></p>
+<ul>
+<li>gcc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0</li>
+</ul>
+</li>
+</ul>
+<h3 id="Remote-debug"><a href="#Remote-debug" class="headerlink" title="Remote debug"></a>Remote debug</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go install github.com/go-delve/delve/cmd/dlv@latest</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="Sequential-and-Settings"><a href="#Sequential-and-Settings" class="headerlink" title="Sequential and Settings"></a>Sequential and Settings</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> ~/6.5840</span><br><span class="line">$ <span class="built_in">cd</span> src/main</span><br><span class="line">$ go build -buildmode=plugin ../mrapps/wc.go</span><br><span class="line">$ <span class="built_in">rm</span> mr-out*</span><br><span class="line">$ go run mrsequential.go wc.so pg*.txt</span><br><span class="line">$ more mr-out-0</span><br><span class="line">A 509</span><br><span class="line">ABOUT 2</span><br><span class="line">ACT 8</span><br><span class="line">...</span><br></pre></td></tr></tbody></table></figure>
+<p>运行 <code>go build -buildmode=plugin ../mrapps/wc.go</code> 命令将生成一个插件文件，即构建 MR APP 的动态链接库。在这种情况下，生成的文件将具有 <code>.so</code> 扩展名，表示它是一个共享对象文件（shared object），用于动态加载到其他程序中。</p>
+<p>通常情况下，生成的文件名将与源文件的包名相同，只是扩展名为 <code>.so</code>，例如 <code>wc.so</code>。当然，在 windows 下是不显示的，即使同步了双端代码，如果在 win 下生成将用 <code>.dll</code> 表示动态链接库。</p>
+<p>文件 <code>wc.go</code> 以及 <code>mrapps</code> 目录下的其它几个文件，都定义了名为 <code>map, reduce</code> 的函数，这两个函数在 <code>mrsequential.go</code> 中加载并调用。给 <code>mrsequential</code> 绑定不同的 <code>*.so</code> 文件，也就会加载不同的 <code>map, reduce</code> 函数。如此实现某种程度上的<strong>动态绑定。</strong></p>
+<h4 id="可能会报错"><a href="#可能会报错" class="headerlink" title="可能会报错"></a>可能会报错</h4><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># runtime/cgo</span></span><br><span class="line">cgo: C compiler <span class="string">"gcc"</span> not found: <span class="built_in">exec</span>: <span class="string">"gcc"</span>: executable file not found <span class="keyword">in</span> <span class="variable">$PATH</span></span><br></pre></td></tr></tbody></table></figure>
+<p>It seems like the error message you’re encountering is related to the absence of the C compiler “gcc” in your system’s PATH variable.</p>
+<p>To resolve this issue, you will need to ensure that the GNU Compiler Collection (GCC) is installed on your system and that its location is included in the PATH environment variable.</p>
+<p>Here are the general steps to address this issue:</p>
+<ol>
+<li><strong>Install GCC:</strong><br>If you don’t have GCC installed, you can typically install it using your system’s package manager. For example, on a Debian-based system, you can use:</li>
+</ol>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update  </span><br><span class="line">sudo apt-get install build-essential</span><br></pre></td></tr></tbody></table></figure>
+<ol>
+<li><strong>Add GCC to PATH:</strong><br>Once installed, you should ensure that the directory containing the GCC executable is included in your PATH environment variable. This can typically be achieved by adding a line to your shell configuration file (e.g., <strong>`**</strong>.bashrc<strong>**`</strong>, <strong>`**</strong>.zshrc<strong>**`</strong>, etc.):</li>
+</ol>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/path/to/gcc/directory</span><br></pre></td></tr></tbody></table></figure>
+<ol>
+<li><strong>Verify Installation:</strong><br>After making these changes, open a new terminal or run <strong>source</strong>on the configuration file to apply the changes. You can then verify that GCC is accessible by running <strong>gcc —version</strong>.</li>
+</ol>
+<h4 id="配置优化"><a href="#配置优化" class="headerlink" title="配置优化"></a>配置优化</h4><ul>
+<li>原始命令</li>
+</ul>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> ~/6.5840</span><br><span class="line">$ <span class="built_in">cd</span> src/main</span><br><span class="line">$ go build -buildmode=plugin ../mrapps/wc.go</span><br><span class="line">$ <span class="built_in">rm</span> mr-out*</span><br><span class="line">$ go run mrsequential.go wc.so pg*.txt</span><br><span class="line">$ more mr-out-0</span><br><span class="line">A 509</span><br><span class="line">ABOUT 2</span><br><span class="line">ACT 8</span><br><span class="line">...</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><code>.vscode/launch.json</code></li>
+</ul>
+<blockquote>
+<p>注意：这里的”args”貌似不支持通配符 <code>*</code>，所以需要手动把所有文件全部加进去，<u>或许可能有其他办法。</u></p>
+</blockquote>
+<figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">"args"</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">"wc.so"</span><span class="punctuation">,</span> <span class="string">"pg-being_ernest.txt"</span><span class="punctuation">,</span> <span class="string">"pg-dorian_gray.txt"</span><span class="punctuation">,</span> <span class="string">"pg-frankenstein.txt"</span><span class="punctuation">,</span> <span class="string">"pg-grimm.txt"</span><span class="punctuation">,</span> <span class="string">"pg-huckleberry_finn.txt"</span><span class="punctuation">,</span> <span class="string">"pg-metamorphosis.txt"</span><span class="punctuation">,</span> <span class="string">"pg-sherlock_holmes.txt"</span><span class="punctuation">,</span> <span class="string">"pg-tom_sawyer.txt"</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">{</span></span><br><span class="line">    _<span class="comment">// Use IntelliSense to learn about possible attributes._</span></span><br><span class="line">    _<span class="comment">// Hover to view descriptions of existing attributes._</span></span><br><span class="line">    _<span class="comment">// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387_</span></span><br><span class="line">    <span class="attr">"version"</span><span class="punctuation">:</span> <span class="string">"0.2.0"</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"configurations"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">{</span></span><br><span class="line">            <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"Run mrcoordinator.go"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"type"</span><span class="punctuation">:</span> <span class="string">"go"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"request"</span><span class="punctuation">:</span> <span class="string">"launch"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"mode"</span><span class="punctuation">:</span> <span class="string">"auto"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"args"</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">"pg-being_ernest.txt"</span><span class="punctuation">,</span> <span class="string">"pg-dorian_gray.txt"</span><span class="punctuation">,</span> <span class="string">"pg-frankenstein.txt"</span><span class="punctuation">,</span> <span class="string">"pg-grimm.txt"</span><span class="punctuation">,</span> <span class="string">"pg-huckleberry_finn.txt"</span><span class="punctuation">,</span> <span class="string">"pg-metamorphosis.txt"</span><span class="punctuation">,</span> <span class="string">"pg-sherlock_holmes.txt"</span><span class="punctuation">,</span> <span class="string">"pg-tom_sawyer.txt"</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"program"</span><span class="punctuation">:</span> <span class="string">"${workspaceFolder}/src/main/mrcoordinator.go"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"cwd"</span><span class="punctuation">:</span> <span class="string">"${workspaceFolder}/src/main"</span></span><br><span class="line">        <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">{</span></span><br><span class="line">            <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"Run mrworker.go"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"type"</span><span class="punctuation">:</span> <span class="string">"go"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"request"</span><span class="punctuation">:</span> <span class="string">"launch"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"mode"</span><span class="punctuation">:</span> <span class="string">"auto"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"args"</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">"wc.so"</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"program"</span><span class="punctuation">:</span> <span class="string">"${workspaceFolder}/src/main/mrworker.go"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"cwd"</span><span class="punctuation">:</span> <span class="string">"${workspaceFolder}/src/main"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"preLaunchTask"</span><span class="punctuation">:</span> <span class="string">"build wc &amp;&amp; temp dir"</span></span><br><span class="line">        <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">{</span></span><br><span class="line">            <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"Run mrsequential.go with wc.so"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"type"</span><span class="punctuation">:</span> <span class="string">"go"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"request"</span><span class="punctuation">:</span> <span class="string">"launch"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"mode"</span><span class="punctuation">:</span> <span class="string">"auto"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"program"</span><span class="punctuation">:</span> <span class="string">"${workspaceFolder}/src/main/mrsequential.go"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"env"</span><span class="punctuation">:</span> <span class="punctuation">{</span><span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"args"</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">"wc.so"</span><span class="punctuation">,</span> <span class="string">"pg-being_ernest.txt"</span><span class="punctuation">,</span> <span class="string">"pg-dorian_gray.txt"</span><span class="punctuation">,</span> <span class="string">"pg-frankenstein.txt"</span><span class="punctuation">,</span> <span class="string">"pg-grimm.txt"</span><span class="punctuation">,</span> <span class="string">"pg-huckleberry_finn.txt"</span><span class="punctuation">,</span> <span class="string">"pg-metamorphosis.txt"</span><span class="punctuation">,</span> <span class="string">"pg-sherlock_holmes.txt"</span><span class="punctuation">,</span> <span class="string">"pg-tom_sawyer.txt"</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"preLaunchTask"</span><span class="punctuation">:</span> <span class="string">"build wc"</span></span><br><span class="line">        <span class="punctuation">}</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">}</span></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><code>.vscode/tasks.json</code></li>
+</ul>
+<figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">{</span></span><br><span class="line">    <span class="attr">"version"</span><span class="punctuation">:</span> <span class="string">"2.0.0"</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"tasks"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">{</span></span><br><span class="line">            <span class="attr">"label"</span><span class="punctuation">:</span> <span class="string">"build wc"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"type"</span><span class="punctuation">:</span> <span class="string">"shell"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"command"</span><span class="punctuation">:</span> <span class="string">"bash"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"args"</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">"${workspaceFolder}/src/main/build-wc.sh"</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"problemMatcher"</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">"group"</span><span class="punctuation">:</span> <span class="punctuation">{</span>  </span><br><span class="line">              <span class="attr">"kind"</span><span class="punctuation">:</span> <span class="string">"build"</span><span class="punctuation">,</span>  </span><br><span class="line">              <span class="attr">"isDefault"</span><span class="punctuation">:</span> <span class="keyword">true</span>  </span><br><span class="line">            <span class="punctuation">}</span><span class="punctuation">,</span> </span><br><span class="line">            <span class="attr">"presentation"</span><span class="punctuation">:</span> <span class="punctuation">{</span>  </span><br><span class="line">              <span class="attr">"reveal"</span><span class="punctuation">:</span> <span class="string">"silent"</span>  </span><br><span class="line">            <span class="punctuation">}</span></span><br><span class="line">        <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">{</span></span><br><span class="line">            <span class="attr">"label"</span><span class="punctuation">:</span> <span class="string">"build temp dir"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"type"</span><span class="punctuation">:</span> <span class="string">"shell"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"command"</span><span class="punctuation">:</span> <span class="string">"bash"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"args"</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">"${workspaceFolder}/src/main/build-temp-dir.sh"</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"problemMatcher"</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">"group"</span><span class="punctuation">:</span> <span class="punctuation">{</span>  </span><br><span class="line">              <span class="attr">"kind"</span><span class="punctuation">:</span> <span class="string">"build"</span><span class="punctuation">,</span>  </span><br><span class="line">              <span class="attr">"isDefault"</span><span class="punctuation">:</span> <span class="keyword">true</span>  </span><br><span class="line">            <span class="punctuation">}</span><span class="punctuation">,</span>  </span><br><span class="line">            <span class="attr">"presentation"</span><span class="punctuation">:</span> <span class="punctuation">{</span>  </span><br><span class="line">              <span class="attr">"reveal"</span><span class="punctuation">:</span> <span class="string">"silent"</span>  </span><br><span class="line">            <span class="punctuation">}</span></span><br><span class="line">        <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">{</span></span><br><span class="line">            <span class="attr">"label"</span><span class="punctuation">:</span> <span class="string">"build wc &amp;&amp; temp dir"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"dependsOn"</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">"build wc"</span><span class="punctuation">,</span> <span class="string">"build temp dir"</span><span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">}</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">}</span></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><code>6.8540/src/main/build-wc.sh</code></li>
+</ul>
+<blockquote>
+<p>注意：如果出现 <code>cannot load plugin wc.so</code>，需要加上 <code>-gcflags="all=-N -l"</code>，以禁用优化和内联，但这不一定是必要的，如果直接在 Terminal 进行动态库的生成，则不需要。</p>
+</blockquote>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"Building wc plugin..."</span></span><br><span class="line"><span class="built_in">cd</span> src/main</span><br><span class="line">go build -buildmode=plugin -gcflags=<span class="string">"all=-N -l"</span> ../mrapps/wc.go</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"wc plugin built"</span></span><br><span class="line"><span class="built_in">rm</span> -f mr-*</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"deleted old mr-* files"</span></span><br></pre></td></tr></tbody></table></figure>
+<h2 id="Our-tasks"><a href="#Our-tasks" class="headerlink" title="Our tasks"></a>Our tasks</h2><blockquote>
+<p>Your job is to implement a distributed MapReduce, consisting of two programs, the coordinator and the worker. There will be just one coordinator process, and one or more worker processes executing in parallel. In a real system the workers would run on a bunch of different machines, but for this lab you’ll run them all on a single machine. The workers will talk to the coordinator via RPC. Each worker process will, in a loop, ask the coordinator for a task, read the task’s input from one or more files, execute the task, write the task’s output to one or more files, and again ask the coordinator for a new task. The coordinator should notice if a worker hasn’t completed its task in a reasonable amount of time (for this lab, use ten seconds), and give the same task to a different worker.</p>
+</blockquote>
+<ul>
+<li>主体：完成一个分布式的 MapReduce，由一个 coordinator 进程（在之前的版本中用 master 称呼）和多个并行的 worker 进程组成。现实中真实的分布式系统通常运行在一堆不同的设备上，但在这里只用一台计算机，worker 通过 RPC 和 coordinator 通信。每一个 worker 进程将循环地向 coordinator 请求 task，从 task 的输入中读取一个或多个文件，执行程序然很将结果输出到一个或多个文件，然后再次请求新的 task。如果一个 worker 长时间没有完成 task（这里设置为 10s），coordinator 将通知另一个 worker 来执行这个 task。</li>
+<li>注意：<code>main/mrcoordinator.go</code> 和 <code>main/mrworker.go</code> 是 test 的入口，不要求改。需要完成的在 <code>mr/coordinator.go</code>、<code>mr/worker.go</code> 和 <code>mr/rpc.go</code>。</li>
+<li><p>大致的测试步骤：</p>
+<ul>
+<li><p>构建中间件用于 word-count，这里和上面类似，后续可以附带在启动 mrworker 的任务中。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go build -buildmode=plugin ../mrapps/wc.go</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>启动mrcoordinator，输入是所有txt文件，每一个文件代表一个split，同样的这里也要注意通配符。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> mr-out*</span><br><span class="line">go run mrcoordinator.go pg-*.txt</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>启动多个mrworker</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go run mrworker.go wc.so</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>按顺序排序后的词频统计应当和序列化单机的结果保持一致，用main/test-mr.sh进行测试，将测试输出是否保持正确，是否具有修复崩溃worker的能力</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> mr-out-* | <span class="built_in">sort</span> | more</span><br><span class="line">A 509</span><br><span class="line">ABOUT 2</span><br><span class="line">ACT 8</span><br><span class="line">...</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>结果将生成多个mr-out-X文件</p>
+</li>
+<li>可能会出现RPC的报错rpc.Register: method “Done” has 1 input parameters; needs exactly three，Done()没有通过RPC，先忽略</li>
+</ul>
+</li>
+</ul>
+<h3 id="Rules"><a href="#Rules" class="headerlink" title="Rules"></a>Rules</h3><ul>
+<li>map 阶段应当将中间态的 keys 划分到 <code>nReduce</code> 个桶进行 reduce 任务，这个数量就是 reduce 任务的数量，这个参数是从 <code>main/mrcoordinator.go</code> 传入到 <code>mr/coordinator.go</code> 的 <code>MakeCoordinator()</code> 函数的。为了减少任务的消耗，每一个 mapper 应当创建 <code>nReduce</code> 个中间文件。</li>
+<li>worker 应当将第 X 个 reduce 任务的输出放到 <code>mr-out-X</code>。</li>
+<li><code>mr-out-X</code> 的输出格式，每一行包括一个 Reduce 函数的输出，以键值对的形式表示，用 <code>"%v %v"</code> 进行格式化，参照 <code>main/mrsequential.go</code>。格式错误可能导致测试不通过。</li>
+<li>worker 应当将 Map 的输出文件放在当前目录下，以便它作为 Reduce 任务的输入。</li>
+<li>当 MapReduce 任务完全结束时，<code>mr/coordinator.go</code> 的 <code>Done()</code> 方法应当返回 <code>true</code>，此时 <code>main/mrcoordinator.go</code> 将退出。</li>
+<li>worker 也应当退出。一个简单的实现方法可以是使用 <code>call()</code> 的返回值，如果 worker 联系不上 coordinator，则说明任务已经完成，coordinator 已经退出，此时 worker 也可以退出。</li>
+</ul>
+<h3 id="Hints"><a href="#Hints" class="headerlink" title="Hints"></a>Hints</h3><ul>
+<li>相关 Golang 的知识 <a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.824/labs/guidance.html">https://pdos.csail.mit.edu/6.824/labs/guidance.html</a></li>
+<li>一个入手的方法就是，设计 <code>mr/worker.go</code> 的 <code>Worker()</code> 函数，通过 RPC 向 coordinator 请求一个任务，然后设计 coordinator 的响应（尚未进行 map 任务的文件名），再设计 worker 如何读取这些文件，调用 Map 函数（类似于 <code>mrsequential.go</code>）。</li>
+<li>Map 和 Reduce 函数是通过 go 的 plugin 进行动态加载的，后缀是 <code>.so</code> 的文件。</li>
+<li>如果修改了 <code>mr/</code> 目录下的任何东西，最好都重新加载一下 plugin，也就是上面提到的放到 tasks 里面作为启动前的任务。</li>
+<li>当前的 lab 是基于一台机器进行文件操作的，如果是多台机器则需要全局的文件系统例如 GFS，在此并未考虑。</li>
+<li>中间文件的命名，可以是 <code>mr-X-Y</code>，其中 X 是 Map 任务的编号，Y 是 reduce 任务的编号。</li>
+<li><p>map 任务存储的中间态键值对格式应当可以直接被 reduce 任务读取，一个可行的办法是使用 go 的 <code>encoding/json</code> 包：</p>
+  <figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// write</span></span><br><span class="line">enc := json.NewEncoder(file)</span><br><span class="line"><span class="keyword">for</span> _, kv := ... {</span><br><span class="line">err := enc.Encode(&amp;kv)</span><br><span class="line"></span><br><span class="line"><span class="comment">// read</span></span><br><span class="line">dec := json.NewDecoder(file)</span><br><span class="line"><span class="keyword">for</span> {</span><br><span class="line">    <span class="keyword">var</span> kv KeyValue</span><br><span class="line">    <span class="keyword">if</span> err := dec.Decode(&amp;kv); err != <span class="literal">nil</span> {</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    }</span><br><span class="line">    kva = <span class="built_in">append</span>(kva, kv)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>map部分可以用<code>worker.go</code>里的<code>ihash(key)</code>函数通过给定的key来选择reduce任务。</p>
+</li>
+<li><p>可以参考部分<code>mrsequential.go</code>中的代码，是非常有用的。</p>
+</li>
+<li><p>coordinator是一个RPC服务，可能会有并发的问题，应当给一些数据加锁。</p>
+</li>
+<li><p>使用<code>go run-race</code>来引入go的竞态检测器，<code>test-mr.sh</code>开头有一段如何使用的说明，测试不会使用竞态检测器。不过，如果代码存在竞态，测试时会失败。</p>
+</li>
+<li><p>workers有时候需要等待，例如reduces需要再最后一个map完成再工作。一个解决方案是workers周期性地向coordinator请求work，使用<code>time.Sleep()</code>；另一个方法是再relevant RPC handler中使用<code>time.Sleep()</code>或者<code>sync.Cond</code>进行等待。每个RPC都有自己的线程，不会影响其他RPC。</p>
+</li>
+<li><p>coordinator无法区分宕机、卡住以及运行非常缓慢的workers。最好是让coordinator等待一定的时间（在这里是10s），超时则判定为死亡（当然有可能没有），然后把这个任务分发给其他worker。</p>
+</li>
+<li><p>如果要完成Section3.6中的Backup任务，将测试代码完成：worker没有崩溃的时候不会去完成其他任务，备份任务仅在10s后才进行。</p>
+</li>
+<li><p>可以使用<code>mrapps/crash.go</code>作为plugin进行崩溃恢复。</p>
+</li>
+<li><p>MapReduce论文中提到，为了确保发生崩溃的时候没有人注意到这部分文件，可以采用临时文件以及完全写入后再进行重命名的方法。可以用<code>ioutil.TempFile</code>或者<code>os.CreateTemp</code>进行临时文件的创建，用<code>os.Rename</code>进行重命名</p>
+</li>
+<li><p><code>test-mr.sh</code>在子目录 <code>mr-tmp</code>中运行其所有进程，因此如果出现问题可以看那里。 可以临时修改<code>test-mr.sh</code> 以在测试失败后退出，这样脚本就不会继续测试（并覆盖输出文件）。</p>
+</li>
+<li><p><code>test-mr-many.sh</code>是连续运行很多次<code>test-mr.sh</code>，以便找到概率性的错误。不能并行多个<code>test-mr.sh</code>实例，因为coordinator用了同一个socker会导致冲突。</p>
+</li>
+<li><p>GO RPC仅发送以大写字母开头的结构体字段，子结构必须由大写的字段名称。</p>
+</li>
+<li><p>调用RPC的<code>call()</code>方法时，返回结构应当包含所有默认值。RPC 调用应该如下所示：在调用之前不设置任何回复字段。 如果您传递具有非默认字段的回复结构，RPC 系统可能会默默地返回不正确的值。</p>
+  <figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reply := SomeType{}</span><br><span class="line">call(..., &amp;reply)</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+<h3 id="Challenges"><a href="#Challenges" class="headerlink" title="Challenges"></a>Challenges</h3><ul>
+<li>Implement your own MapReduce application (see examples in mrapps/*), e.g., Distributed Grep (Section 2.3 of the MapReduce paper).实现论文中 2.3 节的 MapReduce 应用。</li>
+<li>Get your MapReduce coordinator and workers to run on separate machines, as they would in practice. You will need to set up your RPCs to communicate over TCP/IP instead of Unix sockets (see the commented out line in Coordinator.server()), and read/write files using a shared file system. For example, you can ssh into multiple <a target="_blank" rel="noopener" href="http://kb.mit.edu/confluence/display/istcontrib/Getting+Started+with+Athena">Athena cluster</a> machines at MIT, which use <a target="_blank" rel="noopener" href="http://kb.mit.edu/confluence/display/istcontrib/AFS+at+MIT+-+An+Introduction">AFS</a> to share files; or you could rent a couple AWS instances and use <a target="_blank" rel="noopener" href="https://aws.amazon.com/s3/">S3</a> for storage.把 coordinator 和 workers 部署在不同的服务器上，改用 TCP/IP 取代 sockets 通信，并且使用 SFS 共享文件系统。</li>
+</ul>
+<h3 id="正式开始-Coding"><a href="#正式开始-Coding" class="headerlink" title="正式开始 Coding"></a>正式开始 Coding</h3><h4 id="worker-请求任务，coordinator-分配任务，worker-收到后打印"><a href="#worker-请求任务，coordinator-分配任务，worker-收到后打印" class="headerlink" title="worker 请求任务，coordinator 分配任务，worker 收到后打印"></a>worker 请求任务，coordinator 分配任务，worker 收到后打印</h4><blockquote>
+<p>暂时只关注 coordinator 和 worker 的交互逻辑</p>
+</blockquote>
+<ul>
+<li><p><code>wc.go</code> 的逻辑</p>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 输入是文件名和内容，输出是结构体切片存放kva</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Map</span><span class="params">(filename <span class="type">string</span>, contents <span class="type">string</span>)</span></span> []mr.KeyValue {</span><br><span class="line">    <span class="comment">// function to detect word separators.</span></span><br><span class="line">    <span class="comment">// 匿名函数，接收一个rune，返回一个bool，用于判断是否是字母，不是字母则是true</span></span><br><span class="line">    ff := <span class="function"><span class="keyword">func</span><span class="params">(r <span class="type">rune</span>)</span></span> <span class="type">bool</span> { <span class="keyword">return</span> !unicode.IsLetter(r) }</span><br><span class="line"></span><br><span class="line">    <span class="comment">// split contents into an array of words.</span></span><br><span class="line">    <span class="comment">// 根据不是字母的点对contents进行拆分，也就是空格和其他，将得到单词的slice</span></span><br><span class="line">    words := strings.FieldsFunc(contents, ff)</span><br><span class="line"></span><br><span class="line">    kva := []mr.KeyValue{}</span><br><span class="line">    <span class="comment">// 遍历words切片，单词是key，value是"1"；重复的key在这时不会合并</span></span><br><span class="line">    <span class="keyword">for</span> _, w := <span class="keyword">range</span> words {</span><br><span class="line">        kv := mr.KeyValue{w, <span class="string">"1"</span>}</span><br><span class="line">        kva = <span class="built_in">append</span>(kva, kv)</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> kva</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Reduce</span><span class="params">(key <span class="type">string</span>, values []<span class="type">string</span>)</span></span> <span class="type">string</span> {</span><br><span class="line">    <span class="comment">// return the number of occurrences of this word.</span></span><br><span class="line">    <span class="comment">// values切片的长度就是个数相加，实现了map中同key相加的效果</span></span><br><span class="line">    <span class="keyword">return</span> strconv.Itoa(<span class="built_in">len</span>(values))</span><br><span class="line">} </span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p><code>mrsequential.go</code>的逻辑</p>
+<ul>
+<li>判定输入的参数<code>os.Args</code></li>
+<li>用<code>loadPlugin(os.Args[1])</code>读取<code>mapf</code>和<code>reducef</code>两个以动态链接加载的函数（用1是因为0是文件路径 <strong>/home/boom/go/src/6.5840/src/main/__debug_bin710355273</strong> <code>wc.so pg-being_ernest.txt pg-dorian_gray.txt pg-frankenstein.txt pg-grimm.txt pg-huckleberry_finn.txt pg-metamorphosis.txt pg-sherlock_holmes.txt pg-tom_sawyer.txt</code>，1才是<code>wc.so</code>）<ul>
+<li><code>p, err := plugin.Open(filename)</code>加载插件</li>
+<li><code>xf, err := p.Lookup("Map")和p.Lookup("Reduce")</code>检索符号（这里的符号是函数）</li>
+<li><code>f :=  xf.(func())</code>调用函数</li>
+</ul>
+</li>
+<li><p>在worker中KeyValue的结构体，用这个结构体定义未初始化的切片<code>type ByKey []mr.KeyValue</code>用于<code>intermediate := []mr.KeyValue{}</code>的排序</p>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// struct is in 6.5840/mr</span></span><br><span class="line"><span class="keyword">type</span> KeyValue <span class="keyword">struct</span> {</span><br><span class="line">    Key   <span class="type">string</span></span><br><span class="line">    Value <span class="type">string</span></span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">// for sorting by key.</span></span><br><span class="line"><span class="keyword">type</span> ByKey []mr.KeyValue</span><br><span class="line"></span><br><span class="line"><span class="comment">// for sorting by key.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(a ByKey)</span></span> Len() <span class="type">int</span>           { <span class="keyword">return</span> <span class="built_in">len</span>(a) }</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(a ByKey)</span></span> Swap(i, j <span class="type">int</span>)      { a[i], a[j] = a[j], a[i] }</span><br><span class="line"><span class="comment">// 实现了sort接口的三个方法以完成排序，按照键的字母顺序排序a-z</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(a ByKey)</span></span> Less(i, j <span class="type">int</span>) <span class="type">bool</span> { <span class="keyword">return</span> a[i].Key &lt; a[j].Key }</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>读取后续各个参数，open、read、close各个file，依次把filename和content进行map，再存入切片</p>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> _, filename := <span class="keyword">range</span> os.Args[<span class="number">2</span>:] {</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    file, err := os.Open(filename)</span><br><span class="line">    content, err := ioutil.ReadAll(file) <span class="comment">// 在go1.16之后用io.ReadAll()</span></span><br><span class="line">    file.Close()</span><br><span class="line">    kva := mapf(filename, <span class="type">string</span>(content)) <span class="comment">// 调用mapf获取当前文档的所有分词kv的切片</span></span><br><span class="line">    intermediate = <span class="built_in">append</span>(intermediate, kva...) <span class="comment">// 追加到中间态的切片中暂存</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>排序切片，创建文件</p>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sort.Sort(ByKey(intermediate))</span><br><span class="line"></span><br><span class="line">oname := <span class="string">"mr-out-0"</span></span><br><span class="line">ofile, _ := os.Create(oname)</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>reduce，然后关闭文件</p>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">i := <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i &lt; <span class="built_in">len</span>(intermediate) {</span><br><span class="line">        j := i + <span class="number">1</span></span><br><span class="line">        <span class="comment">// 找到所有相同key的下标范围[i,j)</span></span><br><span class="line">        <span class="keyword">for</span> j &lt; <span class="built_in">len</span>(intermediate) &amp;&amp; intermediate[j].Key == intermediate[i].Key {</span><br><span class="line">            j++</span><br><span class="line">        }</span><br><span class="line">        <span class="comment">// 暂存这些同key的所有value</span></span><br><span class="line">        values := []<span class="type">string</span>{}</span><br><span class="line">        <span class="keyword">for</span> k := i; k &lt; j; k++ {</span><br><span class="line">            values = <span class="built_in">append</span>(values, intermediate[k].Value)</span><br><span class="line">        }</span><br><span class="line">        <span class="comment">// 进行reduce</span></span><br><span class="line">        output := reducef(intermediate[i].Key, values)</span><br><span class="line">        <span class="comment">// 写入上面创建的ofile文件，注意要按照这个格式</span></span><br><span class="line">        <span class="comment">// this is the correct format for each line of Reduce output.</span></span><br><span class="line">        fmt.Fprintf(ofile, <span class="string">"%v %v\n"</span>, intermediate[i].Key, output)</span><br><span class="line">        <span class="comment">// 更新i，找下一组key</span></span><br><span class="line">        i = j</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    ofile.Close()</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="入口"><a href="#入口" class="headerlink" title="入口"></a>入口</h4><ul>
+<li><p>单个终端启动<code>main/mrcoordinator.go</code></p>
+<ul>
+<li><code>m := mr.MakeCoordinator(os.Args[1:], 10)</code>带Args读入，这里的Args是所有的txt文档；和<code>nReduce=10</code>（对于<code>map</code>任务的数量，<strong>文件个数</strong>就是<code>map</code>个数，<strong>文件序号</strong>就是<code>map</code>序号）<ul>
+<li>由<code>mr.MakeCoordinator（）</code>初始化<code>Coordinator</code></li>
+<li><code>c.server()</code>启动一个线程监听来自<code>mr/worker.go</code>的RPC请求</li>
+<li><code>go c.loopRemoveTimeoutTasks()</code>启动另一个线程循环移除过期的任务</li>
+</ul>
+</li>
+<li>周期性调用<code>Done()</code>询问是否结束，如果返回<code>false</code>则在延迟1s后结束进程</li>
+<li>把所有<code>files</code>放入<code>c.unIssueMapTasks</code>队列</li>
+</ul>
+</li>
+<li><p>多个终端启动<code>main/mrworker.go</code></p>
+<ul>
+<li>加载一个启动参数<code>wc.so</code>动态插件，<code>mapf, reducef := loadPlugin(os.Args[1])</code></li>
+<li><code>mr.Worker(mapf, reducef)</code></li>
+<li><p><code>Worker</code>结构：两个函数，任务属性、是否全部结束、Id</p>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> AWorker <span class="keyword">struct</span> {</span><br><span class="line">    mapf    <span class="function"><span class="keyword">func</span><span class="params">(<span class="type">string</span>, <span class="type">string</span>)</span></span> []KeyValue</span><br><span class="line">    reducef <span class="function"><span class="keyword">func</span><span class="params">(<span class="type">string</span>, []<span class="type">string</span>)</span></span> <span class="type">string</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// false for map, true for reduce</span></span><br><span class="line">    mapOrReduce <span class="type">bool</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// false for not done, true for done and must exit</span></span><br><span class="line">    allDone <span class="type">bool</span></span><br><span class="line"></span><br><span class="line">    workerId <span class="type">int</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>判定<code>allDone</code>，进行<code>worker.process()</code></p>
+</li>
+<li>判定<code>mapOrReduce</code>，选择<code>map</code>任务或者<code>reduce</code>任务<ul>
+<li>如果是<code>map</code>任务<ul>
+<li>请求任务<code>reply := worker.askMapTask()</code></li>
+<li>处理<code>reply</code>，如果为<code>nil</code>表示<code>map</code>任务已经处理完成，切换到<code>reduce</code>任务<code>worker.mapOrReduce = true</code>；如果不为<code>nil</code>，若<code>reply.FileId==-1</code>说明任务分配完了但是还没处理完，没有<code>map</code>任务可以给当前<code>worker</code>处理，什么都不做，随机等待一小段时间后再返回，重新<code>process</code>请求，否则就正常处理<code>worker.executeMap(reply)</code></li>
+</ul>
+</li>
+<li>如果是<code>reduce</code>任务<ul>
+<li>请求任务<code>reply := worker.askReduceTask()</code></li>
+<li>处理<code>reply</code>，如果为<code>nil</code>则表示全部结束， <code>worker.allDone = true</code>后返回，worker进程会退出；如果不为<code>nil</code>，若<code>reply.RIndex==-1</code>说明reduce任务已分配完但没处理完，否则就正常处理<code>worker.executeReduce(reply)</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="任务的请求和处理机制"><a href="#任务的请求和处理机制" class="headerlink" title="任务的请求和处理机制"></a>任务的请求和处理机制</h4><ul>
+<li><code>reply := worker.askMapTask()</code></li>
+</ul>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(worker *AWorker)</span></span> askMapTask() *MapTaskReply {</span><br><span class="line">    <span class="comment">// declare an argument structure and reply structure.</span></span><br><span class="line">    args := MapTaskArgs{WorkerId: worker.workerId}</span><br><span class="line">    reply := MapTaskReply{}</span><br><span class="line"></span><br><span class="line">    worker.logPrintf(<span class="string">"Asking map task...\n"</span>)</span><br><span class="line">    ok := call(<span class="string">"Coordinator.GiveMapTask"</span>, &amp;args, &amp;reply)</span><br><span class="line">    <span class="keyword">if</span> !ok {</span><br><span class="line">        worker.logPrintf(<span class="string">"askMapTask failed\n"</span>)</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    worker.workerId = reply.WorkerId</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> reply.FileId == <span class="number">-1</span> {</span><br><span class="line">        <span class="keyword">if</span> reply.AllDone {</span><br><span class="line">            worker.logPrintf(<span class="string">"All map tasks are done\n"</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">        } <span class="keyword">else</span> {</span><br><span class="line">            worker.logPrintf(<span class="string">"No map task available\n"</span>)</span><br><span class="line">            <span class="keyword">return</span> &amp;reply</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    worker.logPrintf(<span class="string">"Got map task %v on file %v\n"</span>, reply.FileId, reply.FileName)</span><br><span class="line">    <span class="keyword">return</span> &amp;reply</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><ul>
+<li>请求主体的结构：<code>worker *AWorker</code></li>
+<li><p>请求参数<code>args</code>结构：</p>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MapTaskArgs <span class="keyword">struct</span> {</span><br><span class="line">    <span class="comment">// give -1 if no task</span></span><br><span class="line">    WorkerId <span class="type">int</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>返回参数<code>reply</code>结构：</li>
+</ul>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MapTaskReply <span class="keyword">struct</span> {</span><br><span class="line">    <span class="comment">// worker pass the file name to the os to read</span></span><br><span class="line">    FileName <span class="type">string</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// marks a unique file id for map task, give -1 if no more file</span></span><br><span class="line">    FileId <span class="type">int</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// for reduce task</span></span><br><span class="line">    NReduce <span class="type">int</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// assign the worker id to the task</span></span><br><span class="line">    WorkerId <span class="type">int</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// assign where this kind of tasks are all done</span></span><br><span class="line">    <span class="comment">// if not or FileId is -1, the worker should wait</span></span><br><span class="line">    AllDone <span class="type">bool</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>任务分发：<code>func (c *Coordinator) GiveMapTask(args *MapTaskArgs, reply *MapTaskReply) error{}</code></p>
+<ul>
+<li>分发任务WorkerId为当前Coordinator的<code>c.curWorkerId</code>，此后<code>curWorkerId++</code>，如果WorkerId存在则不改变。</li>
+<li>通过<code>c.issuedMapMutex.Lock()</code>获取Map任务的互斥锁<code>issuedMapMutex  sync.Mutex</code></li>
+<li>判定<code>Coordinator</code>的<code>c.mapDone</code>字段，map任务结束则直接释放锁、<code>reply.FileId == -1</code>，<code>reply.AllDone</code>设为true，然后返回nil</li>
+<li>判定没有分配的map任务队列和处理中的map任务队列是否都为空，为空则和上一条一样，附加设置<code>c.mapDone</code>为<code>true</code>，以及按照<code>c.nReduce</code>放入reduce的未分配队列</li>
+<li>从未分配map任务队列中<code>PopBack()</code>拿到fileId（按照文件数量排列<code>0-len(files)-1</code>)，以此也可以拿到文件名并写入reply，并且给<code>MapTaskState</code>设置开始时间，为后续超时做准备。</li>
+</ul>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MapTaskState <span class="keyword">struct</span> {</span><br><span class="line">    beginSecond <span class="type">int64</span></span><br><span class="line">    workerId    <span class="type">int</span></span><br><span class="line">    fileId      <span class="type">int</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>拿出的fileId放入已分配正在处理的map任务队列MapSet（实际上是使用map结构，并且统计了count）</li>
+<li>处理相应的返回值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>worker.executeMap(reply)</code></p>
+</li>
+</ul>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(worker *AWorker)</span></span> executeMap(reply *MapTaskReply) {</span><br><span class="line">    <span class="comment">// execute map task</span></span><br><span class="line">    intermediate := makeIntermediateFromFile(reply.FileName, worker.mapf)</span><br><span class="line">    <span class="comment">// write intermediate to files</span></span><br><span class="line">    worker.writeToFiles(reply.FileId, reply.NReduce, intermediate)</span><br><span class="line">    worker.joinMapTask(reply.FileId)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><ul>
+<li><code>intermediate := makeIntermediateFromFile(reply.FileName, worker.mapf)</code>主要用<code>mapf</code>打开文件然后文档，生成键值对，返回一个中间态的<code>[]KeyValue</code>切片</li>
+<li><code>worker.writeToFiles(reply.FileId, reply.NReduce, intermediate)</code>写入到中间文件，求hash后取<code>mod nReduce</code>得到分给哪一个reduce任务，因为reduce任务数量是知道的</li>
+<li>用<code>encoding/json</code>包存储中间态文件，可以直接被reduce任务读取</li>
+<li>请求<code>call("Coordinator.JoinMapTask", &amp;args, &amp;reply)</code><ul>
+<li>拿到已分配map任务队列的锁</li>
+<li>检查是否因为超时而导致当前FileId的任务已经从已分配map任务队列中移除<ul>
+<li>已经被移除，解锁、打印信息</li>
+<li>未被移除，移除、解锁，打印信息</li>
+<li>未被移除且超时，放入未分配队列</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>reply := worker.askReduceTask()</code></p>
+</li>
+</ul>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(worker *AWorker)</span></span> askReduceTask() *ReduceTaskReply {</span><br><span class="line">    <span class="comment">// declare an argument structure and reply structure.</span></span><br><span class="line">    args := ReduceTaskArgs{WorkerId: worker.workerId}</span><br><span class="line">    reply := ReduceTaskReply{}</span><br><span class="line"></span><br><span class="line">    ok := call(<span class="string">"Coordinator.GiveReduceTask"</span>, &amp;args, &amp;reply)</span><br><span class="line">    <span class="keyword">if</span> !ok {</span><br><span class="line">        worker.logPrintf(<span class="string">"askReduceTask failed\n"</span>)</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    worker.workerId = reply.WorkerId</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> reply.RIndex == <span class="number">-1</span> {</span><br><span class="line">        <span class="keyword">if</span> reply.AllDone {</span><br><span class="line">            worker.logPrintf(<span class="string">"All reduce tasks are done, need to terminate this worker\n"</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">        } <span class="keyword">else</span> {</span><br><span class="line">            worker.logPrintf(<span class="string">"No reduce task available\n"</span>)</span><br><span class="line">            <span class="keyword">return</span> &amp;reply</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    worker.logPrintf(<span class="string">"Got reduce task %v\n"</span>, reply.RIndex)</span><br><span class="line">    <span class="keyword">return</span> &amp;reply</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><ul>
+<li>请求主体的结构：<code>worker *AWorker</code></li>
+<li><p>请求参数<code>args</code>结构：</p>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> ReduceTaskArgs <span class="keyword">struct</span> {</span><br><span class="line">    <span class="comment">// give -1 if no task</span></span><br><span class="line">    WorkerId <span class="type">int</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>返回参数<code>reply</code>结构：</p>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> ReduceTaskReply <span class="keyword">struct</span> {</span><br><span class="line">    RIndex    <span class="type">int</span></span><br><span class="line">    NReduce   <span class="type">int</span></span><br><span class="line">    FileCount <span class="type">int</span></span><br><span class="line">    WorkerId  <span class="type">int</span></span><br><span class="line">    AllDone   <span class="type">bool</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+</li>
+<li><p>任务分发<code>func (c *Coordinator) GiveReduceTask(args *ReduceTaskArgs, reply *ReduceTaskReply) error {}</code></p>
+<ul>
+<li>分发任务WorkerId为当前Coordinator的<code>c.curWorkerId</code>，此后<code>curWorkerId++</code>，如果WorkerId存在则不改变，这里用的是Map任务的同一套编号，也就是说不会出现map和reduce的WorkerId相同。</li>
+<li>通过<code>c.issuedReduceMutex.Lock()</code>获取Reduce任务的互斥锁<code>issuedReducepMutex  sync.Mutex</code></li>
+<li>判定<code>Coordinator</code>的<code>c.allDone</code>字段，Reduce任务结束则直接释放锁、<code>reply.AllDone</code>设为true，<code>reply.RIndex</code>设为-1，然后返回nil</li>
+<li>判定没有分配的Reduce任务队列和处理中的Reduce任务队列是否都为空，为空则和上一条一样，附加设置<code>c.AllDone</code>为<code>true</code>，先比较请求Map，这里多设置一个参数<code>c.AllDone</code></li>
+<li>从未分配Redduce任务队列中<code>PopBack()</code>拿到rIndex（按照NReduce数量排列<code>0-NReduce-1</code>)并写入reply，并且给<code>ReduceTaskState</code>设置开始时间，为后续超时做准备。</li>
+</ul>
+</li>
+<li><p><code>worker.executeReduce(reply)</code></p>
+</li>
+</ul>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(worker *AWorker)</span></span> executeReduce(reply *ReduceTaskReply) {</span><br><span class="line">    outName := fmt.Sprintf(<span class="string">"mr-out-%v"</span>, reply.RIndex)</span><br><span class="line">    intermediate := <span class="built_in">make</span>([]KeyValue, <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; reply.FileCount; i++ {</span><br><span class="line">        intermediate = <span class="built_in">append</span>(intermediate, readIntermediateFiles(i, reply.RIndex)...)</span><br><span class="line">    }</span><br><span class="line">    worker.logPrintf(<span class="string">"Total intermediate size: %v\n"</span>, <span class="built_in">len</span>(intermediate))</span><br><span class="line">    tempfile, err := os.CreateTemp(<span class="string">"."</span>, <span class="string">"mrtemp"</span>)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> {</span><br><span class="line">        worker.logPrintf(<span class="string">"cannot create tempfile for %v\n"</span>, outName)</span><br><span class="line">    }</span><br><span class="line">    reduceKVSlice(intermediate, worker.reducef, tempfile)</span><br><span class="line">    tempfile.Close()</span><br><span class="line">    err = os.Rename(tempfile.Name(), outName)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> {</span><br><span class="line">        worker.logPrintf(<span class="string">"cannot rename tempfile for %v\n"</span>, outName)</span><br><span class="line">    }</span><br><span class="line">    worker.joinReduceTask(reply.RIndex)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><ul>
+<li><code>outName := fmt.Sprintf("mr-out-%v", reply.RIndex)</code>，当前<code>Reduce</code>任务的输出</li>
+<li><p>从当前RIndex所属的各个中间态文件读取，汇合到intermediate</p>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">intermediate := <span class="built_in">make</span>([]KeyValue, <span class="number">0</span>)</span><br><span class="line"><span class="keyword">for</span> i := <span class="number">0</span>; i &lt; reply.FileCount; i++ {</span><br><span class="line">    worker.logPrintf(<span class="string">"Reading intermediate files on cluster %v\n"</span>, i)</span><br><span class="line">    intermediate = <span class="built_in">append</span>(intermediate, readIntermediateFiles(i, reply.RIndex)...)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+</li>
+<li><ul>
+<li>通过<code>reduceKVSlice</code>排序以及合并，然后重命名、输出</li>
+<li>请求<code>call("Coordinator.JoinMapTask", &amp;args, &amp;reply)</code><ul>
+<li>拿到已分配map任务队列的锁</li>
+<li>检查是否因为超时而导致当前FileId的任务已经从已分配map任务队列中移除<ul>
+<li>已经被移除，解锁、打印信息</li>
+<li>未被移除，移除、解锁，打印信息</li>
+<li>未被移除且超时，放入未分配队列</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="任务分配机制"><a href="#任务分配机制" class="headerlink" title="任务分配机制"></a>任务分配机制</h4><blockquote>
+<p>使用<strong>任务队列</strong>，<code>coordinator</code> 维护了两组两个任务队列，未分配、已分配（正在运行），当 <code>worker</code> 请求到达时，给 <code>worker</code> 分配一个未分配的任务，并把这个任务标记为已分配</p>
+</blockquote>
+<p>未分配任务使用有锁的双向队列，已分配任务使用无锁的 Map，操作时加锁，有待优化</p>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash test-mr.sh &gt; test-mr.out</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">*** Starting wc test.</span><br><span class="line">--- wc test: PASS</span><br><span class="line">*** Starting indexer test.</span><br><span class="line">--- indexer test: PASS</span><br><span class="line">*** Starting map parallelism test.</span><br><span class="line">--- map parallelism test: PASS</span><br><span class="line">*** Starting reduce parallelism test.</span><br><span class="line">--- reduce parallelism test: PASS</span><br><span class="line">*** Starting job count test.</span><br><span class="line">--- job count test: PASS</span><br><span class="line">*** Starting early exit test.</span><br><span class="line">--- early exit test: PASS</span><br><span class="line">*** Starting crash test.</span><br><span class="line">--- crash test: PASS</span><br><span class="line">*** PASSED ALL TESTS</span><br></pre></td></tr></tbody></table></figure>
+<!-- markdownlint-disable-file MD025 MD033 -->
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2024/04/14/MapReduce/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Distributed-Systems/" rel="tag">Distributed Systems</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LinkedList/" rel="tag">LinkedList</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%80%BB%E7%BB%93/" rel="tag">总结</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2024/04/01/TencentTest20240331/" class="article-nav-link">
+        <strong class="article-nav-caption">Next post</strong>
+        <div class="article-nav-title">腾讯2024暑期实习笔试</div>
+      </a>
+    
+  </nav>
+
+  
+   
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'a1a50124b0c46fa4fab9',
+    clientSecret: '4a29dee6f998a9272f57ba07f987ea9eed9da5ec',
+    repo: 'blog-comments',
+    owner: 'boom1999',
+    admin: ['boom1999'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: true,  // Facebook-like distraction free mode
+    pagerDirection: 'last',
+    proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2024
+        <span class="division">|</span> Zhicheng Ling
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+          
+          
+          Power <a href="https://hexo.io" target="_blank">Hexo</a>
+          <span class="division">|</span>
+          Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+          
+          <span class="division">|</span>
+        
+          
+          <span>
+  <span><i class="ri-eye-fill"></i> <span id="busuanzi_value_page_pv"></span></span>
+</span>
+          
+      </li>
+    </ul>
+    <ul>
+      
+        <li>
+          <a href="http://beian.miit.gov.cn/" target="_black" rel="nofollow">浙ICP备2020044847号-1</a>
+        </li>
+        
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/haisen-side.svg" alt="Haisenberg"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Categories</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.pan.lingzhicheng.cn">Pan</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.gallery.lingzhicheng.cn">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.todo.lingzhicheng.cn">Todo</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">Friends</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/me">Me</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+  <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
+  fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
+  webpushr('setup',{'key':'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script>
+<script>(function (w, d, s, id) {
+            if (typeof (w.webpushr) !== 'undefined') return; w.webpushr = w.webpushr || function () { (w.webpushr.q = w.webpushr.q || []).push(arguments) }; var js, fjs = d.getElementsByTagName(s)[0]; js = d.createElement(s); js.id = id; js.async = 1; js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window, document, 'script', 'webpushr-jssdk'));webpushr('setup', { 'key': 'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script></body>
+
+</html>
