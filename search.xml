@@ -772,9 +772,10 @@
 <h2 id="Download-Source-File"><a href="#Download-Source-File" class="headerlink" title="Download Source File"></a>Download Source File</h2><h3 id="Project-File"><a href="#Project-File" class="headerlink" title="Project File"></a><a href="https://www.lingzhicheng.cn/usr/file/HDB3_quartus+modelism.zip">Project File</a></h3><h3 id="Wave-File"><a href="#Wave-File" class="headerlink" title="Wave File"></a><a href="https://www.lingzhicheng.cn/usr/file/HDB3wavefile.zip">Wave File</a></h3><!-- markdownlint-disable-file MD025 MD033 -->
 ]]></content>
       <categories>
-        <category>Principle of Communication</category>
+        <category>Communication</category>
       </categories>
       <tags>
+        <tag>Modulation</tag>
         <tag>Quartus Ⅱ</tag>
         <tag>Modelsim</tag>
         <tag>Verilog HDL</tag>
@@ -3897,8 +3898,8 @@ sess.close()
       </categories>
       <tags>
         <tag>Modulation</tag>
-        <tag>高频电路</tag>
         <tag>PCB</tag>
+        <tag>High-frequency circuits</tag>
       </tags>
   </entry>
   <entry>
@@ -3993,7 +3994,7 @@ sess.close()
 </blockquote>
 ]]></content>
       <categories>
-        <category>总结</category>
+        <category>Summary</category>
       </categories>
   </entry>
   <entry>
