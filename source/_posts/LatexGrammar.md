@@ -2,8 +2,8 @@
 title: Latex Grammar
 date: 2023-02-09
 tags: 
-    - 总结
-categories: Latex
+    - Latex
+categories: Summary
 ---
 
 $LaTeX$ (/ˈlɑːtɛx/ LAH-tekh or /ˈleɪtɛx/ LAY-tekh, often stylized as LATEX) is a **software system** for document preparation. When writing, the writer uses plain text as opposed to the formatted text found in WYSIWYG word processors like Microsoft Word, LibreOffice Writer and Apple Pages. The writer uses **markup tagging conventions** to define the general structure of a document to stylise text throughout a document (such as bold and italics), and to add citations and cross-references. A TeX distribution such as TeX Live or MiKTeX is used to produce an output file (such as PDF or DVI) suitable for printing or digital distribution.

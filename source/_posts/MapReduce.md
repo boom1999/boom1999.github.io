@@ -4,8 +4,7 @@ date: 2024-04-14
 tags: 
     - Distributed Systems
     - LinkedList
-    - 总结
-categories: Distributed Systems
+categories: Summary
 copyright: true
 ---
 

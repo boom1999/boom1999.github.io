@@ -2,7 +2,7 @@
 title: Nunjucks Errors
 date: 2021-08-26
 tags: 
-   - debug
+   - Debug
 categories: NunjucksErrors
 copyright: true
 ---

@@ -1,7 +1,7 @@
 ---
 title: Keil调试代码优化问题
 date: 2020-12-08
-tags: 调试
+tags: Debug
 categories: AT89S51
 copyright: true
 ---

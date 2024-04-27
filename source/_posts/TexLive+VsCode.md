@@ -2,8 +2,9 @@
 title: Installation for TexLive under VsCode
 date: 2023-03-27
 tags: 
-    - 总结
-categories: Latex
+    - Latex
+    - VSCode
+categories: Summary
 copyright: true
 ---
 

@@ -2,8 +2,9 @@
 title: Modulate and demodulate
 date: 2021-04-21
 tags:
-   - modulate
-categories: Matlab
+   - Modulation
+   - Matlab
+categories: Communication
 copyright: true
 ---
 

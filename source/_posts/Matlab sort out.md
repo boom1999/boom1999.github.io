@@ -2,8 +2,8 @@
 title: Matlab sort out
 date: 2021-06-19
 tags:
-   - sort out
-categories: Matlab
+   - Matlab
+categories: Summary
 copyright: true
 ---
 

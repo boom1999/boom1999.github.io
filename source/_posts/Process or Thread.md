@@ -2,7 +2,7 @@
 title: Process or Thread
 date: 2021-01-20
 tags: 
-categories: 总结
+categories: Summary
 ---
 
 ### 进程是资源分配的最小单位|线程是CPU调度的最小单位

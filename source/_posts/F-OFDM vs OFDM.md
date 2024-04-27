@@ -2,8 +2,9 @@
 title: F-OFDM vs OFDM
 date: 2021-06-15
 tags:
-   - modulate
-categories: Matlab
+   - Modulation
+   - Matlab
+categories: Communication
 ---
 
 :pushpin:

@@ -2,8 +2,8 @@
 title: Hexo_begin
 date: 2021-01-31
 tags: 
-    - hexo
-categories: blog
+    - Hexo
+categories: Blog
 ---
 
 ## 机制介绍

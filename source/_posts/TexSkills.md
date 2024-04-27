@@ -2,8 +2,9 @@
 title: Skills for TexLive under VsCode
 date: 2023-07-12
 tags: 
-    - 总结
-categories: Latex
+    - Latex
+    - VSCode
+categories: Summary
 copyright: true
 ---
 

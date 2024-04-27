@@ -1,7 +1,10 @@
 ---
 title: PSW设置改进中断
 date: 2020-12-15
-tags: 中断
+tags: 
+   - Modulation
+   - ASM
+   - Terminate
 categories: AT89S51
 ---
 

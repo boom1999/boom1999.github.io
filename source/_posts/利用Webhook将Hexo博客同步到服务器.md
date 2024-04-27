@@ -1,11 +1,10 @@
 ---
-title: Hexo同步部署再Github和服务器
+title: 基于Webhook的同步部署
 date: 2024-04-01
 tags: 
-    - hexo
-    - 同步
-    - webhook
-categories: blog
+    - Hexo
+    - Webhook
+categories: Blog
 copyright: true
 ---
 

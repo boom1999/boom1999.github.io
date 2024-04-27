@@ -2,8 +2,9 @@
 title: 渲染问题汇总
 date: 2022-12-03
 tags: 
-    - debug
-categories: 总结
+    - Debug
+    - Hexo
+categories: Blog
 ---
 
 
@@ -50,6 +51,7 @@ marked:
 ### 3.待办事项渲染问题
 
 - 使用`kramed`渲染不了待办事项，但在`hexo-renderer-marked`的`PR`里找到了相关更新：
+
   ``` javascript
     // Support To-Do List
     Renderer.prototype.listitem = function(text) {
@@ -61,6 +63,7 @@ marked:
       }
     };
   ```
+
 - 把渲染函数加入到本地的`hexo`文件夹的`/node_modules/hexo-renderer-kramed/lib/renderer.js`，但注意和`-`标记要间隔至少两行，否则第一个待办会出错
 
 

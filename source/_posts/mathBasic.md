@@ -2,8 +2,8 @@
 title: 数学基础知识 
 date: 2021-08-25
 tags: 
-    - basic
-categories: 总结
+    - Mathematics
+categories: Summary
 ---
 
 

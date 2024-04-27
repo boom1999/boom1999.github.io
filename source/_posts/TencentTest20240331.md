@@ -5,7 +5,7 @@ tags:
     - LinkedList
     - UndirectedGraph
     - BackTrack
-categories: 笔试
+categories: Summary
 copyright: true
 ---
 

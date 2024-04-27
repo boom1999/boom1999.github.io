@@ -3,6 +3,7 @@ title: Fake news detection(Literature review)
 date: 2022-07-06
 tags:
    - Fake news
+   - NLP
 categories: Literature review
 ---
 

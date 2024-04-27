@@ -2,7 +2,9 @@
 title: 模拟采集AD转化
 date: 2021-01-05
 tags: 
-   - AD转化
+   - Modulation
+   - ASM
+   - ADC
 categories: AT89S51
 ---
 
