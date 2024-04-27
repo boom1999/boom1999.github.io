@@ -1,6 +1,6 @@
 ---
 title: MapReduce in Distributed Systems
-date: 2024-04-14
+date: 2024-03-14
 tags: 
     - Distributed Systems
     - LinkedList
