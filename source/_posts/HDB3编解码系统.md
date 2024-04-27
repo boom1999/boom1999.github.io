@@ -5,7 +5,8 @@ tags:
     - Quartus Ⅱ
     - Modelsim
     - Verilog HDL
-categories: Principle of Communication
+    - Modulation
+categories: Communication
 copyright: true
 ---
 
