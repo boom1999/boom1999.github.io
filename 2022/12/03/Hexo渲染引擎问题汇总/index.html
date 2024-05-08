@@ -130,10 +130,10 @@
 </li>
 </ul>
 <ul>
-<li style="list-style: none"><input type="checkbox" checked=""> 待办事项1</li>
-<li style="list-style: none"><input type="checkbox"> 待办事项2</li>
-<li style="list-style: none"><input type="checkbox" checked=""> 待办事项3</li>
-<li style="list-style: none"><input type="checkbox"> 待办事项4</li>
+<li>[x] 待办事项1</li>
+<li>[ ] 待办事项2</li>
+<li>[x] 待办事项3</li>
+<li>[ ] 待办事项4</li>
 </ul>
 <h3 id="4-表格渲染问题"><a href="#4-表格渲染问题" class="headerlink" title="4.表格渲染问题"></a>4.表格渲染问题</h3><ul>
 <li>问题：换用<code>hexo-renderer-kramed</code>不就后发现之前用<code>marked</code>能成功渲染Tables的地方无法渲染</li>
@@ -714,6 +714,28 @@
 
 
 <!-- CanvasBackground -->
+
+<!-- Graphiz -->
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/viz.js/1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
 
 
     

@@ -152,10 +152,10 @@
 </blockquote>
 <ul>
 <li><p>DSB-AM signal :</p>
-<p>  $s(t) = A_{c}m(t)cos(2\pi f_{c}t)$</p>
+<p>  $s(t) = A<em>{c}m(t)cos(2\pi f</em>{c}t)$</p>
 </li>
 <li><p>USSB-AM signal:</p>
-<p>  $u(t) = {A_{c}\over2}m(t)cos(2\pi f_{c}t)-{A_{c}\over2}{\hat{m}}(t)sin(2\pi f_{c}t)$</p>
+<p>  $u(t) = {A<em>{c}\over2}m(t)cos(2\pi f</em>{c}t)-{A<em>{c}\over2}{\hat{m}}(t)sin(2\pi f</em>{c}t)$</p>
 </li>
 </ul>
 <blockquote>
@@ -163,16 +163,16 @@
 </blockquote>
 <ul>
 <li><p>DSB-AM signal:</p>
-<p>  $y(t) = A_{C}cos(2\pi f_{c}t)cos(2\pi f_{c}t) = {A_{c}\over2}m(t)+{A_{c}\over2}m(t)cos(4\pi f_{c}t)$</p>
+<p>  $y(t) = A<em>{C}cos(2\pi f</em>{c}t)cos(2\pi f<em>{c}t) = {A</em>{c}\over2}m(t)+{A<em>{c}\over2}m(t)cos(4\pi f</em>{c}t)$</p>
 </li>
 <li><p>USSB-AM signal:</p>
-<p>  $y(t) = {A_{c}\over2}m(t)cos^2(2\pi f_{c}t)-{A_{c}\over2}{\hat{m}}(t)sin(2\pi f_{c}t)cos(2\pi f_{c}t) = {A_{c}\over4}m(t)+{A_{c}\over4}cos(4\pi f_{c}t)-{A_{c}\over4}{\hat{m}}(t)sin(4\pi f_{c}t)$</p>
+<p>  $y(t) = {A<em>{c}\over2}m(t)cos^2(2\pi f</em>{c}t)-{A<em>{c}\over2}{\hat{m}}(t)sin(2\pi f</em>{c}t)cos(2\pi f<em>{c}t) = {A</em>{c}\over4}m(t)+{A<em>{c}\over4}cos(4\pi f</em>{c}t)-{A<em>{c}\over4}{\hat{m}}(t)sin(4\pi f</em>{c}t)$</p>
 </li>
 </ul>
 <blockquote>
 <ul>
 <li>In order to recover the original signal m(t), one thing is to use a low-pass filter to filter out unwanted components, and the other thing is to choose right gain. To divide the Ac, for the DSB-AM, what needs to be kept is  , and then the gain is obviously  ; For the USSB-AM, what needs to be kept is  , and then the gain is obviously   . As the band of original signal m(t) is f=1, so I set the passband of the low-pass filter to 2Hz (see fig.5) . The cut-off frequency is 2HZ, which is twice the maximum frequency of the original signal, then the original signal is recovered well in both modulation methods (see fig.6).</li>
-<li>In fact, for the noise, all of the frequency in array of ($f_{m}$,$f_{c}$) are ok, although the amplitude of the demodulated signal will change due to the constant gain after mixing noise, the original signal is restored almost without distortion (see fit.7).</li>
+<li>In fact, for the noise, all of the frequency in array of ($f<em>{m}$,$f</em>{c}$) are ok, although the amplitude of the demodulated signal will change due to the constant gain after mixing noise, the original signal is restored almost without distortion (see fit.7).</li>
 <li>If we apply a low-pass filter with a band much wider than necessary, when filtering, it will mix in the high frequency components with the frequency spectrum nearby. The high frequency component is just the continuation of the baseband component at high frequency, if it is not too wide, may we can barely recover the original signal. If the cut-off frequency is set too wide, it may cause signal aliasing and amplitude changes.</li>
 </ul>
 </blockquote>
@@ -686,6 +686,28 @@
 
 
 <!-- CanvasBackground -->
+
+<!-- Graphiz -->
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/viz.js/1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
 
 
     

@@ -211,7 +211,7 @@ ${\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{f\left( x \right)}{g\left( x 
 </blockquote>
 <h4 id="13-渐近线的求法"><a href="#13-渐近线的求法" class="headerlink" title="13.渐近线的求法"></a>13.渐近线的求法</h4><p>(1)水平渐近线   若$\underset{x\to +\infty }{\mathop{\lim }}\,f(x)=b$，或$\underset{x\to -\infty }{\mathop{\lim }}\,f(x)=b$，则</p>
 <p>$y=b$称为函数$y=f(x)$的水平渐近线。</p>
-<p>(2)铅直渐近线   若$\underset{x\to x_{0}^{-}}{\mathop{\lim }}\,f(x)=\infty $，或$\underset{x\to x_{0}^{+}}{\mathop{\lim }}\,f(x)=\infty $，则</p>
+<p>(2)铅直渐近线   若$\underset{x\to x<em>{0}^{-}}{\mathop{\lim }}\,f(x)=\infty $，或$\underset{x\to x</em>{0}^{+}}{\mathop{\lim }}\,f(x)=\infty $，则</p>
 <p>$x={{x}_{0}}$称为$y=f(x)$的铅直渐近线。</p>
 <p>(3)斜渐近线   若$a=\underset{x\to \infty }{\mathop{\lim }}\,\frac{f(x)}{x},\quad b=\underset{x\to \infty }{\mathop{\lim }}\,[f(x)-ax]$，则<br>$y=ax+b$称为$y=f(x)$的斜渐近线。</p>
 <h4 id="14-函数凹凸性的判断"><a href="#14-函数凹凸性的判断" class="headerlink" title="14.函数凹凸性的判断"></a>14.函数凹凸性的判断</h4><p><strong>Th1:</strong> （凹凸性的判别定理）若在I上$f{‘’}(x)&lt;0$（或$f''(x)&gt;0$），则$f(x)$在I上是凸的（或凹的）（凹凸是相对于正方向而言的）</p>
@@ -717,6 +717,28 @@ ${\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{f\left( x \right)}{g\left( x 
 
 
 <!-- CanvasBackground -->
+
+<!-- Graphiz -->
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/viz.js/1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
 
 
     

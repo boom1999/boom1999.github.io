@@ -319,7 +319,7 @@
 </ul>
 <figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y=conv(x1,x2)</span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li>Convolution of two _continuous-time_ signals：<br>$f(t)=\int_{-\infty}^{+\infty}f_1(\tau)f_2(t-\tau)d\tau$<br>$f(t)=\sum_{k=-\infty}^{+\infty}f_1(k\Delta)f_2(t-k\Delta)\Delta$</li>
+<li>Convolution of two <em>continuous-time</em> signals：<br>$f(t)=\int<em>{-\infty}^{+\infty}f_1(\tau)f_2(t-\tau)d\tau$<br>$f(t)=\sum</em>{k=-\infty}^{+\infty}f_1(k\Delta)f_2(t-k\Delta)\Delta$</li>
 </ul>
 <figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y=conv(x1,x2)*dt</span><br></pre></td></tr></tbody></table></figure>
 </li>
@@ -370,21 +370,21 @@
 <ul>
 <li><p>Energy</p>
 <ul>
-<li>T-domain<br>$x[n]=x(n\Delta t)$<br>$E=\int_{-\infty}^{+\infty} |x(t)|^2dt \approx\sum_{n=0}^M x[n]·x^*[n]·\Delta t$</li>
+<li>T-domain<br>$x[n]=x(n\Delta t)$<br>$E=\int<em>{-\infty}^{+\infty} |x(t)|^2dt \approx\sum</em>{n=0}^M x[n]·x^*[n]·\Delta t$</li>
 </ul>
 <figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% E=sum(x.*conj(x))*dt;</span></span><br><span class="line">E=sum(<span class="built_in">abs</span>(x).^<span class="number">2</span>)*dt;</span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li>F-domain<br>$X[k]=X(k\Delta f)$<br>$E=\int_{-\infty}^{+\infty} |X(f)|^2df \approx\sum_{k=0}^{k-1} X[k]·X^*[k]·\Delta f$</li>
+<li>F-domain<br>$X[k]=X(k\Delta f)$<br>$E=\int<em>{-\infty}^{+\infty} |X(f)|^2df \approx\sum</em>{k=0}^{k-1} X[k]·X^*[k]·\Delta f$</li>
 </ul>
 <figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% E=sum(x.*conj(x))*df;</span></span><br><span class="line">E=sum(<span class="built_in">abs</span>(x).^<span class="number">2</span>)*df;</span><br></pre></td></tr></tbody></table></figure>
 </li>
 <li><p>Power</p>
 <ul>
-<li>T-domain<br>$P=\lim_{T\rightarrow\infty}\frac{1}{T}\int_0^T |x(t)|^2dt \approx\frac{1}{N}\sum_{n=0}^{N-1} |x[n]|^2$</li>
+<li>T-domain<br>$P=\lim<em>{T\rightarrow\infty}\frac{1}{T}\int_0^T |x(t)|^2dt \approx\frac{1}{N}\sum</em>{n=0}^{N-1} |x[n]|^2$</li>
 </ul>
 <figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% P=sum(x.*conj(x))/N;</span></span><br><span class="line">P=sum(<span class="built_in">abs</span>(x).^<span class="number">2</span>)/N;</span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li>F-domain<br>_$X_Tf$ is the spectrum of x(t) within [0,T]_<br>$P=\lim_{T\rightarrow\infty}\frac{1}{T}\int_{-\infty}^{+\infty} |X_T(f)|^2df \approx\frac{1}{N}\sum_{k=0}^{K-1} |X[k]|^2\Delta f$</li>
+<li>F-domain<br><em>$X_Tf$ is the spectrum of x(t) within [0,T]</em><br>$P=\lim<em>{T\rightarrow\infty}\frac{1}{T}\int</em>{-\infty}^{+\infty} |X<em>T(f)|^2df \approx\frac{1}{N}\sum</em>{k=0}^{K-1} |X[k]|^2\Delta f$</li>
 </ul>
 <figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% P=sum(x.*conj(x))*df/T;</span></span><br><span class="line">P=sum(<span class="built_in">abs</span>(x).^<span class="number">2</span>)*df/T;</span><br></pre></td></tr></tbody></table></figure>
 </li>
@@ -392,10 +392,10 @@
 </li>
 <li><p>Autocorrelation and Power spectral density(PSD)</p>
 <ul>
-<li><p>Autocorrelation<br>$x[n]=x(n\Delta t)$<br>$R(\tau)=\int_{-\infty}^{+\infty} x(t)x^<em> (t+\tau)dt \approx\sum_{n=0}^M x[n]·x^</em>[n+\tau]·\Delta t$<br>$R_T(\tau)=\lim_{T\rightarrow\infty}\frac{R(\tau)}{T}$</p>
+<li><p>Autocorrelation<br>$x[n]=x(n\Delta t)$<br>$R(\tau)=\int<em>{-\infty}^{+\infty} x(t)x^* (t+\tau)dt \approx\sum</em>{n=0}^M x[n]·x^*[n+\tau]·\Delta t$<br>$R<em>T(\tau)=\lim</em>{T\rightarrow\infty}\frac{R(\tau)}{T}$</p>
 <figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">R(tau)=sum(x(t).*<span class="built_in">conj</span>(x(t+tau))*dt/(N*dt);</span><br><span class="line"></span><br><span class="line"><span class="comment">%% or</span></span><br><span class="line">R=xcorr(x);</span><br><span class="line">R=R*Ts/T;   <span class="comment">% R=R/N</span></span><br></pre></td></tr></tbody></table></figure>
 </li>
-<li><p>PSD<br>$P_T(f)=\lim_{T\rightarrow\infty}\frac{|X_T(f)|^2}{T}$</p>
+<li><p>PSD<br>$P<em>T(f)=\lim</em>{T\rightarrow\infty}\frac{|X_T(f)|^2}{T}$</p>
 </li>
 <li>Wiener-Khinchin theorem<br>$FT(R_T(\tau))=P_T(f)$</li>
 </ul>
@@ -491,7 +491,7 @@
 <ul>
 <li><ul>
 <li><ul>
-<li>SSB-AM(T-domain)<br>$s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)\pm \frac{A_{c}}{2}m(t)sin(2\pi{f_c}t)$<br><strong>matlab code：$hilbert(m)=m(t)+j\hat{m}(t)$</strong></li>
+<li>SSB-AM(T-domain)<br>$s(t)=\frac{A<em>{c}}{2}m(t)cos(2\pi{f_c}t)\pm \frac{A</em>{c}}{2}m(t)sin(2\pi{f_c}t)$<br><strong>matlab code：$hilbert(m)=m(t)+j\hat{m}(t)$</strong></li>
 </ul>
 </li>
 </ul>
@@ -507,8 +507,8 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">$s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)-\frac{A_{c}}{2}\hat{m}(t)sin(2\pi{f_c}t)$</td>
-<td style="text-align:center">$s(t)=\frac{A_{c}}{2}m(t)cos(2\pi{f_c}t)+\frac{A_{c}}{2}\hat{m}(t)sin(2\pi{f_c}t)$</td>
+<td style="text-align:center">$s(t)=\frac{A<em>{c}}{2}m(t)cos(2\pi{f_c}t)-\frac{A</em>{c}}{2}\hat{m}(t)sin(2\pi{f_c}t)$</td>
+<td style="text-align:center">$s(t)=\frac{A<em>{c}}{2}m(t)cos(2\pi{f_c}t)+\frac{A</em>{c}}{2}\hat{m}(t)sin(2\pi{f_c}t)$</td>
 </tr>
 <tr>
 <td style="text-align:center">$\frac{A_{c}}{2}Re[(m(t)+j\hat{m}(t))e^{j2\pi f_c t}]$</td>
@@ -536,7 +536,7 @@
 </li>
 <li>Match filter<ul>
 <li>Sample at $t=T_b$</li>
-<li>$h_i(t)=s_i(T_{b}-t)，0\leq t \leq T_b，i=0,1$</li>
+<li>$h<em>i(t)=s_i(T</em>{b}-t)，0\leq t \leq T_b，i=0,1$</li>
 </ul>
 </li>
 <li>Detector<ul>
@@ -550,7 +550,7 @@
 <li><p>Other binary modulations</p>
 <ul>
 <li>Antipodal signal<ul>
-<li>$P_e(\alpha_{opt})=Q(\frac{\frac{E}{2}}{\delta})=Q(\frac{\frac{E}{2}}{\sqrt{\frac{EN_0}{2}}})=Q(\sqrt{\frac{E}{2N_0}})$</li>
+<li>$P<em>e(\alpha</em>{opt})=Q(\frac{\frac{E}{2}}{\delta})=Q(\frac{\frac{E}{2}}{\sqrt{\frac{EN_0}{2}}})=Q(\sqrt{\frac{E}{2N_0}})$</li>
 </ul>
 </li>
 </ul>
@@ -578,14 +578,14 @@
 <h2 id="5-Pulse-Amplitude-Modulation-PAM"><a href="#5-Pulse-Amplitude-Modulation-PAM" class="headerlink" title="5.Pulse Amplitude Modulation(PAM)"></a>5.Pulse Amplitude Modulation(PAM)</h2><ul>
 <li><p>Theoretical symbol error rate</p>
 <ul>
-<li>$P_M=\frac{2(M-1)}{M}Q(\sqrt{\frac{6(log_{2}M)E_{avb}}{(M^2{-}1)N_0}})$</li>
+<li>$P<em>M=\frac{2(M-1)}{M}Q(\sqrt{\frac{6(log</em>{2}M)E_{avb}}{(M^2{-}1)N_0}})$</li>
 <li><code>SNR=exp(snr_in_dB*log(10)/10)</code>equals to<code>SNR=10^(snr_in_dB/10)</code></li>
 </ul>
 </li>
 <li><p>Bit error rate and energy</p>
 <ul>
 <li><code>smld_err_pb=smld_err_p/M</code></li>
-<li><p>Energy(M-PAM)(N symbols)<br>$E_{av}=\frac{1}{N}\sum_{k=1}^{N}\int_{0}^{T}s_{k}^{2}(t)dt$<br>$E=\frac{E_{av}}{M}$</p>
+<li><p>Energy(M-PAM)(N symbols)<br>$E<em>{av}=\frac{1}{N}\sum</em>{k=1}^{N}\int<em>{0}^{T}s</em>{k}^{2}(t)dt$<br>$E=\frac{E_{av}}{M}$</p>
 <figure class="highlight matlab"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% 8PAM,M=3;there is 8 symbols.</span></span><br><span class="line">Eav = sum(Am.^<span class="number">2</span>)/<span class="number">8</span>      <span class="comment">% Average energy per symbol.</span></span><br><span class="line">E = Eav/<span class="number">3</span>               <span class="comment">% Average energy per bit.</span></span><br></pre></td></tr></tbody></table></figure>
 </li>
 </ul>
@@ -597,7 +597,7 @@
 </ul>
 </li>
 <li>ISI<ul>
-<li>$x(nT)=<br>\begin{cases}<br>  1, &amp; n=0 \\\\<br>  0, &amp; others<br>\end{cases} $</li>
+<li>$x(nT)=<br>\begin{cases}<br>  1, &amp; n=0 \\<br>  0, &amp; others<br>\end{cases} $</li>
 <li>F-domain：$\sum_{m=-\infty}^{+\infty}X(f+\frac{m}{T})=T$</li>
 </ul>
 </li>
@@ -611,10 +611,10 @@
 <h2 id="6-speech-balloon-Digital-transmission-via-carrier-modulation"><a href="#6-speech-balloon-Digital-transmission-via-carrier-modulation" class="headerlink" title="6.:speech_balloon:Digital transmission via carrier modulation"></a>6.<span class="github-emoji"><span>💬</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4ac.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>Digital transmission via carrier modulation</h2><ul>
 <li><p>Carrier amplitude modulation（ASK）</p>
 <ul>
-<li>In baseband digital PAM, the signal waveforms are：$s_m(t)=A_{m}g_{T}(t)$</li>
+<li>In baseband digital PAM, the signal waveforms are：$s<em>m(t)=A</em>{m}g_{T}(t)$</li>
 <li>$A_{m}=(2m-1-M)d, m=1,2,…,M$</li>
-<li>Multiplied by a sinusoidal carrier：$u_m(t)=A_{m}g_{T}(t)cos(2\pi f_{c}t)$</li>
-<li>When the pulse shape is rectangular:$x(nT)=<br>\begin{cases}<br>  \sqrt \frac{2}{T}, &amp; 0\leq t\leq T \\\\<br>  0, &amp; otherwise<br>\end{cases} $</li>
+<li>Multiplied by a sinusoidal carrier：$u<em>m(t)=A</em>{m}g<em>{T}(t)cos(2\pi f</em>{c}t)$</li>
+<li>When the pulse shape is rectangular:$x(nT)=<br>\begin{cases}<br>  \sqrt \frac{2}{T}, &amp; 0\leq t\leq T \\<br>  0, &amp; otherwise<br>\end{cases} $</li>
 <li>Usually called amplitude shift keying, which is not bandlimited.</li>
 </ul>
 </li>
@@ -623,27 +623,27 @@
 <li>The information is impressed on the phase of the carrier.</li>
 <li>The range of the phase：$0\leq \theta \leq 2\pi$</li>
 <li>$\theta _{m}=\frac{2\pi m}{M}, m=0,1,…,M-1$</li>
-<li>Modulated signal waveform：$u_m(t)=Ag_{T}(t)cos(2\pi f_{c}t+\frac{2\pi m}{M}), m=0,1,…,M-1$</li>
+<li>Modulated signal waveform：$u<em>m(t)=Ag</em>{T}(t)cos(2\pi f_{c}t+\frac{2\pi m}{M}), m=0,1,…,M-1$</li>
 <li>Usually called phase shift keying.</li>
 <li><a href="https://www.lingzhicheng.cn/2021/05/30/ASK%20and%20PSK/" target="_blank">e.g. ASK and PSK</a></li>
 </ul>
 </li>
 <li><p>Quadrature amplitude modulation(QAM)</p>
 <ul>
-<li>Two quadrature carriers,$sin(2\pi f_{c}t)$and$cos(2\pi f_{c}t)$</li>
+<li>Two quadrature carriers,$sin(2\pi f<em>{c}t)$and$cos(2\pi f</em>{c}t)$</li>
 <li>Each is modulated by independent information bits.</li>
-<li>$u_m(t)=A_{mc}g_{T}(t)cos(2\pi f_{c}t)+A_{ms}g_{T}(t)sin(2\pi f_{c}t), m=0,1,…,M$</li>
+<li>$u<em>m(t)=A</em>{mc}g<em>{T}(t)cos(2\pi f</em>{c}t)+A<em>{ms}g</em>{T}(t)sin(2\pi f_{c}t), m=0,1,…,M$</li>
 <li>Carried bits per symbol：$log_{2}M$</li>
 <li>Can be viewed as a form of combined amplitude and digital-phase modulation.</li>
-<li>Rewrite：$u_{mn}(t)=A_{m}g_{T}(t)cos(2\pi f_{c}t+\theta _{n}),m=1,2,…,M_1,n=1,2,…,M_2$</li>
-<li>This time, carried bits per symbol：$log_{2}M_{1}+log_{2}M_{2}$</li>
+<li>Rewrite：$u<em>{mn}(t)=A</em>{m}g<em>{T}(t)cos(2\pi f</em>{c}t+\theta _{n}),m=1,2,…,M_1,n=1,2,…,M_2$</li>
+<li>This time, carried bits per symbol：$log<em>{2}M</em>{1}+log<em>{2}M</em>{2}$</li>
 </ul>
 </li>
 <li><p>Carrier frequency modulation(FSK)</p>
 <ul>
 <li>For channel lack of phase stability, digital transmission by frequency modulation can be applied.</li>
 <li>M-ary FSK can be used to transmit a block of $k=log_{2}M$ bits per symbol.</li>
-<li>$u_m(t)=\sqrt{\frac{2E_s}{T}}cos(2\pi f_{c}t+2\pi m\Delta ft), m=0,1,…,M-1,0\leq t\leq T$</li>
+<li>$u<em>m(t)=\sqrt{\frac{2E_s}{T}}cos(2\pi f</em>{c}t+2\pi m\Delta ft), m=0,1,…,M-1,0\leq t\leq T$</li>
 <li>To guarantee orthogonality, ∆𝒇 is a multiple of 1/2T.</li>
 </ul>
 </li>
@@ -1164,6 +1164,28 @@
 
 
 <!-- CanvasBackground -->
+
+<!-- Graphiz -->
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/viz.js/1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
 
 
     

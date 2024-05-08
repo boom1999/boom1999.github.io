@@ -86,6 +86,27 @@
       <article class="archive-article archive-type-post">
   <div class="archive-article-inner">
     <header class="archive-article-header">
+      <a href="/2024/05/18/Graphviz%20on%20Hexo/" class="archive-article-date">
+  <time datetime="2024-05-18T00:00:00.000Z" itemprop="datePublished">05/18</time>
+</a>
+       
+<h2 itemprop="name">
+  <a class="archive-article-title" href="/2024/05/18/Graphviz%20on%20Hexo/"
+    >Graphviz</a> 
+</h2>
+ 
+
+    </header>
+    
+    
+  </div>
+</article>
+      
+  
+  
+      <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
       <a href="/2024/04/18/HUAWEI20240417/" class="archive-article-date">
   <time datetime="2024-04-18T00:00:00.000Z" itemprop="datePublished">04/18</time>
 </a>
@@ -283,27 +304,6 @@
 <h2 itemprop="name">
   <a class="archive-article-title" href="/2022/11/24/UAV%20Track%20Planning%20Algorithms/"
     >UAV Track Planning Algorithms</a> 
-</h2>
- 
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2022/07/06/Fake%20news%20detection(Literature%20review)/" class="archive-article-date">
-  <time datetime="2022-07-06T00:00:00.000Z" itemprop="datePublished">07/06</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2022/07/06/Fake%20news%20detection(Literature%20review)/"
-    >Fake news detection(Literature review)</a> 
 </h2>
  
 
@@ -691,6 +691,28 @@
 
 
 <!-- CanvasBackground -->
+
+<!-- Graphiz -->
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/viz.js/1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
 
 
     

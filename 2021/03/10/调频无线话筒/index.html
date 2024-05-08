@@ -134,7 +134,7 @@
 <p>发射机的工作频率之其载波频率，根据调制方式，在国家有关部门所规定的范围内选取，广播通信常用波段可查阅有关书籍，对于调频发射机，工作频率一般在超短波范围内（30MHz ~ 300MHz）。调频广播段规定为87MHz ~ 108MHz</p>
 </blockquote>
 <h3 id="4-3总效率"><a href="#4-3总效率" class="headerlink" title="4.3总效率"></a>4.3总效率</h3><blockquote>
-<p>发射机发射的总功率$P_{A}$与其消耗的总功率$P_{C}^{‘}$之比称为发射机的总效率$\eta_{A}$</p>
+<p>发射机发射的总功率$P<em>{A}$与其消耗的总功率$P</em>{C}^{‘}$之比称为发射机的总效率$\eta_{A}$</p>
 </blockquote>
 <h3 id="4-4输出阻抗"><a href="#4-4输出阻抗" class="headerlink" title="4.4输出阻抗"></a>4.4输出阻抗</h3><blockquote>
 <p>一般要求50Ω</p>
@@ -757,6 +757,28 @@
 
 
 <!-- CanvasBackground -->
+
+<!-- Graphiz -->
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/viz.js/1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
 
 
     

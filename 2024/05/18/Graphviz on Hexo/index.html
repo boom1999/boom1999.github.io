@@ -14,7 +14,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    模拟采集AD转化 |  Haisenberg
+    Graphviz |  Haisenberg
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -48,7 +48,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-AT89S51模拟采集AD转化"
+  id="post-Graphviz on Hexo"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -59,18 +59,18 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  模拟采集AD转化
+  Graphviz
 </h1>
  
 
     </header>
      
     <div class="article-meta">
-      <a href="/2021/01/05/AT89S51%E6%A8%A1%E6%8B%9F%E9%87%87%E9%9B%86AD%E8%BD%AC%E5%8C%96/" class="article-date">
-  <time datetime="2021-01-05T00:00:00.000Z" itemprop="datePublished">2021-01-05</time>
+      <a href="/2024/05/18/Graphviz%20on%20Hexo/" class="article-date">
+  <time datetime="2024-05-18T00:00:00.000Z" itemprop="datePublished">2024-05-18</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/AT89S51/">AT89S51</a>
+    <a class="article-category-link" href="/categories/Blog/">Blog</a>
   </div>
   
 <div class="word_count">
@@ -78,7 +78,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">929</span>
+            <span class="post-count">692</span>
         </span>
     </span>
 
@@ -87,31 +87,150 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">4 min</span>
+            <span class="post-count">3 min</span>
         </span>
     </span>
 </div>
  
     </div>
       
+    <div class="tocbot"></div>
+
 
 
 
   
     <div class="article-entry" itemprop="articleBody">
        
-  <ul>
-<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
+  <p><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 博客系统的Graphviz支持</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://graphviz.org">Graphviz（Graph Visualization Software）</a>是一个开源的图形可视化软件，用DOT描述语言来定义图形，让用户专注于内容而忽略布局的设计</li>
+<li>在先前的博客中，图片可以用对象存储在云端，而简单的结构图也如此未必太过复杂，因此想到用Graphviz来绘制简单的图结构。在本地的Vscode或者Typora中已经内嵌了Graphviz的渲染，标记代码块为<code>graphviz</code>即可，但在博客中没有，两端存在差异化，这篇用于解决这个问题。<br><span class="github-emoji"><span>💨</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4a8.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>🕚</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f55a.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>😴</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f634.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></li>
 </ul>
-<blockquote>
-<p>包含进制转化和动态显示<br>AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片，转换时间约10uS,控制字分别为94H可调电位器、0A4H光敏电阻、0D4H热敏电阻<br>采用LED（4位）动态显示，千位、百位、十位和个位<br>000H-FFFH的温度数据需要转换成十进制数的仟佰拾个位</p>
-</blockquote>
 <span id="more"></span>
-<hr>
-<blockquote>
-<p>连接单片机的 JP10 到动态数码管的 J12<br>分别连接单片机的 P20、P21、P22 到 74HC138 模块的 A、B、C。<br>分别连接单片机的 P34、P35、P36、P37 到AD/DA模块的 DI、CS、CLK、DO。<br>将NE555 模块的跳线帽 J11 跳开，跳线帽安装在其中一根上，以免丢掉。</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br></pre></td><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">    ORG     0200H</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    ACALL   AD_CHANGE</span><br><span class="line">    </span><br><span class="line">    MOV     DPTR,#D_table   //动态显示四位</span><br><span class="line">    </span><br><span class="line">    MOV     A,#00H          //38译码器动态显示四位</span><br><span class="line">    MOV     A,R0            //放个位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#03</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R1            //放十位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#02</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R2            //放百位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#01</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R3            //放千位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#00</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line">    </span><br><span class="line">    MOV     P0,#00H</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">AD_CHANGE:                  //获取AD转换结果，共12位，串行读入单片机内，用SPI总线</span><br><span class="line">    INC     R7</span><br><span class="line">DELL: </span><br><span class="line">    DJNZ    R6,DELL</span><br><span class="line">    CJNE    R7,#0FFH,RETURN</span><br><span class="line">    MOV     R7,#00H</span><br><span class="line">    MOV     R6,#0FFH</span><br><span class="line">    </span><br><span class="line">    MOV     R0,#0d4H        //R0控制字  0X94或0XB4电位，0XD4热敏，0XA4光敏</span><br><span class="line">    CLR     P3.5            //片选CS为低电平，选中XPT2046</span><br><span class="line">    CLR     P3.6            //时钟脚I/O CLOCK位低电平</span><br><span class="line">    MOV     R2,#08H         //设置循环读入的次数为8</span><br><span class="line">    MOV     A,R0            //下一次转换的命令从R0送入A</span><br><span class="line">LOOP0:</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     P3.4,C</span><br><span class="line">    CLR     P3.6</span><br><span class="line">    NOP</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    NOP</span><br><span class="line">    DJNZ    R2,LOOP0</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     R2,#04H</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">LOOP1:</span><br><span class="line">    MOV     C,P3.7          //读入上一次的转换结果中的1位</span><br><span class="line">    RRC     A               //带进位位的循环右移</span><br><span class="line">    </span><br><span class="line">    SETB    P3.6            //一个CLK时钟</span><br><span class="line">    NOP</span><br><span class="line">    CLR     P3.6</span><br><span class="line">    NOP</span><br><span class="line">    </span><br><span class="line">    DJNZ    R2,LOOP1        //是否完成8次转换结果读入和命令输出？未完成则继续</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    MOV     R1,A            //R1存高4位数据</span><br><span class="line">    MOV     A,#00H          //A清“0”</span><br><span class="line">    MOV     R2,#08H         //设置R2循环次数为8，为移入8位数据准备</span><br><span class="line">LOOP2:</span><br><span class="line">    MOV     C,P3.7          //读入上一次的转换结果中的1位</span><br><span class="line">    RRC     A               //带进位位的循环右移</span><br><span class="line"></span><br><span class="line">    CLR     P3.6            //一个CLK时钟</span><br><span class="line">    NOP</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    NOP</span><br><span class="line">    </span><br><span class="line">    DJNZ    R2,LOOP2        //是否完成8次转换结果读入和命令输出？未完成则继续</span><br><span class="line">    </span><br><span class="line">    SWAP    A</span><br><span class="line">    MOV     R0,A            //R0存低8位</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    LJMP    DATA_HEX_DEC</span><br><span class="line">RETURN:</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">DATA_HEX_DEC:               //将获取的12位2进制数转换为十进制存在R3 R2 R1 R0；千位 百位 十位 个位里 #R0--&gt;TL0 #R1--&gt;TH0</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    ANL     A,#0FH</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    CLR     A</span><br><span class="line">    </span><br><span class="line">    MOV     R2,A            //先清零</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    MOV     R4,A</span><br><span class="line">    MOV     R5,#16          //共转换十六位数 </span><br><span class="line">LOOP:</span><br><span class="line">    CLR     C</span><br><span class="line">    MOV     A,R0            //从待转换数的高端移出一位到Cy</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R1</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R4            //送到BCD码的低端</span><br><span class="line">    ADDC    A,R4            //带进位的自身相加，相当于左移一位</span><br><span class="line">    DA      A               //十进制调整，变成BCD码</span><br><span class="line">    MOV     R4,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R3</span><br><span class="line">    ADDC    A,R3</span><br><span class="line">    DA      A</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R2</span><br><span class="line">    ADDC    A,R2</span><br><span class="line">    MOV     R2,A</span><br><span class="line">    </span><br><span class="line">    DJNZ    R5,LOOP</span><br><span class="line">//已经把TH1 TL1中的数字，转换成BCD码，送到了R2 R3 R4</span><br><span class="line">//*************************************************//</span><br><span class="line">//分别存入 R3 R2 R1 R0；千位 百位 十位 个位</span><br><span class="line">    MOV     A,R4</span><br><span class="line">    MOV     B,#16</span><br><span class="line">    DIV     AB</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    MOV     R0,B</span><br><span class="line"></span><br><span class="line">    MOV     A,R2</span><br><span class="line">    MOV     R4,A</span><br><span class="line"></span><br><span class="line">    MOV     A,R3</span><br><span class="line">    MOV     B,#16</span><br><span class="line">    DIV     AB</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    MOV     R2,B</span><br><span class="line">    RET </span><br><span class="line">    </span><br><span class="line">Delay:                      //定时0.4ms</span><br><span class="line">        MOV     30H,#10</span><br><span class="line">DEL0:   MOV     31H,#1</span><br><span class="line">DEL1:   MOV     32H,#20</span><br><span class="line">DEL2:   DJNZ    32H,DEL2</span><br><span class="line">        DJNZ    31H,DEL1</span><br><span class="line">        DJNZ    30H,DEL0</span><br><span class="line">      </span><br><span class="line">    RET  </span><br><span class="line">    </span><br><span class="line">D_table:</span><br><span class="line">    DB 3FH,06H,5BH,4FH,66H,6DH,7DH,07H,7FH,6FH  //共阴极0~9</span><br><span class="line"></span><br><span class="line">    END</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<h2 id="添加支持"><a href="#添加支持" class="headerlink" title="添加支持"></a>添加支持</h2><h3 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h3><ul>
+<li>Win/Mac/Linux<ul>
+<li><a target="_blank" rel="noopener" href="https://graphviz.org/download/">Graphviz Download</a>，主流系统内的使用也比较简单，可以直接安装，不再赘述</li>
+</ul>
+</li>
+<li><p>Blog System</p>
+<ul>
+<li><p>安装插件<code>hexo-graphviz</code></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yarn add hexo-graphviz   <span class="comment"># 通过yarn安装</span></span><br><span class="line">npm install hexo-graphviz --save <span class="comment"># 通过npm安装</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>模板增加相应的js代码，目录为<code>{blogRoot}/themes/{themeName}/layout/_partial/after-fotter.ejs</code></p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;% <span class="keyword">if</span> (theme.<span class="property">graphviz</span>.<span class="property">enable</span>) { %&gt;</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'https://cdnjs.cloudflare.com/ajax/libs/viz.js/1.7.1/viz.js'</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="title class_">String</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">replaceAll</span> = <span class="keyword">function</span>(<span class="params">search, replacement</span>) {</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            <span class="keyword">var</span> target = <span class="variable language_">this</span>;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            <span class="keyword">return</span> target.<span class="title function_">split</span>(search).<span class="title function_">join</span>(replacement);</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        };</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="keyword">let</span> vizObjects = <span class="variable language_">document</span>.<span class="title function_">querySelectorAll</span>(<span class="string">'.graphviz'</span>)</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> vizObjects) {</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            <span class="keyword">let</span> svg = <span class="literal">undefined</span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            <span class="keyword">try</span> {</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                svg = <span class="title class_">Viz</span>(item.<span class="property">textContent</span>.<span class="title function_">replaceAll</span>(<span class="string">'–'</span>, <span class="string">'--'</span>), <span class="string">'svg'</span>)</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            } <span class="keyword">catch</span>(e) {</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                svg = <span class="string">`&lt;pre class="error"&gt;<span class="subst">${e}</span>&lt;/pre&gt;`</span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            }</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        item.<span class="property">outerHTML</span> = svg</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        }</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line">&lt;% } %&gt;</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>添加启动选项（Theme配置下的<code>_config.yml</code>）</p>
+<figure class="highlight yml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># hexo-graphviz</span></span><br><span class="line"><span class="attr">graphviz:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>注意：可能在安装过程中npm自动升级了，导致之前配置的Nunjucks模板标签又和Markdown的部分标签冲突了，需要重新解决，详细见之前写的<a href="https://www.lingzhicheng.cn/2021/08/26/NunjucksErrors/">Nunjucks Errors</a>的解决方案3。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><ul>
+<li><p>详细的可以查看<a target="_blank" rel="noopener" href="https://graphviz.org">Graphviz的文档</a></p>
+</li>
+<li><p>简单的有向图</p>
+  <div><div class="graphviz">    digraph G {
+      A -&gt; B;
+      B -&gt; C;
+      C -&gt; D;
+      D -&gt; A;
+  }</div></div>
+</li>
+<li><p>带节点标签和边标签的有向图</p>
+  <div><div class="graphviz">    digraph G {
+      A [label="Start"];
+      B [label="Middle"];
+      C [label="End"];
+
+      A -&gt; B [label="Step 1"];
+      B -&gt; C [label="Step 2"];
+  }</div></div>
+</li>
+<li><p>带颜色和形状的无向图</p>
+  <div><div class="graphviz">    graph G {
+      A [shape=circle, color=red, fillcolor=lightblue, style=filled];
+      B [shape=square, color=blue];
+      C [shape=diamond, color=green];
+
+      A -- B;
+      B -- C;
+      C -- A;
+      A -- D -- E;
+  }</div></div>
+</li>
+<li><p>二叉树</p>
+  <div><div class="graphviz">    digraph G {
+      bgcolor="beige"
+      node [shape="record", height=.1]
+      node0[label="<f0> | <f1> A | <f2>"]
+      node1[label="<f0> | <f1> B | <f2>"]
+      node2[label="<f0> | <f1> C | <f2>"]
+      node0:f0 -&gt; node1:f1
+      node0:f2 -&gt; node2:f1
+  }</f2></f1></f0></f2></f1></f0></f2></f1></f0></div></div>
+</li>
+<li><p>大括号子图</p>
+  <div><div class="graphviz">    graph G {
+      "数据结构三要素" -- {"数据的逻辑结构", "数据的存储结构", "数据的运算"}
+  }</div></div>
+</li>
+<li><p>总示例</p>
+  <div><div class="graphviz">    digraph G {
+      label=&lt;<b>Graphviz基本组成结构</b>&gt;;
+      labelloc=top;   // 标题位置
+      bgcolor=transparent; // 背景透明
+
+      node[shape=box];  // 结点形状为方形
+      //edge[style=bold];
+
+      // 独立出现的为结点或属性声明, 中括号前为结点名称
+      graphviz[label="Graphviz"];
+
+      subgraph{
+          layout[label="Layouts"];
+          script[label="Script Files"];
+          api[label="APIs"];
+          rank=same;
+      }
+
+      graphviz -&gt; layout;
+      graphviz -&gt; script;
+      graphviz -&gt; api;
+
+      // 设置子图
+      api -&gt; 
+      subgraph{
+          layout_etc[label="......"];
+      }
+
+      script -&gt;
+      subgraph{
+          element[label="Elements"];
+          attribute[label="Attributes"];
+          rank=same;
+      }
+
+      layout -&gt;
+      subgraph{
+          layout_dot[label="dot"];
+          layout_neato[label="neato"];
+      }
+
+      element -&gt;
+      subgraph{
+          ele_graph[label="Graph"];
+          ele_node[label="Node"];
+          ele_edge[label="Edge"];
+      }
+  }</div></div>
+
+</li>
+</ul>
+<!-- markdownlint-disable-file MD025 MD033 -->
  
       <!-- reward -->
       
@@ -119,6 +238,18 @@
     
 
     <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
     
     <footer class="article-footer">
        
@@ -164,12 +295,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2021/01/05/AT89S51%E6%A8%A1%E6%8B%9F%E9%87%87%E9%9B%86AD%E8%BD%AC%E5%8C%96/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2024/05/18/Graphviz%20on%20Hexo/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ADC/" rel="tag">ADC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ASM/" rel="tag">ASM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Modulation/" rel="tag">Modulation</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Graphviz/" rel="tag">Graphviz</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a></li></ul>
 
     </footer>
   </div>
@@ -177,19 +308,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2021/01/12/AT89S51%E4%BA%A4%E9%80%9A%E7%81%AF%E7%B3%BB%E7%BB%9F/" class="article-nav-link">
-        <strong class="article-nav-caption">Prev post</strong>
-        <div class="article-nav-title">
-          
-            交通灯系统
-          
-        </div>
-      </a>
     
-    
-      <a href="/2020/12/29/AT89S51%E5%8F%8C%E6%9C%BA%E9%80%9A%E4%BF%A1/" class="article-nav-link">
+      <a href="/2024/04/18/HUAWEI20240417/" class="article-nav-link">
         <strong class="article-nav-caption">Next post</strong>
-        <div class="article-nav-title">Dual_computer_communication</div>
+        <div class="article-nav-title">华为2024暑期实习笔试</div>
       </a>
     
   </nav>
