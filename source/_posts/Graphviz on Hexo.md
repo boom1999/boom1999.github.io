@@ -1,6 +1,6 @@
 ---
-title: Graphviz
-date: 2024-05-18
+title: 博客增加Graphviz支持
+date: 2024-04-20
 tags: 
     - Hexo
     - Graphviz
