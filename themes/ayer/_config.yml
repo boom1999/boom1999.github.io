@@ -285,3 +285,7 @@ ads:
     img: 
     url: 
     width: 
+
+# hexo-graphviz
+graphviz:
+  enable: true
