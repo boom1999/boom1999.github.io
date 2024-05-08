@@ -141,31 +141,6 @@
       </tags>
   </entry>
   <entry>
-    <title>模拟采集AD转化</title>
-    <url>/2021/01/05/AT89S51%E6%A8%A1%E6%8B%9F%E9%87%87%E9%9B%86AD%E8%BD%AC%E5%8C%96/</url>
-    <content><![CDATA[<ul>
-<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
-</ul>
-<blockquote>
-<p>包含进制转化和动态显示<br>AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片，转换时间约10uS,控制字分别为94H可调电位器、0A4H光敏电阻、0D4H热敏电阻<br>采用LED（4位）动态显示，千位、百位、十位和个位<br>000H-FFFH的温度数据需要转换成十进制数的仟佰拾个位</p>
-</blockquote>
-<span id="more"></span>
-<hr>
-<blockquote>
-<p>连接单片机的 JP10 到动态数码管的 J12<br>分别连接单片机的 P20、P21、P22 到 74HC138 模块的 A、B、C。<br>分别连接单片机的 P34、P35、P36、P37 到AD/DA模块的 DI、CS、CLK、DO。<br>将NE555 模块的跳线帽 J11 跳开，跳线帽安装在其中一根上，以免丢掉。</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">    ORG     0200H</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    ACALL   AD_CHANGE</span><br><span class="line">    </span><br><span class="line">    MOV     DPTR,#D_table   //动态显示四位</span><br><span class="line">    </span><br><span class="line">    MOV     A,#00H          //38译码器动态显示四位</span><br><span class="line">    MOV     A,R0            //放个位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#03</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R1            //放十位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#02</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R2            //放百位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#01</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R3            //放千位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#00</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line">    </span><br><span class="line">    MOV     P0,#00H</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">AD_CHANGE:                  //获取AD转换结果，共12位，串行读入单片机内，用SPI总线</span><br><span class="line">    INC     R7</span><br><span class="line">DELL: </span><br><span class="line">    DJNZ    R6,DELL</span><br><span class="line">    CJNE    R7,#0FFH,RETURN</span><br><span class="line">    MOV     R7,#00H</span><br><span class="line">    MOV     R6,#0FFH</span><br><span class="line">    </span><br><span class="line">    MOV     R0,#0d4H        //R0控制字  0X94或0XB4电位，0XD4热敏，0XA4光敏</span><br><span class="line">    CLR     P3.5            //片选CS为低电平，选中XPT2046</span><br><span class="line">    CLR     P3.6            //时钟脚I/O CLOCK位低电平</span><br><span class="line">    MOV     R2,#08H         //设置循环读入的次数为8</span><br><span class="line">    MOV     A,R0            //下一次转换的命令从R0送入A</span><br><span class="line">LOOP0:</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     P3.4,C</span><br><span class="line">    CLR     P3.6</span><br><span class="line">    NOP</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    NOP</span><br><span class="line">    DJNZ    R2,LOOP0</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     R2,#04H</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">LOOP1:</span><br><span class="line">    MOV     C,P3.7          //读入上一次的转换结果中的1位</span><br><span class="line">    RRC     A               //带进位位的循环右移</span><br><span class="line">    </span><br><span class="line">    SETB    P3.6            //一个CLK时钟</span><br><span class="line">    NOP</span><br><span class="line">    CLR     P3.6</span><br><span class="line">    NOP</span><br><span class="line">    </span><br><span class="line">    DJNZ    R2,LOOP1        //是否完成8次转换结果读入和命令输出？未完成则继续</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    MOV     R1,A            //R1存高4位数据</span><br><span class="line">    MOV     A,#00H          //A清“0”</span><br><span class="line">    MOV     R2,#08H         //设置R2循环次数为8，为移入8位数据准备</span><br><span class="line">LOOP2:</span><br><span class="line">    MOV     C,P3.7          //读入上一次的转换结果中的1位</span><br><span class="line">    RRC     A               //带进位位的循环右移</span><br><span class="line"></span><br><span class="line">    CLR     P3.6            //一个CLK时钟</span><br><span class="line">    NOP</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    NOP</span><br><span class="line">    </span><br><span class="line">    DJNZ    R2,LOOP2        //是否完成8次转换结果读入和命令输出？未完成则继续</span><br><span class="line">    </span><br><span class="line">    SWAP    A</span><br><span class="line">    MOV     R0,A            //R0存低8位</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    LJMP    DATA_HEX_DEC</span><br><span class="line">RETURN:</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">DATA_HEX_DEC:               //将获取的12位2进制数转换为十进制存在R3 R2 R1 R0；千位 百位 十位 个位里 #R0--&gt;TL0 #R1--&gt;TH0</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    ANL     A,#0FH</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    CLR     A</span><br><span class="line">    </span><br><span class="line">    MOV     R2,A            //先清零</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    MOV     R4,A</span><br><span class="line">    MOV     R5,#16          //共转换十六位数 </span><br><span class="line">LOOP:</span><br><span class="line">    CLR     C</span><br><span class="line">    MOV     A,R0            //从待转换数的高端移出一位到Cy</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R1</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R4            //送到BCD码的低端</span><br><span class="line">    ADDC    A,R4            //带进位的自身相加，相当于左移一位</span><br><span class="line">    DA      A               //十进制调整，变成BCD码</span><br><span class="line">    MOV     R4,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R3</span><br><span class="line">    ADDC    A,R3</span><br><span class="line">    DA      A</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R2</span><br><span class="line">    ADDC    A,R2</span><br><span class="line">    MOV     R2,A</span><br><span class="line">    </span><br><span class="line">    DJNZ    R5,LOOP</span><br><span class="line">//已经把TH1 TL1中的数字，转换成BCD码，送到了R2 R3 R4</span><br><span class="line">//*************************************************//</span><br><span class="line">//分别存入 R3 R2 R1 R0；千位 百位 十位 个位</span><br><span class="line">    MOV     A,R4</span><br><span class="line">    MOV     B,#16</span><br><span class="line">    DIV     AB</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    MOV     R0,B</span><br><span class="line"></span><br><span class="line">    MOV     A,R2</span><br><span class="line">    MOV     R4,A</span><br><span class="line"></span><br><span class="line">    MOV     A,R3</span><br><span class="line">    MOV     B,#16</span><br><span class="line">    DIV     AB</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    MOV     R2,B</span><br><span class="line">    RET </span><br><span class="line">    </span><br><span class="line">Delay:                      //定时0.4ms</span><br><span class="line">        MOV     30H,#10</span><br><span class="line">DEL0:   MOV     31H,#1</span><br><span class="line">DEL1:   MOV     32H,#20</span><br><span class="line">DEL2:   DJNZ    32H,DEL2</span><br><span class="line">        DJNZ    31H,DEL1</span><br><span class="line">        DJNZ    30H,DEL0</span><br><span class="line">      </span><br><span class="line">    RET  </span><br><span class="line">    </span><br><span class="line">D_table:</span><br><span class="line">    DB 3FH,06H,5BH,4FH,66H,6DH,7DH,07H,7FH,6FH  //共阴极0~9</span><br><span class="line"></span><br><span class="line">    END</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-]]></content>
-      <categories>
-        <category>AT89S51</category>
-      </categories>
-      <tags>
-        <tag>Modulation</tag>
-        <tag>ASM</tag>
-        <tag>ADC</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>定时器解决方案备忘录</title>
     <url>/2020/12/22/AT89S51%E5%AE%9A%E6%97%B6%E5%99%A8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E5%A4%87%E5%BF%98%E5%BD%95/</url>
     <content><![CDATA[<ul>
@@ -193,6 +168,31 @@
       <tags>
         <tag>Modulation</tag>
         <tag>ASM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>模拟采集AD转化</title>
+    <url>/2021/01/05/AT89S51%E6%A8%A1%E6%8B%9F%E9%87%87%E9%9B%86AD%E8%BD%AC%E5%8C%96/</url>
+    <content><![CDATA[<ul>
+<li><strong>浙江工业大学信息工程学院单片机实验</strong></li>
+</ul>
+<blockquote>
+<p>包含进制转化和动态显示<br>AD转换器XPT2046是12位的串行口（SPI）输出的可编程控制AD芯片，转换时间约10uS,控制字分别为94H可调电位器、0A4H光敏电阻、0D4H热敏电阻<br>采用LED（4位）动态显示，千位、百位、十位和个位<br>000H-FFFH的温度数据需要转换成十进制数的仟佰拾个位</p>
+</blockquote>
+<span id="more"></span>
+<hr>
+<blockquote>
+<p>连接单片机的 JP10 到动态数码管的 J12<br>分别连接单片机的 P20、P21、P22 到 74HC138 模块的 A、B、C。<br>分别连接单片机的 P34、P35、P36、P37 到AD/DA模块的 DI、CS、CLK、DO。<br>将NE555 模块的跳线帽 J11 跳开，跳线帽安装在其中一根上，以免丢掉。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">    ORG     0000H</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">    ORG     0200H</span><br><span class="line">MAIN:</span><br><span class="line">    MOV     SP,#60H</span><br><span class="line">    ACALL   AD_CHANGE</span><br><span class="line">    </span><br><span class="line">    MOV     DPTR,#D_table   //动态显示四位</span><br><span class="line">    </span><br><span class="line">    MOV     A,#00H          //38译码器动态显示四位</span><br><span class="line">    MOV     A,R0            //放个位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#03</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R1            //放十位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#02</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R2            //放百位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#01</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line"></span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     A,R3            //放千位</span><br><span class="line">    MOVC    A,@A+DPTR</span><br><span class="line">    MOV     P2,#00</span><br><span class="line">    MOV     P0,A</span><br><span class="line">    ACALL   Delay</span><br><span class="line">    </span><br><span class="line">    MOV     P0,#00H</span><br><span class="line">    LJMP    MAIN</span><br><span class="line"></span><br><span class="line">AD_CHANGE:                  //获取AD转换结果，共12位，串行读入单片机内，用SPI总线</span><br><span class="line">    INC     R7</span><br><span class="line">DELL: </span><br><span class="line">    DJNZ    R6,DELL</span><br><span class="line">    CJNE    R7,#0FFH,RETURN</span><br><span class="line">    MOV     R7,#00H</span><br><span class="line">    MOV     R6,#0FFH</span><br><span class="line">    </span><br><span class="line">    MOV     R0,#0d4H        //R0控制字  0X94或0XB4电位，0XD4热敏，0XA4光敏</span><br><span class="line">    CLR     P3.5            //片选CS为低电平，选中XPT2046</span><br><span class="line">    CLR     P3.6            //时钟脚I/O CLOCK位低电平</span><br><span class="line">    MOV     R2,#08H         //设置循环读入的次数为8</span><br><span class="line">    MOV     A,R0            //下一次转换的命令从R0送入A</span><br><span class="line">LOOP0:</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     P3.4,C</span><br><span class="line">    CLR     P3.6</span><br><span class="line">    NOP</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    NOP</span><br><span class="line">    DJNZ    R2,LOOP0</span><br><span class="line">    MOV     A,#00H</span><br><span class="line">    MOV     R2,#04H</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">    NOP</span><br><span class="line">LOOP1:</span><br><span class="line">    MOV     C,P3.7          //读入上一次的转换结果中的1位</span><br><span class="line">    RRC     A               //带进位位的循环右移</span><br><span class="line">    </span><br><span class="line">    SETB    P3.6            //一个CLK时钟</span><br><span class="line">    NOP</span><br><span class="line">    CLR     P3.6</span><br><span class="line">    NOP</span><br><span class="line">    </span><br><span class="line">    DJNZ    R2,LOOP1        //是否完成8次转换结果读入和命令输出？未完成则继续</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    RRC     A</span><br><span class="line">    MOV     R1,A            //R1存高4位数据</span><br><span class="line">    MOV     A,#00H          //A清“0”</span><br><span class="line">    MOV     R2,#08H         //设置R2循环次数为8，为移入8位数据准备</span><br><span class="line">LOOP2:</span><br><span class="line">    MOV     C,P3.7          //读入上一次的转换结果中的1位</span><br><span class="line">    RRC     A               //带进位位的循环右移</span><br><span class="line"></span><br><span class="line">    CLR     P3.6            //一个CLK时钟</span><br><span class="line">    NOP</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    NOP</span><br><span class="line">    </span><br><span class="line">    DJNZ    R2,LOOP2        //是否完成8次转换结果读入和命令输出？未完成则继续</span><br><span class="line">    </span><br><span class="line">    SWAP    A</span><br><span class="line">    MOV     R0,A            //R0存低8位</span><br><span class="line">    SETB    P3.6</span><br><span class="line">    LJMP    DATA_HEX_DEC</span><br><span class="line">RETURN:</span><br><span class="line">    RET</span><br><span class="line">    </span><br><span class="line">DATA_HEX_DEC:               //将获取的12位2进制数转换为十进制存在R3 R2 R1 R0；千位 百位 十位 个位里 #R0--&gt;TL0 #R1--&gt;TH0</span><br><span class="line">    MOV     A,R1</span><br><span class="line">    ANL     A,#0FH</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    CLR     A</span><br><span class="line">    </span><br><span class="line">    MOV     R2,A            //先清零</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    MOV     R4,A</span><br><span class="line">    MOV     R5,#16          //共转换十六位数 </span><br><span class="line">LOOP:</span><br><span class="line">    CLR     C</span><br><span class="line">    MOV     A,R0            //从待转换数的高端移出一位到Cy</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     R0,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R1</span><br><span class="line">    RLC     A</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R4            //送到BCD码的低端</span><br><span class="line">    ADDC    A,R4            //带进位的自身相加，相当于左移一位</span><br><span class="line">    DA      A               //十进制调整，变成BCD码</span><br><span class="line">    MOV     R4,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R3</span><br><span class="line">    ADDC    A,R3</span><br><span class="line">    DA      A</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    </span><br><span class="line">    MOV     A,R2</span><br><span class="line">    ADDC    A,R2</span><br><span class="line">    MOV     R2,A</span><br><span class="line">    </span><br><span class="line">    DJNZ    R5,LOOP</span><br><span class="line">//已经把TH1 TL1中的数字，转换成BCD码，送到了R2 R3 R4</span><br><span class="line">//*************************************************//</span><br><span class="line">//分别存入 R3 R2 R1 R0；千位 百位 十位 个位</span><br><span class="line">    MOV     A,R4</span><br><span class="line">    MOV     B,#16</span><br><span class="line">    DIV     AB</span><br><span class="line">    MOV     R1,A</span><br><span class="line">    MOV     R0,B</span><br><span class="line"></span><br><span class="line">    MOV     A,R2</span><br><span class="line">    MOV     R4,A</span><br><span class="line"></span><br><span class="line">    MOV     A,R3</span><br><span class="line">    MOV     B,#16</span><br><span class="line">    DIV     AB</span><br><span class="line">    MOV     R3,A</span><br><span class="line">    MOV     R2,B</span><br><span class="line">    RET </span><br><span class="line">    </span><br><span class="line">Delay:                      //定时0.4ms</span><br><span class="line">        MOV     30H,#10</span><br><span class="line">DEL0:   MOV     31H,#1</span><br><span class="line">DEL1:   MOV     32H,#20</span><br><span class="line">DEL2:   DJNZ    32H,DEL2</span><br><span class="line">        DJNZ    31H,DEL1</span><br><span class="line">        DJNZ    30H,DEL0</span><br><span class="line">      </span><br><span class="line">    RET  </span><br><span class="line">    </span><br><span class="line">D_table:</span><br><span class="line">    DB 3FH,06H,5BH,4FH,66H,6DH,7DH,07H,7FH,6FH  //共阴极0~9</span><br><span class="line"></span><br><span class="line">    END</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>Modulation</tag>
+        <tag>ASM</tag>
+        <tag>ADC</tag>
       </tags>
   </entry>
   <entry>
@@ -349,6 +349,75 @@
       <tags>
         <tag>Modulation</tag>
         <tag>Matlab</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Fake news detection(Literature review)</title>
+    <url>/2022/07/06/Fake%20news%20detection(Literature%20review)/</url>
+    <content><![CDATA[<p><strong>摘要</strong>：随着移动互联网的快速发展，人们的社交方式发生持续变革，微博和Twitter等逐渐成为人们获取信息和发表意见的便捷在线平台。然而，便捷在线平台同样导致了虚假消息的大量产生和传播，将会给舆论和社会稳定带来不利影响。本文调研了虚假消息检测领域的研究现状，主要介绍了基于有大量数据标注的监督学习方法，强调了基于传播模式的研究前景。之后简单介绍了一些评估方法和常用的虚假消息检测领域的数据集。最后进行总结，为基于传播差异的虚假消息检测方法设计与实现做好基础。</p>
+<p><strong>关键词</strong>：信息传播、深度学习、虚假消息、传播差异</p>
+<span id="more"></span>
+<style>
+.center {
+  width: auto;
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+
+<h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1  引言"></a>1  引言</h2><p>  近年来，得益于移动互联网的发展，微博和Twitter等主流社交媒体已经成为人们获取信息和发布信息的重要平台^<a href="http://cjc.ict.ac.cn/online/onlinepaper/xbl-2016327154823.pdf">1</a>^，信息的自由获取和传播达到了空前的便利，给虚假消息创造了有利的生存环境。虚假消息有几个相近的定义，如谣言、虚假新闻等，都是通过对图像、文本、音频视频进行处理以歪曲或捏造事实，企图误导或引诱大众从而达到经济或政治目的。<br>  虚假消息主要在互联网发布和广泛传播。用户对消息和文章的评论、点赞与转发构成了最基本的在线社交活动^<a href="http://edit.jeit.ac.cn/EN/article/downloadArticleFile.do?attachType=PDF&amp;id=18265">2</a>^，在线社交网络中的用户通过评论、点赞等基本操作将消息传播出去，人的情绪、观点和行为容易受到他人的影响，虚假消息利用这一特点吸引注意力，通过用户间的社交活动进行有效传播^<a href="http://www.bulletin.cas.cn/zgkxyyk/ch/reader/view_abstract.aspx?file_no=20150208&amp;flag=1">3</a>^。传统纸媒发版的内容需要经编辑严格审核，可信度得到大众的认可，然而用户在线上平台发布的文本、图片和视频很少经过内容真实性验证，经评论与转发使得虚假消息得到进一步传播。传统的解决方案是通过人工识别的方式对发布在社交网络的消息进行甄别，但存在效率低下和具有时滞性等问题^<a href="http://www.joca.cn/CN/abstract/abstract23957.shtml">4</a>^，难以在第一时间对海量数据进行甄别，无法在传播初期阻断虚假消息的散布。随着在线社交的普及，这种现象变得更为普遍，依靠传统的人工识别已不再适用，因此迫切需要一种高效的方法自动识别、检测出虚假消息进而阻断影响范围的持续扩大。<br>  已有的检测方法主要通过提取消息内容、用户可信度和传播模式等关键特征进行训练得到真假消息二分类器以实现虚假消息的自动检测，也有研究采用多特征融合的方式进行检测以提高性能。其中常用的分类器包括：支持向量机（Support Vector Machine，SVM）^<a href="https://link.springer.com/article/10.1007/BF00994018">5</a>^、随机森林（Random Forest，RF）^<a href="http://library.ioz.ac.cn/bitstream/000000/10883/1/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E6%A8%A1%E5%9E%8B%E5%9C%A8%E5%88%86%E7%B1%BB%E4%B8%8E%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8.pdf">6</a>^和决策树（Decision Tree，DT）^<a href="http://www.cqvip.com/">7</a>^等。然而这些依赖于特征工程的方法非常耗时费力，并且需要制作特定的数据，缺乏高层的特征表征，因此往往针对性较强，缺乏泛化性能。另外也有一系列研究基于深度学习技术对真实消息与虚假消息在传播模式上的结构特征进行挖掘，利用图卷积网络提取消息传播过程中的拓扑结构特征，对局部的结构信息进行融合以得到更丰富的特征表示。<br>  本文主要开展虚假消息检测基于有完全数据标注的监督学习领域研究，针对基于消息内容和消息传播结构等检测方法进行综述，从研究现状、应用、优缺点等方面进行分析，为进一步研究基于传播差异的虚假消息检测方法设计与实现打下基础。</p>
+<h2 id="2-虚假消息检测研究现状"><a href="#2-虚假消息检测研究现状" class="headerlink" title="2  虚假消息检测研究现状"></a>2  虚假消息检测研究现状</h2><p>  虚假消息具有传播快、影响广、危害大的特点，微博和Twitter上每天以数亿计增长的消息中有大量是虚假的，而虚假消息的泛滥对群众的影响非常大，造成的舆论影响会影响社会治安并使网络暴力更为频繁^[8,9]^。国内外均展开了一系列针对虚假消息自动检测的研究，以下主要从基于消息内容的方法、基于社交背景的方法和基于传播结构的方法进行综述。其中，消息内容的方法可以分为文本和图像单模态及多模态融合的方法，社交背景的方法可以分为融合用户背景的方法和融合外部知识的方法，传播结构的方法可以分为基于图结构和基于树结构以及基于时间序列的方法。</p>
+<h3 id="2-1-基于消息内容的方法"><a href="#2-1-基于消息内容的方法" class="headerlink" title="2.1  基于消息内容的方法"></a>2.1  基于消息内容的方法</h3><p>  首先，由于文本是消息内容最基本的组成部分，早期的虚假消息检测研究采用最直接的方法，从消息内容本身入手，对消息的文本内容特征进行提取和建模以鉴定消息内容的真假。Ma等人^<a href="https://ink.library.smu.edu.sg/sis_research/4630/">10</a>^通过建立基于循环神经网络（Rurrent Neural Network，RNN）及其变体即长短期记忆（Long Short Term Memory，LSTM）和门控循环单元（Gated Recurrent Unit，GRU）共三种不同结构模型如图1所示，利用深度学习的方式提取消息的文本特征并使用多个隐藏层，相比于依赖特征工程的方法有了更强的泛化能力。然而经过训练的RNN模型在两个连续的文本输入间产生的循环转移矩阵是固定不变的，在动态和复杂的场景下并不适用，Feng等人^<a href="https://www.ijcai.org/proceedings/2017/0545.pdf">11</a>^利用卷积神经网络（Convolutional Neural Network, CNN）的卷积结构和池化操作灵活提取分散在文本序列中的关键特征。</p>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/fakenews/图片1.jpg" alt="图1 采用三种不同结构RNN模型的检测框架"></p>
+<center><font size="2">图1 采用三种不同结构RNN模型的检测框架</font></center>
+
+<p>  其次，消息内容除了文本，还包括图片等视觉信息。正如我们平时所见到的，大部分虚假消息会附有经过伪造处理的图片。CNN通常只能提取图片的像素级特征，然而现有的造假技术已经可以更改图像的语义信息，从而无法进行图像真假的判断。经过修图处理的图像经过频域分析后可以发现与原始图像有显著差别^<a href="https://ieeexplore.ieee.org/abstract/document/8970940/">12</a>^，具有误导性的图像通常比真实的图像具有更重的压缩伪影。</p>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/fakenews/图片2.png" alt="图2 多模态虚假消息检测方法总体框架"></p>
+<center><font size="2">图2 多模态虚假消息检测方法总体框架</font></center>
+
+<p>  另一方面，依靠单一的文本或图像进行检测并不完善，因为大量的消息以文和、图片混合的形式存在，将文本特征和视觉特征混合建模的方法能够进一步提高分类器的性能。基于将文本信息和视觉信息拼接的方法，Singhal等人^[13,14]^提出分别利用预训练的模型对文本信息和视觉信息进行特征提取，然后拼接融合得到消息的向量表示。显式提取消息图片中的视觉实体和嵌入文字^<a href="https://www.cnki.com.cn/Article/CJFDTotal-JFYZ202107011.htm">15</a>^，可以得到不同语义层次的视觉特征，能够有效增强多模态融合的虚假消息检测性能。刘金硕等人^<a href="https://www.cnki.com.cn/Article/CJFDTotal-JFYZ202011007.htm">16</a>^设计了如图2所示的多模态虚假消息检测方法，在简单融合文本和图像特征的基础上还提取了图像内嵌的文本特征，进行串接后输入全连接层进行多模态的检测。图像和文本的匹配程度能够反映消息是否经过篡改，可以将文本信息和视觉信息同通过全连接层映射到同一向量空间^<a href="https://www.sciencedirect.com/science/article/pii/S0306457321001060">17</a>^，使用余弦相似度算法度量文本和图像之间的相似性。</p>
+<h3 id="2-2-基于社交背景的方法"><a href="#2-2-基于社交背景的方法" class="headerlink" title="2.2  基于社交背景的方法"></a>2.2  基于社交背景的方法</h3><p>  虚假消息的作者仿照真实消息进行编写，基于消息内容的检测方法会受到制约，分析用户的可信度、发文历史、偏好等用户资料信息可以作为虚假消息检测的辅助评价指标，可信度高的用户更有可能发表真实的消息^<a href="https://dl.acm.org/doi/abs/10.1145/3404835.3462990">18</a>^。此外，丰富的外部知识和客观事实可以帮助模型更准确地识别虚假消息。</p>
+<h4 id="2-2-1-融合用户背景"><a href="#2-2-1-融合用户背景" class="headerlink" title="2.2.1  融合用户背景"></a>2.2.1  融合用户背景</h4><p>  社会学研究表明可信度高的用户发出的消息更可能是真实的^<a href="https://www.cnki.com.cn/Article/CJFDTotal-JFYZ201909015.htm">19</a>^，基于用户可信度的研究对用户的基本资料、历史发文等信息进行建模作为辅助评价标准。发布虚假消息的可疑用户具有未实名认证，创建时间短，用户介绍缺失等显著特征^<a href="https://aclanthology.org/2020.acl-main.48.pdf">20</a>^。当一条假消息证实了用户现有的观念和偏好时，用户更有可能传播这条假消息^<a href="https://dl.acm.org/doi/abs/10.1145/3404835.3463001">21</a>^，在基于消息内容的基础上，添加用户的偏好表示，同时根据消息的传播情况共同进行虚假消息检测能够有效提高虚假消息检测性能。</p>
+<h4 id="2-2-2-融合外部知识"><a href="#2-2-2-融合外部知识" class="headerlink" title="2.2.2  融合外部知识"></a>2.2.2  融合外部知识</h4><p>  客观事实作为虚假消息检测的重要线索在基于消息内容的检测方法中经常被被忽略，而大量外部知识包含丰富的语义信息，将注意力和图神经网络运用到虚假消息检测领域以融合外部知识可以有效提高模型学习消息内容的能力。人脑中已存在的知识含有大量语义信息，能帮助人们在查看消息时更好的理解消息内容，融合外部知识输入模型同样也能更好的理解消息内容从而提高虚假消息检测模型的性能。Li^<a href="https://aclanthology.org/2021.findings-acl.63.pdf">22</a>^等人将虚假消息检测任务分成取证和检测两部分，利用维基百科的固有知识预训练模型作为事实证据，融合消息内容和事实依据进行取证，找出对应的事实依据，然后利用事实依据对消息内容的真实性进行判断。</p>
+<h3 id="2-3-基于消息传播结构的方法"><a href="#2-3-基于消息传播结构的方法" class="headerlink" title="2.3  基于消息传播结构的方法"></a>2.3  基于消息传播结构的方法</h3><p>  消息传播主要通过用户的转发来实现，用户对收到的消息进行层级转发构成了消息传播的复杂结构，根据消息在层级转发过程中的相互关系来判断消息的真实性。基于消息内容的检测方法忽略了消息在层级传播过程中的树形结构这一重要特征。然而树结构无法表示相同层级转发的消息之间的联系，图结构使用顶点和边的表示更好的建模了消息在广度和深度上的传播，图结构比树结构拥有更复杂的拓扑结构。下面介绍分别从基于树结构和图结构的虚假消息检测方法。</p>
+<h4 id="2-3-1-树结构"><a href="#2-3-1-树结构" class="headerlink" title="2.3.1  树结构"></a>2.3.1  树结构</h4><p><img src="https://www.lingzhicheng.cn/usr/file/picture/fakenews/图片3.png" alt="图3 自底向上和自顶向下两种树形结构模型"></p>
+<center><font size="2">图3 自底向上和自顶向下两种树形结构模型</font></center>
+
+<p>  基于递归神经网络（Recursive Neural networks，RvNN），Ma等人^<a href="https://aclanthology.org/P18-1184/">23</a>^使用如图2所示的自顶向下和自底向上两种变体对消息的树形传播模式进行建模，将源消息作为根节点，对父节点消息的包含支持或反对倾向的转发与评论作为子节点。对真实消息的反对评论会引起其他人的反对，而对虚假消息的反对评论则会引起其他人的支持。从这两种不同变体的不同角度表示消息传播的树形结构，自顶向下的模型在池化层中可以有效地选择嵌入叶子节点的重要特征，信息损失更小，从而拥有更好的性能。<br>  将一棵树的所有节点消息全连接过度简化了用户之间的交互从而带来一定的误差，部分节点之间并没有直接的上下文关联，应当根据语境来增强表征能力^<a href="https://aclanthology.org/2020.coling-main.476/">24</a>^。在虚假消息的传播结构中，回复消息能够进一步增强被回复消息的立场，通过对比相关消息可以检测出一些不准确信息。选择性地关注相应消息增强指示性特征的表征学习，从而达到深入挖掘用户的观点的效果。</p>
+<h4 id="2-3-2-图结构"><a href="#2-3-2-图结构" class="headerlink" title="2.3.2  图结构"></a>2.3.2  图结构</h4><p>  消息的传播通常是从某一用户发文作为起点，在点对点的传播中较为简单，但在现实情况下存在消息经过层层转发，部分还会修改语义信息，树的结构无法完全表示彼此之间的联系，图结构能更好的反映消息在传播过程中彼此的联系。<br>  传播和散布是虚假消息的两个关键特征，原有的例如RvNN只考虑了消息传播速度而忽视了消息的散布结构，具有一定的局限性^<a href="https://ojs.aaai.org/index.php/AAAI/article/view/5393">25</a>^。双向图卷积神经网络（Bi-Directional Graph Convolutional Networks，Bi-GCN）能够从自顶向下和自底向上两个方向发掘虚假消息的传播和散布特征，即从虚假消息传播树中的父节点到子节点学习消息的传播模式，从子节点反向到父节点学习消息的弥散模式。基于图卷积神经网络（Graph Convolutional Networks，GCN）提取子节点特征，子节点与父节点之间的融合与对比也能够增强语义信息^<a href="https://dl.acm.org/doi/abs/10.1145/3404835.3463001">21</a>^。将原始消息融合进传播过程中的其他消息，对自顶向下图和自底向上图进行池化得到两个图的信息。<br>  微博、推文和新闻文章在社交上下文中存在多种节点类型和关系类型，例如用户发发布微博，用户之间相互点赞关注等，使用同质图神经网络忽视了一部分关键的用户关系，不同文章领域、转发关系等也形成异质的信息网络。Shu等人^<a href="https://dl.acm.org/doi/abs/10.1145/3289600.3290994">26</a>^将发布、传播和关注等社交关系构建成异质信息网络，使用矩阵分解的方式获得各个消息节点的嵌入表示，进行虚假消息检测。</p>
+<h2 id="3-常用数据集"><a href="#3-常用数据集" class="headerlink" title="3  常用数据集"></a>3  常用数据集</h2><p>  虚假消息检测领域关注消息本身，用户画像、关注列表等社交上下文内容以及消息在传播过程中的结构即关联信息，采用收集自不同领域不同平台具有显著差异性的数据集能够更好地构建模型。常用的数据集信息如表1所示，搜集整理自Twitter和微博平台^[9,27]^。除此之外，FakeNewsNet提供了Buzzfeed和PolitFact的两个数据集^<a href="https://www.liebertpub.com/doi/abs/10.1089/big.2020.0062">28</a>^，包含了消息的来源以及标题等内容属性和关注列表、粉丝列表等社会背景属性。</p>
+<div class="center">
+<center><font size="2">表1  常用数据集信息统计</font></center>
+
+| 数据统计 | Weibo | Twitter15 | Twitter16 |
+|-------|-------|-------|-------|
+|原始推文数量|4664|1,490|818|
+|用户数量|2,746,818|276,663|173,487|
+|转发数量|3,805,656|331,612|204,820|
+|真实消息数量|2351|372|207|
+|虚假消息数量|2313|370|205|
+|单篇推文平均传播时长|2,460小时|1,337小时|848小时|
+|单篇推文平均转发次数|816|223|251|
+|单篇推文最多转发次数|59,318|1,768|2,765|
+|单篇推文最少转发次数|10|55|81|
+</div>
+
+<h2 id="4-评价指标"><a href="#4-评价指标" class="headerlink" title="4  评价指标"></a>4  评价指标</h2><p>  虚假消息检测作为二分类任务，虚假消息检测通常使用多个指标同时进行评价，常用的评价指标有准确率（Accuracy）、精准率（Precision）、召回率（Recall）和F1-score等。Accuracy较为直观，被广泛应用在各种分类任务中，对应到在虚假消息检测领域即正确识别出虚假消息或真实消息的总比例。但由于Accuracy的本身缺陷，例如正负类数量差距过大将导致准确度的判断不能正确反映事实。Precision反映了是否有大量假消息被判断成真消息，体现了模型对负样本的区分能力；Recall反映了是否有真消息被误判为假消息，体现模型对正样本的识别能力。Accuracy表示预测为正的结果占总样本的比例。</p>
+<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5  总结"></a>5  总结</h2><p>  本文主要对基于大量有标注数据的虚假消息检测进行了回顾，对现有的工作进行客观分析，从消息内容和传播差异等角度建模进行虚假消息检测具有各自的优点和局限性。用户在社交网络上发布消息具有数据量大、结构关系复杂等特点，如何从传播速度、传播结构等方面多层次剖析消息传播特征，进一步促进虚假消息的自动化检测识别发展是今后的一个研究热点。</p>
+<h2 id="bell-参考文献"><a href="#bell-参考文献" class="headerlink" title=":bell: 参考文献"></a><span class="github-emoji"><span>🔔</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f514.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 参考文献</h2><p><a href="http://cjc.ict.ac.cn/online/onlinepaper/xbl-2016327154823.pdf">1</a>    谢柏林, 蒋盛益, 周咏梅, 等. 基于把关人行为的微博虚假信息及早检测方法[J]. 计算机学报, 2016, 39(04): 730-744.<br><a href="http://edit.jeit.ac.cn/EN/article/downloadArticleFile.do?attachType=PDF&amp;id=18265">2</a>    胡长军, 许文文, 胡颖, 等. 在线社交网络信息传播研究综述[J]. 电子与信息学报, 2017, 39(04): 794-804.<br><a href="http://www.bulletin.cas.cn/zgkxyyk/ch/reader/view_abstract.aspx?file_no=20150208&amp;flag=1">3</a>    杨善林, 王佳佳, 代宝, 等. 在线社交网络用户行为研究现状与展望[J]. 中国科学院院刊, 2015, 30(02): 200-215.<br><a href="http://www.joca.cn/CN/abstract/abstract23957.shtml">4</a>    何韩森, 孙国梓. 基于特征聚合的假新闻内容检测模型[J]. 计算机应用, 2020, 40(08): 2189-2193.<br><a href="https://link.springer.com/article/10.1007/BF00994018">5</a>    Cortes C, Vapnik V. Support-vector networks [J]. Machine learning, 1995, 20(3): 273-297.<br><a href="http://library.ioz.ac.cn/bitstream/000000/10883/1/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E6%A8%A1%E5%9E%8B%E5%9C%A8%E5%88%86%E7%B1%BB%E4%B8%8E%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8.pdf">6</a>    李欣海. 随机森林模型在分类与回归分析种的应用[J]. 应用昆虫学报, 2013, 50(04): 1190-1197.<br><a href="http://www.cqvip.com/">7</a>    杨学斌, 张俊. 决策树算法及其核心技术[J]. 计算机技术与发展, 2007, 17(01): 43-46．<br>[8]    白月明. 新媒体时代虚假新闻的成因及规避探析[J]. 新闻研究导刊, 2021, 12(16): 157-159.<br><a href="http://www.cqvip.com/qk/94832x/201802/674500313.html">9</a>    段大高, 盖新新, 韩忠明, 等. 基于梯度提升决策树的微博虚假消息检测[J]. 计算机应用, 2018, 38(02): 410-414+420.<br><a href="https://ink.library.smu.edu.sg/sis_research/4630/">10</a>    Ma J, Gao W, Mitra P, et al. Detecting rumors from microblogs with recurrent neural networks [A]. Proceedings of the Twenty-Fifth International Joint Conference on Artificial Intelligence [C]. Palo Alto: AAAI Press, 2016, 3818-3824.<br><a href="https://www.ijcai.org/proceedings/2017/0545.pdf">11</a>    Yu F, Liu Q, Wu S, et al. A convolutional approach for misinformation identification [A]. Proceedings of the Twenty-Sixth International Joint Conference on Artificial Intelligence [C]. Palo Alto: AAAI Press, 2017, 3901-3907.<br><a href="https://ieeexplore.ieee.org/abstract/document/8970940/">12</a>    Qi P, Cao J, Yang T, et al. Exploiting multi-domain visual information for fake news detection [A]. 2019 IEEE International Conference on Data Mining(ICDM 2019) [C]. Piscataway: IEEE, 2019, 518-527.<br><a href="https://ieeexplore.ieee.org/abstract/document/8919302/">13</a>    Singhal S, Shah R R, Chakraborty T, et al. SpotFake: A multi-modal framework for fake news detection shivangi [A]. 2019 IEEE Fifth International Conference on Multimedia Big Data (BigMM) [C]. Piscataway: IEEE, 2019, 39-47.<br><a href="https://ojs.aaai.org/index.php/AAAI/article/view/7230">14</a>    Singhal S, Kabra A, Sharma M, et al. SpotFake+: A multimodal framework for fake news detection via transfer learning [A]. Proceedings of the AAAI Conference on Artificial Intelligence [C]. Palo Alto: AAAI Press, 2020, 13915-13916.<br><a href="https://www.cnki.com.cn/Article/CJFDTotal-JFYZ202107011.htm">15</a>    亓鹏, 曹娟, 盛强. 语义增强的多模态虚假新闻检测[J]. 计算机研究与发展, 2021, 58(07): 1456-1465.<br><a href="https://www.cnki.com.cn/Article/CJFDTotal-JFYZ202011007.htm">16</a>    刘金硕, 冯阔, Pan J, 等. MSRD: 多模态网络谣言检测方法[J]. 计算机研究与发展, 2020, 57(11): 2328-2336.<br><a href="https://www.sciencedirect.com/science/article/pii/S0306457321001060">17</a>    Xue J, Wang Y, Tian Y, et al. Detecting fake news by exploring the consistency of multimodal data [J]. Information Processing and Management, 2021, 58(5): 102610.<br><a href="https://dl.acm.org/doi/abs/10.1145/3404835.3462990">18</a>    Dou Y, Shu K, Xia C, et al. User preference-aware fake news detection [A]. Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval [C]. New York: Association for Computing Machinery, 2021, 2051-2055.<br><a href="https://www.cnki.com.cn/Article/CJFDTotal-JFYZ201909015.htm">19</a>    刘波, 李洋, 孟青, 等. 社交媒体内容可信性分析与评价[J]. 计算机研究与发展, 2019, 56(09): 1939-1952.<br><a href="https://aclanthology.org/2020.acl-main.48.pdf">20</a>    Lu Y-J, Li C-T. GCAN: Graph-aware co-attention networks for explainable fake news detection on social media [A]. Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics [C]. Stroudsburg: Association for Computational Linguistics, 2020, 505–514.<br><a href="https://dl.acm.org/doi/abs/10.1145/3404835.3463001">21</a>    He Z, Li C, Zhou F, et al. Rumor detection on social media with event augmentations [A]. Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval [C]. New York: Association for Computing Machinery, 2021, 2020-2024.<br><a href="https://aclanthology.org/2021.findings-acl.63.pdf">22</a>    Li J, Ni S, Kao H-Y. Meet the truth: Leverage objective facts and subjective views for interpretable rumor detection [A]. Findings of the Association for Computational Linguistics [C]. Stroudsburg: Association for Computational Linguistics, 2021, 705–715.<br><a href="https://aclanthology.org/P18-1184/">23</a>    Ma J, Gao W, Wong K-F. Rumor detection on twitter with tree-structured recursive neural networks [A]. Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics [C]. Stroudsburg: Association for Computational Linguistics, 2018, 1980–1989.<br><a href="https://aclanthology.org/2020.coling-main.476/">24</a>    Ma J, Gao W. Debunking Rumors on Twitter with Tree Transformer [A]. Proceedings of the 28th International Conference on Computational Linguistics [C]. Barcelona: International Committee on Computational Linguistics, 2020, 5455–5466.<br><a href="https://ojs.aaai.org/index.php/AAAI/article/view/5393">25</a>    Bian T, Xiao X, Xu T, et al. Rumor detection on social media with bi-directional graph convolutional networks [A]. Proceedings of the 34th AAAI Conference on Artificial Intelligence [C]. Palo Alto: AAAI Press, 2020, 549-556.<br><a href="https://dl.acm.org/doi/abs/10.1145/3289600.3290994">26</a>    Shu K, Wang S, Liu H. Beyond news contents: The role of social context for fake news detection [A]. Proceedings of the Twelfth ACM International Conference on Web Search and Data Mining [C]. Stroudsburg: Association for Computing Machinery, 2019, 312-320.<br><a href="https://aclanthology.org/P17-1066/?ref=https://githubhelp.com">27</a>    Ma J, Gao W, Wong K-F. Detect rumors in microblog posts using propagation structure via kernel learning [A]. Proceedings of the 55th Annual Meeting of the Association for Computational Linguistics [C]. Stroudsburg: Association for Computational Linguistics, 2017, 708-717.<br><a href="https://www.liebertpub.com/doi/abs/10.1089/big.2020.0062">28</a>    Shu K, Mahudeswaran D, Wang S, et al. Fakenewsnet: A data repository with news content, social context, and spatiotemporal information for studying fake news on social media [J]. Big data, 2020, 8(3): 171-188.</p>
+<p><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
+<blockquote>
+<p>最后修改于 2022/07/12<br>本文是本科毕业论文的综述，受字数、中外文献比例等限制，和最初的写的有较大差异，和最终实验及论文内容也有较大差异，有空就改改，没空就作罢，论文未投搞状态暂不放出。</p>
+</blockquote>
+<!-- markdownlint-disable-file MD025 MD033 -->
+]]></content>
+      <categories>
+        <category>Literature review</category>
+      </categories>
+      <tags>
+        <tag>Fake news</tag>
+        <tag>NLP</tag>
       </tags>
   </entry>
   <entry>
@@ -570,20 +639,20 @@
 <table>
 <thead>
 <tr>
-<th>Node</th>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
+<th style="text-align:center">Node</th>
+<th style="text-align:center">0</th>
+<th style="text-align:center">1</th>
+<th style="text-align:center">2</th>
+<th style="text-align:center">3</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>minDist</td>
-<td>6</td>
-<td>1</td>
-<td>∞</td>
-<td>4</td>
+<td style="text-align:center">minDist</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">∞</td>
+<td style="text-align:center">4</td>
 </tr>
 </tbody>
 </table>
@@ -598,20 +667,20 @@
 <table>
 <thead>
 <tr>
-<th>Node</th>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
+<th style="text-align:center">Node</th>
+<th style="text-align:center">0</th>
+<th style="text-align:center">1</th>
+<th style="text-align:center">2</th>
+<th style="text-align:center">3</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>minDist</td>
-<td>6</td>
-<td>1</td>
-<td>∞</td>
-<td>4</td>
+<td style="text-align:center">minDist</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">∞</td>
+<td style="text-align:center">4</td>
 </tr>
 </tbody>
 </table>
@@ -630,75 +699,6 @@
         <tag>LinkedList</tag>
         <tag>UndirectedGraph</tag>
         <tag>BackTrack</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Fake news detection(Literature review)</title>
-    <url>/2022/07/06/Fake%20news%20detection(Literature%20review)/</url>
-    <content><![CDATA[<p><strong>摘要</strong>：随着移动互联网的快速发展，人们的社交方式发生持续变革，微博和Twitter等逐渐成为人们获取信息和发表意见的便捷在线平台。然而，便捷在线平台同样导致了虚假消息的大量产生和传播，将会给舆论和社会稳定带来不利影响。本文调研了虚假消息检测领域的研究现状，主要介绍了基于有大量数据标注的监督学习方法，强调了基于传播模式的研究前景。之后简单介绍了一些评估方法和常用的虚假消息检测领域的数据集。最后进行总结，为基于传播差异的虚假消息检测方法设计与实现做好基础。</p>
-<p><strong>关键词</strong>：信息传播、深度学习、虚假消息、传播差异</p>
-<span id="more"></span>
-<style>
-.center {
-  width: auto;
-  display: table;
-  margin-left: auto;
-  margin-right: auto;
-}
-</style>
-
-<h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1  引言"></a>1  引言</h2><p>  近年来，得益于移动互联网的发展，微博和Twitter等主流社交媒体已经成为人们获取信息和发布信息的重要平台^<a href="http://cjc.ict.ac.cn/online/onlinepaper/xbl-2016327154823.pdf">1</a>^，信息的自由获取和传播达到了空前的便利，给虚假消息创造了有利的生存环境。虚假消息有几个相近的定义，如谣言、虚假新闻等，都是通过对图像、文本、音频视频进行处理以歪曲或捏造事实，企图误导或引诱大众从而达到经济或政治目的。<br>  虚假消息主要在互联网发布和广泛传播。用户对消息和文章的评论、点赞与转发构成了最基本的在线社交活动^<a href="http://edit.jeit.ac.cn/EN/article/downloadArticleFile.do?attachType=PDF&amp;id=18265">2</a>^，在线社交网络中的用户通过评论、点赞等基本操作将消息传播出去，人的情绪、观点和行为容易受到他人的影响，虚假消息利用这一特点吸引注意力，通过用户间的社交活动进行有效传播^<a href="http://www.bulletin.cas.cn/zgkxyyk/ch/reader/view_abstract.aspx?file_no=20150208&amp;flag=1">3</a>^。传统纸媒发版的内容需要经编辑严格审核，可信度得到大众的认可，然而用户在线上平台发布的文本、图片和视频很少经过内容真实性验证，经评论与转发使得虚假消息得到进一步传播。传统的解决方案是通过人工识别的方式对发布在社交网络的消息进行甄别，但存在效率低下和具有时滞性等问题^<a href="http://www.joca.cn/CN/abstract/abstract23957.shtml">4</a>^，难以在第一时间对海量数据进行甄别，无法在传播初期阻断虚假消息的散布。随着在线社交的普及，这种现象变得更为普遍，依靠传统的人工识别已不再适用，因此迫切需要一种高效的方法自动识别、检测出虚假消息进而阻断影响范围的持续扩大。<br>  已有的检测方法主要通过提取消息内容、用户可信度和传播模式等关键特征进行训练得到真假消息二分类器以实现虚假消息的自动检测，也有研究采用多特征融合的方式进行检测以提高性能。其中常用的分类器包括：支持向量机（Support Vector Machine，SVM）^<a href="https://link.springer.com/article/10.1007/BF00994018">5</a>^、随机森林（Random Forest，RF）^<a href="http://library.ioz.ac.cn/bitstream/000000/10883/1/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E6%A8%A1%E5%9E%8B%E5%9C%A8%E5%88%86%E7%B1%BB%E4%B8%8E%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8.pdf">6</a>^和决策树（Decision Tree，DT）^<a href="http://www.cqvip.com/">7</a>^等。然而这些依赖于特征工程的方法非常耗时费力，并且需要制作特定的数据，缺乏高层的特征表征，因此往往针对性较强，缺乏泛化性能。另外也有一系列研究基于深度学习技术对真实消息与虚假消息在传播模式上的结构特征进行挖掘，利用图卷积网络提取消息传播过程中的拓扑结构特征，对局部的结构信息进行融合以得到更丰富的特征表示。<br>  本文主要开展虚假消息检测基于有完全数据标注的监督学习领域研究，针对基于消息内容和消息传播结构等检测方法进行综述，从研究现状、应用、优缺点等方面进行分析，为进一步研究基于传播差异的虚假消息检测方法设计与实现打下基础。</p>
-<h2 id="2-虚假消息检测研究现状"><a href="#2-虚假消息检测研究现状" class="headerlink" title="2  虚假消息检测研究现状"></a>2  虚假消息检测研究现状</h2><p>  虚假消息具有传播快、影响广、危害大的特点，微博和Twitter上每天以数亿计增长的消息中有大量是虚假的，而虚假消息的泛滥对群众的影响非常大，造成的舆论影响会影响社会治安并使网络暴力更为频繁^[8,9]^。国内外均展开了一系列针对虚假消息自动检测的研究，以下主要从基于消息内容的方法、基于社交背景的方法和基于传播结构的方法进行综述。其中，消息内容的方法可以分为文本和图像单模态及多模态融合的方法，社交背景的方法可以分为融合用户背景的方法和融合外部知识的方法，传播结构的方法可以分为基于图结构和基于树结构以及基于时间序列的方法。</p>
-<h3 id="2-1-基于消息内容的方法"><a href="#2-1-基于消息内容的方法" class="headerlink" title="2.1  基于消息内容的方法"></a>2.1  基于消息内容的方法</h3><p>  首先，由于文本是消息内容最基本的组成部分，早期的虚假消息检测研究采用最直接的方法，从消息内容本身入手，对消息的文本内容特征进行提取和建模以鉴定消息内容的真假。Ma等人^<a href="https://ink.library.smu.edu.sg/sis_research/4630/">10</a>^通过建立基于循环神经网络（Rurrent Neural Network，RNN）及其变体即长短期记忆（Long Short Term Memory，LSTM）和门控循环单元（Gated Recurrent Unit，GRU）共三种不同结构模型如图1所示，利用深度学习的方式提取消息的文本特征并使用多个隐藏层，相比于依赖特征工程的方法有了更强的泛化能力。然而经过训练的RNN模型在两个连续的文本输入间产生的循环转移矩阵是固定不变的，在动态和复杂的场景下并不适用，Feng等人^<a href="https://www.ijcai.org/proceedings/2017/0545.pdf">11</a>^利用卷积神经网络（Convolutional Neural Network, CNN）的卷积结构和池化操作灵活提取分散在文本序列中的关键特征。</p>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/fakenews/图片1.jpg" alt="图1 采用三种不同结构RNN模型的检测框架"></p>
-<center><font size="2">图1 采用三种不同结构RNN模型的检测框架</font></center>
-
-<p>  其次，消息内容除了文本，还包括图片等视觉信息。正如我们平时所见到的，大部分虚假消息会附有经过伪造处理的图片。CNN通常只能提取图片的像素级特征，然而现有的造假技术已经可以更改图像的语义信息，从而无法进行图像真假的判断。经过修图处理的图像经过频域分析后可以发现与原始图像有显著差别^<a href="https://ieeexplore.ieee.org/abstract/document/8970940/">12</a>^，具有误导性的图像通常比真实的图像具有更重的压缩伪影。</p>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/fakenews/图片2.png" alt="图2 多模态虚假消息检测方法总体框架"></p>
-<center><font size="2">图2 多模态虚假消息检测方法总体框架</font></center>
-
-<p>  另一方面，依靠单一的文本或图像进行检测并不完善，因为大量的消息以文和、图片混合的形式存在，将文本特征和视觉特征混合建模的方法能够进一步提高分类器的性能。基于将文本信息和视觉信息拼接的方法，Singhal等人^[13,14]^提出分别利用预训练的模型对文本信息和视觉信息进行特征提取，然后拼接融合得到消息的向量表示。显式提取消息图片中的视觉实体和嵌入文字^<a href="https://www.cnki.com.cn/Article/CJFDTotal-JFYZ202107011.htm">15</a>^，可以得到不同语义层次的视觉特征，能够有效增强多模态融合的虚假消息检测性能。刘金硕等人^<a href="https://www.cnki.com.cn/Article/CJFDTotal-JFYZ202011007.htm">16</a>^设计了如图2所示的多模态虚假消息检测方法，在简单融合文本和图像特征的基础上还提取了图像内嵌的文本特征，进行串接后输入全连接层进行多模态的检测。图像和文本的匹配程度能够反映消息是否经过篡改，可以将文本信息和视觉信息同通过全连接层映射到同一向量空间^<a href="https://www.sciencedirect.com/science/article/pii/S0306457321001060">17</a>^，使用余弦相似度算法度量文本和图像之间的相似性。</p>
-<h3 id="2-2-基于社交背景的方法"><a href="#2-2-基于社交背景的方法" class="headerlink" title="2.2  基于社交背景的方法"></a>2.2  基于社交背景的方法</h3><p>  虚假消息的作者仿照真实消息进行编写，基于消息内容的检测方法会受到制约，分析用户的可信度、发文历史、偏好等用户资料信息可以作为虚假消息检测的辅助评价指标，可信度高的用户更有可能发表真实的消息^<a href="https://dl.acm.org/doi/abs/10.1145/3404835.3462990">18</a>^。此外，丰富的外部知识和客观事实可以帮助模型更准确地识别虚假消息。</p>
-<h4 id="2-2-1-融合用户背景"><a href="#2-2-1-融合用户背景" class="headerlink" title="2.2.1  融合用户背景"></a>2.2.1  融合用户背景</h4><p>  社会学研究表明可信度高的用户发出的消息更可能是真实的^<a href="https://www.cnki.com.cn/Article/CJFDTotal-JFYZ201909015.htm">19</a>^，基于用户可信度的研究对用户的基本资料、历史发文等信息进行建模作为辅助评价标准。发布虚假消息的可疑用户具有未实名认证，创建时间短，用户介绍缺失等显著特征^<a href="https://aclanthology.org/2020.acl-main.48.pdf">20</a>^。当一条假消息证实了用户现有的观念和偏好时，用户更有可能传播这条假消息^<a href="https://dl.acm.org/doi/abs/10.1145/3404835.3463001">21</a>^，在基于消息内容的基础上，添加用户的偏好表示，同时根据消息的传播情况共同进行虚假消息检测能够有效提高虚假消息检测性能。</p>
-<h4 id="2-2-2-融合外部知识"><a href="#2-2-2-融合外部知识" class="headerlink" title="2.2.2  融合外部知识"></a>2.2.2  融合外部知识</h4><p>  客观事实作为虚假消息检测的重要线索在基于消息内容的检测方法中经常被被忽略，而大量外部知识包含丰富的语义信息，将注意力和图神经网络运用到虚假消息检测领域以融合外部知识可以有效提高模型学习消息内容的能力。人脑中已存在的知识含有大量语义信息，能帮助人们在查看消息时更好的理解消息内容，融合外部知识输入模型同样也能更好的理解消息内容从而提高虚假消息检测模型的性能。Li^<a href="https://aclanthology.org/2021.findings-acl.63.pdf">22</a>^等人将虚假消息检测任务分成取证和检测两部分，利用维基百科的固有知识预训练模型作为事实证据，融合消息内容和事实依据进行取证，找出对应的事实依据，然后利用事实依据对消息内容的真实性进行判断。</p>
-<h3 id="2-3-基于消息传播结构的方法"><a href="#2-3-基于消息传播结构的方法" class="headerlink" title="2.3  基于消息传播结构的方法"></a>2.3  基于消息传播结构的方法</h3><p>  消息传播主要通过用户的转发来实现，用户对收到的消息进行层级转发构成了消息传播的复杂结构，根据消息在层级转发过程中的相互关系来判断消息的真实性。基于消息内容的检测方法忽略了消息在层级传播过程中的树形结构这一重要特征。然而树结构无法表示相同层级转发的消息之间的联系，图结构使用顶点和边的表示更好的建模了消息在广度和深度上的传播，图结构比树结构拥有更复杂的拓扑结构。下面介绍分别从基于树结构和图结构的虚假消息检测方法。</p>
-<h4 id="2-3-1-树结构"><a href="#2-3-1-树结构" class="headerlink" title="2.3.1  树结构"></a>2.3.1  树结构</h4><p><img src="https://www.lingzhicheng.cn/usr/file/picture/fakenews/图片3.png" alt="图3 自底向上和自顶向下两种树形结构模型"></p>
-<center><font size="2">图3 自底向上和自顶向下两种树形结构模型</font></center>
-
-<p>  基于递归神经网络（Recursive Neural networks，RvNN），Ma等人^<a href="https://aclanthology.org/P18-1184/">23</a>^使用如图2所示的自顶向下和自底向上两种变体对消息的树形传播模式进行建模，将源消息作为根节点，对父节点消息的包含支持或反对倾向的转发与评论作为子节点。对真实消息的反对评论会引起其他人的反对，而对虚假消息的反对评论则会引起其他人的支持。从这两种不同变体的不同角度表示消息传播的树形结构，自顶向下的模型在池化层中可以有效地选择嵌入叶子节点的重要特征，信息损失更小，从而拥有更好的性能。<br>  将一棵树的所有节点消息全连接过度简化了用户之间的交互从而带来一定的误差，部分节点之间并没有直接的上下文关联，应当根据语境来增强表征能力^<a href="https://aclanthology.org/2020.coling-main.476/">24</a>^。在虚假消息的传播结构中，回复消息能够进一步增强被回复消息的立场，通过对比相关消息可以检测出一些不准确信息。选择性地关注相应消息增强指示性特征的表征学习，从而达到深入挖掘用户的观点的效果。</p>
-<h4 id="2-3-2-图结构"><a href="#2-3-2-图结构" class="headerlink" title="2.3.2  图结构"></a>2.3.2  图结构</h4><p>  消息的传播通常是从某一用户发文作为起点，在点对点的传播中较为简单，但在现实情况下存在消息经过层层转发，部分还会修改语义信息，树的结构无法完全表示彼此之间的联系，图结构能更好的反映消息在传播过程中彼此的联系。<br>  传播和散布是虚假消息的两个关键特征，原有的例如RvNN只考虑了消息传播速度而忽视了消息的散布结构，具有一定的局限性^<a href="https://ojs.aaai.org/index.php/AAAI/article/view/5393">25</a>^。双向图卷积神经网络（Bi-Directional Graph Convolutional Networks，Bi-GCN）能够从自顶向下和自底向上两个方向发掘虚假消息的传播和散布特征，即从虚假消息传播树中的父节点到子节点学习消息的传播模式，从子节点反向到父节点学习消息的弥散模式。基于图卷积神经网络（Graph Convolutional Networks，GCN）提取子节点特征，子节点与父节点之间的融合与对比也能够增强语义信息^<a href="https://dl.acm.org/doi/abs/10.1145/3404835.3463001">21</a>^。将原始消息融合进传播过程中的其他消息，对自顶向下图和自底向上图进行池化得到两个图的信息。<br>  微博、推文和新闻文章在社交上下文中存在多种节点类型和关系类型，例如用户发发布微博，用户之间相互点赞关注等，使用同质图神经网络忽视了一部分关键的用户关系，不同文章领域、转发关系等也形成异质的信息网络。Shu等人^<a href="https://dl.acm.org/doi/abs/10.1145/3289600.3290994">26</a>^将发布、传播和关注等社交关系构建成异质信息网络，使用矩阵分解的方式获得各个消息节点的嵌入表示，进行虚假消息检测。</p>
-<h2 id="3-常用数据集"><a href="#3-常用数据集" class="headerlink" title="3  常用数据集"></a>3  常用数据集</h2><p>  虚假消息检测领域关注消息本身，用户画像、关注列表等社交上下文内容以及消息在传播过程中的结构即关联信息，采用收集自不同领域不同平台具有显著差异性的数据集能够更好地构建模型。常用的数据集信息如表1所示，搜集整理自Twitter和微博平台^[9,27]^。除此之外，FakeNewsNet提供了Buzzfeed和PolitFact的两个数据集^<a href="https://www.liebertpub.com/doi/abs/10.1089/big.2020.0062">28</a>^，包含了消息的来源以及标题等内容属性和关注列表、粉丝列表等社会背景属性。</p>
-<div class="center">
-<center><font size="2">表1  常用数据集信息统计</font></center>
-
-| 数据统计 | Weibo | Twitter15 | Twitter16 |
-|-------|-------|-------|-------|
-|原始推文数量|4664|1,490|818|
-|用户数量|2,746,818|276,663|173,487|
-|转发数量|3,805,656|331,612|204,820|
-|真实消息数量|2351|372|207|
-|虚假消息数量|2313|370|205|
-|单篇推文平均传播时长|2,460小时|1,337小时|848小时|
-|单篇推文平均转发次数|816|223|251|
-|单篇推文最多转发次数|59,318|1,768|2,765|
-|单篇推文最少转发次数|10|55|81|
-</div>
-
-<h2 id="4-评价指标"><a href="#4-评价指标" class="headerlink" title="4  评价指标"></a>4  评价指标</h2><p>  虚假消息检测作为二分类任务，虚假消息检测通常使用多个指标同时进行评价，常用的评价指标有准确率（Accuracy）、精准率（Precision）、召回率（Recall）和F1-score等。Accuracy较为直观，被广泛应用在各种分类任务中，对应到在虚假消息检测领域即正确识别出虚假消息或真实消息的总比例。但由于Accuracy的本身缺陷，例如正负类数量差距过大将导致准确度的判断不能正确反映事实。Precision反映了是否有大量假消息被判断成真消息，体现了模型对负样本的区分能力；Recall反映了是否有真消息被误判为假消息，体现模型对正样本的识别能力。Accuracy表示预测为正的结果占总样本的比例。</p>
-<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5  总结"></a>5  总结</h2><p>  本文主要对基于大量有标注数据的虚假消息检测进行了回顾，对现有的工作进行客观分析，从消息内容和传播差异等角度建模进行虚假消息检测具有各自的优点和局限性。用户在社交网络上发布消息具有数据量大、结构关系复杂等特点，如何从传播速度、传播结构等方面多层次剖析消息传播特征，进一步促进虚假消息的自动化检测识别发展是今后的一个研究热点。</p>
-<h2 id="bell-参考文献"><a href="#bell-参考文献" class="headerlink" title=":bell: 参考文献"></a><span class="github-emoji"><span>🔔</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f514.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 参考文献</h2><p><a href="http://cjc.ict.ac.cn/online/onlinepaper/xbl-2016327154823.pdf">1</a>    谢柏林, 蒋盛益, 周咏梅, 等. 基于把关人行为的微博虚假信息及早检测方法[J]. 计算机学报, 2016, 39(04): 730-744.<br><a href="http://edit.jeit.ac.cn/EN/article/downloadArticleFile.do?attachType=PDF&amp;id=18265">2</a>    胡长军, 许文文, 胡颖, 等. 在线社交网络信息传播研究综述[J]. 电子与信息学报, 2017, 39(04): 794-804.<br><a href="http://www.bulletin.cas.cn/zgkxyyk/ch/reader/view_abstract.aspx?file_no=20150208&amp;flag=1">3</a>    杨善林, 王佳佳, 代宝, 等. 在线社交网络用户行为研究现状与展望[J]. 中国科学院院刊, 2015, 30(02): 200-215.<br><a href="http://www.joca.cn/CN/abstract/abstract23957.shtml">4</a>    何韩森, 孙国梓. 基于特征聚合的假新闻内容检测模型[J]. 计算机应用, 2020, 40(08): 2189-2193.<br><a href="https://link.springer.com/article/10.1007/BF00994018">5</a>    Cortes C, Vapnik V. Support-vector networks [J]. Machine learning, 1995, 20(3): 273-297.<br><a href="http://library.ioz.ac.cn/bitstream/000000/10883/1/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E6%A8%A1%E5%9E%8B%E5%9C%A8%E5%88%86%E7%B1%BB%E4%B8%8E%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8.pdf">6</a>    李欣海. 随机森林模型在分类与回归分析种的应用[J]. 应用昆虫学报, 2013, 50(04): 1190-1197.<br><a href="http://www.cqvip.com/">7</a>    杨学斌, 张俊. 决策树算法及其核心技术[J]. 计算机技术与发展, 2007, 17(01): 43-46．<br>[8]    白月明. 新媒体时代虚假新闻的成因及规避探析[J]. 新闻研究导刊, 2021, 12(16): 157-159.<br><a href="http://www.cqvip.com/qk/94832x/201802/674500313.html">9</a>    段大高, 盖新新, 韩忠明, 等. 基于梯度提升决策树的微博虚假消息检测[J]. 计算机应用, 2018, 38(02): 410-414+420.<br><a href="https://ink.library.smu.edu.sg/sis_research/4630/">10</a>    Ma J, Gao W, Mitra P, et al. Detecting rumors from microblogs with recurrent neural networks [A]. Proceedings of the Twenty-Fifth International Joint Conference on Artificial Intelligence [C]. Palo Alto: AAAI Press, 2016, 3818-3824.<br><a href="https://www.ijcai.org/proceedings/2017/0545.pdf">11</a>    Yu F, Liu Q, Wu S, et al. A convolutional approach for misinformation identification [A]. Proceedings of the Twenty-Sixth International Joint Conference on Artificial Intelligence [C]. Palo Alto: AAAI Press, 2017, 3901-3907.<br><a href="https://ieeexplore.ieee.org/abstract/document/8970940/">12</a>    Qi P, Cao J, Yang T, et al. Exploiting multi-domain visual information for fake news detection [A]. 2019 IEEE International Conference on Data Mining(ICDM 2019) [C]. Piscataway: IEEE, 2019, 518-527.<br><a href="https://ieeexplore.ieee.org/abstract/document/8919302/">13</a>    Singhal S, Shah R R, Chakraborty T, et al. SpotFake: A multi-modal framework for fake news detection shivangi [A]. 2019 IEEE Fifth International Conference on Multimedia Big Data (BigMM) [C]. Piscataway: IEEE, 2019, 39-47.<br><a href="https://ojs.aaai.org/index.php/AAAI/article/view/7230">14</a>    Singhal S, Kabra A, Sharma M, et al. SpotFake+: A multimodal framework for fake news detection via transfer learning [A]. Proceedings of the AAAI Conference on Artificial Intelligence [C]. Palo Alto: AAAI Press, 2020, 13915-13916.<br><a href="https://www.cnki.com.cn/Article/CJFDTotal-JFYZ202107011.htm">15</a>    亓鹏, 曹娟, 盛强. 语义增强的多模态虚假新闻检测[J]. 计算机研究与发展, 2021, 58(07): 1456-1465.<br><a href="https://www.cnki.com.cn/Article/CJFDTotal-JFYZ202011007.htm">16</a>    刘金硕, 冯阔, Pan J, 等. MSRD: 多模态网络谣言检测方法[J]. 计算机研究与发展, 2020, 57(11): 2328-2336.<br><a href="https://www.sciencedirect.com/science/article/pii/S0306457321001060">17</a>    Xue J, Wang Y, Tian Y, et al. Detecting fake news by exploring the consistency of multimodal data [J]. Information Processing and Management, 2021, 58(5): 102610.<br><a href="https://dl.acm.org/doi/abs/10.1145/3404835.3462990">18</a>    Dou Y, Shu K, Xia C, et al. User preference-aware fake news detection [A]. Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval [C]. New York: Association for Computing Machinery, 2021, 2051-2055.<br><a href="https://www.cnki.com.cn/Article/CJFDTotal-JFYZ201909015.htm">19</a>    刘波, 李洋, 孟青, 等. 社交媒体内容可信性分析与评价[J]. 计算机研究与发展, 2019, 56(09): 1939-1952.<br><a href="https://aclanthology.org/2020.acl-main.48.pdf">20</a>    Lu Y-J, Li C-T. GCAN: Graph-aware co-attention networks for explainable fake news detection on social media [A]. Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics [C]. Stroudsburg: Association for Computational Linguistics, 2020, 505–514.<br><a href="https://dl.acm.org/doi/abs/10.1145/3404835.3463001">21</a>    He Z, Li C, Zhou F, et al. Rumor detection on social media with event augmentations [A]. Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval [C]. New York: Association for Computing Machinery, 2021, 2020-2024.<br><a href="https://aclanthology.org/2021.findings-acl.63.pdf">22</a>    Li J, Ni S, Kao H-Y. Meet the truth: Leverage objective facts and subjective views for interpretable rumor detection [A]. Findings of the Association for Computational Linguistics [C]. Stroudsburg: Association for Computational Linguistics, 2021, 705–715.<br><a href="https://aclanthology.org/P18-1184/">23</a>    Ma J, Gao W, Wong K-F. Rumor detection on twitter with tree-structured recursive neural networks [A]. Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics [C]. Stroudsburg: Association for Computational Linguistics, 2018, 1980–1989.<br><a href="https://aclanthology.org/2020.coling-main.476/">24</a>    Ma J, Gao W. Debunking Rumors on Twitter with Tree Transformer [A]. Proceedings of the 28th International Conference on Computational Linguistics [C]. Barcelona: International Committee on Computational Linguistics, 2020, 5455–5466.<br><a href="https://ojs.aaai.org/index.php/AAAI/article/view/5393">25</a>    Bian T, Xiao X, Xu T, et al. Rumor detection on social media with bi-directional graph convolutional networks [A]. Proceedings of the 34th AAAI Conference on Artificial Intelligence [C]. Palo Alto: AAAI Press, 2020, 549-556.<br><a href="https://dl.acm.org/doi/abs/10.1145/3289600.3290994">26</a>    Shu K, Wang S, Liu H. Beyond news contents: The role of social context for fake news detection [A]. Proceedings of the Twelfth ACM International Conference on Web Search and Data Mining [C]. Stroudsburg: Association for Computing Machinery, 2019, 312-320.<br><a href="https://aclanthology.org/P17-1066/?ref=https://githubhelp.com">27</a>    Ma J, Gao W, Wong K-F. Detect rumors in microblog posts using propagation structure via kernel learning [A]. Proceedings of the 55th Annual Meeting of the Association for Computational Linguistics [C]. Stroudsburg: Association for Computational Linguistics, 2017, 708-717.<br><a href="https://www.liebertpub.com/doi/abs/10.1089/big.2020.0062">28</a>    Shu K, Mahudeswaran D, Wang S, et al. Fakenewsnet: A data repository with news content, social context, and spatiotemporal information for studying fake news on social media [J]. Big data, 2020, 8(3): 171-188.</p>
-<p><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
-<blockquote>
-<p>最后修改于 2022/07/12<br>本文是本科毕业论文的综述，受字数、中外文献比例等限制，和最初的写的有较大差异，和最终实验及论文内容也有较大差异，有空就改改，没空就作罢，论文未投搞状态暂不放出。</p>
-</blockquote>
-<!-- markdownlint-disable-file MD025 MD033 -->
-]]></content>
-      <categories>
-        <category>Literature review</category>
-      </categories>
-      <tags>
-        <tag>Fake news</tag>
-        <tag>NLP</tag>
       </tags>
   </entry>
   <entry>
@@ -900,21 +900,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Keil调试代码优化问题</title>
-    <url>/2020/12/08/Keil5%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<ul>
-<li>在使用Keil进行调试的过程中，有的时候你可能会发现有几行代码怎么也得不到执行，下断点也会变成灰色感叹号。甚至有时候在做条件判断的时候，明明两个不相等的值却被判定为相等。</li>
-<li>这是因为Keil对我们的代码进行了<strong>优化</strong>处理，将优化等级降低即可解决问题。<img src="https://www.lingzhicheng.cn/usr/file/picture/Keil/Keil_optimism.png" alt="请输入图片描述"></li>
-</ul>
-]]></content>
-      <categories>
-        <category>AT89S51</category>
-      </categories>
-      <tags>
-        <tag>Debug</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>渲染问题汇总</title>
     <url>/2022/12/03/Hexo%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</url>
     <content><![CDATA[<ul>
@@ -1039,6 +1024,21 @@
       <tags>
         <tag>Debug</tag>
         <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Keil调试代码优化问题</title>
+    <url>/2020/12/08/Keil5%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<ul>
+<li>在使用Keil进行调试的过程中，有的时候你可能会发现有几行代码怎么也得不到执行，下断点也会变成灰色感叹号。甚至有时候在做条件判断的时候，明明两个不相等的值却被判定为相等。</li>
+<li>这是因为Keil对我们的代码进行了<strong>优化</strong>处理，将优化等级降低即可解决问题。<img src="https://www.lingzhicheng.cn/usr/file/picture/Keil/Keil_optimism.png" alt="请输入图片描述"></li>
+</ul>
+]]></content>
+      <categories>
+        <category>AT89S51</category>
+      </categories>
+      <tags>
+        <tag>Debug</tag>
       </tags>
   </entry>
   <entry>
@@ -2274,52 +2274,6 @@ E=mc^2 \\
       </tags>
   </entry>
   <entry>
-    <title>Nunjucks Errors</title>
-    <url>/2021/08/26/NunjucksErrors/</url>
-    <content><![CDATA[<ul>
-<li><span class="github-emoji"><span>☀</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/2600.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>🕥</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f565.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>😴</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f634.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></li>
-<li>Nunjucks模板标签导致MD文件解析报错的问题:</li>
-</ul>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">FATAL {</span><br><span class="line">  err: Error [Nunjucks Error]: _posts/mathBasic.md [Line 13, Column 14] expected variable end</span><br><span class="line">      =====               Context Dump               =====</span><br><span class="line">      === (line number probably different from <span class="built_in">source</span>) ===</span><br><span class="line">    8 | &lt;p&gt;<span class="variable">$f</span>’({ {x}&lt;em&gt;{0} })=\underset{\Delta x\to 0}{\mathop{\lim } },\frac{f({ {x}&lt;/em&gt;{0} }+\Delta x)-f({ {x}_{0} })}{\Delta x}$    （1）&lt;/p&gt;</span><br><span class="line">    9 | &lt;p&gt;或者：&lt;/p&gt;</span><br><span class="line">    10 | &lt;p&gt;<span class="variable">$f</span>’({ {x}&lt;em&gt;{0} })=\underset{x\to { {x}&lt;/em&gt;{0} }}{\mathop{\lim } },\frac{f(x)-f({ {x}&lt;em&gt;{0} })}{x-{ {x}&lt;/em&gt;{0} }}$           （2）&lt;/p&gt;</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-<span id="more"></span>
-<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><ul>
-<li>Markdown文件中有标签与nunjucks模板引擎的标签冲突，比如</li>
-</ul>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">{{</span><br><span class="line">{{{</span><br><span class="line">}}}    </span><br><span class="line">}}</span><br></pre></td></tr></tbody></table></figure>
-<ul>
-<li>这些标签都是模板引擎的，如果Markdown文件中有这些标签，那么在解析的时候就会把Markdown中的标签动态解析</li>
-<li>处理方法就是<strong>避免出现这些标签</strong></li>
-</ul>
-<h3 id="解决方案1"><a href="#解决方案1" class="headerlink" title="解决方案1"></a>解决方案1</h3><ul>
-<li>考虑过将在两个标签中增加一个空格来避免冲突，可以成功渲染，本地markdown也可以解析出公式，但hexo上的markdowm无法解析，故建议不要使用，本质上没有完全解决问题。</li>
-</ul>
-<h3 id="解决方案2"><a href="#解决方案2" class="headerlink" title="解决方案2"></a>解决方案2</h3><p>参考两个Issues</p>
-<ul>
-<li><a href="https://github.com/hexojs/hexo/issues/2679">hexo genereate faile Template render error: (unknown path) #2679</a></li>
-<li><a href="https://github.com/hexojs/hexo/issues/2384">Template render error: (unknown path) #2384</a></li>
-</ul>
-<p>网上目前很多解决方案都是进行类似如下的替换，需要对所有公式进行替换，量比较大并且治标不治本，暂不采用</p>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line">{% raw %}</span><br><span class="line">{{name}}</span><br><span class="line">{% endraw %}</span><br></pre></td></tr></tbody></table></figure>
-<h3 id="解决方案3"><a href="#解决方案3" class="headerlink" title="解决方案3"></a>解决方案3</h3><ul>
-<li>直接修改<code>Nunjucks</code>源码</li>
-</ul>
-<p><code>node_modules/nunjucks/src/lexer.js</code></p>
-<figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> lib = <span class="built_in">require</span>(<span class="string">'./lib'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> whitespaceChars = <span class="string">" \n\t\r\xA0"</span>;</span><br><span class="line"><span class="keyword">var</span> delimChars = <span class="string">'()[]{}%*-+~/#,:|.&lt;&gt;=!'</span>;</span><br><span class="line"><span class="keyword">var</span> intChars = <span class="string">'0123456789'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">BLOCK_START</span> = <span class="string">'{%'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">BLOCK_END</span> = <span class="string">'%}'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">VARIABLE_START</span> = <span class="string">'{$'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">VARIABLE_END</span> = <span class="string">'$}'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">COMMENT_START</span> = <span class="string">'{#'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">COMMENT_END</span> = <span class="string">'#}'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">TOKEN_STRING</span> = <span class="string">'string'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">TOKEN_WHITESPACE</span> = <span class="string">'whitespace'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">TOKEN_DATA</span> = <span class="string">'data'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">TOKEN_BLOCK_START</span> = <span class="string">'block-start'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">TOKEN_BLOCK_END</span> = <span class="string">'block-end'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">TOKEN_VARIABLE_START</span> = <span class="string">'variable-start'</span>;</span><br></pre></td></tr></tbody></table></figure>
-<p>冲突部分：</p>
-<figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="variable constant_">VARIABLE_START</span> = <span class="string">'{{'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">VARIABLE_END</span> = <span class="string">'}}'</span>;</span><br></pre></td></tr></tbody></table></figure>
-<p>作如下替换：</p>
-<figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="variable constant_">VARIABLE_START</span> = <span class="string">'{$'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">VARIABLE_END</span> = <span class="string">'$}'</span>;</span><br></pre></td></tr></tbody></table></figure>
-<p>找到定义部分的<code>VARIABLE_START</code>和<code>VARIABLE_END</code>，这次的<code>{{`和`}}</code>错误就是这个导致，上述代码已经将两个变量从<code>{{`改为`{$`，`}}</code>改为<code>$}</code><br>通过直接修改渲染标签，解析的时候就不会和markdown中的复杂公式冲突，并且对所文件都有效，为了防止之后重新<code>npm install</code>的时候还原，所以在这里记录一笔</p>
-<h3 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h3><p>其他的hexo依赖插件目前还没有发现因为修改<code>Nunjucks</code>源码而出现的问题，例如<code>hexo-generator-searchdb</code>、<code>hexo-generator-sitemap</code>等，有些插件也是依赖于<code>Nunjucks</code>的，如果出现问题，同步修改插件的<code>xml</code>模板文件就可以解决。</p>
-]]></content>
-      <categories>
-        <category>NunjucksErrors</category>
-      </categories>
-      <tags>
-        <tag>Debug</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Modulate and demodulate</title>
     <url>/2021/04/21/Modulate%20and%20demodulate/</url>
     <content><![CDATA[<h1 id="pushpin-Modulation-and-demodulation-of-signal-based-on-matlab"><a href="#pushpin-Modulation-and-demodulation-of-signal-based-on-matlab" class="headerlink" title=":pushpin: Modulation and demodulation of signal based on matlab"></a><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Modulation and demodulation of signal based on matlab</h1><p><span class="github-emoji"><span>☀</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/2600.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>🕠</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f560.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>😴</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f634.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><br><span id="more"></span></p>
@@ -2407,6 +2361,52 @@ E=mc^2 \\
       </tags>
   </entry>
   <entry>
+    <title>Nunjucks Errors</title>
+    <url>/2021/08/26/NunjucksErrors/</url>
+    <content><![CDATA[<ul>
+<li><span class="github-emoji"><span>☀</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/2600.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>🕥</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f565.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>😴</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f634.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></li>
+<li>Nunjucks模板标签导致MD文件解析报错的问题:</li>
+</ul>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">FATAL {</span><br><span class="line">  err: Error [Nunjucks Error]: _posts/mathBasic.md [Line 13, Column 14] expected variable end</span><br><span class="line">      =====               Context Dump               =====</span><br><span class="line">      === (line number probably different from <span class="built_in">source</span>) ===</span><br><span class="line">    8 | &lt;p&gt;<span class="variable">$f</span>’({ {x}&lt;em&gt;{0} })=\underset{\Delta x\to 0}{\mathop{\lim } },\frac{f({ {x}&lt;/em&gt;{0} }+\Delta x)-f({ {x}_{0} })}{\Delta x}$    （1）&lt;/p&gt;</span><br><span class="line">    9 | &lt;p&gt;或者：&lt;/p&gt;</span><br><span class="line">    10 | &lt;p&gt;<span class="variable">$f</span>’({ {x}&lt;em&gt;{0} })=\underset{x\to { {x}&lt;/em&gt;{0} }}{\mathop{\lim } },\frac{f(x)-f({ {x}&lt;em&gt;{0} })}{x-{ {x}&lt;/em&gt;{0} }}$           （2）&lt;/p&gt;</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<span id="more"></span>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><ul>
+<li>Markdown文件中有标签与nunjucks模板引擎的标签冲突，比如</li>
+</ul>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">{{</span><br><span class="line">{{{</span><br><span class="line">}}}    </span><br><span class="line">}}</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>这些标签都是模板引擎的，如果Markdown文件中有这些标签，那么在解析的时候就会把Markdown中的标签动态解析</li>
+<li>处理方法就是<strong>避免出现这些标签</strong></li>
+</ul>
+<h3 id="解决方案1"><a href="#解决方案1" class="headerlink" title="解决方案1"></a>解决方案1</h3><ul>
+<li>考虑过将在两个标签中增加一个空格来避免冲突，可以成功渲染，本地markdown也可以解析出公式，但hexo上的markdowm无法解析，故建议不要使用，本质上没有完全解决问题。</li>
+</ul>
+<h3 id="解决方案2"><a href="#解决方案2" class="headerlink" title="解决方案2"></a>解决方案2</h3><p>参考两个Issues</p>
+<ul>
+<li><a href="https://github.com/hexojs/hexo/issues/2679">hexo genereate faile Template render error: (unknown path) #2679</a></li>
+<li><a href="https://github.com/hexojs/hexo/issues/2384">Template render error: (unknown path) #2384</a></li>
+</ul>
+<p>网上目前很多解决方案都是进行类似如下的替换，需要对所有公式进行替换，量比较大并且治标不治本，暂不采用</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line">{% raw %}</span><br><span class="line">{{name}}</span><br><span class="line">{% endraw %}</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="解决方案3"><a href="#解决方案3" class="headerlink" title="解决方案3"></a>解决方案3</h3><ul>
+<li>直接修改<code>Nunjucks</code>源码</li>
+</ul>
+<p><code>node_modules/nunjucks/src/lexer.js</code></p>
+<figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> lib = <span class="built_in">require</span>(<span class="string">'./lib'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> whitespaceChars = <span class="string">" \n\t\r\xA0"</span>;</span><br><span class="line"><span class="keyword">var</span> delimChars = <span class="string">'()[]{}%*-+~/#,:|.&lt;&gt;=!'</span>;</span><br><span class="line"><span class="keyword">var</span> intChars = <span class="string">'0123456789'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">BLOCK_START</span> = <span class="string">'{%'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">BLOCK_END</span> = <span class="string">'%}'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">VARIABLE_START</span> = <span class="string">'{$'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">VARIABLE_END</span> = <span class="string">'$}'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">COMMENT_START</span> = <span class="string">'{#'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">COMMENT_END</span> = <span class="string">'#}'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">TOKEN_STRING</span> = <span class="string">'string'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">TOKEN_WHITESPACE</span> = <span class="string">'whitespace'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">TOKEN_DATA</span> = <span class="string">'data'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">TOKEN_BLOCK_START</span> = <span class="string">'block-start'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">TOKEN_BLOCK_END</span> = <span class="string">'block-end'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">TOKEN_VARIABLE_START</span> = <span class="string">'variable-start'</span>;</span><br></pre></td></tr></tbody></table></figure>
+<p>冲突部分：</p>
+<figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="variable constant_">VARIABLE_START</span> = <span class="string">'{{'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">VARIABLE_END</span> = <span class="string">'}}'</span>;</span><br></pre></td></tr></tbody></table></figure>
+<p>作如下替换：</p>
+<figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="variable constant_">VARIABLE_START</span> = <span class="string">'{$'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">VARIABLE_END</span> = <span class="string">'$}'</span>;</span><br></pre></td></tr></tbody></table></figure>
+<p>找到定义部分的<code>VARIABLE_START</code>和<code>VARIABLE_END</code>，这次的<code>{{`和`}}</code>错误就是这个导致，上述代码已经将两个变量从<code>{{`改为`{$`，`}}</code>改为<code>$}</code><br>通过直接修改渲染标签，解析的时候就不会和markdown中的复杂公式冲突，并且对所文件都有效，为了防止之后重新<code>npm install</code>的时候还原，所以在这里记录一笔</p>
+<h3 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h3><p>其他的hexo依赖插件目前还没有发现因为修改<code>Nunjucks</code>源码而出现的问题，例如<code>hexo-generator-searchdb</code>、<code>hexo-generator-sitemap</code>等，有些插件也是依赖于<code>Nunjucks</code>的，如果出现问题，同步修改插件的<code>xml</code>模板文件就可以解决。</p>
+]]></content>
+      <categories>
+        <category>NunjucksErrors</category>
+      </categories>
+      <tags>
+        <tag>Debug</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Process or Thread</title>
     <url>/2021/01/20/Process%20or%20Thread/</url>
     <content><![CDATA[<h3 id="进程是资源分配的最小单位-线程是CPU调度的最小单位"><a href="#进程是资源分配的最小单位-线程是CPU调度的最小单位" class="headerlink" title="进程是资源分配的最小单位|线程是CPU调度的最小单位"></a>进程是资源分配的最小单位|线程是CPU调度的最小单位</h3><hr>
@@ -2425,6 +2425,253 @@ E=mc^2 \\
       <categories>
         <category>Summary</category>
       </categories>
+  </entry>
+  <entry>
+    <title>Tensorflow2.4保姆级安装教程</title>
+    <url>/2021/01/30/Tensorflow2.4%E4%BF%9D%E5%A7%86%E7%BA%A7%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<ul>
+<li>先装python还是先装anaconda?</li>
+<li>Anaconda版本选择与下载</li>
+<li>Anaconda安装</li>
+<li>更换conda镜像源</li>
+<li>Pycharm使用</li>
+<li>Pycharm虚拟环境介绍</li>
+<li>CUDA与cuDNN</li>
+<li>TensorFlow</li>
+</ul>
+<span id="more"></span>
+<hr>
+<h2 id="版本介绍"><a href="#版本介绍" class="headerlink" title="版本介绍"></a>版本介绍</h2><blockquote>
+<p>python 3.7.10<br>conda 4.5.11<br>CUDA 11.1<br>Cudatoolkit 11.1.0<br>cuDNN 11.1 v8.0.5<br>tensorflow_gpu-2.4.1<br>Pycharm Professional 2020.3.3</p>
+</blockquote>
+<hr>
+<h2 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h2><blockquote>
+<p>下面列举了一些常见问题，请务必注意</p>
+</blockquote>
+<ul>
+<li>国外源速度慢导致连接断开（请参考下文<strong>更换pip源和conda源</strong>）</li>
+<li>版本对应问题（请勿安装过高版本的Anaconda，会导致python版本过高，Tensorflow不支持，至本文发布为止最高支持到python3.8，Tensorflow_CPU的安装较为简单，故演示了GPU-2.4.1）</li>
+</ul>
+<blockquote>
+<p>笔者在开始前已经有了python3.6.8，但实际上可以直接跳过，anaconda自带python<br><a href="https://www.python.org/downloads/">Python Download</a></p>
+<p>鉴于目前网上教程采用的版本比较混乱，故此次保姆级教程采用了较新的版本并通过测试</p>
+<p>保姆级教程：尽可能详细的列出具体步骤，但省略了一些作者认为比较简单的操作：如何打开命令行、命令行基本操作、如何使用Pycharm、软件的基本安装流程、环境变量的手动配置等。</p>
+<p><strong>如果仍然无法解决您的问题</strong><br>建议1：转身立马退坑<br>建议2：<a href="https://www.google.com.hk/">点击这里</a></p>
+</blockquote>
+<hr>
+<h2 id="1-前言：先装python还是先装anaconda"><a href="#1-前言：先装python还是先装anaconda" class="headerlink" title="1.前言：先装python还是先装anaconda"></a>1.前言：先装python还是先装anaconda</h2><blockquote>
+<p><strong>装anaconda，就不需要单独装python了</strong></p>
+<p>anaconda 是一个python的发行版，包括了python和很多常见的软件库,和一个包管理器conda，集成了很多关于python科学计算的第三方库，主要是安装方便，而python是一个编译器，如果不使用anaconda，那么安装起来会比较痛苦，各个库之间的依赖性就很难连接的很好。</p>
+</blockquote>
+<h2 id="2-Anaconda版本选择与下载"><a href="#2-Anaconda版本选择与下载" class="headerlink" title="2.Anaconda版本选择与下载"></a>2.Anaconda版本选择与下载</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><blockquote>
+<p><strong>官网下载:</strong> 不推荐，不会开飞机的话速度慢并且容易断<br><a href="https://www.anaconda.com/products/individual">Anaconda官网</a></p>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda.png" alt="Anaconda官网"></p>
+</blockquote>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><blockquote>
+<p><strong>国内镜像源:</strong> 可以用清华源、中科大源……<br><a href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive">Anaconda清华源</a></p>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_tsinghua.png" alt="Anaconda清华源"></p>
+</blockquote>
+<h3 id="版本选择"><a href="#版本选择" class="headerlink" title="版本选择"></a>版本选择</h3><p> <img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_python.png" alt="请输入图片描述"></p>
+<h2 id="3-Anaconda安装"><a href="#3-Anaconda安装" class="headerlink" title="3.Anaconda安装"></a>3.Anaconda安装</h2><blockquote>
+<p><strong>比较容易</strong>，一路next和skip，包括自动添加到环境变量等操作，可以直接装到C盘可以避免一些后续问题，笔者这里选择装到了E://Anaconda3 <strong>等待安装完毕即可</strong><br>若没有勾选<code>Add Anaconda to the system Path environment variable</code>，需要手动添加环境变量，比较简单；此处勾选了所以忽略</p>
+</blockquote>
+<h3 id="验证是否安装完成-conda-info"><a href="#验证是否安装完成-conda-info" class="headerlink" title="验证是否安装完成 conda info"></a>验证是否安装完成 conda info</h3><p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_complete.png" alt="验证是否安装完成 conda info"></p>
+<h3 id="Anaconda-Navigator是否可用"><a href="#Anaconda-Navigator是否可用" class="headerlink" title="Anaconda Navigator是否可用"></a>Anaconda Navigator是否可用</h3><p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_navigator.png" alt="Anaconda Navigator是否可用"></p>
+<blockquote>
+<p>至此，Python 3.7.0 + Anaconda3-5.3.1安装完成</p>
+</blockquote>
+<hr>
+<h2 id="4-更换conda镜像源"><a href="#4-更换conda镜像源" class="headerlink" title="4.更换conda镜像源"></a>4.更换conda镜像源</h2><ul>
+<li>可以在Anaconda Navigator中的channel直接更换</li>
+<li><p>也可以在Anaconda Prompt中更换镜像源<br>  <code>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</code><br>  <code>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/</code><br>  <code>conda config --set show_channel_urls yes</code></p>
+</li>
+<li><p>查看是否已经更换好通道<br>  <code>conda config --show channels</code><br><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Change_channel.png" alt="Change_channel"></p>
+</li>
+</ul>
+<h2 id="5-Pycharm使用"><a href="#5-Pycharm使用" class="headerlink" title="5.Pycharm使用"></a>5.Pycharm使用</h2><blockquote>
+<p>Jetbrains全家桶：US $649.00/Year，当然建议使用edu邮箱获取，申请教育版邮箱认证即可（可能需要不定时验证信息），建议安装<strong>Toolbox</strong>方便更新以及使用</p>
+<p><a href="https://www.jetbrains.com">附上<strong>Jetbrains</strong>链接</a></p>
+<p><em>针对浙工大学生邮箱：Jetbrains的验证邮件容易出现在e邮的<strong>拦截队列</strong>中，收不到confirm email可以在拦截队列中找到</em></p>
+<p>如果比较困难，可以尝试装中文插件 File-&gt;Settings-&gt;Plugins-&gt;Chinese (Simplified) Language Pack EAP  当然<strong>不建议</strong>这样使用，<strong>汉化</strong>的翻译可能存在偏差</p>
+</blockquote>
+<h2 id="6-Pycharm虚拟环境介绍"><a href="#6-Pycharm虚拟环境介绍" class="headerlink" title="6. Pycharm虚拟环境介绍"></a>6. Pycharm虚拟环境介绍</h2><blockquote>
+<p>Pycharm采用虚拟的环境，配置是可以采用为项目新建Python解释器或者使用原有的环境</p>
+</blockquote>
+<ol>
+<li>Inherit global site-packages<br>继承本地的库，如果需要重复安装第三方库，可以勾上这个</li>
+<li>Make available to all projects<br>可以使别的工程项目可以使用此工程的环境</li>
+</ol>
+<blockquote>
+<p>区别：创建Virtualenv Environment 或者 Conda Environment<br>若要在服务器上远程运行，配置SSH interpreter，并且在Tools-&gt;Deploment-&gt;Configuration中配置主机即可，后续有机会再详细展开……</p>
+</blockquote>
+<h2 id="7-CUDA和cuDNN"><a href="#7-CUDA和cuDNN" class="headerlink" title="7. CUDA和cuDNN"></a>7. CUDA和cuDNN</h2><blockquote>
+<p>检测目前安装了哪些环境<br>cmd: <code>conda info --envs</code></p>
+<p>检查目前有哪些版本的python可以安装<br>cmd：<code>conda search --full-name python</code></p>
+<p>检查目前有哪些版本的Tensorflow可以安装<br>cmd：<code>conda search --full -name tensorflow</code></p>
+<p>查看依赖关系<br>cmd：<code>conda info tensorflow</code></p>
+<p><strong>在这之前，检查Nvidia驱动支持的CUDA版本，此处安装的是Tensorflow2.4.1，需要CUDA11.0或及以上版本</strong></p>
+</blockquote>
+<ul>
+<li><a href="https://tensorflow.google.cn/install/source_windows?hl=cn#gpu">查看Tensorflow和CUDA对应版本</a>（版本一定要对应）</li>
+</ul>
+<blockquote>
+<p><code>nvidia-smi</code>命令行查看CUDA Version （当前显卡驱动最高支持的CUDA版本）</p>
+</blockquote>
+<ul>
+<li><a href="https://developer.nvidia.com/cuda-toolkit-archive">Nvidia官网下载Cudatoolkit</a>（下载速度慢可以复制链接到迅雷下载）</li>
+</ul>
+<blockquote>
+<p>一路安装下来即可，安装过程中已经自动添加了环境变量<br>cmd：<code>nvcc -V</code>返回CUDA版本信息，如果<strong>nvcc命令无法识别则表示安装失败</strong></p>
+</blockquote>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/nvcc%20-V.png" alt="CUDA版本信息"></p>
+<ul>
+<li><a href="https://developer.nvidia.com/rdp/cudnn-archive">Nvidia官网下载cuDNN</a>（下载速度慢可以复制链接到迅雷下载）</li>
+</ul>
+<blockquote>
+<p>只要把cuDNN文件复制到CUDA的对应文件夹里就可以，即所谓的插入式设计，cuDNN是CUDA的扩展计算库，不会对CUDA造成其他影响。<br>复制后，手动将CUDA相对路径下的/bin和/lib/x64添加到环境变量CUDA_PATH</p>
+</blockquote>
+<ul>
+<li><strong>测试CUDA</strong></li>
+</ul>
+<blockquote>
+<p>cmd：<code>cd /d C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1\extras\demo_suite</code></p>
+</blockquote>
+<ul>
+<li><strong>测试<code>deviceQuery.exe</code></strong></li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/CUDA_test0.png" alt="CUDA_deviceQuery"></p>
+<ul>
+<li><strong>测试<code>bandwidthTest.exe</code></strong></li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/CUDA_test1.png" alt="CUDA_bandwidthTest"></p>
+<blockquote>
+<p>都返回Result = PASS<br>That’s all OK.</p>
+</blockquote>
+<h2 id="8-TensorFlow"><a href="#8-TensorFlow" class="headerlink" title="8. TensorFlow"></a>8. TensorFlow</h2><h3 id="8-1-创建环境"><a href="#8-1-创建环境" class="headerlink" title="8.1 创建环境"></a>8.1 创建环境</h3><pre><code>conda create -name tfenv python=3.7.0
+</code></pre><blockquote>
+<p>由于之前已经更换了清华源，由于网络问题造成的错误率大大降低，但仍然可能被中断<br>用<code>conda info --envs</code>检查一下是否装好了tfenv环境</p>
+</blockquote>
+<h3 id="8-2-激活环境"><a href="#8-2-激活环境" class="headerlink" title="8.2 激活环境"></a>8.2 激活环境</h3><pre><code>conda activate tfenv
+</code></pre><blockquote>
+<p>退出环境<code>conda deactivate</code></p>
+</blockquote>
+<h3 id="8-3-激活后安装Tensorflow"><a href="#8-3-激活后安装Tensorflow" class="headerlink" title="8.3 激活后安装Tensorflow"></a>8.3 激活后安装Tensorflow</h3><ul>
+<li><p>更换tfenv环境的pip源 👉<a href="https://mirrors.tuna.tsinghua.edu.cn/help/pypi/">更换pip清华源参考方法</a></p>
+</li>
+<li><p>pip config set global.index-url <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></p>
+</li>
+<li>pip install -U tensorflow-gpu -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></li>
+</ul>
+<blockquote>
+<p>此处未指定版本，会选择最高的gpu版本安装，若要置顶版本，<code>tensorflow-gpu==2.x.x</code><br>虽然已经换源，但还是可能出现<code>These Packages Do Not Match The Hashes From The Requirements File.</code><br>解决方案：在pip时，添加”–upgrade”参数（<strong>实测有效</strong>）。<br>几分钟后👉<strong>安装成功</strong></p>
+</blockquote>
+<h3 id="8-4-激活后测试Tensorflow"><a href="#8-4-激活后测试Tensorflow" class="headerlink" title="8.4 激活后测试Tensorflow"></a>8.4 激活后测试Tensorflow</h3><ul>
+<li><p>输出包含GPU信息的日志</p>
+<p>  import tensorflow as tf<br>  tf.test.is_gpu_available()<br>  tf.test.gpu_device_name()</p>
+</li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Prompt_test.png" alt="Prompt_test"></p>
+<h3 id="8-5-Pycharm测试Tensorflow"><a href="#8-5-Pycharm测试Tensorflow" class="headerlink" title="8.5 Pycharm测试Tensorflow"></a>8.5 Pycharm测试Tensorflow</h3><ul>
+<li>添加安装有Tensorflow的环境作为工程的python解释器</li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Pycharm_test0.png" alt="Anaconda官网.png"></p>
+<pre><code>import tensorflow as tf
+tf.compat.v1.disable_eager_execution()
+greeting = tf.constant('Hello Tensorflow!')
+sess = tf.compat.v1.Session()
+result = sess.run(greeting)
+print(result)
+sess.close()
+</code></pre><p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Pycharm_test1.png" alt="Pycharm中测试"></p>
+<hr>
+<blockquote>
+<p>至此，所有安装和配置完成，<strong>版本对应</strong>问题非常重要，如果出现装错了版本请尝试<strong>彻底卸载</strong>后重装<br>为了更有针对性，本文采用了较新的版本，请务必在安装前选择<strong>合适的版本</strong><br>如果提示确实dll动态链接库，请尝试手动下载，貌似采用CUDA11.1可能会遇到这种情况，并且有部分人认为11.1中有未知错误并且不推荐使用，但在安装过程中并未发现，或许之后遇到了会继续补充</p>
+</blockquote>
+<hr>
+<h2 id="Update-2021-08-10"><a href="#Update-2021-08-10" class="headerlink" title="Update 2021.08.10"></a>Update 2021.08.10</h2><ul>
+<li>考虑到大多数模型还是使用<code>f1.x</code>构建的，并且与<code>2.x</code>在很大程度上有所区别，故决定增加<code>tensorflow1.8.0</code>环境。</li>
+</ul>
+<h3 id="注意事项（与上文相同，有空加图）"><a href="#注意事项（与上文相同，有空加图）" class="headerlink" title="注意事项（与上文相同，有空加图）"></a>注意事项（与上文相同，有空加图）</h3><ol>
+<li>CUDA、cuDNN与Tensorflow版本号对应，<a href="https://tensorflow.google.cn/install/source_windows?hl=en#gpu">点击查看原文档对应关系</a></li>
+<li>Python版本适用，不建议用过高版本</li>
+<li>显卡驱动不适配（显卡驱动决定可支持的CUDA最高版本，已有2.x版本的固驱动基本不会出问题），<a href="https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html">点击查看原文档对应关系</a></li>
+<li>两个版本的CUDA兼容性问题</li>
+</ol>
+<p><strong>多版本的CUDA兼容问题最麻烦（多次尝试后已解决）</strong></p>
+<ul>
+<li>CUDA安装<ul>
+<li>若采用<strong>精简安装</strong>，先安装低版本的，在安装高版本的，会覆盖兼容，暂未发现问题</li>
+<li>若现有高版本（如本文顺序现有tf2.4.1再加1.8.0），需使用<strong>自定义安装</strong>，驱动组件只需选择CUDA下的<code>Develpoment</code>、<code>Documentation</code>、<code>Visual Studio Intergration</code>、<code>Sanples</code>、<code>Runtime</code>共五个即可，<code>Nsight compute</code>以及<code>Driver components</code>和<code>other components</code>取消勾选，否则会导致两个版本冲突都无法使用</li>
+<li>路径添加<ul>
+<li>安装完成之后，默认<code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA</code>会出现<code>v9.0</code>文件夹，原来已经有<code>v11.1</code></li>
+<li>此时已可用<code>nvcc -V</code>查看CUDA版本为最近安装的版本</li>
+<li><a href="https://developer.nvidia.com/rdp/cudnn-archive">cuDNN组件下载替换</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>版本切换(环境变量)</p>
+<ul>
+<li>只需将PATH下需要使用的版本<code>bin</code>和<code>libnvvp</code>两个路径移动至其他版本之前即可,CUDA_PATH无需修改，<code>nvcc -V</code>可查看当前CUDA版本已更改</li>
+<li><code>CUDA_PATH C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1</code></li>
+<li><code>CUDA_PATH_V11.1 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1</code></li>
+<li><code>CUDA_PHTH_V9.0 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0</code></li>
+<li>PATH<ul>
+<li><code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1\bin</code></li>
+<li><code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1\libnvvp</code></li>
+<li><code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\bin</code></li>
+<li><code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\libnvvp</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>经过测试多版本tensorflow无冲突，版本自由切换正常，时间原因详细步骤不截图，此处记下以备之后迁移环境时参考用</p>
+</li>
+</ul>
+<h3 id="Tensorflow-GPU版本信息"><a href="#Tensorflow-GPU版本信息" class="headerlink" title="Tensorflow-GPU版本信息"></a>Tensorflow-GPU版本信息</h3><ul>
+<li>tensorflow_gpu-2.4.1<blockquote>
+<p>python 3.7.10<br>CUDA 11.1<br>cuDNN 11.1 v8.0.5</p>
+</blockquote>
+</li>
+<li>tensorflow_gpu-1.8.0<blockquote>
+<p>python 3.6.13<br>CUDA 9.0<br>cuDNN 9.0 v7.6.5</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h2 id="Update-2021-12-26"><a href="#Update-2021-12-26" class="headerlink" title="Update 2021.12.26"></a>Update 2021.12.26</h2><ul>
+<li>由于之后的研究影响，部分模型可能需要用到Pytorch，尽管个人倾向于使用前者建模，但在复现已有的模型时不可必要要看懂并且迁移Pytorch模型，故决定增加<code>Pytorch1.8.0</code>环境。</li>
+</ul>
+<h3 id="详细步骤（有空加图）"><a href="#详细步骤（有空加图）" class="headerlink" title="详细步骤（有空加图）"></a>详细步骤（有空加图）</h3><ol>
+<li>Anaconda虚拟环境，<code>conda create -n torch1.8.0 python=3.7.0</code>等待创建完毕</li>
+<li>pip安装或conda安装torch</li>
+<li>同样也需要注意CUDA版本对应，由于之前已有CUDA11.1，故找了个与之适配的torch版本使用</li>
+</ol>
+<ul>
+<li>本文使用conda安装，有空详细展开并且加上pip安装流程<ul>
+<li><a href="https://pytorch.org/get-started/previous-versions/">查找历史版本</a></li>
+<li>使用conda命令等待安装完毕即可，若下载受限请参照上文修改镜像源</li>
+</ul>
+</li>
+<li>一般速度较快，若长时间无反应请考虑是否被墙（换源）或者无对应版本（参照文档）</li>
+<li>本文使用<code>conda install pytorch==1.8.0 torchvision==0.9.0 torchaudio==0.8.0 cudatoolkit=11.1 -c pytorch -c conda-forge</code></li>
+</ul>
+<h3 id="Pytorch-GPU版本信息"><a href="#Pytorch-GPU版本信息" class="headerlink" title="Pytorch-GPU版本信息"></a>Pytorch-GPU版本信息</h3><ul>
+<li>pytorch 1.8.0<blockquote>
+<p>torchvision 0.9.0<br>torchaudio 0.8.0<br>python 3.7.0<br>CUDA 11.1<br>cuDNN 11.1 v8.0.5</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<!-- markdownlint-disable-file MD036 -->
+]]></content>
+      <categories>
+        <category>Summary</category>
+      </categories>
+      <tags>
+        <tag>Tutorial</tag>
+        <tag>Tensorflow</tag>
+      </tags>
   </entry>
   <entry>
     <title>MapReduce in Distributed Systems</title>
@@ -2805,253 +3052,6 @@ E=mc^2 \\
       </tags>
   </entry>
   <entry>
-    <title>Tensorflow2.4保姆级安装教程</title>
-    <url>/2021/01/30/Tensorflow2.4%E4%BF%9D%E5%A7%86%E7%BA%A7%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<ul>
-<li>先装python还是先装anaconda?</li>
-<li>Anaconda版本选择与下载</li>
-<li>Anaconda安装</li>
-<li>更换conda镜像源</li>
-<li>Pycharm使用</li>
-<li>Pycharm虚拟环境介绍</li>
-<li>CUDA与cuDNN</li>
-<li>TensorFlow</li>
-</ul>
-<span id="more"></span>
-<hr>
-<h2 id="版本介绍"><a href="#版本介绍" class="headerlink" title="版本介绍"></a>版本介绍</h2><blockquote>
-<p>python 3.7.10<br>conda 4.5.11<br>CUDA 11.1<br>Cudatoolkit 11.1.0<br>cuDNN 11.1 v8.0.5<br>tensorflow_gpu-2.4.1<br>Pycharm Professional 2020.3.3</p>
-</blockquote>
-<hr>
-<h2 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h2><blockquote>
-<p>下面列举了一些常见问题，请务必注意</p>
-</blockquote>
-<ul>
-<li>国外源速度慢导致连接断开（请参考下文<strong>更换pip源和conda源</strong>）</li>
-<li>版本对应问题（请勿安装过高版本的Anaconda，会导致python版本过高，Tensorflow不支持，至本文发布为止最高支持到python3.8，Tensorflow_CPU的安装较为简单，故演示了GPU-2.4.1）</li>
-</ul>
-<blockquote>
-<p>笔者在开始前已经有了python3.6.8，但实际上可以直接跳过，anaconda自带python<br><a href="https://www.python.org/downloads/">Python Download</a></p>
-<p>鉴于目前网上教程采用的版本比较混乱，故此次保姆级教程采用了较新的版本并通过测试</p>
-<p>保姆级教程：尽可能详细的列出具体步骤，但省略了一些作者认为比较简单的操作：如何打开命令行、命令行基本操作、如何使用Pycharm、软件的基本安装流程、环境变量的手动配置等。</p>
-<p><strong>如果仍然无法解决您的问题</strong><br>建议1：转身立马退坑<br>建议2：<a href="https://www.google.com.hk/">点击这里</a></p>
-</blockquote>
-<hr>
-<h2 id="1-前言：先装python还是先装anaconda"><a href="#1-前言：先装python还是先装anaconda" class="headerlink" title="1.前言：先装python还是先装anaconda"></a>1.前言：先装python还是先装anaconda</h2><blockquote>
-<p><strong>装anaconda，就不需要单独装python了</strong></p>
-<p>anaconda 是一个python的发行版，包括了python和很多常见的软件库,和一个包管理器conda，集成了很多关于python科学计算的第三方库，主要是安装方便，而python是一个编译器，如果不使用anaconda，那么安装起来会比较痛苦，各个库之间的依赖性就很难连接的很好。</p>
-</blockquote>
-<h2 id="2-Anaconda版本选择与下载"><a href="#2-Anaconda版本选择与下载" class="headerlink" title="2.Anaconda版本选择与下载"></a>2.Anaconda版本选择与下载</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><blockquote>
-<p><strong>官网下载:</strong> 不推荐，不会开飞机的话速度慢并且容易断<br><a href="https://www.anaconda.com/products/individual">Anaconda官网</a></p>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda.png" alt="Anaconda官网"></p>
-</blockquote>
-<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><blockquote>
-<p><strong>国内镜像源:</strong> 可以用清华源、中科大源……<br><a href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive">Anaconda清华源</a></p>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_tsinghua.png" alt="Anaconda清华源"></p>
-</blockquote>
-<h3 id="版本选择"><a href="#版本选择" class="headerlink" title="版本选择"></a>版本选择</h3><p> <img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_python.png" alt="请输入图片描述"></p>
-<h2 id="3-Anaconda安装"><a href="#3-Anaconda安装" class="headerlink" title="3.Anaconda安装"></a>3.Anaconda安装</h2><blockquote>
-<p><strong>比较容易</strong>，一路next和skip，包括自动添加到环境变量等操作，可以直接装到C盘可以避免一些后续问题，笔者这里选择装到了E://Anaconda3 <strong>等待安装完毕即可</strong><br>若没有勾选<code>Add Anaconda to the system Path environment variable</code>，需要手动添加环境变量，比较简单；此处勾选了所以忽略</p>
-</blockquote>
-<h3 id="验证是否安装完成-conda-info"><a href="#验证是否安装完成-conda-info" class="headerlink" title="验证是否安装完成 conda info"></a>验证是否安装完成 conda info</h3><p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_complete.png" alt="验证是否安装完成 conda info"></p>
-<h3 id="Anaconda-Navigator是否可用"><a href="#Anaconda-Navigator是否可用" class="headerlink" title="Anaconda Navigator是否可用"></a>Anaconda Navigator是否可用</h3><p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Anaconda_navigator.png" alt="Anaconda Navigator是否可用"></p>
-<blockquote>
-<p>至此，Python 3.7.0 + Anaconda3-5.3.1安装完成</p>
-</blockquote>
-<hr>
-<h2 id="4-更换conda镜像源"><a href="#4-更换conda镜像源" class="headerlink" title="4.更换conda镜像源"></a>4.更换conda镜像源</h2><ul>
-<li>可以在Anaconda Navigator中的channel直接更换</li>
-<li><p>也可以在Anaconda Prompt中更换镜像源<br>  <code>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</code><br>  <code>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/</code><br>  <code>conda config --set show_channel_urls yes</code></p>
-</li>
-<li><p>查看是否已经更换好通道<br>  <code>conda config --show channels</code><br><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Change_channel.png" alt="Change_channel"></p>
-</li>
-</ul>
-<h2 id="5-Pycharm使用"><a href="#5-Pycharm使用" class="headerlink" title="5.Pycharm使用"></a>5.Pycharm使用</h2><blockquote>
-<p>Jetbrains全家桶：US $649.00/Year，当然建议使用edu邮箱获取，申请教育版邮箱认证即可（可能需要不定时验证信息），建议安装<strong>Toolbox</strong>方便更新以及使用</p>
-<p><a href="https://www.jetbrains.com">附上<strong>Jetbrains</strong>链接</a></p>
-<p><em>针对浙工大学生邮箱：Jetbrains的验证邮件容易出现在e邮的<strong>拦截队列</strong>中，收不到confirm email可以在拦截队列中找到</em></p>
-<p>如果比较困难，可以尝试装中文插件 File-&gt;Settings-&gt;Plugins-&gt;Chinese (Simplified) Language Pack EAP  当然<strong>不建议</strong>这样使用，<strong>汉化</strong>的翻译可能存在偏差</p>
-</blockquote>
-<h2 id="6-Pycharm虚拟环境介绍"><a href="#6-Pycharm虚拟环境介绍" class="headerlink" title="6. Pycharm虚拟环境介绍"></a>6. Pycharm虚拟环境介绍</h2><blockquote>
-<p>Pycharm采用虚拟的环境，配置是可以采用为项目新建Python解释器或者使用原有的环境</p>
-</blockquote>
-<ol>
-<li>Inherit global site-packages<br>继承本地的库，如果需要重复安装第三方库，可以勾上这个</li>
-<li>Make available to all projects<br>可以使别的工程项目可以使用此工程的环境</li>
-</ol>
-<blockquote>
-<p>区别：创建Virtualenv Environment 或者 Conda Environment<br>若要在服务器上远程运行，配置SSH interpreter，并且在Tools-&gt;Deploment-&gt;Configuration中配置主机即可，后续有机会再详细展开……</p>
-</blockquote>
-<h2 id="7-CUDA和cuDNN"><a href="#7-CUDA和cuDNN" class="headerlink" title="7. CUDA和cuDNN"></a>7. CUDA和cuDNN</h2><blockquote>
-<p>检测目前安装了哪些环境<br>cmd: <code>conda info --envs</code></p>
-<p>检查目前有哪些版本的python可以安装<br>cmd：<code>conda search --full-name python</code></p>
-<p>检查目前有哪些版本的Tensorflow可以安装<br>cmd：<code>conda search --full -name tensorflow</code></p>
-<p>查看依赖关系<br>cmd：<code>conda info tensorflow</code></p>
-<p><strong>在这之前，检查Nvidia驱动支持的CUDA版本，此处安装的是Tensorflow2.4.1，需要CUDA11.0或及以上版本</strong></p>
-</blockquote>
-<ul>
-<li><a href="https://tensorflow.google.cn/install/source_windows?hl=cn#gpu">查看Tensorflow和CUDA对应版本</a>（版本一定要对应）</li>
-</ul>
-<blockquote>
-<p><code>nvidia-smi</code>命令行查看CUDA Version （当前显卡驱动最高支持的CUDA版本）</p>
-</blockquote>
-<ul>
-<li><a href="https://developer.nvidia.com/cuda-toolkit-archive">Nvidia官网下载Cudatoolkit</a>（下载速度慢可以复制链接到迅雷下载）</li>
-</ul>
-<blockquote>
-<p>一路安装下来即可，安装过程中已经自动添加了环境变量<br>cmd：<code>nvcc -V</code>返回CUDA版本信息，如果<strong>nvcc命令无法识别则表示安装失败</strong></p>
-</blockquote>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/nvcc%20-V.png" alt="CUDA版本信息"></p>
-<ul>
-<li><a href="https://developer.nvidia.com/rdp/cudnn-archive">Nvidia官网下载cuDNN</a>（下载速度慢可以复制链接到迅雷下载）</li>
-</ul>
-<blockquote>
-<p>只要把cuDNN文件复制到CUDA的对应文件夹里就可以，即所谓的插入式设计，cuDNN是CUDA的扩展计算库，不会对CUDA造成其他影响。<br>复制后，手动将CUDA相对路径下的/bin和/lib/x64添加到环境变量CUDA_PATH</p>
-</blockquote>
-<ul>
-<li><strong>测试CUDA</strong></li>
-</ul>
-<blockquote>
-<p>cmd：<code>cd /d C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1\extras\demo_suite</code></p>
-</blockquote>
-<ul>
-<li><strong>测试<code>deviceQuery.exe</code></strong></li>
-</ul>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/CUDA_test0.png" alt="CUDA_deviceQuery"></p>
-<ul>
-<li><strong>测试<code>bandwidthTest.exe</code></strong></li>
-</ul>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/CUDA_test1.png" alt="CUDA_bandwidthTest"></p>
-<blockquote>
-<p>都返回Result = PASS<br>That’s all OK.</p>
-</blockquote>
-<h2 id="8-TensorFlow"><a href="#8-TensorFlow" class="headerlink" title="8. TensorFlow"></a>8. TensorFlow</h2><h3 id="8-1-创建环境"><a href="#8-1-创建环境" class="headerlink" title="8.1 创建环境"></a>8.1 创建环境</h3><pre><code>conda create -name tfenv python=3.7.0
-</code></pre><blockquote>
-<p>由于之前已经更换了清华源，由于网络问题造成的错误率大大降低，但仍然可能被中断<br>用<code>conda info --envs</code>检查一下是否装好了tfenv环境</p>
-</blockquote>
-<h3 id="8-2-激活环境"><a href="#8-2-激活环境" class="headerlink" title="8.2 激活环境"></a>8.2 激活环境</h3><pre><code>conda activate tfenv
-</code></pre><blockquote>
-<p>退出环境<code>conda deactivate</code></p>
-</blockquote>
-<h3 id="8-3-激活后安装Tensorflow"><a href="#8-3-激活后安装Tensorflow" class="headerlink" title="8.3 激活后安装Tensorflow"></a>8.3 激活后安装Tensorflow</h3><ul>
-<li><p>更换tfenv环境的pip源 👉<a href="https://mirrors.tuna.tsinghua.edu.cn/help/pypi/">更换pip清华源参考方法</a></p>
-</li>
-<li><p>pip config set global.index-url <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></p>
-</li>
-<li>pip install -U tensorflow-gpu -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></li>
-</ul>
-<blockquote>
-<p>此处未指定版本，会选择最高的gpu版本安装，若要置顶版本，<code>tensorflow-gpu==2.x.x</code><br>虽然已经换源，但还是可能出现<code>These Packages Do Not Match The Hashes From The Requirements File.</code><br>解决方案：在pip时，添加”–upgrade”参数（<strong>实测有效</strong>）。<br>几分钟后👉<strong>安装成功</strong></p>
-</blockquote>
-<h3 id="8-4-激活后测试Tensorflow"><a href="#8-4-激活后测试Tensorflow" class="headerlink" title="8.4 激活后测试Tensorflow"></a>8.4 激活后测试Tensorflow</h3><ul>
-<li><p>输出包含GPU信息的日志</p>
-<p>  import tensorflow as tf<br>  tf.test.is_gpu_available()<br>  tf.test.gpu_device_name()</p>
-</li>
-</ul>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Prompt_test.png" alt="Prompt_test"></p>
-<h3 id="8-5-Pycharm测试Tensorflow"><a href="#8-5-Pycharm测试Tensorflow" class="headerlink" title="8.5 Pycharm测试Tensorflow"></a>8.5 Pycharm测试Tensorflow</h3><ul>
-<li>添加安装有Tensorflow的环境作为工程的python解释器</li>
-</ul>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Pycharm_test0.png" alt="Anaconda官网.png"></p>
-<pre><code>import tensorflow as tf
-tf.compat.v1.disable_eager_execution()
-greeting = tf.constant('Hello Tensorflow!')
-sess = tf.compat.v1.Session()
-result = sess.run(greeting)
-print(result)
-sess.close()
-</code></pre><p><img src="https://www.lingzhicheng.cn/usr/file/picture/Python/Pycharm_test1.png" alt="Pycharm中测试"></p>
-<hr>
-<blockquote>
-<p>至此，所有安装和配置完成，<strong>版本对应</strong>问题非常重要，如果出现装错了版本请尝试<strong>彻底卸载</strong>后重装<br>为了更有针对性，本文采用了较新的版本，请务必在安装前选择<strong>合适的版本</strong><br>如果提示确实dll动态链接库，请尝试手动下载，貌似采用CUDA11.1可能会遇到这种情况，并且有部分人认为11.1中有未知错误并且不推荐使用，但在安装过程中并未发现，或许之后遇到了会继续补充</p>
-</blockquote>
-<hr>
-<h2 id="Update-2021-08-10"><a href="#Update-2021-08-10" class="headerlink" title="Update 2021.08.10"></a>Update 2021.08.10</h2><ul>
-<li>考虑到大多数模型还是使用<code>f1.x</code>构建的，并且与<code>2.x</code>在很大程度上有所区别，故决定增加<code>tensorflow1.8.0</code>环境。</li>
-</ul>
-<h3 id="注意事项（与上文相同，有空加图）"><a href="#注意事项（与上文相同，有空加图）" class="headerlink" title="注意事项（与上文相同，有空加图）"></a>注意事项（与上文相同，有空加图）</h3><ol>
-<li>CUDA、cuDNN与Tensorflow版本号对应，<a href="https://tensorflow.google.cn/install/source_windows?hl=en#gpu">点击查看原文档对应关系</a></li>
-<li>Python版本适用，不建议用过高版本</li>
-<li>显卡驱动不适配（显卡驱动决定可支持的CUDA最高版本，已有2.x版本的固驱动基本不会出问题），<a href="https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html">点击查看原文档对应关系</a></li>
-<li>两个版本的CUDA兼容性问题</li>
-</ol>
-<p><strong>多版本的CUDA兼容问题最麻烦（多次尝试后已解决）</strong></p>
-<ul>
-<li>CUDA安装<ul>
-<li>若采用<strong>精简安装</strong>，先安装低版本的，在安装高版本的，会覆盖兼容，暂未发现问题</li>
-<li>若现有高版本（如本文顺序现有tf2.4.1再加1.8.0），需使用<strong>自定义安装</strong>，驱动组件只需选择CUDA下的<code>Develpoment</code>、<code>Documentation</code>、<code>Visual Studio Intergration</code>、<code>Sanples</code>、<code>Runtime</code>共五个即可，<code>Nsight compute</code>以及<code>Driver components</code>和<code>other components</code>取消勾选，否则会导致两个版本冲突都无法使用</li>
-<li>路径添加<ul>
-<li>安装完成之后，默认<code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA</code>会出现<code>v9.0</code>文件夹，原来已经有<code>v11.1</code></li>
-<li>此时已可用<code>nvcc -V</code>查看CUDA版本为最近安装的版本</li>
-<li><a href="https://developer.nvidia.com/rdp/cudnn-archive">cuDNN组件下载替换</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>版本切换(环境变量)</p>
-<ul>
-<li>只需将PATH下需要使用的版本<code>bin</code>和<code>libnvvp</code>两个路径移动至其他版本之前即可,CUDA_PATH无需修改，<code>nvcc -V</code>可查看当前CUDA版本已更改</li>
-<li><code>CUDA_PATH C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1</code></li>
-<li><code>CUDA_PATH_V11.1 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1</code></li>
-<li><code>CUDA_PHTH_V9.0 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0</code></li>
-<li>PATH<ul>
-<li><code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1\bin</code></li>
-<li><code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1\libnvvp</code></li>
-<li><code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\bin</code></li>
-<li><code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\libnvvp</code></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>经过测试多版本tensorflow无冲突，版本自由切换正常，时间原因详细步骤不截图，此处记下以备之后迁移环境时参考用</p>
-</li>
-</ul>
-<h3 id="Tensorflow-GPU版本信息"><a href="#Tensorflow-GPU版本信息" class="headerlink" title="Tensorflow-GPU版本信息"></a>Tensorflow-GPU版本信息</h3><ul>
-<li>tensorflow_gpu-2.4.1<blockquote>
-<p>python 3.7.10<br>CUDA 11.1<br>cuDNN 11.1 v8.0.5</p>
-</blockquote>
-</li>
-<li>tensorflow_gpu-1.8.0<blockquote>
-<p>python 3.6.13<br>CUDA 9.0<br>cuDNN 9.0 v7.6.5</p>
-</blockquote>
-</li>
-</ul>
-<hr>
-<h2 id="Update-2021-12-26"><a href="#Update-2021-12-26" class="headerlink" title="Update 2021.12.26"></a>Update 2021.12.26</h2><ul>
-<li>由于之后的研究影响，部分模型可能需要用到Pytorch，尽管个人倾向于使用前者建模，但在复现已有的模型时不可必要要看懂并且迁移Pytorch模型，故决定增加<code>Pytorch1.8.0</code>环境。</li>
-</ul>
-<h3 id="详细步骤（有空加图）"><a href="#详细步骤（有空加图）" class="headerlink" title="详细步骤（有空加图）"></a>详细步骤（有空加图）</h3><ol>
-<li>Anaconda虚拟环境，<code>conda create -n torch1.8.0 python=3.7.0</code>等待创建完毕</li>
-<li>pip安装或conda安装torch</li>
-<li>同样也需要注意CUDA版本对应，由于之前已有CUDA11.1，故找了个与之适配的torch版本使用</li>
-</ol>
-<ul>
-<li>本文使用conda安装，有空详细展开并且加上pip安装流程<ul>
-<li><a href="https://pytorch.org/get-started/previous-versions/">查找历史版本</a></li>
-<li>使用conda命令等待安装完毕即可，若下载受限请参照上文修改镜像源</li>
-</ul>
-</li>
-<li>一般速度较快，若长时间无反应请考虑是否被墙（换源）或者无对应版本（参照文档）</li>
-<li>本文使用<code>conda install pytorch==1.8.0 torchvision==0.9.0 torchaudio==0.8.0 cudatoolkit=11.1 -c pytorch -c conda-forge</code></li>
-</ul>
-<h3 id="Pytorch-GPU版本信息"><a href="#Pytorch-GPU版本信息" class="headerlink" title="Pytorch-GPU版本信息"></a>Pytorch-GPU版本信息</h3><ul>
-<li>pytorch 1.8.0<blockquote>
-<p>torchvision 0.9.0<br>torchaudio 0.8.0<br>python 3.7.0<br>CUDA 11.1<br>cuDNN 11.1 v8.0.5</p>
-</blockquote>
-</li>
-</ul>
-<hr>
-<!-- markdownlint-disable-file MD036 -->
-]]></content>
-      <categories>
-        <category>Summary</category>
-      </categories>
-      <tags>
-        <tag>Tutorial</tag>
-        <tag>Tensorflow</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Installation for TexLive under VsCode</title>
     <url>/2023/03/27/TexLive+VsCode/</url>
     <content><![CDATA[<blockquote>
@@ -3350,91 +3350,6 @@ sess.close()
       </tags>
   </entry>
   <entry>
-    <title>debug Gitalk 403</title>
-    <url>/2022/01/02/debug%20Gitalk%20403/</url>
-    <content><![CDATA[<ul>
-<li>留言系统使用Gitalk，最近发现无法使用GitHub账号登陆，出现403</li>
-<li>Error: Request failed with status code 403</li>
-</ul>
-<h3 id="Headers"><a href="#Headers" class="headerlink" title="Headers"></a>Headers</h3><blockquote>
-<p>网络请求403，拿不到token，导致登陆不上<br>Request URL：<a href="https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token">https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token</a></p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">Missing required request header. Must specify one of: origin,x-requested-with</span><br></pre></td></tr></tbody></table></figure>
-</blockquote>
-<span id="more"></span>
-<h3 id="cors-anywhere"><a href="#cors-anywhere" class="headerlink" title="cors-anywhere"></a>cors-anywhere</h3><blockquote>
-<p>开源框架解决跨域问题的反向代理</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">CORS Anywhere is a NodeJS proxy which adds CORS headers to the proxied request.</span><br><span class="line"></span><br><span class="line">The url to proxy is literally taken from the path, validated and proxied. The protocol part of the proxied URI is optional, and defaults to "http". If port 443 is specified, the protocol defaults to "https".</span><br><span class="line"></span><br><span class="line">This package does not put any restrictions on the http methods or headers, except for cookies. Requesting user credentials is disallowed. The app can be configured to require a header for proxying a request, for example to avoid a direct visit from the browser.</span><br></pre></td></tr></tbody></table></figure>
-</blockquote>
-<h3 id="more"><a href="#more" class="headerlink" title="more"></a>more</h3><blockquote>
-<p>看上去像是被滥用，然后从2021.1.31后用户必须手动获得这个网站的访问权限后才能使用，这也就是为什么最近登陆不上了</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">Public demo server (cors-anywhere.herokuapp.com) will be very limited by January 2021, 31st</span><br><span class="line">The demo server of CORS Anywhere (cors-anywhere.herokuapp.com) is meant to be a demo of this project. But abuse has become so common that the platform where the demo is hosted (Heroku) has asked me to shut down the server, despite efforts to counter the abuse (rate limits in #45 and #164, and blocking other forms of requests). Downtime becomes increasingly frequent (e.g. recently #300, #299, #295, #294, #287) due to abuse and its popularity.</span><br></pre></td></tr></tbody></table></figure>
-</blockquote>
-<h3 id="Gitalk-Document"><a href="#Gitalk-Document" class="headerlink" title="Gitalk Document"></a>Gitalk Document</h3><blockquote>
-<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">&gt;const gitalk = new Gitalk({</span><br><span class="line"> clientID: 'GitHub Application Client ID',</span><br><span class="line"> clientSecret: 'GitHub Application Client Secret',</span><br><span class="line"> repo: 'GitHub repo',      // The repository of store comments,</span><br><span class="line"> owner: 'GitHub repo owner',</span><br><span class="line"> admin: ['GitHub repo owner and collaborators, only these guys can initialize github issues'],</span><br><span class="line"> id: location.pathname,      // Ensure uniqueness and length less than 50</span><br><span class="line"> distractionFreeMode: false  // Facebook-like distraction free mode</span><br><span class="line">&gt;})</span><br><span class="line"></span><br><span class="line">&gt;gitalk.render('gitalk-container')</span><br></pre></td></tr></tbody></table></figure>
-</blockquote>
-<h3 id="add"><a href="#add" class="headerlink" title="add"></a>add</h3><blockquote>
-<p>在gitalk相应js文件中添加</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">proxy: '&lt;%- theme.gitalk.proxy %&gt;'</span><br></pre></td></tr></tbody></table></figure>
-<p>在配置文件中添加</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">proxy: https://netnr-proxy.cloudno.de/https://github.com/login/oauth/access_token</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-<p>重新部署</p>
-</blockquote>
-<p>暂时采用了Issue中找到的可替代的cors，表示感谢.</p>
-<hr>
-<h3 id="Update-2022-01-02"><a href="#Update-2022-01-02" class="headerlink" title="Update 2022.01.02"></a>Update 2022.01.02</h3><ul>
-<li>很久没更新blog了，趁这次有时间索性把积攒下来的问题一起解决<span class="github-emoji"><span>👋</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f44b.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></li>
-<li>这次还是Gitalk的问题，<del>虽然可以使用其他评论插件，</del> 但还是更加喜欢Gitalk的UI</li>
-<li>上文已经解决了<code>403</code>的问题，是采用了一个Issue里的方法，使用了热心网友的代</li>
-<li>但是发现实际上只用了三四个月左右就由于使用人数过多，所有访问都进了这个代理，后来应该是网友取消了，不得而知，出现了好几个月的<code>Error:Net error</code></li>
-<li>继续找问题会发现又有网友提出了上面这个方法（<strong>好家伙搁这儿转圈圈呢</strong>）</li>
-<li>很机智的把<code>_config.yml</code>里的代理清了，发现有希望，不再是直接<code>error</code>了，有登录验证界面，但变成<code>405</code>了好家伙。</li>
-<li>好在有个Taiwan的网友Kalin Lai<a href="https://github.com/gitalk/gitalk/issues/437">发现了问题</a>，是gitalk.ejs中的代理没删干净，手动狗头。</li>
-<li>删干净后重新出现了<code>403</code>，继续找文档，loading···</li>
-<li>最后终于找到了，忙活一个小时成功解决，吃饭去了</li>
-</ul>
-<blockquote>
-<p>针对403的问题，Gitalk开发团队已经做了修复，解决方法如下：更新版本到 1.7.2 或者修改配置增加<code>proxy: https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token</code><br>当然也可以重新配置个人代理，有机会试一下，这里插个眼</p>
-</blockquote>
-<h3 id="Update-2022-01-07"><a href="#Update-2022-01-07" class="headerlink" title="Update 2022.01.07"></a>Update 2022.01.07</h3><ul>
-<li>来更新了，试了用Cloudflare创建代理</li>
-<li>有免费的版本，每天十万条，每十分钟一千条记录</li>
-<li>但是发现代理后整个网站速度受到影响比较大，故放弃使用，选择用Gitalk团队的官方代理，结束。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Gitalk</category>
-      </categories>
-      <tags>
-        <tag>debug</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>VS2019代码提示延迟很高，部分快捷键无法使用的问题</title>
-    <url>/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><ul>
-<li>Visual Studio 与Nvidia CUDA NSightVSE冲突</li>
-</ul>
-<h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><ul>
-<li>Tab、Ctrl’+C 、 Ctrl’+K 等快捷键失效，智能代码提示不能正常显示，有时不会出现，有时要等四五秒，非常不正常</li>
-</ul>
-<blockquote>
-<p>Setting中检查设置无误，尝试过重启、重置个人配置、重装等均无效<br>很长一段时间没有使用过vs，之前装了比较新的Nvidia CUDA，同时附带的有NSightVSE，也就是设计vs的拓展，问题出在这里</p>
-</blockquote>
-<span id="more"></span>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><blockquote>
-<p>卸载NSightVSE或者其他Nvidia和vs相关的拓展，重启vs后生效<br>正常情况搜索NsightVSE会出现四个，保留下列三个即可，版本仅供参考，可能其他版本不会出现如上问题。<br>Nvidia CUDA Nsight NVTX 11.1<br>Nvidia Nsight Compute 2020.2.0<br>Nvidia Nsight Systems 2020.3.4</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Summary</category>
-      </categories>
-      <tags>
-        <tag>Debug</tag>
-        <tag>Nvidia CUDA</tag>
-        <tag>Visual Studio</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>UAV Track Planning Algorithms</title>
     <url>/2022/11/24/UAV%20Track%20Planning%20Algorithms/</url>
     <content><![CDATA[<p><strong>摘要</strong>：无人机(Unmanned Aerial Vehicle, UAV)是指能够在脱离人员的主动干预下，依据自身对周围环境进行感知、理解并进行自主飞行控制的飞行器。无人机因其具备低成本、适用场景多、无人员伤亡等优点，已成为世界各国为适应未来战场需要而重点研究的内容。随着航空技术的发展，越来越多的无人机替代飞行员执行高危险和高强度的军事侦察打击、民用巡检搜救等任务，无人机的航迹规划问题日益受到重视。航迹规划问题起源于机器人的运动规划，航迹规划就算综合考虑环境和目标任务规划最优的飞行路径，本质为多约束条件下的最优化问题，核心思想就是建立目标函数模型，有效处理各项约束，而无人机飞行涉及的约束条件众多，目前大多数学者首先通过求解全局最优路径，在对局部约束进行航迹动态优化。实际环境瞬息万变，复杂的电磁干扰等问题随时都会影响无人机的飞行，无人机航迹规划需要智能、实时性高、可靠性强的优秀算法作为支撑。</p>
@@ -3534,6 +3449,85 @@ sess.close()
       <tags>
         <tag>UAV</tag>
         <tag>Track Planning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo_begin</title>
+    <url>/2021/01/31/hexo_begin/</url>
+    <content><![CDATA[<h2 id="机制介绍"><a href="#机制介绍" class="headerlink" title="机制介绍"></a>机制介绍</h2><p><code>hexo d</code>上传部署到Github的其实是hexo编译后的文件静态文件，用于生成网页，不包含源文件，也就是上传<code>.deploy_git</code>中的文件，其他文件，包括<code>source</code>里面的和一些配置、主题文件都不会上传到GitHub，考虑到可能会在不同主机发布，因此将<code>hexo d</code>操作不会上传的文件主动<code>git</code>到另一个分支。</p>
+<span id="more"></span>
+<hr>
+<h2 id="新建备份分支"><a href="#新建备份分支" class="headerlink" title="新建备份分支"></a>新建备份分支</h2><ol>
+<li><p>首先在Github上新建一个<code>hexo_backup</code>分支并且设置为默认分支，以便在每次同步的时候不用指定分支，比较方便，用于备份源文件。</p>
+</li>
+<li><p>在本地<code>blog_local</code>目录下<code>git clone git@github.com:boom1999/boom1999.github.io.git</code>,此时由于默认分支为hexo_backup，所以只是clone了hexo_backup。在clone下的目录里将<code>.git</code>以外的文件全部删除，将源文件（包括<code>.gitignore</code>）全部复制过来。（<code>.deploy_git</code>不需要，这是生成的静态文件，也就是会push到master分支中的文件）。如果没有<code>.gitignore</code>，忽略push这部分文件，请手动添加：</p>
+<pre><code> .DS_Store
+ Thumbs.db
+ db.json
+ *.log
+ node_modules/
+ public/
+ .deploy*/
+</code></pre></li>
+<li><p>将源文件push到hexo_backup分支,上传后GitHub上的hexo_backup分支备份完成</p>
+<pre><code> git add .
+ git commit –m "your commit"
+ git push 
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="更换环境操作"><a href="#更换环境操作" class="headerlink" title="更换环境操作"></a>更换环境操作</h2><ul>
+<li>创建一个新的<code>blog_local</code>文件夹</li>
+<li>安装<code>git</code>和<code>nodejs</code></li>
+<li><p>设置git全局邮箱和用户名</p>
+<pre><code>  git config --global user.name "yourgithubname"
+  git config --global user.email "yourgithubemail"
+</code></pre></li>
+<li><p>设置<code>ssh key</code></p>
+<pre><code>  ssh-keygen -t rsa -C "youremail"
+  #生成后公钥添加到GitHub仓库中
+  #验证是否成功
+  ssh -T git@github.com
+</code></pre></li>
+<li><p>安装hexo（不需要hexo init，因为整体框架会被clone下来）</p>
+<pre><code>  npm install hexo-cli -g
+  #或者局部安装
+  npm install hexo
+</code></pre></li>
+<li><p><code>clone</code>到本地操作</p>
+<pre><code>  git clone git@github.com:boom1999/boom1999.github.io.git
+</code></pre></li>
+<li><p>进入本地文件</p>
+<pre><code>  cd boom1999.github.io
+  npm install
+</code></pre></li>
+<li><p>安装名为<code>hexo-deployer-git</code>的部署器插件，通过该插件就能实现一键部署</p>
+<pre><code>  npm install hexo-deployer-git --save
+</code></pre></li>
+<li><p>添加新文件<code>source/_posts</code>，生成，部署</p>
+<pre><code>  hexo g
+  hexo d
+</code></pre></li>
+</ul>
+<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
+<li><p>每次写完不要忘了备份源文件</p>
+<pre><code>  git add .
+  git commit –m "your commit"
+  git push 
+</code></pre></li>
+<li>如果是在已经目前使用的机器，如在其他机器上更新过，每次<strong>使用前</strong>只要远端同步一下就行<code>git pull</code></li>
+</ul>
+<hr>
+<ul>
+<li><code>2021/01/30测试通过</code></li>
+<li>下一步准备部署到自己的服务器，GitHub作备份用</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Blog</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -3666,108 +3660,88 @@ ${\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{f\left( x \right)}{g\left( x 
       </tags>
   </entry>
   <entry>
-    <title>抓取道客巴巴内容</title>
-    <url>/2021/10/20/%E6%8A%93%E5%8F%96%E9%81%93%E5%AE%A2%E5%B7%B4%E5%B7%B4%E5%86%85%E5%AE%B9/</url>
-    <content><![CDATA[<p><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
-<ul>
-<li>一般需要登陆账号付费购买，并且会员还不便宜，淘宝单次购买比较划算</li>
-<li>这里直接从控制台抓取道客巴巴文档，存为png格式图片，可以根据自己的需求转化为PDF<br><span class="github-emoji"><span>☀</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/2600.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>🕤</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f564.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>😴</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f634.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span id="more"></span>
-</li>
+    <title>debug Gitalk 403</title>
+    <url>/2022/01/02/debug%20Gitalk%20403/</url>
+    <content><![CDATA[<ul>
+<li>留言系统使用Gitalk，最近发现无法使用GitHub账号登陆，出现403</li>
+<li>Error: Request failed with status code 403</li>
+</ul>
+<h3 id="Headers"><a href="#Headers" class="headerlink" title="Headers"></a>Headers</h3><blockquote>
+<p>网络请求403，拿不到token，导致登陆不上<br>Request URL：<a href="https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token">https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token</a></p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">Missing required request header. Must specify one of: origin,x-requested-with</span><br></pre></td></tr></tbody></table></figure>
+</blockquote>
+<span id="more"></span>
+<h3 id="cors-anywhere"><a href="#cors-anywhere" class="headerlink" title="cors-anywhere"></a>cors-anywhere</h3><blockquote>
+<p>开源框架解决跨域问题的反向代理</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">CORS Anywhere is a NodeJS proxy which adds CORS headers to the proxied request.</span><br><span class="line"></span><br><span class="line">The url to proxy is literally taken from the path, validated and proxied. The protocol part of the proxied URI is optional, and defaults to "http". If port 443 is specified, the protocol defaults to "https".</span><br><span class="line"></span><br><span class="line">This package does not put any restrictions on the http methods or headers, except for cookies. Requesting user credentials is disallowed. The app can be configured to require a header for proxying a request, for example to avoid a direct visit from the browser.</span><br></pre></td></tr></tbody></table></figure>
+</blockquote>
+<h3 id="more"><a href="#more" class="headerlink" title="more"></a>more</h3><blockquote>
+<p>看上去像是被滥用，然后从2021.1.31后用户必须手动获得这个网站的访问权限后才能使用，这也就是为什么最近登陆不上了</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">Public demo server (cors-anywhere.herokuapp.com) will be very limited by January 2021, 31st</span><br><span class="line">The demo server of CORS Anywhere (cors-anywhere.herokuapp.com) is meant to be a demo of this project. But abuse has become so common that the platform where the demo is hosted (Heroku) has asked me to shut down the server, despite efforts to counter the abuse (rate limits in #45 and #164, and blocking other forms of requests). Downtime becomes increasingly frequent (e.g. recently #300, #299, #295, #294, #287) due to abuse and its popularity.</span><br></pre></td></tr></tbody></table></figure>
+</blockquote>
+<h3 id="Gitalk-Document"><a href="#Gitalk-Document" class="headerlink" title="Gitalk Document"></a>Gitalk Document</h3><blockquote>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">&gt;const gitalk = new Gitalk({</span><br><span class="line"> clientID: 'GitHub Application Client ID',</span><br><span class="line"> clientSecret: 'GitHub Application Client Secret',</span><br><span class="line"> repo: 'GitHub repo',      // The repository of store comments,</span><br><span class="line"> owner: 'GitHub repo owner',</span><br><span class="line"> admin: ['GitHub repo owner and collaborators, only these guys can initialize github issues'],</span><br><span class="line"> id: location.pathname,      // Ensure uniqueness and length less than 50</span><br><span class="line"> distractionFreeMode: false  // Facebook-like distraction free mode</span><br><span class="line">&gt;})</span><br><span class="line"></span><br><span class="line">&gt;gitalk.render('gitalk-container')</span><br></pre></td></tr></tbody></table></figure>
+</blockquote>
+<h3 id="add"><a href="#add" class="headerlink" title="add"></a>add</h3><blockquote>
+<p>在gitalk相应js文件中添加</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">proxy: '&lt;%- theme.gitalk.proxy %&gt;'</span><br></pre></td></tr></tbody></table></figure>
+<p>在配置文件中添加</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">proxy: https://netnr-proxy.cloudno.de/https://github.com/login/oauth/access_token</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<p>重新部署</p>
+</blockquote>
+<p>暂时采用了Issue中找到的可替代的cors，表示感谢.</p>
+<hr>
+<h3 id="Update-2022-01-02"><a href="#Update-2022-01-02" class="headerlink" title="Update 2022.01.02"></a>Update 2022.01.02</h3><ul>
+<li>很久没更新blog了，趁这次有时间索性把积攒下来的问题一起解决<span class="github-emoji"><span>👋</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f44b.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></li>
+<li>这次还是Gitalk的问题，<del>虽然可以使用其他评论插件，</del> 但还是更加喜欢Gitalk的UI</li>
+<li>上文已经解决了<code>403</code>的问题，是采用了一个Issue里的方法，使用了热心网友的代</li>
+<li>但是发现实际上只用了三四个月左右就由于使用人数过多，所有访问都进了这个代理，后来应该是网友取消了，不得而知，出现了好几个月的<code>Error:Net error</code></li>
+<li>继续找问题会发现又有网友提出了上面这个方法（<strong>好家伙搁这儿转圈圈呢</strong>）</li>
+<li>很机智的把<code>_config.yml</code>里的代理清了，发现有希望，不再是直接<code>error</code>了，有登录验证界面，但变成<code>405</code>了好家伙。</li>
+<li>好在有个Taiwan的网友Kalin Lai<a href="https://github.com/gitalk/gitalk/issues/437">发现了问题</a>，是gitalk.ejs中的代理没删干净，手动狗头。</li>
+<li>删干净后重新出现了<code>403</code>，继续找文档，loading···</li>
+<li>最后终于找到了，忙活一个小时成功解决，吃饭去了</li>
 </ul>
 <blockquote>
-<p>直接打开浏览器控制台，输入以下脚本：</p>
+<p>针对403的问题，Gitalk开发团队已经做了修复，解决方法如下：更新版本到 1.7.2 或者修改配置增加<code>proxy: https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token</code><br>当然也可以重新配置个人代理，有机会试一下，这里插个眼</p>
 </blockquote>
-<figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">downloadPages</span>(<span class="params"><span class="keyword">from</span>, to</span>) {</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="keyword">from</span>; i &lt;= to; i++) {</span><br><span class="line">        <span class="keyword">const</span> pageCanvas = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">'page_'</span> + i);</span><br><span class="line">        <span class="keyword">if</span> (pageCanvas === <span class="literal">null</span>) { <span class="keyword">break</span>; }</span><br><span class="line">        <span class="keyword">const</span> pageNo = <span class="built_in">parseInt</span>(<span class="title class_">String</span>(i));</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> {</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">"==pageNo==&gt;&gt;"</span>, pageNo);</span><br><span class="line">            (<span class="function">(<span class="params">num</span>) =&gt;</span> {</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">"开始打印第"</span> + num + <span class="string">"页"</span>);</span><br><span class="line">                pageCanvas.<span class="title function_">toBlob</span>(</span><br><span class="line">                    <span class="function"><span class="params">blob</span> =&gt;</span> {</span><br><span class="line">                        <span class="keyword">const</span> anchor = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">'a'</span>);</span><br><span class="line">                        anchor.<span class="property">download</span> = <span class="string">'page_'</span> + num + <span class="string">'.png'</span>;</span><br><span class="line">                        anchor.<span class="property">href</span> = <span class="variable constant_">URL</span>.<span class="title function_">createObjectURL</span>(blob);</span><br><span class="line">                        anchor.<span class="title function_">click</span>();</span><br><span class="line">                        <span class="variable constant_">URL</span>.<span class="title function_">revokeObjectURL</span>(anchor.<span class="property">href</span>);</span><br><span class="line">                    }</span><br><span class="line">                );</span><br><span class="line">            })(pageNo);</span><br><span class="line">        }, <span class="number">500</span> * pageNo);</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-<p><code>downloadPages(page_from, page_to);</code> 例如打印第3~5页即输入<code>downloadPages(3, 5);</code></p>
-<ul>
-<li>图片会由浏览器直接下载，可能会提示是否允许连续下载多个文件，同意即可</li>
-<li>需要注意：<span class="github-emoji"><span>❗</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/2757.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>要提前浏览全部文档，等待浏览器加载成功，否则将保存为纯黑无内容的图片</li>
+<h3 id="Update-2022-01-07"><a href="#Update-2022-01-07" class="headerlink" title="Update 2022.01.07"></a>Update 2022.01.07</h3><ul>
+<li>来更新了，试了用Cloudflare创建代理</li>
+<li>有免费的版本，每天十万条，每十分钟一千条记录</li>
+<li>但是发现代理后整个网站速度受到影响比较大，故放弃使用，选择用Gitalk团队的官方代理，结束。</li>
 </ul>
+]]></content>
+      <categories>
+        <category>Gitalk</category>
+      </categories>
+      <tags>
+        <tag>debug</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>VS2019代码提示延迟很高，部分快捷键无法使用的问题</title>
+    <url>/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><ul>
+<li>Visual Studio 与Nvidia CUDA NSightVSE冲突</li>
+</ul>
+<h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><ul>
+<li>Tab、Ctrl’+C 、 Ctrl’+K 等快捷键失效，智能代码提示不能正常显示，有时不会出现，有时要等四五秒，非常不正常</li>
+</ul>
+<blockquote>
+<p>Setting中检查设置无误，尝试过重启、重置个人配置、重装等均无效<br>很长一段时间没有使用过vs，之前装了比较新的Nvidia CUDA，同时附带的有NSightVSE，也就是设计vs的拓展，问题出在这里</p>
+</blockquote>
+<span id="more"></span>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><blockquote>
+<p>卸载NSightVSE或者其他Nvidia和vs相关的拓展，重启vs后生效<br>正常情况搜索NsightVSE会出现四个，保留下列三个即可，版本仅供参考，可能其他版本不会出现如上问题。<br>Nvidia CUDA Nsight NVTX 11.1<br>Nvidia Nsight Compute 2020.2.0<br>Nvidia Nsight Systems 2020.3.4</p>
+</blockquote>
 ]]></content>
       <categories>
         <category>Summary</category>
       </categories>
       <tags>
-        <tag>Tutorial</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo_begin</title>
-    <url>/2021/01/31/hexo_begin/</url>
-    <content><![CDATA[<h2 id="机制介绍"><a href="#机制介绍" class="headerlink" title="机制介绍"></a>机制介绍</h2><p><code>hexo d</code>上传部署到Github的其实是hexo编译后的文件静态文件，用于生成网页，不包含源文件，也就是上传<code>.deploy_git</code>中的文件，其他文件，包括<code>source</code>里面的和一些配置、主题文件都不会上传到GitHub，考虑到可能会在不同主机发布，因此将<code>hexo d</code>操作不会上传的文件主动<code>git</code>到另一个分支。</p>
-<span id="more"></span>
-<hr>
-<h2 id="新建备份分支"><a href="#新建备份分支" class="headerlink" title="新建备份分支"></a>新建备份分支</h2><ol>
-<li><p>首先在Github上新建一个<code>hexo_backup</code>分支并且设置为默认分支，以便在每次同步的时候不用指定分支，比较方便，用于备份源文件。</p>
-</li>
-<li><p>在本地<code>blog_local</code>目录下<code>git clone git@github.com:boom1999/boom1999.github.io.git</code>,此时由于默认分支为hexo_backup，所以只是clone了hexo_backup。在clone下的目录里将<code>.git</code>以外的文件全部删除，将源文件（包括<code>.gitignore</code>）全部复制过来。（<code>.deploy_git</code>不需要，这是生成的静态文件，也就是会push到master分支中的文件）。如果没有<code>.gitignore</code>，忽略push这部分文件，请手动添加：</p>
-<pre><code> .DS_Store
- Thumbs.db
- db.json
- *.log
- node_modules/
- public/
- .deploy*/
-</code></pre></li>
-<li><p>将源文件push到hexo_backup分支,上传后GitHub上的hexo_backup分支备份完成</p>
-<pre><code> git add .
- git commit –m "your commit"
- git push 
-</code></pre></li>
-</ol>
-<hr>
-<h2 id="更换环境操作"><a href="#更换环境操作" class="headerlink" title="更换环境操作"></a>更换环境操作</h2><ul>
-<li>创建一个新的<code>blog_local</code>文件夹</li>
-<li>安装<code>git</code>和<code>nodejs</code></li>
-<li><p>设置git全局邮箱和用户名</p>
-<pre><code>  git config --global user.name "yourgithubname"
-  git config --global user.email "yourgithubemail"
-</code></pre></li>
-<li><p>设置<code>ssh key</code></p>
-<pre><code>  ssh-keygen -t rsa -C "youremail"
-  #生成后公钥添加到GitHub仓库中
-  #验证是否成功
-  ssh -T git@github.com
-</code></pre></li>
-<li><p>安装hexo（不需要hexo init，因为整体框架会被clone下来）</p>
-<pre><code>  npm install hexo-cli -g
-  #或者局部安装
-  npm install hexo
-</code></pre></li>
-<li><p><code>clone</code>到本地操作</p>
-<pre><code>  git clone git@github.com:boom1999/boom1999.github.io.git
-</code></pre></li>
-<li><p>进入本地文件</p>
-<pre><code>  cd boom1999.github.io
-  npm install
-</code></pre></li>
-<li><p>安装名为<code>hexo-deployer-git</code>的部署器插件，通过该插件就能实现一键部署</p>
-<pre><code>  npm install hexo-deployer-git --save
-</code></pre></li>
-<li><p>添加新文件<code>source/_posts</code>，生成，部署</p>
-<pre><code>  hexo g
-  hexo d
-</code></pre></li>
-</ul>
-<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
-<li><p>每次写完不要忘了备份源文件</p>
-<pre><code>  git add .
-  git commit –m "your commit"
-  git push 
-</code></pre></li>
-<li>如果是在已经目前使用的机器，如在其他机器上更新过，每次<strong>使用前</strong>只要远端同步一下就行<code>git pull</code></li>
-</ul>
-<hr>
-<ul>
-<li><code>2021/01/30测试通过</code></li>
-<li>下一步准备部署到自己的服务器，GitHub作备份用</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Blog</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
+        <tag>Debug</tag>
+        <tag>Nvidia CUDA</tag>
+        <tag>Visual Studio</tag>
       </tags>
   </entry>
   <entry>
@@ -3903,6 +3877,32 @@ ${\underset{x\to {{x}_{0}}}{\mathop{\lim }}\,\frac{f\left( x \right)}{g\left( x 
       <tags>
         <tag>Tensorflow</tag>
         <tag>CNN</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>抓取道客巴巴内容</title>
+    <url>/2021/10/20/%E6%8A%93%E5%8F%96%E9%81%93%E5%AE%A2%E5%B7%B4%E5%B7%B4%E5%86%85%E5%AE%B9/</url>
+    <content><![CDATA[<p><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
+<ul>
+<li>一般需要登陆账号付费购买，并且会员还不便宜，淘宝单次购买比较划算</li>
+<li>这里直接从控制台抓取道客巴巴文档，存为png格式图片，可以根据自己的需求转化为PDF<br><span class="github-emoji"><span>☀</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/2600.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>🕤</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f564.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>😴</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f634.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span id="more"></span>
+</li>
+</ul>
+<blockquote>
+<p>直接打开浏览器控制台，输入以下脚本：</p>
+</blockquote>
+<figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">downloadPages</span>(<span class="params"><span class="keyword">from</span>, to</span>) {</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="keyword">from</span>; i &lt;= to; i++) {</span><br><span class="line">        <span class="keyword">const</span> pageCanvas = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">'page_'</span> + i);</span><br><span class="line">        <span class="keyword">if</span> (pageCanvas === <span class="literal">null</span>) { <span class="keyword">break</span>; }</span><br><span class="line">        <span class="keyword">const</span> pageNo = <span class="built_in">parseInt</span>(<span class="title class_">String</span>(i));</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> {</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">"==pageNo==&gt;&gt;"</span>, pageNo);</span><br><span class="line">            (<span class="function">(<span class="params">num</span>) =&gt;</span> {</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">"开始打印第"</span> + num + <span class="string">"页"</span>);</span><br><span class="line">                pageCanvas.<span class="title function_">toBlob</span>(</span><br><span class="line">                    <span class="function"><span class="params">blob</span> =&gt;</span> {</span><br><span class="line">                        <span class="keyword">const</span> anchor = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">'a'</span>);</span><br><span class="line">                        anchor.<span class="property">download</span> = <span class="string">'page_'</span> + num + <span class="string">'.png'</span>;</span><br><span class="line">                        anchor.<span class="property">href</span> = <span class="variable constant_">URL</span>.<span class="title function_">createObjectURL</span>(blob);</span><br><span class="line">                        anchor.<span class="title function_">click</span>();</span><br><span class="line">                        <span class="variable constant_">URL</span>.<span class="title function_">revokeObjectURL</span>(anchor.<span class="property">href</span>);</span><br><span class="line">                    }</span><br><span class="line">                );</span><br><span class="line">            })(pageNo);</span><br><span class="line">        }, <span class="number">500</span> * pageNo);</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p><code>downloadPages(page_from, page_to);</code> 例如打印第3~5页即输入<code>downloadPages(3, 5);</code></p>
+<ul>
+<li>图片会由浏览器直接下载，可能会提示是否允许连续下载多个文件，同意即可</li>
+<li>需要注意：<span class="github-emoji"><span>❗</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/2757.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>要提前浏览全部文档，等待浏览器加载成功，否则将保存为纯黑无内容的图片</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Summary</category>
+      </categories>
+      <tags>
+        <tag>Tutorial</tag>
       </tags>
   </entry>
   <entry>
