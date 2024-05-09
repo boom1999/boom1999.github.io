@@ -118,6 +118,67 @@
     
     
     <article
+  id="post-Lose Internet Ubuntu"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2024/05/02/Lose%20Internet%20Ubuntu/"
+    >Ubuntu lose internet</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2024/05/02/Lose%20Internet%20Ubuntu/" class="article-date">
+  <time datetime="2024-05-02T00:00:00.000Z" itemprop="datePublished">2024-05-02</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Summary/">Summary</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Ubuntu网络配置丢失</p>
+<ul>
+<li>起因是这样，突然有一天远程开发连不上了，于是乎先开始排查是不是校园网的部分端口被Ban了，因为最近的$Bing.com$就一直访问不上，但是改变网络接入后仍然没用。</li>
+<li>想到会不会是因为之前系统没有正常关机导致一些VMware网络配置错误，排查和重置了桥接、Nat模式，发现都没有问题</li>
+<li>开始检查Ubuntu的的网络配置，发现在<code>Settings-NetWork</code>中，只有一个$VPN$配置，没有其他的网络配置，按理说应该有<code>Wired</code>，这就很奇怪了，因为之前是有配置的，而且也没有删除过对应的配置文件。</li>
+</ul>
+<p><span class="github-emoji"><span>💨</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4a8.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>:clock16:<span class="github-emoji"><span>😴</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f634.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p> 
+      <a class="article-more-link" href="/2024/05/02/Lose%20Internet%20Ubuntu/"
+        >More...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Debug/" rel="tag">Debug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu/" rel="tag">Ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VMware/" rel="tag">VMware</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
+
+    
+    <article
   id="post-Graphviz on Hexo"
   class="article article-type-post"
   itemscope
@@ -627,62 +688,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Debug/" rel="tag">Debug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-    
-</article>
-
-    
-    <article
-  id="post-UAV Track Planning Algorithms"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/11/24/UAV%20Track%20Planning%20Algorithms/"
-    >UAV Track Planning Algorithms</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/11/24/UAV%20Track%20Planning%20Algorithms/" class="article-date">
-  <time datetime="2022-11-24T00:00:00.000Z" itemprop="datePublished">2022-11-24</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Literature-review/">Literature review</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <p><strong>摘要</strong>：无人机(Unmanned Aerial Vehicle, UAV)是指能够在脱离人员的主动干预下，依据自身对周围环境进行感知、理解并进行自主飞行控制的飞行器。无人机因其具备低成本、适用场景多、无人员伤亡等优点，已成为世界各国为适应未来战场需要而重点研究的内容。随着航空技术的发展，越来越多的无人机替代飞行员执行高危险和高强度的军事侦察打击、民用巡检搜救等任务，无人机的航迹规划问题日益受到重视。航迹规划问题起源于机器人的运动规划，航迹规划就算综合考虑环境和目标任务规划最优的飞行路径，本质为多约束条件下的最优化问题，核心思想就是建立目标函数模型，有效处理各项约束，而无人机飞行涉及的约束条件众多，目前大多数学者首先通过求解全局最优路径，在对局部约束进行航迹动态优化。实际环境瞬息万变，复杂的电磁干扰等问题随时都会影响无人机的飞行，无人机航迹规划需要智能、实时性高、可靠性强的优秀算法作为支撑。</p>
-<p><strong>关键词</strong>：无人机、航迹规划</p> 
-      <a class="article-more-link" href="/2022/11/24/UAV%20Track%20Planning%20Algorithms/"
-        >More...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Track-Planning/" rel="tag">Track Planning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UAV/" rel="tag">UAV</a></li></ul>
 
     </footer>
   </div>

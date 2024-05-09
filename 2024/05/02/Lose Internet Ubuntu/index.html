@@ -14,7 +14,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    Archives |  Haisenberg
+    Ubuntu lose internet |  Haisenberg
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -47,284 +47,227 @@
       
     <main class="content on">
       <section class="outer">
+  <article
+  id="post-Lose Internet Ubuntu"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Ubuntu lose internet
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2024/05/02/Lose%20Internet%20Ubuntu/" class="article-date">
+  <time datetime="2024-05-02T00:00:00.000Z" itemprop="datePublished">2024-05-02</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Summary/">Summary</a>
+  </div>
   
-  <ul class="ads">
-    
-        <li>
-            <a href="">
-                <img src="" width="" alt="">
-            </a>
-        </li>
-    
-        <li>
-            <a href="">
-                <img src="" width="" alt="">
-            </a>
-        </li>
-    
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">1k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">3 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> Ubuntu网络配置丢失</p>
+<ul>
+<li>起因是这样，突然有一天远程开发连不上了，于是乎先开始排查是不是校园网的部分端口被Ban了，因为最近的$Bing.com$就一直访问不上，但是改变网络接入后仍然没用。</li>
+<li>想到会不会是因为之前系统没有正常关机导致一些VMware网络配置错误，排查和重置了桥接、Nat模式，发现都没有问题</li>
+<li>开始检查Ubuntu的的网络配置，发现在<code>Settings-NetWork</code>中，只有一个$VPN$配置，没有其他的网络配置，按理说应该有<code>Wired</code>，这就很奇怪了，因为之前是有配置的，而且也没有删除过对应的配置文件。</li>
 </ul>
-  
-  
-  <article class="articles">
-    
-    
-    <h1 class="page-type-title">Archives</h1>
-    
-    
-  
-  
-  
-  
-  
-  
-  <div class="archives-wrap">
-    <div class="archive-year-wrap">
-      <a href="/archives/2024" class="archive-year">2024</a>
-    </div>
-    <div class="archives">
-      
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/05/02/Lose%20Internet%20Ubuntu/" class="archive-article-date">
-  <time datetime="2024-05-02T00:00:00.000Z" itemprop="datePublished">05/02</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/05/02/Lose%20Internet%20Ubuntu/"
-    >Ubuntu lose internet</a> 
-</h2>
+<p><span class="github-emoji"><span>💨</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4a8.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>:clock16:<span class="github-emoji"><span>😴</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f634.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
+<span id="more"></span>
+<hr>
+<h2 id="找到问题"><a href="#找到问题" class="headerlink" title="找到问题"></a>找到问题</h2><p>在 Ubuntu 中，NetworkManager 是一个用于管理网络连接的系统守护进程。通过修改 NetworkManager.conf 文件，你可以对 NetworkManager 的行为进行一些配置。</p>
+<p>一般来说，通过修改 NetworkManager.conf，你可以实现以下功能：</p>
+<ol>
+<li>修改 DNS 配置：<ul>
+<li>你可以在 NetworkManager.conf 中指定 DNS 服务器的地址，这样 NetworkManager 在配置网络连接时将使用你指定的 DNS 服务器。</li>
+</ul>
+</li>
+<li>配置网络管理：<ul>
+<li>通过修改 NetworkManager.conf，你可以对 NetworkManager 的行为进行一些配置，比如配置连接优先级、禁用特定的网络功能等。</li>
+</ul>
+</li>
+<li>修改插件行为：<ul>
+<li>NetworkManager 通过插件来管理不同类型的网络连接，你可以通过修改 NetworkManager.conf 来配置这些插件的行为。</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>问题就处在这个<code>NetworkManager</code>中，配置文件<code>/etc/NetworkManager/NetworkManager.conf</code>中的<code>ifupdown</code>插件没有启用，导致<code>/etc/network/interfaces</code>中的配置无法生效。</li>
+</ul>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><ol>
+<li><p>检查<code>/etc/network/interfaces</code>文件</p>
+<ul>
+<li><code>sudo vim /etc/network/interfaces</code></li>
+<li><p>确认是否有配置文件，如果没有，可以参考如下配置：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">auto lo</span><br><span class="line">iface lo inet loopback</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p><code>auto lo</code>：这个指令告诉系统在启动时自动激活本地回环接口。本地回环接口是一个特殊的网络接口，用于系统内部的网络通信，允许计算机与自身进行通信。通过设置 <code>auto lo</code>，系统在启动时会自动激活本地回环接口，确保系统内部的网络通信正常工作。</p>
+</li>
+<li><code>iface lo inet loopback</code>：这行指令定义了本地回环接口的配置。<code>iface</code> 表示接口，<code>lo</code> 是本地回环接口的名称，<code>inet</code> 表示使用 IPv4 协议，<code>loopback</code> 表示这是一个本地回环接口。在这行指令中，<code>loopback</code> 参数表明这个接口是一个本地回环接口，它用于系统内部的循环通信，而不会连接到外部网络。</li>
+<li>这两行指令的作用是确保系统在启动时激活本地回环接口，并为本地回环接口配置了正确的参数，以确保系统内部的网络通信正常工作。</li>
+</ul>
+</li>
+<li><p>打开配置文件<code>/etc/NetworkManager/NetworkManager.conf</code>，修改<code>managed=True</code></p>
+<ul>
+<li><code>sudo vim /etc/NetworkManager/NetworkManager.conf</code></li>
+<li><p>修改如下内容：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[main]</span><br><span class="line">plugins=ifupdown,keyfile</span><br><span class="line"></span><br><span class="line">[ifupdown]</span><br><span class="line">managed=True</span><br><span class="line"></span><br><span class="line">[device]</span><br><span class="line">wifi.scan-rand-mac-address=no</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+</li>
+<li><p><code>reboot</code></p>
+</li>
+<li>原因<ol>
+<li>虚拟机的网络配置发生了变化。在虚拟化环境中，在VMware中，网络适配器的状态可能会受到宿主机或VMware的设置影响，从而导致虚拟机的网络配置发生变化。<ol>
+<li>宿主机网络设置变化：如果宿主机的网络适配器配置发生了变化，可能会影响到虚拟机的网络连接，导致 NetworkManager 在虚拟机中将 managed 设置为 false。</li>
+<li>VMware 网络设置变化：VMware 的网络设置可能会影响到虚拟机的网络配置。例如，当虚拟机所连接的网络适配器发生变化时，可能会导致 NetworkManager.conf 中 managed 的状态发生变化。</li>
+<li>更新或重装 VMware Tools：在虚拟机中更新或重装 VMware Tools 时，可能会重新配置网络适配器，这也可能导致 NetworkManager.conf 中 managed 的状态发生变化。（很有可能是这个原因，之前更新了VM tools）</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
  
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/04/20/Graphviz%20on%20Hexo/" class="archive-article-date">
-  <time datetime="2024-04-20T00:00:00.000Z" itemprop="datePublished">04/20</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/04/20/Graphviz%20on%20Hexo/"
-    >博客增加Graphviz支持</a> 
-</h2>
- 
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/04/18/HUAWEI20240417/" class="archive-article-date">
-  <time datetime="2024-04-18T00:00:00.000Z" itemprop="datePublished">04/18</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/04/18/HUAWEI20240417/"
-    >华为2024暑期实习笔试</a> 
-</h2>
- 
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/04/01/TencentTest20240331/" class="archive-article-date">
-  <time datetime="2024-04-01T00:00:00.000Z" itemprop="datePublished">04/01</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/04/01/TencentTest20240331/"
-    >腾讯2024暑期实习笔试</a> 
-</h2>
- 
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/04/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="archive-article-date">
-  <time datetime="2024-04-01T00:00:00.000Z" itemprop="datePublished">04/01</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/04/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/"
-    >基于Webhook的同步部署</a> 
-</h2>
- 
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/03/14/MapReduce/" class="archive-article-date">
-  <time datetime="2024-03-14T00:00:00.000Z" itemprop="datePublished">03/14</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/03/14/MapReduce/"
-    >MapReduce in Distributed Systems</a> 
-</h2>
- 
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-  
-  </div>
-  </div>
-  
-  
-  <div class="archives-wrap">
-    <div class="archive-year-wrap">
-      <a href="/archives/2023" class="archive-year">2023</a>
-    </div>
-    <div class="archives">
-      
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2023/07/12/TexSkills/" class="archive-article-date">
-  <time datetime="2023-07-12T00:00:00.000Z" itemprop="datePublished">07/12</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2023/07/12/TexSkills/"
-    >Skills for TexLive under VsCode</a> 
-</h2>
- 
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2023/03/27/TexLive+VsCode/" class="archive-article-date">
-  <time datetime="2023-03-27T00:00:00.000Z" itemprop="datePublished">03/27</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2023/03/27/TexLive+VsCode/"
-    >Installation for TexLive under VsCode</a> 
-</h2>
- 
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2023/02/09/LatexGrammar/" class="archive-article-date">
-  <time datetime="2023-02-09T00:00:00.000Z" itemprop="datePublished">02/09</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2023/02/09/LatexGrammar/"
-    >Latex Grammar</a> 
-</h2>
- 
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-  
-  </div>
-  </div>
-  
-  
-  <div class="archives-wrap">
-    <div class="archive-year-wrap">
-      <a href="/archives/2022" class="archive-year">2022</a>
-    </div>
-    <div class="archives">
-      
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2022/12/03/Hexo%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="archive-article-date">
-  <time datetime="2022-12-03T00:00:00.000Z" itemprop="datePublished">12/03</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2022/12/03/Hexo%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/"
-    >渲染问题汇总</a> 
-</h2>
- 
-
-    </header>
-    
-    
-  </div>
-</article>
-      
+      <!-- reward -->
       
     </div>
-  </div>
-  
-  
-
-  
-  <nav class="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><a class="extend next" rel="next" href="/archives/page/2/">Next page</a>
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2024/05/02/Lose%20Internet%20Ubuntu/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Debug/" rel="tag">Debug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu/" rel="tag">Ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VMware/" rel="tag">VMware</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2024/04/20/Graphviz%20on%20Hexo/" class="article-nav-link">
+        <strong class="article-nav-caption">Next post</strong>
+        <div class="article-nav-title">博客增加Graphviz支持</div>
+      </a>
+    
   </nav>
+
   
+   
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'a1a50124b0c46fa4fab9',
+    clientSecret: '4a29dee6f998a9272f57ba07f987ea9eed9da5ec',
+    repo: 'blog-comments',
+    owner: 'boom1999',
+    admin: ['boom1999'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: true,  // Facebook-like distraction free mode
+    pagerDirection: 'last',
+    proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+     
+</article>
+
 </section>
       <footer class="footer">
   <div class="outer">
@@ -473,6 +416,23 @@
 <script src="/js/lazyload.min.js"></script>
 
 <!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
