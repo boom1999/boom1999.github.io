@@ -114,7 +114,10 @@
 <li>特别的，<code>Client</code>通常会在同一个请求中请求多个块数据</li>
 </ol>
 <h2 id="In-paper"><a href="#In-paper" class="headerlink" title="In paper"></a>In paper</h2><h3 id="Metadata"><a href="#Metadata" class="headerlink" title="Metadata"></a>Metadata</h3><ul>
-<li>The file and chunk namespaces</li>
+<li><p>Original Paper Links: <a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.824/papers/gfs.pdf">The Google File System</a></p>
+</li>
+<li><p>The file and chunk namespaces</p>
+</li>
 <li>The mapping from files to chunks</li>
 <li>The locations of each chunk’s replicas<br>都存在主内存里（可以快速实现周期性扫描，以实现GC、故障备份迁移、负载均衡等功能）；<br>命名空间和映射也存储在<code>Master</code>的本地磁盘和remote备份的操作日志中，以实现持久化；<br><code>Master</code>不会持久化locations，而是在启动的时候询问每个chunkserver，然后保持最新状态（比持久化在<code>Master</code>中要方便，因为大量chunkserver的join、leave、crush等问题将影响chunkserver和<code>Master</code>状态的同步）（或者说chunkserver对他自己磁盘上的存储内容拥有决定权，而不应该在<code>Master</code>上维护）。</li>
 </ul>
