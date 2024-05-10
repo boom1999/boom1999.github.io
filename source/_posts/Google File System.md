@@ -23,6 +23,8 @@ categories: Summary
 
 ### Metadata
 
+- Original Paper Links: [The Google File System](https://pdos.csail.mit.edu/6.824/papers/gfs.pdf)
+
 - The file and chunk namespaces
 - The mapping from files to chunks
 - The locations of each chunk's replicas
