@@ -2,7 +2,7 @@
 title: Learning GFS - Google File System 
 date: 2024-05-05
 tags: 
-    - - Distributed Systems
+    - Distributed Systems
     - GFS
 categories: Summary
 ---

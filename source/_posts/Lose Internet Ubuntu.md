@@ -65,8 +65,16 @@ categories: Summary
      wifi.scan-rand-mac-address=no
      ```
 
-3. `reboot`
-4. 原因
+3. `reboot` or `sudo service network-manager restart`
+4. 有可能还是不行
+
+   ```bash
+   sudo service network-manager stop
+   sudo rm /var/lib/NetworkManager/NetworkManager.state 
+   sudo service network-manager start
+   ```
+
+5. 原因
    - 宿主机网络设置变化：如果宿主机的网络适配器配置发生了变化，可能会影响到虚拟机的网络连接，导致 NetworkManager 在虚拟机中将 managed 设置为 false。
    - VMware 网络设置变化：VMware 的网络设置可能会影响到虚拟机的网络配置。例如，当虚拟机所连接的网络适配器发生变化时，可能会导致 NetworkManager.conf 中 managed 的状态发生变化。
    - 更新或重装 VMware Tools：在虚拟机中更新或重装 VMware Tools 时，可能会重新配置网络适配器，这也可能导致 NetworkManager.conf 中 managed 的状态发生变化。（很有可能是这个原因，之前更新了VM tools）
