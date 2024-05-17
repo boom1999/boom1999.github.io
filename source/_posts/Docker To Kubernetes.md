@@ -5,6 +5,7 @@ tags:
     - Docker
     - Kubernetes
 categories: Summary
+copyright: true
 ---
 :pushpin: 多机搭建Docker和Kebernetes集群环境，以及部署应用程序。
 
@@ -35,7 +36,7 @@ categories: Summary
 - kubelet: 1.28.10
 - kubectl: 1.28.10
 - *Kubespary: maybe later*
-- Kubernetes: 1.23.0
+- Kubernetes: 1.28.10
 
 ## 3. Install
 
