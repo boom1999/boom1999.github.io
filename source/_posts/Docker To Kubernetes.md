@@ -301,11 +301,11 @@ Reference: [How do i disable swap](https://askubuntu.com/questions/214805/how-do
     sudo cat /sys/class/dmi/id/product_uuid
   ```
 
-### 3.5 组件的版本偏差策略
+## 4. 组件的版本偏差策略
 
 > 若集群的`kube-apiserver`有多个版本，规则都将对每个版本取并集。
 
-#### kubelet版本
+### kubelet版本
 
 - `kubelet`版本不能比`kube-apiserver`版本新。
 - `kubelet`可以比`kube-apiserver`低三个次要版本（如果`kubelet` < 1.25，则只能比`kube-apiserver`低两个次要版本）。
@@ -313,21 +313,21 @@ Reference: [How do i disable swap](https://askubuntu.com/questions/214805/how-do
   - `kube-apiserver`处于1.30版本
   - `kubelet`支持1.30、1.29、1.28和1.27版本
 
-#### kube-proxy版本
+### kube-proxy版本
 
 - 其他同`kubelet`一样，`kube-proxy`的版本不能比`kube-apiserver`版本新，小于等于三个次要版本。
 - `kube-proxy`可以与`kubelet`有新或旧三个次要版本，`1.25`之前则是两个次要版本。
 
-#### kube-controller-manager、kube-scheduler、cloud-controller-manager版本
+### kube-controller-manager、kube-scheduler、cloud-controller-manager版本
 
 - 不能比`kube-apiserver`版本新，最多比`kube-apiserver`低一个次要版本。
 - 允许实时升级
 
-#### kubectl版本
+### kubectl版本
 
 - 与`kube-apiserver`版本相同或者低、高于`kube-apiserver`一个次要版本。
 
-### 3.6 Start k8s cluster
+## 5. Start k8s cluster
 
 - Initialize the master node
 
@@ -593,7 +593,7 @@ Reference: [How do i disable swap](https://askubuntu.com/questions/214805/how-do
 
   ![DashboardWorkloads][2]
 
-### 3.7  <span id="jump">Debug</span>
+## 6.  <span id="jump">Debug</span>
 
 - The pod `kube-proxy` is in `ContainerCreating` status for a long time。
 
@@ -669,7 +669,7 @@ Reference: [How do i disable swap](https://askubuntu.com/questions/214805/how-do
     kubectl apply -f calico.yaml
     ```
 
-### 3.8 Add service
+## 7. Add service
 
 - Nginx *(for example, nginx-deployment.yaml)*
 
@@ -719,6 +719,25 @@ Reference: [How do i disable swap](https://askubuntu.com/questions/214805/how-do
 
   ```bash
   kubectl apply -f nginx-deployment.yaml
+  ```
+
+## 8. Stop and restart the cluster
+
+- Stop the cluster
+
+  ```bash
+  systemctl stop kubelet 
+  systemctl stop etcd 
+  systemctl stop docker
+  ```
+
+- Restart the cluster
+
+  ```bash
+  systemctl start docker
+  systemctl start etcd
+  systemctl start kubelet
+  systemctl status docker etcd kubelet
   ```
 
 <!-- markdownlint-disable-file MD025 MD028 MD033 -->
