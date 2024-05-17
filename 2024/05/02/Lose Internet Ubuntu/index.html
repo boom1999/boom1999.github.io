@@ -78,7 +78,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">957</span>
+            <span class="post-count">986</span>
         </span>
     </span>
 
@@ -151,9 +151,13 @@
 </li>
 </ul>
 </li>
-<li><p><code>reboot</code></p>
+<li><p><code>reboot</code> or <code>sudo service network-manager restart</code></p>
 </li>
-<li>原因<ul>
+<li><p>有可能还是不行</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo service network-manager stop</span><br><span class="line">sudo <span class="built_in">rm</span> /var/lib/NetworkManager/NetworkManager.state </span><br><span class="line">sudo service network-manager start</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>原因</p>
+<ul>
 <li>宿主机网络设置变化：如果宿主机的网络适配器配置发生了变化，可能会影响到虚拟机的网络连接，导致 NetworkManager 在虚拟机中将 managed 设置为 false。</li>
 <li>VMware 网络设置变化：VMware 的网络设置可能会影响到虚拟机的网络配置。例如，当虚拟机所连接的网络适配器发生变化时，可能会导致 NetworkManager.conf 中 managed 的状态发生变化。</li>
 <li>更新或重装 VMware Tools：在虚拟机中更新或重装 VMware Tools 时，可能会重新配置网络适配器，这也可能导致 NetworkManager.conf 中 managed 的状态发生变化。（很有可能是这个原因，之前更新了VM tools）</li>

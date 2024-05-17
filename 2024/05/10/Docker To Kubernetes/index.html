@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta name="google-site-verification" content="QbUVAi0K2ZB_P4A6jbbi-GVB4BXs3n6GqgIEGHlySnk" />
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="Torch, Summary, UAV, Git" />
+   
+  <meta name="description" content="No fear of words,no fear of years" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    Docker To Kubernetes after V1.24 |  Haisenberg
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-Docker To Kubernetes"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Docker To Kubernetes after V1.24
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2024/05/10/Docker%20To%20Kubernetes/" class="article-date">
+  <time datetime="2024-05-10T00:00:00.000Z" itemprop="datePublished">2024-05-10</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Summary/">Summary</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">4.5k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">24 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 多机搭建Docker和Kebernetes集群环境，以及部署应用程序。</p>
+<ul>
+<li>Kubernetes 是一个开源的容器编排引擎，用来对容器化应用进行自动化部署、扩缩和管理。仅仅用Docker是不够的，增加Docker-Compose可以实现多容器的编排，但是Kubernetes可以实现多机的容器编排，实现更高级的容器编排功能。<br><span class="github-emoji"><span>💨</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4a8.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>🕙</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f559.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>😴</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f634.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></li>
+</ul>
+<span id="more"></span>
+<h2 id="1-before"><a href="#1-before" class="headerlink" title="1. before"></a>1. before</h2><ol>
+<li>在此之前，Master主机上已用<code>Docker 24.0.2</code>，但是发现Kubernetes团队在2020年12约初的<code>Kubernetes 1.20</code>的<a target="_blank" rel="noopener" href="https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.20.md">CHANGELOG</a>中指出”Docker as an underlying runtime is being deprecated. Docker-produced images will continue to work in your cluster with all runtimes, as they always have.”，逐渐开始放弃对Docker的支持。<span style="color:grey">所以在此之后的版本中，Kubernetes不再支持Docker作为底层运行时，可能是因为Docker长期以来不支持CRI(Container Runtime Interface)，以至于需要长期维护Dockershim组件来进行适配；当然也可能是由于某些团队之间的利益冲突。</span></li>
+<li>早期k8s通过硬编码的方式支持Docker，后来通过CRI来支持多种容器，但是Docker并没有支持CRI，导致k8s需要维护dockershim。2022年05月的<code>Kubernetes 1.24</code>正式将dockershim移除，不再支持Docker作为底层运行时，所以需要优先选择containerd或者CRI-O作为底层运行时。</li>
+<li>当然仍然可以继续使用Docker，目前存在支持CRI的shim cri-dockerd，但是这个项目并不由Kubernetes官方维护。</li>
+<li><code>Docker Dasmon</code>是Docker的守护进程，用于管理Docker容器；<code>dockerd</code>是Docker的服务端，用于接收Docker客户端的请求，Docker客户端是Docker的命令行工具，用于与Docker服务端进行交互；<code>containerd</code>是Docker的容器运行时，用于管理容器的生命周期,<code>containerd-shim</code>是代理，用于与<code>OCI runtime(runc)</code>进行交互，<code>runc</code>是容器执行器，用于创建和运行容器。</li>
+<li>为了避免不必要的警告和报错（<em>这是件会让人烦心的事情</em>），所以把移除dockershim前的最后一个大版本1.23.0作为本文使用环境，当然也是用了cri-dockerd作为底层运行时，使用后续版本的k8s也是可行的。</li>
+</ol>
+<h2 id="2-Versions"><a href="#2-Versions" class="headerlink" title="2. Versions"></a>2. Versions</h2><ul>
+<li>System: Linux<ul>
+<li>Operating System: Ubuntu 18.04.6 LTS</li>
+<li>Kernel: Linux 5.4.0-84-generic</li>
+<li>Architecture: x86-64</li>
+</ul>
+</li>
+<li>Docker: 24.0.2</li>
+<li>containerd: 1.6.21</li>
+<li><em>Docker-Compose: 2.2.2</em></li>
+<li>cri-dockerd: 0.3.14</li>
+<li>kubeadm: 1.28.10</li>
+<li>kubelet: 1.28.10</li>
+<li>kubectl: 1.28.10</li>
+<li><em>Kubespary: maybe later</em></li>
+<li>Kubernetes: 1.23.0</li>
+</ul>
+<h2 id="3-Install"><a href="#3-Install" class="headerlink" title="3. Install"></a>3. Install</h2><h3 id="3-1-Docker"><a href="#3-1-Docker" class="headerlink" title="3.1 Docker"></a>3.1 Docker</h3><ul>
+<li><p>Remove old versions</p>
+  <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove docker docker-engine docker.io containerd runc  </span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Install</p>
+  <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install apt-transport-https ca-certificates curl software-properties-common</span><br><span class="line">curl -fsSL https://get.docker.com | bash -s docker --version 24.0.2</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Check</p>
+  <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker --version</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>Maybe the following error occurs: <code>permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get "http://%2Fvar%2Frun%2Fdocker.sock/v1.24/version": dial unix /var/run/docker.sock: connect: permission denied</code></li>
+<li><p>To avoid this error, add the current user to the docker group (or use the root user):</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo gpasswd -a <span class="variable">$USER</span> docker</span><br><span class="line">newgrp docker</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-2-kubeadm、kubelet、kubectl"><a href="#3-2-kubeadm、kubelet、kubectl" class="headerlink" title="3.2 kubeadm、kubelet、kubectl"></a>3.2 kubeadm、kubelet、kubectl</h3><blockquote>
+<p><code>kubeadm</code>用于创建k8s集群的工具，可以快速创建一个k8s集群，但是不适用于生产环境，可考虑使用<code>kubespray</code>或<code>kops</code>，更多的安全性、高可用性和监控以及日志，或者直接使用云服务商提供的k8s集群。<br><code>kubelet</code>在集群的每一个节点用来启动Pod和容器的组件，kubelet会根据PodSpec中的描述创建和管理容器。<br><code>kubectl</code>用于与k8s集群进行交互，可以通过kubectl来部署应用、查看集群资源、查看日志等。</p>
+</blockquote>
+<ul>
+<li><p>Update</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install -y apt-transport-https ca-certificates curl gpg</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Add public key</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg</span><br><span class="line"></span><br><span class="line"><span class="comment"># Aliyun</span></span><br><span class="line">curl -fsSL https://mirrors.aliyun.com/kubernetes-new/core/stable/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Add repository</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /'</span> | sudo <span class="built_in">tee</span> /etc/apt/sources.list.d/kubernetes.list</span><br><span class="line"></span><br><span class="line"><span class="comment"># Aliyun</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://mirrors.aliyun.com/kubernetes-new/core/stable/v1.28/deb/ /'</span> | sudo <span class="built_in">tee</span> /etc/apt/sources.list.d/kubernetes.list</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Install and lock version</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install -y kubelet kubeadm kubectl</span><br><span class="line">sudo apt-mark hold kubelet kubeadm kubectl</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Check</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kubeadm version</span><br><span class="line">kubelet --version</span><br><span class="line">kubectl version --client</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Maybe the following error occurs, then you need to use proxy or VPN to access the Internet or other images such as Aliyun, Tencent Cloud, etc.</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">E: Unable to locate package kubelet</span><br><span class="line">E: Unable to locate package kubeadm</span><br><span class="line">E: Unable to locate package kubect</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+<h3 id="3-3-CRI-O-or-containerd-or-cri-dockerd"><a href="#3-3-CRI-O-or-containerd-or-cri-dockerd" class="headerlink" title="3.3 CRI-O or containerd or cri-dockerd"></a>3.3 CRI-O or containerd or cri-dockerd</h3><blockquote>
+<p>三选一即可，如果用的是Docker且k8s在1.24之前的版本，可以选择用dockershim替代cri-dockerd。</p>
+</blockquote>
+<ul>
+<li><p>cri-dockerd</p>
+<ul>
+<li>Download the latest release from the <a target="_blank" rel="noopener" href="https://github.com/Mirantis/cri-dockerd/releases">GitHub release page</a></li>
+<li><p>Install</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install -y ./cri-dockerd_0.3.14.3-0.ubuntu-focal_amd64.deb </span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Check version and status</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cri-dockerd --version</span><br><span class="line">systemctl status cri-docker</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Config containerd, and comment out the ‘disabled_plugins = [“cri”]’ line in the <code>/etc/containerd/config.toml</code> file.</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/containerd/config.toml</span><br><span class="line">sudo systemctl restart containerd</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Config the cri-dockerd service<br>Also you can download the service file from the <a target="_blank" rel="noopener" href="https://github.com/Mirantis/cri-dockerd/blob/master/packaging/systemd/cri-docker.service">GitHub release page</a></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo wget -O /etc/systemd/system/cri-docker.service https://raw.githubusercontent.com/Mirantis/cri-dockerd/master/packaging/systemd/cri-docker.service</span><br><span class="line">sudo wget -O /etc/systemd/system/cri-docker.socket https://raw.githubusercontent.com/Mirantis/cri-dockerd/master/packaging/systemd/cri-docker.socket</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Change the <code>ExecStart</code> in the <code>/etc/systemd/system/cri-docker.service</code> file， add <code>pause</code> image from Aliyun mirror.</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ExecStart=/usr/bin/cri-dockerd --container-runtime-endpoint fd:// --pod-infra-container-image=registry.aliyuncs.com/google_containers/pause:3.9</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Restart the cri-dockerd service</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl daemon-reload      <span class="comment"># 重新加载systemd管理的服务单元文件的命令</span></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> cri-docker</span><br><span class="line">sudo systemctl start cri-docker</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-4-Important-settings"><a href="#3-4-Important-settings" class="headerlink" title="3.4 Important settings"></a>3.4 Important settings</h3><ul>
+<li><p>Change cgroup driver to systemd<br><code>kubeadm</code>把<code>kubelet</code>视为一个系统服务来管理，所以用`kubeadm启动时，推荐使用systemd作为cgroup驱动程序。</p>
+<ul>
+<li><p>cgroup for Docker</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/docker/daemon.json</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">{</span></span><br><span class="line">  <span class="attr">"registry-mirrors"</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">"https://********.mirror.aliyuncs.com"</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">"exec-opts"</span><span class="punctuation">:</span> <span class="punctuation">[</span> <span class="string">"native.cgroupdriver=systemd"</span> <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">}</span></span><br></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>You can see your Aliyun mirror address in the <a target="_blank" rel="noopener" href="https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors">Aliyun</a> after logging in.</p>
+</blockquote>
+</li>
+<li><p>Restart Docker</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Check cgroup driver in Docker</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker info | grep -i cgroup</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>cgroup for kubelet<br>在版本 1.22 及更高版本中，如果用户没有在KubeletConfiguration中设置cgroupDriver字段，kubeadm会将它设置为默认值systemd。</p>
+</li>
+</ul>
+</li>
+<li><p>Date and time synchronization, use <code>Chrony</code></p>
+<ul>
+<li><p>Install</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install chrony</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Start synchronization and check status</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start chrony</span><br><span class="line">systemctl status chrony</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Set hostname</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo --static hostnamectl set-hostname master <span class="comment"># in master node</span></span><br><span class="line">sudo --static hostnamectl set-hostname node1  <span class="comment"># in node1</span></span><br><span class="line">sudo --static hostnamectl set-hostname node2  <span class="comment"># in node2</span></span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Set host in master node and check ping</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cat</span> &gt;&gt; /etc/hosts &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">192.168.254.129 master</span></span><br><span class="line"><span class="string">192.168.254.130 node1</span></span><br><span class="line"><span class="string">192.168.254.131 node2</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Disable selinux, edit <code>/etc/selinux/config</code> and set <code>SELINUX=disabled</code> and reboot the system.<br><span style="color:grey">允许容器访问宿主机的文件系统：Setting SELinux in permissive mode by runningsetenforce 0andsed …effectively disables it. This is required to allow containers to access the host filesystem, which is needed by pod networks for example. You have to do this until SELinux support is improved in the kubelet.</span></p>
+<ul>
+<li><p>In Ubuntu, there is no selinux, so the following error may occur:</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span>: /etc/selinx/config: No such file or directory</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+</li>
+<li><p>disable unix firewall<br><span style="color:grey">避免重复的防火墙规则：Theiptablestooling can act as a compatibility layer, behaving like iptables but actually configuring nftables. This nftables backend is not compatible with the current kubeadm packages: it causes duplicated firewall rules and breakskube-proxy.</span></p>
+<ul>
+<li><p>关闭防火墙，默认应该是关的，<code>Status: inactive</code></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw <span class="built_in">disable</span></span><br><span class="line">sudo ufw status</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>也可以直接关闭防火墙服务，默认是开的，但防火墙未启动所以无效</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop firewalld</span><br><span class="line">sudo systemctl <span class="built_in">disable</span> firewalld</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Disable swap<br><span style="color:grey">开启Swap将导致和k8s的初衷有所违背，产生性能下降，详见<a target="_blank" rel="noopener" href="https://github.com/kubernetes/kubernetes/issues/53533">Issue</a></span><br>Reference: <a target="_blank" rel="noopener" href="https://askubuntu.com/questions/214805/how-do-i-disable-swap">How do i disable swap</a>, reboot the system after disabling swap.</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Temporary</span></span><br><span class="line">sudo swapoff -a</span><br><span class="line"><span class="comment"># Permanent</span></span><br><span class="line">sudo sed -i <span class="string">'/ swap / s/^\(.*\)$/#\1/g'</span> /etc/fstab</span><br><span class="line"><span class="comment"># Check</span></span><br><span class="line">sudo swapon --show</span><br><span class="line">free -h</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+<h3 id="3-5-Other-settings"><a href="#3-5-Other-settings" class="headerlink" title="3.5 Other settings"></a>3.5 Other settings</h3><ul>
+<li><p>Check MAC and product_uuid, make sure they are unique, otherwise the cluster will not work properly.</p>
+<ul>
+<li>MAC</li>
+</ul>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install net-tools</span><br><span class="line">ifconfig</span><br><span class="line">ifconfig <span class="string">"your eth name"</span> | grep -i ether  </span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>product_uuid</li>
+</ul>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cat</span> /sys/class/dmi/id/product_uuid</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+<h3 id="3-5-组件的版本偏差策略"><a href="#3-5-组件的版本偏差策略" class="headerlink" title="3.5 组件的版本偏差策略"></a>3.5 组件的版本偏差策略</h3><blockquote>
+<p>若集群的<code>kube-apiserver</code>有多个版本，规则都将对每个版本取并集。</p>
+</blockquote>
+<h4 id="kubelet版本"><a href="#kubelet版本" class="headerlink" title="kubelet版本"></a>kubelet版本</h4><ul>
+<li><code>kubelet</code>版本不能比<code>kube-apiserver</code>版本新。</li>
+<li><code>kubelet</code>可以比<code>kube-apiserver</code>低三个次要版本（如果<code>kubelet</code> &lt; 1.25，则只能比<code>kube-apiserver</code>低两个次要版本）。</li>
+<li>例如<ul>
+<li><code>kube-apiserver</code>处于1.30版本</li>
+<li><code>kubelet</code>支持1.30、1.29、1.28和1.27版本</li>
+</ul>
+</li>
+</ul>
+<h4 id="kube-proxy版本"><a href="#kube-proxy版本" class="headerlink" title="kube-proxy版本"></a>kube-proxy版本</h4><ul>
+<li>其他同<code>kubelet</code>一样，<code>kube-proxy</code>的版本不能比<code>kube-apiserver</code>版本新，小于等于三个次要版本。</li>
+<li><code>kube-proxy</code>可以与<code>kubelet</code>有新或旧三个次要版本，<code>1.25</code>之前则是两个次要版本。</li>
+</ul>
+<h4 id="kube-controller-manager、kube-scheduler、cloud-controller-manager版本"><a href="#kube-controller-manager、kube-scheduler、cloud-controller-manager版本" class="headerlink" title="kube-controller-manager、kube-scheduler、cloud-controller-manager版本"></a>kube-controller-manager、kube-scheduler、cloud-controller-manager版本</h4><ul>
+<li>不能比<code>kube-apiserver</code>版本新，最多比<code>kube-apiserver</code>低一个次要版本。</li>
+<li>允许实时升级</li>
+</ul>
+<h4 id="kubectl版本"><a href="#kubectl版本" class="headerlink" title="kubectl版本"></a>kubectl版本</h4><ul>
+<li>与<code>kube-apiserver</code>版本相同或者低、高于<code>kube-apiserver</code>一个次要版本。</li>
+</ul>
+<h3 id="3-6-Start-k8s-cluster"><a href="#3-6-Start-k8s-cluster" class="headerlink" title="3.6 Start k8s cluster"></a>3.6 Start k8s cluster</h3><ul>
+<li><p>Initialize the master node</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sudo kubeadm init \</span><br><span class="line">  --apiserver-advertise-address=192.168.254.129 \</span><br><span class="line">  --image-repository registry.aliyuncs.com/google_containers \</span><br><span class="line">  --kubernetes-version v1.28.0 \</span><br><span class="line">  --service-cidr=10.96.0.0/12 \</span><br><span class="line">  --pod-network-cidr=10.244.0.0/16 \</span><br><span class="line">  --ignore-preflight-errors=all</span><br><span class="line"></span><br><span class="line"><span class="comment"># This command will occur the following error (cri-dockerd and containerd are compatible):</span></span><br><span class="line"></span><br><span class="line">Found multiple CRI endpoints on the host. Please define <span class="built_in">which</span> one <span class="keyword">do</span> you wish to use by setting the <span class="string">'criSocket'</span> field <span class="keyword">in</span> the kubeadm configuration file: unix:///var/run/containerd/containerd.sock, unix:///var/run/cri-dockerd.sock</span><br><span class="line">To see the stack trace of this error execute with --v=5 or higher</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">sudo kubeadm init \</span><br><span class="line">  --apiserver-advertise-address=192.168.254.129 \</span><br><span class="line">  --image-repository registry.aliyuncs.com/google_containers \</span><br><span class="line">  --kubernetes-version v1.28.0 \</span><br><span class="line">  --service-cidr=10.96.0.0/12 \</span><br><span class="line">  --pod-network-cidr=10.244.0.0/16 \</span><br><span class="line">  --ignore-preflight-errors=all \</span><br><span class="line">  --cri-socket=unix:///var/run/cri-dockerd.sock</span><br><span class="line"></span><br><span class="line"><span class="comment"># Reply success</span></span><br><span class="line">Your Kubernetes control-plane has initialized successfully!</span><br><span class="line"></span><br><span class="line">To start using your cluster, you need to run the following as a regular user:</span><br><span class="line"></span><br><span class="line">  <span class="built_in">mkdir</span> -p <span class="variable">$HOME</span>/.kube</span><br><span class="line">  sudo <span class="built_in">cp</span> -i /etc/kubernetes/admin.conf <span class="variable">$HOME</span>/.kube/config</span><br><span class="line">  sudo <span class="built_in">chown</span> $(<span class="built_in">id</span> -u):$(<span class="built_in">id</span> -g) <span class="variable">$HOME</span>/.kube/config</span><br><span class="line"></span><br><span class="line">Alternatively, <span class="keyword">if</span> you are the root user, you can run:</span><br><span class="line"></span><br><span class="line">  <span class="built_in">export</span> KUBECONFIG=/etc/kubernetes/admin.conf</span><br><span class="line"></span><br><span class="line">You should now deploy a pod network to the cluster.</span><br><span class="line">Run <span class="string">"kubectl apply -f [podnetwork].yaml"</span> with one of the options listed at:</span><br><span class="line">  https://kubernetes.io/docs/concepts/cluster-administration/addons/</span><br><span class="line"></span><br><span class="line">Then you can <span class="built_in">join</span> any number of worker nodes by running the following on each as root:</span><br><span class="line"></span><br><span class="line">kubeadm <span class="built_in">join</span> 192.168.254.129:6443 --token kgsf73.msjq37v3zwqkaycg \</span><br><span class="line">        --discovery-token-ca-cert-hash sha256:feb06b7d17a02964c162b3f5dda5e5182f8e407383ebf1d974b26416937d65ec</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><p>Copy the configuration file to the user directory</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p <span class="variable">$HOME</span>/.kube</span><br><span class="line">sudo <span class="built_in">cp</span> -i /etc/kubernetes/admin.conf <span class="variable">$HOME</span>/.kube/config</span><br><span class="line">sudo <span class="built_in">chown</span> $(<span class="built_in">id</span> -u):$(<span class="built_in">id</span> -g) <span class="variable">$HOME</span>/.kube/config</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Check the status of the master node and the pods, <em>we haven’t installed the network plugin yet, so the master is in the <code>NotReady</code> state.</em></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">kubectl get nodes</span><br><span class="line"></span><br><span class="line">NAME     STATUS     ROLES           AGE    VERSION</span><br><span class="line">master   NotReady   control-plane   8m9s   v1.28.10</span><br><span class="line"></span><br><span class="line">kubectl get pod -A</span><br><span class="line"></span><br><span class="line">NAMESPACE     NAME                             READY   STATUS    RESTARTS   AGE</span><br><span class="line">kube-system   coredns-66f779496c-6b4rw         0/1     Pending   0          6m13s</span><br><span class="line">kube-system   coredns-66f779496c-xszmj         0/1     Pending   0          6m13s</span><br><span class="line">kube-system   etcd-master                      1/1     Running   0          6m27s</span><br><span class="line">kube-system   kube-apiserver-master            1/1     Running   0          6m26s</span><br><span class="line">kube-system   kube-controller-manager-master   1/1     Running   0          6m29s</span><br><span class="line">kube-system   kube-proxy-r87hl                 1/1     Running   0          6m13s</span><br><span class="line">kube-system   kube-scheduler-master            1/1     Running   0          6m28s</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Join the worker node<br>创建的指令和token在<code>kubeadm init</code>输出的最后一行，也需要<code>--cri-socket /var/run/cri-dockerd.sock</code>，因为我们的节点都配置了<code>cri-dockerd</code>以及<code>containerd</code>，存在冲突，需要指定使用runc。token的有效期为24小时，过期后需要<code>kubeadm token create --print-join-command</code>重新生成。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The command is generated by the master node, the last line of the output of the `kubeadm init` command.</span></span><br><span class="line"><span class="comment"># Also need --cri-socket /var/run/cri-dockerd.sock'</span></span><br><span class="line">sudo kubeadm <span class="built_in">join</span> 192.168.254.129:6443 --cri-socket unix:///var/run/cri-dockerd.sock --token kgsf73.msjq37v3zwqkaycg \</span><br><span class="line">        --discovery-token-ca-cert-hash sha256:feb06b7d17a02964c162b3f5dda5e5182f8e407383ebf1d974b26416937d65ec</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><p>Check in the master node</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">kubectl get nodes -A</span><br><span class="line"></span><br><span class="line">NAMESPACE     NAME                             READY   STATUS              RESTARTS   AGE</span><br><span class="line">kube-system   coredns-66f779496c-6b4rw         0/1     Pending             0          23m</span><br><span class="line">kube-system   coredns-66f779496c-xszmj         0/1     Pending             0          23m</span><br><span class="line">kube-system   etcd-master                      1/1     Running             0          24m</span><br><span class="line">kube-system   kube-apiserver-master            1/1     Running             0          24m</span><br><span class="line">kube-system   kube-controller-manager-master   1/1     Running             0          24m</span><br><span class="line">kube-system   kube-proxy-5jgmq                 0/1     ContainerCreating   0          106s</span><br><span class="line">kube-system   kube-proxy-p9tq5                 0/1     ContainerCreating   0          6m8s</span><br><span class="line">kube-system   kube-proxy-r87hl                 1/1     Running             0          23m</span><br><span class="line">kube-system   kube-scheduler-master            1/1     Running             0          24m</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Copy the configuration file to the user directory, 否则将导致<code>kubectl get nodes</code>时出现<code>The connection to the server localhost:8080 was refused - did you specify the right host or port?</code>，以及该节点将始终处于<code>NotReady</code>状态，该节点的kube-proxy处于<code>ContainerCreating</code>状态。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p <span class="variable">$HOME</span>/.kube</span><br><span class="line">sudo <span class="built_in">cp</span> -i /etc/kubernetes/kubelet.conf <span class="variable">$HOME</span>/.kube/config</span><br><span class="line">sudo <span class="built_in">chown</span> $(<span class="built_in">id</span> -u):$(<span class="built_in">id</span> -g) <span class="variable">$HOME</span>/.kube/config</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Remove the node from the cluster</p>
+<ul>
+<li><p><strong>In master node</strong></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Check the node 和 pods, 先检查一下</span></span><br><span class="line">kubectl get nodes</span><br><span class="line">kubectl get pods -A -o wide</span><br><span class="line"><span class="comment"># 阻止调度新的pod在该节点上，但此时pod可以在node上继续运行</span></span><br><span class="line">kubectl cordon node1</span><br><span class="line"><span class="comment"># 驱逐node1上的所有pod</span></span><br><span class="line">kubectl drain node1 --ignore-daemonsets --delete-local-data</span><br><span class="line"><span class="comment"># 删除node1</span></span><br><span class="line">kubectl delete node node1</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p><strong>In worker node</strong></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Leave the cluster</span></span><br><span class="line">sudo kubeadm reset --cri-socket /var/run/cri-dockerd.sock</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除残留的文件</span></span><br><span class="line">sudo <span class="built_in">rm</span> -rf /etc/kubernetes/</span><br><span class="line">sudo <span class="built_in">rm</span> -rf <span class="variable">$HOME</span>/.kube</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 清除iptables或者ipvs的配置</span></span><br><span class="line">sudo iptables -F &amp;&amp; iptables -t nat -F &amp;&amp; iptables -t mangle -F &amp;&amp; iptables -X</span><br><span class="line">sudo ipvsadm --clear</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Add CNI plugin<br>到现在为止不同的宿主机之间的pod无法跨主机通信，需要安装网络插件，这里选择<code>Calico</code>，也可以选择<code>Flannel</code>、<code>Cilium</code>、<code>Weave Net</code>等。</p>
+<ul>
+<li><p>Download the <code>Calico</code> plugin</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># wget https://docs.projectcalico.org/manifests/calico.yaml</span></span><br><span class="line">curl -O https://docs.tigera.io/archive/v3.25/manifests/calico.yaml</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Modify the <code>calico.yaml</code> file, change the <code>CALICO_IPV4POOL_CIDR</code> to <code>pod-network-cidr's</code> value, and apply the <code>Calico</code> plugin.</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- name: CALICO_IPV4POOL_CIDR</span><br><span class="line">    value: <span class="string">"10.244.0.0/16"</span></span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f calico.yaml</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>But there is still some bugs those are fixed in <a href="#jump">Debug Section</a>.</p>
+</li>
+</ul>
+</li>
+<li><p>Complete the master ande node1, node2 <em>(need to wait for a while)</em></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">boom@master:~$ kubectl get pods -A -o wide</span><br><span class="line">NAMESPACE     NAME                                       READY   STATUS    RESTARTS      AGE     IP                NODE     NOMINATED NODE   READINESS GATES</span><br><span class="line">kube-system   calico-kube-controllers-6d668dcdd6-gbrfq   1/1     Running   0             57m     10.244.104.3      node2    &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-system   calico-node-f8jwx                          1/1     Running   0             5m21s   192.168.254.130   node1    &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-system   calico-node-gvs6h                          1/1     Running   0             57m     192.168.254.131   node2    &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-system   calico-node-qk946                          1/1     Running   1 (45m ago)   57m     192.168.254.129   master   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-system   coredns-66f779496c-6b4rw                   1/1     Running   2 (45m ago)   7h53m   10.244.219.66     master   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-system   coredns-66f779496c-xszmj                   1/1     Running   2 (45m ago)   7h53m   10.244.219.65     master   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-system   etcd-master                                1/1     Running   2 (45m ago)   7h54m   192.168.254.129   master   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-system   kube-apiserver-master                      1/1     Running   2 (45m ago)   7h54m   192.168.254.129   master   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-system   kube-controller-manager-master             1/1     Running   2 (45m ago)   7h54m   192.168.254.129   master   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-system   kube-proxy-ff75p                           1/1     Running   0             86m     192.168.254.131   node2    &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-system   kube-proxy-r87hl                           1/1     Running   2 (45m ago)   7h53m   192.168.254.129   master   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-system   kube-proxy-zgnjd                           1/1     Running   0             5m21s   192.168.254.130   node1    &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-system   kube-scheduler-master                      1/1     Running   2 (45m ago)   7h54m   192.168.254.129   master   &lt;none&gt;           &lt;none&gt;</span><br><span class="line"></span><br><span class="line">boom@master:~$ kubectl get nodes</span><br><span class="line">NAME     STATUS   ROLES           AGE     VERSION    INTERNAL-IP       EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME</span><br><span class="line">master   Ready    control-plane   7h58m   v1.28.10   192.168.254.129   &lt;none&gt;        Ubuntu 18.04.6 LTS   5.4.0-150-generic   docker://24.0.2</span><br><span class="line">node1    Ready    &lt;none&gt;          10m     v1.28.10   192.168.254.130   &lt;none&gt;        Ubuntu 18.04.6 LTS   5.4.0-150-generic   docker://24.0.2</span><br><span class="line">node2    Ready    &lt;none&gt;          90m     v1.28.10   192.168.254.131   &lt;none&gt;        Ubuntu 18.04.6 LTS   5.4.0-150-generic   docker://24.0.2</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Dashboard</p>
+<ul>
+<li><p>Download the <code>Dashboard</code> plugin</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -O https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Modify the <code>recommended.yaml</code> file, add the <code>type: NodePort</code> to the <code>Service</code> section, then apply the <code>Dashboard</code> plugin.</p>
+<figure class="highlight yaml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">k8s-app:</span> <span class="string">kubernetes-dashboard</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">kubernetes-dashboard</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">kubernetes-dashboard</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">443</span></span><br><span class="line">      <span class="attr">targetPort:</span> <span class="number">8443</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">k8s-app:</span> <span class="string">kubernetes-dashboard</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">NodePort</span></span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f recommended.yaml</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Check the <code>Dashboard</code> plugin, but the <code>Pod</code> is in the <code>Pending</code> state.</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pod -n kubernetes-dashboard</span><br><span class="line"></span><br><span class="line">NAMESPACE              NAME                                         READY   STATUS    RESTARTS      AGE     IP                NODE     NOMINATED NODE   READINESS GATES</span><br><span class="line">kubernetes-dashboard   dashboard-metrics-scraper-5657497c4c-rvfnh   1/1     Running   0             3m51s   10.244.166.130    node1    &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kubernetes-dashboard   kubernetes-dashboard-78f87ddfc-52msp         1/1     Running   0             3m51s   10.244.166.129    node1    &lt;none&gt;           &lt;none&gt;</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Get the port of the <code>Dashboard</code> plugin, get <code>32000</code> <strong>(will change every time you apply the <code>Dashboard</code> plugin, so you need to check it every time).</strong></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kubectl get svc -n kubernetes-dashboard</span><br><span class="line"></span><br><span class="line">NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)         AGE</span><br><span class="line">dashboard-metrics-scraper   ClusterIP   10.105.243.112   &lt;none&gt;        8000/TCP        2m42s</span><br><span class="line">kubernetes-dashboard        NodePort    10.99.228.207    &lt;none&gt;        443:32000/TCP   2m43s</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Access the <code>Dashboard</code> plugin, use the <code>master</code> node’s IP and the <code>NodePort</code> port.</p>
+</li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/k8s/k8sDashboardLogin.jpg" alt="DashboardLogin"></p>
+<ul>
+<li><p>Create a <code>Dashboard</code> user, and get the token. (Or you can use the <code>kubeconfig</code> file)</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Create a service account</span></span><br><span class="line">kubectl create serviceaccount dashboard-admin -n kubernetes-dashboard</span><br><span class="line"><span class="comment"># Create a cluster role binding</span></span><br><span class="line">kubectl create clusterrolebinding dashboard-admin --clusterrole=cluster-admin --serviceaccount=kubernetes-dashboard:dashboard-admin</span><br><span class="line"><span class="comment"># Get the token</span></span><br><span class="line">kubectl create token dashboard-admin -n kubernetes-dashboard</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+<p><img src="https://www.lingzhicheng.cn/usr/file/picture/k8s/k8sWorkloads.jpg" alt="DashboardWorkloads"></p>
+</li>
+</ul>
+<h3 id="3-7-Debug"><a href="#3-7-Debug" class="headerlink" title="3.7  Debug"></a>3.7  <span id="jump">Debug</span></h3><ul>
+<li><p>The pod <code>kube-proxy</code> is in <code>ContainerCreating</code> status for a long time。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">kubectl  describe pod kube-proxy-4pkw4 -n kube-system</span><br><span class="line"></span><br><span class="line">Events:</span><br><span class="line">Type     Reason                  Age                   From               Message</span><br><span class="line">----     ------                  ----                  ----               -------</span><br><span class="line">Normal   Scheduled               12m                   default-scheduler  Successfully assigned kube-system/kube-proxy-4pkw4 to node2</span><br><span class="line">Warning  FailedCreatePodSandBox  4m52s (x2 over 6m1s)  kubelet            Failed to create pod sandbox: rpc error: code = Unknown desc = failed pulling image <span class="string">"registry.k8s.io/pause:3.9"</span>: Error response from daemon: Head <span class="string">"https://europe-west2-docker.pkg.dev/v2/k8s-artifacts-prod/images/pause/manifests/3.9"</span>: dial tcp 108.177.125.82:443: connect: connection refused</span><br><span class="line">Warning  FailedCreatePodSandBox  44s (x8 over 10m)     kubelet            Failed to create pod sandbox: rpc error: code = Unknown desc = failed pulling image <span class="string">"registry.k8s.io/pause:3.9"</span>: Error response from daemon: Head <span class="string">"https://us-west2-docker.pkg.dev/v2/k8s-artifacts-prod/images/pause/manifests/3.9"</span>: dial tcp 108.177.97.82:443: connect: connection refused</span><br><span class="line">Warning  FailedCreatePodSandBox  10s (x11 over 11m)    kubelet            Failed to create pod sandbox: rpc error: code = Unknown desc = failed pulling image <span class="string">"registry.k8s.io/pause:3.9"</span>: Error response from daemon: Head <span class="string">"https://asia-east1-docker.pkg.dev/v2/k8s-artifacts-prod/images/pause/manifests/3.9"</span>: dial tcp 74.125.23.82:443: connect: connection refused</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><p>查一下应该是<code>pause</code>的镜像拉取失败。但是已经在上文，<code>/etc/systemd/system/cri-docker.service</code>中的<code>ExecStart</code>中添加了<code>pause</code>的镜像，有可能是没有重启<code>cri-dockerd</code>服务，导致镜像没有生效；或者是没有重新加载systemd管理的服务单元文件。<em>修复后加载成功了</em></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart cri-docker</span><br><span class="line"></span><br><span class="line">kubectl  describe pod kube-proxy-4pkw4 -n kube-system</span><br><span class="line"></span><br><span class="line">Events:</span><br><span class="line">Type    Reason     Age    From               Message</span><br><span class="line">----    ------     ----   ----               -------</span><br><span class="line">Normal  Scheduled  5m24s  default-scheduler  Successfully assigned kube-system/kube-proxy-ff75p to node2</span><br><span class="line">Normal  Pulling    5m22s  kubelet            Pulling image <span class="string">"registry.aliyuncs.com/google_containers/kube-proxy:v1.28.0"</span></span><br><span class="line">Normal  Pulled     5m16s  kubelet            Successfully pulled image <span class="string">"registry.aliyuncs.com/google_containers/kube-proxy:v1.28.0"</span> <span class="keyword">in</span> 6.031s (6.032s including waiting)</span><br><span class="line">Normal  Created    5m16s  kubelet            Created container kube-proxy</span><br><span class="line">Normal  Started    5m16s  kubelet            Started container kube-proxy</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+</li>
+<li><p>The pod <code>calico-node-fcdmn</code> is in <code>Init:ImagePullBackOff</code> status for a long time, 查一下应该是<code>calico</code>的镜像拉取失败</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">kubectl  describe pod calico-node-fcdmn -n kube-system</span><br><span class="line"></span><br><span class="line">Events:</span><br><span class="line">Type     Reason     Age                  From               Message</span><br><span class="line">----     ------     ----                 ----               -------</span><br><span class="line">Normal   Scheduled  57m                  default-scheduler  Successfully assigned kube-system/calico-node-fcdmn to node1</span><br><span class="line">Normal   Pulling    50m (x4 over 56m)    kubelet            Pulling image <span class="string">"docker.io/calico/cni:v3.25.0"</span></span><br><span class="line">Warning  Failed     49m (x4 over 55m)    kubelet            Error: ErrImagePull</span><br><span class="line">Warning  Failed     48m (x7 over 55m)    kubelet            Error: ImagePullBackOff</span><br><span class="line">Warning  Failed     21m (x9 over 55m)    kubelet            Failed to pull image <span class="string">"docker.io/calico/cni:v3.25.0"</span>: rpc error: code = Canceled desc = context canceled</span><br><span class="line">Normal   BackOff    11m (x127 over 55m)  kubelet            Back-off pulling image <span class="string">"docker.io/calico/cni:v3.25.0"</span></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><p>查一下还是镜像源的问题，虽然给docker配置了阿里云的镜像源，但是<code>calico</code>的镜像还是从<code>docker.io</code>拉取，所以怀疑是Calico清单文件出了问题，看一下果然是，网上一堆居然都不解决这个问题能成功加载的，看出来好多都是东拼西凑的Tutorial。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> calico.yaml |grep <span class="string">'image:'</span></span><br><span class="line"></span><br><span class="line">image: docker.io/calico/cni:v3.25.0</span><br><span class="line">image: docker.io/calico/cni:v3.25.0</span><br><span class="line">image: docker.io/calico/node:v3.25.0</span><br><span class="line">image: docker.io/calico/node:v3.25.0</span><br><span class="line">image: docker.io/calico/kube-controllers:v3.25.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换掉所有'docker.io'的前缀为空</span></span><br><span class="line">sed -i <span class="string">'s#docker.io/##g'</span> calico.yaml</span><br><span class="line"><span class="comment"># 重新检查</span></span><br><span class="line"><span class="built_in">cat</span> calico.yaml |grep <span class="string">'image:'</span></span><br><span class="line">image: calico/cni:v3.25.0</span><br><span class="line">image: calico/cni:v3.25.0</span><br><span class="line">image: calico/node:v3.25.0</span><br><span class="line">image: calico/node:v3.25.0</span><br><span class="line">image: calico/kube-controllers:v3.25.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启calico</span></span><br><span class="line">kubectl delete -f calico.yaml</span><br><span class="line">kubectl apply -f calico.yaml</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-8-Add-service"><a href="#3-8-Add-service" class="headerlink" title="3.8 Add service"></a>3.8 Add service</h3><ul>
+<li><p>Nginx <em>(for example, nginx-deployment.yaml)</em></p>
+<figure class="highlight yaml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span>  </span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span>  </span><br><span class="line"><span class="attr">metadata:</span>  </span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx-deployment-1</span>  </span><br><span class="line"><span class="attr">spec:</span>  </span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span>  </span><br><span class="line">  <span class="attr">selector:</span>  </span><br><span class="line">    <span class="attr">matchLabels:</span>  </span><br><span class="line">      <span class="attr">app:</span> <span class="string">nginx-1</span>  </span><br><span class="line">  <span class="attr">template:</span>  </span><br><span class="line">    <span class="attr">metadata:</span>  </span><br><span class="line">      <span class="attr">labels:</span>  </span><br><span class="line">        <span class="attr">app:</span> <span class="string">nginx-1</span>  </span><br><span class="line">    <span class="attr">spec:</span>  </span><br><span class="line">      <span class="attr">containers:</span>  </span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span>  </span><br><span class="line">        <span class="attr">image:</span> <span class="string">nginx:latest</span>  </span><br><span class="line">        <span class="attr">ports:</span>  </span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">80</span>  </span><br><span class="line"><span class="meta">---  </span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span>  </span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span>  </span><br><span class="line"><span class="attr">metadata:</span>  </span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx-deployment-2</span>  </span><br><span class="line"><span class="attr">spec:</span>  </span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span>  </span><br><span class="line">  <span class="attr">selector:</span>  </span><br><span class="line">    <span class="attr">matchLabels:</span>  </span><br><span class="line">      <span class="attr">app:</span> <span class="string">nginx-2</span>  </span><br><span class="line">  <span class="attr">template:</span>  </span><br><span class="line">    <span class="attr">metadata:</span>  </span><br><span class="line">      <span class="attr">labels:</span>  </span><br><span class="line">        <span class="attr">app:</span> <span class="string">nginx-2</span>  </span><br><span class="line">    <span class="attr">spec:</span>  </span><br><span class="line">      <span class="attr">containers:</span>  </span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span>  </span><br><span class="line">        <span class="attr">image:</span> <span class="string">nginx:latest</span>  </span><br><span class="line">        <span class="attr">ports:</span>  </span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">80</span>  </span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>Apply the <code>Nginx</code> service</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f nginx-deployment.yaml</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+<!-- markdownlint-disable-file MD025 MD028 MD033 -->
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2024/05/10/Docker%20To%20Kubernetes/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2024/05/05/Google%20File%20System/" class="article-nav-link">
+        <strong class="article-nav-caption">Next post</strong>
+        <div class="article-nav-title">Learning GFS - Google File System</div>
+      </a>
+    
+  </nav>
+
+  
+   
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'a1a50124b0c46fa4fab9',
+    clientSecret: '4a29dee6f998a9272f57ba07f987ea9eed9da5ec',
+    repo: 'blog-comments',
+    owner: 'boom1999',
+    admin: ['boom1999'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: true,  // Facebook-like distraction free mode
+    pagerDirection: 'last',
+    proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2024
+        <span class="division">|</span> Zhicheng Ling
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+          
+          
+          Power <a href="https://hexo.io" target="_blank">Hexo</a>
+          <span class="division">|</span>
+          Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+          
+          <span class="division">|</span>
+        
+          
+          <span>
+  <span><i class="ri-eye-fill"></i> <span id="busuanzi_value_page_pv"></span></span>
+</span>
+          
+      </li>
+    </ul>
+    <ul>
+      
+        <li>
+          <a href="http://beian.miit.gov.cn/" target="_black" rel="nofollow">浙ICP备2020044847号-1</a>
+        </li>
+        
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/haisen-side.svg" alt="Haisenberg"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Categories</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.pan.lingzhicheng.cn">Pan</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.gallery.lingzhicheng.cn">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.todo.lingzhicheng.cn">Todo</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">Friends</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/me">Me</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+<!-- Graphiz -->
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/viz.js/1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+
+    
+  </div>
+  <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
+  fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
+  webpushr('setup',{'key':'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script>
+<script>(function (w, d, s, id) {
+            if (typeof (w.webpushr) !== 'undefined') return; w.webpushr = w.webpushr || function () { (w.webpushr.q = w.webpushr.q || []).push(arguments) }; var js, fjs = d.getElementsByTagName(s)[0]; js = d.createElement(s); js.id = id; js.async = 1; js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window, document, 'script', 'webpushr-jssdk'));webpushr('setup', { 'key': 'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script></body>
+
+</html>
