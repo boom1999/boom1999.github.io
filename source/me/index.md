@@ -25,16 +25,16 @@ type: me
 
 #### Languages & Tools 🛠
 <div style="display: inline_block"><br>
+  <img align="center" alt="Java" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/java.svg" style="display: inline-block">
   <img align="center" alt="Python" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/python.svg" style="display: inline-block">
-  <img align="center" alt="c" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/c.svg" style="display: inline-block">
   <img align="center" alt="cplusplus" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/cplusplus.svg" style="display: inline-block">
   <img align="center" alt="matlab" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/matlab.svg" style="display: inline-block">
-  <img align="center" alt="typescript" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/typescript.svg" style="display: inline-block">
+  <img align="center" alt="vim" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/vim.svg" style="display: inline-block">
   <img align="center" alt="bash" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/bash.svg" style="display: inline-block">
 </div>
 <div style="display: inline_block"><br>
   <img align="center" alt="linux" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/linux.svg" style="display: inline-block">
-  <img align="center" alt="vim" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/vim.svg" style="display: inline-block">
+  <img align="center" alt="kubernetes" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/kubernetes.svg" style="display: inline-block">
   <img align="center" alt="docker" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/docker.svg" style="display: inline-block">
   <img align="center" alt="git" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/git.svg" style="display: inline-block">
   <img align="center" alt="latex" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/latex.svg" style="display: inline-block">
