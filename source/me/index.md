@@ -26,10 +26,10 @@ type: me
 #### Languages & Tools 🛠
 <div style="display: inline_block"><br>
   <img align="center" alt="Java" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/java.svg" style="display: inline-block">
-  <img align="center" alt="Python" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/python.svg" style="display: inline-block">
+  <img align="center" alt="vim" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/vim.svg" style="display: inline-block">
+  <img align="center" alt="Go" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/go.svg" style="display: inline-block">
   <img align="center" alt="cplusplus" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/cplusplus.svg" style="display: inline-block">
   <img align="center" alt="matlab" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/matlab.svg" style="display: inline-block">
-  <img align="center" alt="vim" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/vim.svg" style="display: inline-block">
   <img align="center" alt="bash" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/bash.svg" style="display: inline-block">
 </div>
 <div style="display: inline_block"><br>
@@ -39,6 +39,7 @@ type: me
   <img align="center" alt="git" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/git.svg" style="display: inline-block">
   <img align="center" alt="latex" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/latex.svg" style="display: inline-block">
   <img align="center" alt="markdown" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/markdown.svg" style="display: inline-block">
+  <img align="center" alt="vim" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/vim.svg" style="display: inline-block">
 </div>
 
 ----
