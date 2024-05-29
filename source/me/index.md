@@ -4,29 +4,24 @@ date: 2021-02-01 20:43:37
 type: me
 ---
 
-#### About me :telescope:
+## About me :telescope:
+
 > Hangzhou, China --> Nanjing, China
-> 
 > Graduated from `Zhejiang University of Technology`, majoring in `Communication Engineering`.
-> 
 > Currently studying for a master's degree in `Information and Communication Engineering` from `Nanjing University of Aeronautics and Astronautics`.
-> 
 > Field of research: UAV-based optical target localization and adaptive parameter optimization, UAV track planning.
-> 
-> Companies looking forward to joining: [`DJI`](https://www.dji.com), [`CASIC`](http://www.casic.com.cn/), [`CETC`](http://www.cetc.com.cn/), [`HUAWEI`](https://www.huawei.com/cn/)
-> 
+> Companies looking forward to joining: [`DJI`](https://www.dji.com), [`CASIC`](http://www.casic.com.cn/), [`CETC`](http://www.cetc.com.cn/), [`HUAWEI`](https://www.huawei.com/cn/), etc.
 > ~~Personal blog: learning experience and trivial records~~. Now it's transforming into a technical blog
-> 
-> Mainly focus on `C/C++`, `Python`, `Linux`, `go`, and familiar with common data structures and algorithms. ~~Know a little bit of basic web design and `Vue` (now I don't consider taking this route)~~
-> 
+> Mainly focus on `Java`, `Golang`, `Python`, `Linux`, `C++`, and familiar with `Kubernetes` and `Docker` containers, common data structures and algorithms.
 > I'm familiar with `MATLAB`.~~`Altium Designer`, `Multisim`, `QuartusⅡ` for system simulation, `Keil` for MCU development(Less used now).~~
 
 ----
 
-#### Languages & Tools 🛠
+## Languages & Tools 🛠
+
 <div style="display: inline_block"><br>
   <img align="center" alt="Java" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/java.svg" style="display: inline-block">
-  <img align="center" alt="vim" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/vim.svg" style="display: inline-block">
+  <img align="center" alt="Python" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/python.svg" style="display: inline-block">
   <img align="center" alt="Go" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/go.svg" style="display: inline-block">
   <img align="center" alt="cplusplus" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/cplusplus.svg" style="display: inline-block">
   <img align="center" alt="matlab" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/matlab.svg" style="display: inline-block">
@@ -44,7 +39,7 @@ type: me
 
 ----
 
-#### Contact :whale: ####
+## Contact :whale:
 
 <div style="display: inline-block"><br>
   <a href ="mailto:lingzhicheng1999@outlook.com" style="display: inline-block"><img align="center" alt="outlook" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/outlook.svg"></a>
@@ -54,4 +49,4 @@ type: me
   <a href ="https://twitter.com/ZhichengLing" style="display: inline-block"><img align="center" alt="twitter" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/twitter.svg"></a>
 </div>
 
-<!-- markdownlint-disable-file MD026 -->
+<!-- markdownlint-disable-file MD026, MD033 -->
