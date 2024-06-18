@@ -181,7 +181,7 @@ copyright: true
 
 ### 8.1 创建环境
 
-    conda create -name tfenv python=3.7.0
+    conda create --name tfenv python=3.7.0
 
 > 由于之前已经更换了清华源，由于网络问题造成的错误率大大降低，但仍然可能被中断
 > 用`conda info --envs`检查一下是否装好了tfenv环境
