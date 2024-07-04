@@ -50,8 +50,8 @@ copyright: true
 ### 2.2 抢占模式
 
 - `Example 1`，只要优先级更高，就会获取Master，与状态无关
-  - `Server1`为`Master`，`Server2`为`Master`或`Backup`，且`Server1`优先级更高，启动后`Server1`成为`Master`，`Server2`降级成为`Backup；若此时`Server1`宕机，将由`Server2`接管服务，后续当`Server1`恢复后又变为`Master`，`Server2`降级成为`Backup`，属于抢占式。
-  - `Server1`为`Master`，`Server2`为`Backup`，但`Server1`优先级低，启动后`Server2`成为`Master`，`Server1`降级成为`Backup；若此时`Server2`宕机，将由`Server1`接管服务，后续当`Server2`回复后又变为`Master`，`Server1`降级成为`Backup`，属于抢占式。
+  - `Server1`为`Master`，`Server2`为`Master`或`Backup`，且`Server1`优先级更高，启动后`Server1`成为`Master`，`Server2`降级成为`Backup`；若此时`Server1`宕机，将由`Server2`接管服务，后续当`Server1`恢复后又变为`Master`，`Server2`降级成为`Backup`，属于抢占式。
+  - `Server1`为`Master`，`Server2`为`Backup`，但`Server1`优先级低，启动后`Server2`成为`Master`，`Server1`降级成为`Backup`；若此时`Server2`宕机，将由`Server1`接管服务，后续当`Server2`回复后又变为`Master`，`Server1`降级成为`Backup`，属于抢占式。
 - `Example 2`，两个`Backup`节点，必须配置`nopreempt`
   - `Server1`和`Server2`都为`Backup`，先启动的升级为`Master`，必须配置`nopreempt`，若`Server1`宕机，`Server2`会接管服务，`Server1`恢复后不会重新接管，`Server1`成为`Backup`，属于非抢占式。
 
