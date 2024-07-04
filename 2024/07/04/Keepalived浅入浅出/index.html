@@ -143,8 +143,8 @@
 </ul>
 <h3 id="2-2-抢占模式"><a href="#2-2-抢占模式" class="headerlink" title="2.2 抢占模式"></a>2.2 抢占模式</h3><ul>
 <li><code>Example 1</code>，只要优先级更高，就会获取Master，与状态无关<ul>
-<li><code>Server1</code>为<code>Master</code>，<code>Server2</code>为<code>Master</code>或<code>Backup</code>，且<code>Server1</code>优先级更高，启动后<code>Server1</code>成为<code>Master</code>，<code>Server2</code>降级成为<code>Backup；若此时</code>Server1<code>宕机，将由</code>Server2<code>接管服务，后续当</code>Server1<code>恢复后又变为</code>Master<code>，</code>Server2<code>降级成为</code>Backup`，属于抢占式。</li>
-<li><code>Server1</code>为<code>Master</code>，<code>Server2</code>为<code>Backup</code>，但<code>Server1</code>优先级低，启动后<code>Server2</code>成为<code>Master</code>，<code>Server1</code>降级成为<code>Backup；若此时</code>Server2<code>宕机，将由</code>Server1<code>接管服务，后续当</code>Server2<code>回复后又变为</code>Master<code>，</code>Server1<code>降级成为</code>Backup`，属于抢占式。</li>
+<li><code>Server1</code>为<code>Master</code>，<code>Server2</code>为<code>Master</code>或<code>Backup</code>，且<code>Server1</code>优先级更高，启动后<code>Server1</code>成为<code>Master</code>，<code>Server2</code>降级成为<code>Backup</code>；若此时<code>Server1</code>宕机，将由<code>Server2</code>接管服务，后续当<code>Server1</code>恢复后又变为<code>Master</code>，<code>Server2</code>降级成为<code>Backup</code>，属于抢占式。</li>
+<li><code>Server1</code>为<code>Master</code>，<code>Server2</code>为<code>Backup</code>，但<code>Server1</code>优先级低，启动后<code>Server2</code>成为<code>Master</code>，<code>Server1</code>降级成为<code>Backup</code>；若此时<code>Server2</code>宕机，将由<code>Server1</code>接管服务，后续当<code>Server2</code>回复后又变为<code>Master</code>，<code>Server1</code>降级成为<code>Backup</code>，属于抢占式。</li>
 </ul>
 </li>
 <li><code>Example 2</code>，两个<code>Backup</code>节点，必须配置<code>nopreempt</code><ul>
