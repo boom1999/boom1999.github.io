@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta name="google-site-verification" content="QbUVAi0K2ZB_P4A6jbbi-GVB4BXs3n6GqgIEGHlySnk" />
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="Torch, Summary, UAV, Git" />
+   
+  <meta name="description" content="No fear of words,no fear of years" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    Keepalived浅入浅出 |  Haisenberg
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-Keepalived浅入浅出"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Keepalived浅入浅出
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2024/07/04/Keepalived%E6%B5%85%E5%85%A5%E6%B5%85%E5%87%BA/" class="article-date">
+  <time datetime="2024-07-04T00:00:00.000Z" itemprop="datePublished">2024-07-04</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Summary/">Summary</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">2.2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">8 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <blockquote>
+<p>Record some about <code>Keepalived</code> installation and usage skills.</p>
+</blockquote>
+<span id="more"></span>
+<h2 id="books-1-前言"><a href="#books-1-前言" class="headerlink" title=":books: 1. 前言"></a><span class="github-emoji"><span>📚</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4da.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 1. 前言</h2><h3 id="1-1-出现的背景"><a href="#1-1-出现的背景" class="headerlink" title="1.1. 出现的背景"></a>1.1. 出现的背景</h3><blockquote>
+<p>起初用来监控虚拟服务器集群(Linux Virtual Server, LVS)中各服务节点的状态，剔除故障节点，重新加入恢复的节点；后又加入虚拟路由冗余协议(Vritrual Router Redundancy Protocol, VRRP)，解决静态路由出现单点故障。主要实现服务器状态检测和故障隔离，高可用集群。</p>
+</blockquote>
+<ul>
+<li><code>Client</code>向<code>Server</code>发送请求，随着服务量的增加，单机<code>Server</code>无法支持</li>
+<li>使用分布式架构，用<code>Nginx</code>反向代理和多<code>Server</code>实现分布式架构和负载均衡</li>
+<li>流量全部打在<code>Nginx</code>上，出现宕机，导致无法访问<code>Server</code></li>
+<li>使用<code>Keepalived</code>+多<code>Nginx</code>实现分布式的<code>Nginx</code>，主从架构实现高可用</li>
+</ul>
+<h3 id="1-2-和HeartBeat比较"><a href="#1-2-和HeartBeat比较" class="headerlink" title="1.2. 和HeartBeat比较"></a>1.2. 和HeartBeat比较</h3><ul>
+<li><code>Keepalived</code>轻量级的高可用解决方案，通过VRRP实现，模拟路由器的多机，当主机的下一跳路由出现故障，由另一台主机替代工作，部署和使用相对简单，配置文件单一，无管理功能；<code>HeartBeat</code>基于主机或网络服务的高可用，拆分为多个子项目，安装配置以及使用相对复杂，具有管理功能，用户服务的多机。</li>
+<li><code>HeartBeat</code>除了走网络通信还可以用串口通信，可靠性更高。</li>
+<li>LVS高可用建议用<code>Keepalived</code>，业务高可用建议用<code>HeartBeat</code>。</li>
+</ul>
+<h2 id="2-VRRP"><a href="#2-VRRP" class="headerlink" title="2. VRRP"></a>2. VRRP</h2><blockquote>
+<p>多主机之间通过静态路由完成通信，一旦路由器故障，可以通过VRRP协议进行切换，保证网络的连通性。VRRP由两台或多台物理路由器设备虚拟成一个虚拟路由器，通过虚拟IP对外提供服务。</p>
+</blockquote>
+<ul>
+<li>虚拟路由器：对外服务，拥有虚拟IP+MAC地址</li>
+<li>主路由器(master)：虚拟路由器内部通常只有一台物理路由器对外提供服务，由选举算法产生master</li>
+<li>备份路由器(backup)：除主路由器外的所有路由器，不对外提供服务，只接受主路由的通知，master挂掉之后由选举算法产生新的master</li>
+</ul>
+<h3 id="2-1-VRRP工作模式"><a href="#2-1-VRRP工作模式" class="headerlink" title="2.1. VRRP工作模式"></a>2.1. VRRP工作模式</h3><ul>
+<li>工作状态<ul>
+<li><code>Initialize</code>状态</li>
+<li><code>Master</code>状态</li>
+<li><code>Backup</code>状态</li>
+</ul>
+</li>
+<li>选举机制<ul>
+<li>默认抢占模式，一旦有优先级高的路由器加入，立即成为Master。原来的Master重新恢复后，会重新接管服务，多了一次不必要的VirtualIP切换。</li>
+<li>非抢占模式下，只要Master不挂掉，优先级高的路由器只能等待。原来的Master重新恢复后，状态会变为Backup，不会接管服务。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-2-抢占模式"><a href="#2-2-抢占模式" class="headerlink" title="2.2 抢占模式"></a>2.2 抢占模式</h3><ul>
+<li><code>Example 1</code>，只要优先级更高，就会获取Master，与状态无关<ul>
+<li><code>Server1</code>为<code>Master</code>，<code>Server2</code>为<code>Master</code>或<code>Backup</code>，且<code>Server1</code>优先级更高，启动后<code>Server1</code>成为<code>Master</code>，<code>Server2</code>降级成为<code>Backup；若此时</code>Server1<code>宕机，将由</code>Server2<code>接管服务，后续当</code>Server1<code>恢复后又变为</code>Master<code>，</code>Server2<code>降级成为</code>Backup`，属于抢占式。</li>
+<li><code>Server1</code>为<code>Master</code>，<code>Server2</code>为<code>Backup</code>，但<code>Server1</code>优先级低，启动后<code>Server2</code>成为<code>Master</code>，<code>Server1</code>降级成为<code>Backup；若此时</code>Server2<code>宕机，将由</code>Server1<code>接管服务，后续当</code>Server2<code>回复后又变为</code>Master<code>，</code>Server1<code>降级成为</code>Backup`，属于抢占式。</li>
+</ul>
+</li>
+<li><code>Example 2</code>，两个<code>Backup</code>节点，必须配置<code>nopreempt</code><ul>
+<li><code>Server1</code>和<code>Server2</code>都为<code>Backup</code>，先启动的升级为<code>Master</code>，必须配置<code>nopreempt</code>，若<code>Server1</code>宕机，<code>Server2</code>会接管服务，<code>Server1</code>恢复后不会重新接管，<code>Server1</code>成为<code>Backup</code>，属于非抢占式。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-工作原理"><a href="#3-工作原理" class="headerlink" title="3. 工作原理"></a>3. 工作原理</h2><blockquote>
+<p>工作在<code>TCP/IP</code>模型的第三、四和五层，即网络层、传输层和应用层。<br>网络层：通过<code>IMCP</code>协议向集群的每个节点发送数据包，检测节点的存活状态，若无响应则报告节点失效，从集群中剔除；<br>传输层:通过<code>TCP</code>协议的端口连接和扫描判断集群节点连接是否正常，若探测到没有响应数据判定为发生故障，从集群中剔除；<br>应用层：可以写脚本来检测服务是否正常以及剔除节点。</p>
+</blockquote>
+<ul>
+<li>Scheduler I/O Multiplexer<ul>
+<li>IO服用分发器，调度Keepalived所有的内部任务请求</li>
+</ul>
+</li>
+<li>Memory Management<ul>
+<li>内存管理机制，提供访问内从的通用方法</li>
+</ul>
+</li>
+<li>Control Plane，Keepalived运行时会启动<code>core</code>、<code>check</code>和<code>vrrp</code>三个进程<ul>
+<li>Core Components<ul>
+<li>Watch Dog<ul>
+<li>看门狗，针对被监视目标设置计数器和阈值，等待目标周期性重置计数器，若发生错误无法重置将被检测到。用来监控Checkers和VRRP进程</li>
+</ul>
+</li>
+<li>Checkers<ul>
+<li>实现对服务器的运行状态检测和故障隔离</li>
+</ul>
+</li>
+<li>VRRP Stack<ul>
+<li>实现失败切换功能，通过VRRP和LVS即可部署高性能的负载均衡集群</li>
+</ul>
+</li>
+<li>IPVS Wrapper<ul>
+<li>实现IPVS，将设置好的IPVS规则发送到内核空间并提交给IPVS模块，实现最终的负载均衡</li>
+</ul>
+</li>
+<li>Netlink Reflector<ul>
+<li>VIP的设置和切换</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-选举策略"><a href="#4-选举策略" class="headerlink" title="4. 选举策略"></a>4. 选举策略</h2><ul>
+<li>控制节点角色由两个值决定，配置文件中的<code>priority</code>；vrrp_scritp模块中配置的<code>weigth</code>，可正可负。<ul>
+<li>不设置<code>weight</code>时，集群中的优先级由<code>priority</code>决定，优先级高的节点成为<code>Master</code>，优先级低的节点成为<code>Backup</code>；但如果<code>Master</code>出现故障后<code>Backup</code>的<code>priority</code>小于<code>Master</code>的<code>priority</code>，导致主备切换失败。</li>
+<li>设置<code>weight</code><ul>
+<li>若<code>weight</code>为正<ul>
+<li>主成功，<code>master priority + weight &gt; backup priority + weight</code>时，主依然为主</li>
+<li>主失败，<code>master priority &lt; backup priority + weight</code>时，主从切换</li>
+</ul>
+</li>
+<li>若<code>weight</code>为负<ul>
+<li>主成功<code>master priority &gt; backup priority</code>时，主依然为主</li>
+<li>主失败，<code>master priority - abs(weight) &lt; backup priority</code>时，主从切换</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="5-相关配置"><a href="#5-相关配置" class="headerlink" title="5. 相关配置"></a>5. 相关配置</h2><ul>
+<li><p>备份配置</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> /etc/keepalived/keepalived.conf /etc/keepalived/keepalived.conf.bak</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>全局配置</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">! Configuration File <span class="keyword">for</span> keepalived</span><br><span class="line"></span><br><span class="line">global_defs {</span><br><span class="line">  notification_email {</span><br><span class="line">    acassen@firewall.loc</span><br><span class="line">    failover@firewall.loc</span><br><span class="line">    sysadmin@firewall.loc</span><br><span class="line">  }</span><br><span class="line">  notification_email_from Alexandre.Cassen@firewall.loc</span><br><span class="line">  smtp_server 192.168.200.1</span><br><span class="line">  smtp_connect_timeout 30</span><br><span class="line">  router_id LVS_DEVEL</span><br><span class="line">  vrrp_skip_check_adv_addr</span><br><span class="line">  vrrp_strict</span><br><span class="line">  vrrp_garp_interval 0</span><br><span class="line">  vrrp_gna_interval 0</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">global_defs #全局配置标识</span><br><span class="line">notification_email #用于设置报警的邮件地址，可以设置多个，每行一个。如果要开启邮件报警，需要开启本机的sendmail服务</span><br><span class="line">notification_email_from #邮件的发送地址</span><br><span class="line">smtp_server #设置邮件的smtp server地址</span><br><span class="line">smtp_connect_timeout #设置连接smtp server的超时时间</span><br><span class="line">router_id # 运行keepalived的一个标识，唯一</span><br><span class="line">vrrp_skip_check_adv_addr ##对所有通告报文都检查，会比较消耗性能，启用此配置后，如果收到的通告报文和上一个报文是同一个路由器，则跳过检查，默认值为全检查</span><br><span class="line">vrrp_strict ##严格遵守VRRP协议,启用此项后以下状况将无法启动服务:1.无VIP地址 2.配置了单播邻居 3.在VRRP版本2中有IPv6地址，开启动此项并且没有配置vrrp_iptables时会自动开启iptables防火墙规则，默认导致VIP无法访问,建议不加此项配置</span><br><span class="line">vrrp_iptables #此项和vrrp_strict同时开启时，则不会添加防火墙规则,如果无配置vrrp_strict项,则无需启用此项配置</span><br><span class="line">vrrp_garp_interval 0 #gratuitous ARP messages 报文发送延迟，0表示不延迟</span><br><span class="line">vrrp_gna_interval 0 ##unsolicited NA messages （不请自来）消息发送延迟</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>VRRP配置</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">vrrp_script nginx_check {</span><br><span class="line">    script<span class="string">"/tools/nginx_check.sh"</span></span><br><span class="line">    interval 1</span><br><span class="line">}</span><br><span class="line">vrrp_instance VI_1 {</span><br><span class="line">    state MASTER</span><br><span class="line">    interface ens33</span><br><span class="line">    virtual_router_id 52</span><br><span class="line">    priority 100</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication {</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass <span class="built_in">test</span></span><br><span class="line">    }</span><br><span class="line">    virtual_ipaddress {</span><br><span class="line">        192.168.149.100</span><br><span class="line">    }</span><br><span class="line">    track_script {</span><br><span class="line">        nginx_check</span><br><span class="line">    }</span><br><span class="line">    notify_master /tools/master.sh</span><br><span class="line">    notify_backup /tools/backup.sh</span><br><span class="line">    notify_fault /tools/fault.sh</span><br><span class="line">    notify_stop /tools/stop.sh</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vrrp_instance VI_1 #VRRP实例开始的标识 VI_1为实例名称</span><br><span class="line">state #指定keepalived的角色，MASTER表示此主机是主服务器，BACKUP表示此主机是备服务器</span><br><span class="line">interface #指定检测网络的网卡接口</span><br><span class="line">virtual_router_id #虚拟路由标识，数字形式，同一个VRRP实例使用唯一的标识，即在同一个vrrp_instance下，master和backup必须一致</span><br><span class="line">priority #节点优先级，数字越大表示节点的优先级越高，在一个VRRP实例下，MASTER的优先级必须要比BACKUP高，不然就会切换角色</span><br><span class="line">advert_int #用于设定MASTER与BACKUP之间同步检查的时间间隔，单位为秒</span><br><span class="line">auth_type PASS #预共享密钥认证，同一个虚拟路由器的keepalived节点必须一样</span><br><span class="line">auth_pass #设置密钥</span><br><span class="line">virtual_ipaddress #设置虚拟IP地址，可以设置多种形式：10.0.0.100不指定网卡，默认为eth0,注意：不指定/prefix,默认为/32；10.0.0.101/24 dev eth1 指定VIP的网卡；10.0.0.102/24 dev eth2 label eth2:1  #指定VIP的网卡label</span><br><span class="line">nopreempt # 设置为非抢占模式，同一实例下主备设置必须一样</span><br><span class="line">preemtp_delay # 设置抢占模式的延时时间，单位为秒</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+<h2 id="6-集群资源监控"><a href="#6-集群资源监控" class="headerlink" title="6. 集群资源监控"></a>6. 集群资源监控</h2><blockquote>
+<p>通过<code>track_script</code>和<code>vrrp_script</code>实现集群资源监控及改变优先级，实现主从切换</p>
+</blockquote>
+<ul>
+<li><code>killall</code>探测服务运行状态</li>
+</ul>
+<blockquote>
+<p>定义服务监控模块<code>nginx_check</code>，如果发现进程异常或关闭返回状态码<code>1</code></p>
+</blockquote>
+  <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vrrp_script nginx_check {</span><br><span class="line">    script<span class="string">"killall -0 nginx"</span></span><br><span class="line">    interval 1</span><br><span class="line">}</span><br><span class="line">track_script {</span><br><span class="line">    nginx_check</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>检测端口状态</li>
+</ul>
+<blockquote>
+<p><code>fail</code>表示检测到失败的最大次数，也就是说如果请求失败两次，就认为此节点资源发生故障，进行切换操作；<code>rise</code>表示请求一次成功，就认为此节点资源恢复正常</p>
+</blockquote>
+  <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vrrp_script nginx_check {</span><br><span class="line">    script <span class="string">"&lt;/dev/tcp/127.0.0.1/80"</span></span><br><span class="line">    interval 1</span><br><span class="line">    fail 2</span><br><span class="line">    rise 1</span><br><span class="line">}</span><br><span class="line">track_script {</span><br><span class="line">    nginx_check</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2024/07/04/Keepalived%E6%B5%85%E5%85%A5%E6%B5%85%E5%87%BA/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Keepalived/" rel="tag">Keepalived</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Load-Balance/" rel="tag">Load Balance</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2024/06/29/ClickHouse%E5%88%9D%E6%8E%A2/" class="article-nav-link">
+        <strong class="article-nav-caption">Next post</strong>
+        <div class="article-nav-title">ClickHouse初探</div>
+      </a>
+    
+  </nav>
+
+  
+   
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'a1a50124b0c46fa4fab9',
+    clientSecret: '4a29dee6f998a9272f57ba07f987ea9eed9da5ec',
+    repo: 'blog-comments',
+    owner: 'boom1999',
+    admin: ['boom1999'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: true,  // Facebook-like distraction free mode
+    pagerDirection: 'last',
+    proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2024
+        <span class="division">|</span> Zhicheng Ling
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+          
+          
+          Power <a href="https://hexo.io" target="_blank">Hexo</a>
+          <span class="division">|</span>
+          Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+          
+          <span class="division">|</span>
+        
+          
+          <span>
+  <span><i class="ri-eye-fill"></i> <span id="busuanzi_value_page_pv"></span></span>
+</span>
+          
+      </li>
+    </ul>
+    <ul>
+      
+        <li>
+          <a href="http://beian.miit.gov.cn/" target="_black" rel="nofollow">浙ICP备2020044847号-1</a>
+        </li>
+        
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/haisen-side.svg" alt="Haisenberg"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Categories</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.pan.lingzhicheng.cn">Pan</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.gallery.lingzhicheng.cn">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.todo.lingzhicheng.cn">Todo</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">Friends</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/me">Me</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+<!-- Graphiz -->
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/viz.js/1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+
+    
+  </div>
+  <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
+  fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
+  webpushr('setup',{'key':'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script>
+<script>(function (w, d, s, id) {
+            if (typeof (w.webpushr) !== 'undefined') return; w.webpushr = w.webpushr || function () { (w.webpushr.q = w.webpushr.q || []).push(arguments) }; var js, fjs = d.getElementsByTagName(s)[0]; js = d.createElement(s); js.id = id; js.async = 1; js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window, document, 'script', 'webpushr-jssdk'));webpushr('setup', { 'key': 'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script></body>
+
+</html>
