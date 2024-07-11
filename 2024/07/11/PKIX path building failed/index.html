@@ -14,7 +14,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    Summary |  Haisenberg
+    PKIX path building failed |  Haisenberg
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -47,344 +47,215 @@
       
     <main class="content on">
       <section class="outer">
+  <article
+  id="post-PKIX path building failed"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  PKIX path building failed
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2024/07/11/PKIX%20path%20building%20failed/" class="article-date">
+  <time datetime="2024-07-11T00:00:00.000Z" itemprop="datePublished">2024-07-11</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Summary/">Summary</a>
+  </div>
   
-  <ul class="ads">
-    
-        <li>
-            <a href="">
-                <img src="" width="" alt="">
-            </a>
-        </li>
-    
-        <li>
-            <a href="">
-                <img src="" width="" alt="">
-            </a>
-        </li>
-    
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">560</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">2 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <blockquote>
+<p><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>开发中遇到 <code>javax.net.ssl.SSLHandshakeException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target</code>，猜测应该是SSL证书的问题，找了一些解决方式，在这里做总结。</p>
+</blockquote>
+<span id="more"></span>
+<h2 id="books-1-前言"><a href="#books-1-前言" class="headerlink" title=":books: 1. 前言"></a><span class="github-emoji"><span>📚</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4da.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 1. 前言</h2><p>调用HTTPS接口时遇到的SSL证书相关问题，这里是<code>PKIX path building failed</code>。</p>
+<h2 id="satellite-2-出现的背景"><a href="#satellite-2-出现的背景" class="headerlink" title=":satellite: 2. 出现的背景"></a><span class="github-emoji"><span>📡</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4e1.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 2. 出现的背景</h2><blockquote>
+<p>捕获抛出的<code>IOException</code>，检查发现是<code>HttpURLConnection.getResponseCode();</code>出现了问题，当然在其他连接处也可能产生，具体表现为<code>sun.security.validator.ValidatorException: PKIX path building failed</code>，也就是说无法找到请求目标的有效认证路径导致的。</p>
+</blockquote>
+<ul>
+<li>JDK缺少某个目标Server的安全证书</li>
 </ul>
-  
-  
-  <article class="articles">
-    
-    
-    <h1 class="page-type-title">Summary</h1>
-    
-    
-  
-  
-  
-  
-  
-  
-  <div class="archives-wrap">
-    <div class="archive-year-wrap">
-      <a href="/archives/2023" class="archive-year">2023</a>
-    </div>
-    <div class="archives">
-      
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2023/03/27/TexLive+VsCode/" class="archive-article-date">
-  <time datetime="2023-03-27T00:00:00.000Z" itemprop="datePublished">03/27</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2023/03/27/TexLive+VsCode/"
-    >Installation for TexLive under VsCode</a> 
-</h2>
+<h2 id="mag-right-3-解决方案"><a href="#mag-right-3-解决方案" class="headerlink" title=":mag_right: 3. 解决方案"></a><span class="github-emoji"><span>🔎</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f50e.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 3. 解决方案</h2><blockquote>
+<p>JDK在<code>lib/security/</code>目录下存放着<code>cacerts</code>文件，这个文件是JDK的证书库，产生上述错误的原因就是未能找到目标服务器的SSL证书，需要做的就是找到证书或者禁用证书验证，下面提供几种解决方案。</p>
+</blockquote>
+<h3 id="3-1-将目标服务器的证书导入到Java的信任库"><a href="#3-1-将目标服务器的证书导入到Java的信任库" class="headerlink" title="3.1 将目标服务器的证书导入到Java的信任库"></a>3.1 将目标服务器的证书导入到Java的信任库</h3><ul>
+<li><p>获取目标服务器的SSL证书，可以通过浏览器地址栏左侧的图标进行下载（crt或者pem文件）（<em>不会的话可以自行Google</em>），也可以通过命令行导出。</p>
+<p>  <code>openssl s_client -connect &lt;your-server&gt;:443 -showcerts</code></p>
+</li>
+<li><p>导入证书到Java的信任库(记得先备份原始的信任库<code>cacerts</code>)</p>
+<p>  <code>keytool -import -alias test_https_certificate -file D:\***.crt -keystore D:\java**\lib\security\cacerts</code></p>
+<ul>
+<li>密钥库口令默认为<code>changeit</code></li>
+</ul>
+</li>
+<li><p>也可以把<code>-keystore</code>后的路径改为自己新建的信任库路径，然后在SpringBoot的启动类中修改<code>javax.net.ssl.trustStore</code>和<code>javax.net.ssl.trustStorePassword</code>的值。</p>
+  <figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.setProperty(<span class="string">"javax.net.ssl.trustStore"</span>, <span class="string">"D:\\yourCacerts"</span>);</span><br><span class="line">System.setProperty(<span class="string">"javax.net.ssl.trustStorePassword"</span>, <span class="string">"changeit"</span>);</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+<h3 id="3-2-使用自定义的信任管理器"><a href="#3-2-使用自定义的信任管理器" class="headerlink" title="3.2 使用自定义的信任管理器"></a>3.2 使用自定义的信任管理器</h3><figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.net.ssl.*;</span><br><span class="line"><span class="keyword">import</span> java.security.cert.X509Certificate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CustomTrustManager</span> {</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception {</span><br><span class="line">        TrustManager[] trustAllCerts = <span class="keyword">new</span> <span class="title class_">TrustManager</span>[]{</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">X509TrustManager</span>() {</span><br><span class="line">                <span class="keyword">public</span> X509Certificate[] getAcceptedIssuers() { <span class="keyword">return</span> <span class="literal">null</span>; }</span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">checkClientTrusted</span><span class="params">(X509Certificate[] certs, String authType)</span> { }</span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">checkServerTrusted</span><span class="params">(X509Certificate[] certs, String authType)</span> { }</span><br><span class="line">            }</span><br><span class="line">        };</span><br><span class="line"></span><br><span class="line">        <span class="type">SSLContext</span> <span class="variable">sc</span> <span class="operator">=</span> SSLContext.getInstance(<span class="string">"SSL"</span>);</span><br><span class="line">        sc.init(<span class="literal">null</span>, trustAllCerts, <span class="keyword">new</span> <span class="title class_">java</span>.security.SecureRandom());</span><br><span class="line">        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Your code to open connection and interact with the server</span></span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="3-3-禁用证书验证"><a href="#3-3-禁用证书验证" class="headerlink" title="3.3 禁用证书验证"></a>3.3 禁用证书验证</h3><ul>
+<li><p>建议仅在测试环境下使用</p>
+<p>  <code>HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -&gt; true);</code></p>
+</li>
+</ul>
+<h2 id="4-常见问题"><a href="#4-常见问题" class="headerlink" title="4. 常见问题"></a>4. 常见问题</h2><ul>
+<li>可以使用 <code>keytool -list -keystore D:\java**\lib\security\cacerts</code> 命令来查看已导入的证书</li>
+</ul>
  
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Summary/">Summary</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2023/02/09/LatexGrammar/" class="archive-article-date">
-  <time datetime="2023-02-09T00:00:00.000Z" itemprop="datePublished">02/09</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2023/02/09/LatexGrammar/"
-    >Latex Grammar</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Summary/">Summary</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-  
-  </div>
-  </div>
-  
-  
-  <div class="archives-wrap">
-    <div class="archive-year-wrap">
-      <a href="/archives/2022" class="archive-year">2022</a>
-    </div>
-    <div class="archives">
-      
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2022/06/22/%E6%AF%95%E4%B8%9A%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  <time datetime="2022-06-22T00:00:00.000Z" itemprop="datePublished">06/22</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2022/06/22/%E6%AF%95%E4%B8%9A%E6%80%BB%E7%BB%93/"
-    >毕业总结</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Summary/">Summary</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-  
-  </div>
-  </div>
-  
-  
-  <div class="archives-wrap">
-    <div class="archive-year-wrap">
-      <a href="/archives/2021" class="archive-year">2021</a>
-    </div>
-    <div class="archives">
-      
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/10/20/%E6%8A%93%E5%8F%96%E9%81%93%E5%AE%A2%E5%B7%B4%E5%B7%B4%E5%86%85%E5%AE%B9/" class="archive-article-date">
-  <time datetime="2021-10-20T00:00:00.000Z" itemprop="datePublished">10/20</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/10/20/%E6%8A%93%E5%8F%96%E9%81%93%E5%AE%A2%E5%B7%B4%E5%B7%B4%E5%86%85%E5%AE%B9/"
-    >抓取道客巴巴内容</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Summary/">Summary</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/08/25/mathBasic/" class="archive-article-date">
-  <time datetime="2021-08-25T00:00:00.000Z" itemprop="datePublished">08/25</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/08/25/mathBasic/"
-    >数学基础知识</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Summary/">Summary</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/08/16/%E5%9F%BA%E4%BA%8E%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E5%9B%BE%E7%89%87%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/" class="archive-article-date">
-  <time datetime="2021-08-16T00:00:00.000Z" itemprop="datePublished">08/16</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/08/16/%E5%9F%BA%E4%BA%8E%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E5%9B%BE%E7%89%87%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/"
-    >基于卷积神经网络的图片验证码识别</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Summary/">Summary</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/06/19/Matlab%20sort%20out/" class="archive-article-date">
-  <time datetime="2021-06-19T00:00:00.000Z" itemprop="datePublished">06/19</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/06/19/Matlab%20sort%20out/"
-    >Matlab sort out</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Summary/">Summary</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/03/25/Git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" class="archive-article-date">
-  <time datetime="2021-03-25T00:00:00.000Z" itemprop="datePublished">03/25</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/03/25/Git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/"
-    >Git常用操作</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Summary/">Summary</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/" class="archive-article-date">
-  <time datetime="2021-02-26T00:00:00.000Z" itemprop="datePublished">02/26</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/"
-    >VS2019代码提示延迟很高，部分快捷键无法使用的问题</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Summary/">Summary</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/02/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B4%E7%90%86/" class="archive-article-date">
-  <time datetime="2021-02-17T00:00:00.000Z" itemprop="datePublished">02/17</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/02/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B4%E7%90%86/"
-    >正则表达式整理（持续更新）</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Summary/">Summary</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
+      <!-- reward -->
       
     </div>
-  </div>
-  
-  
-
-  
-  <nav class="page-nav">
     
-    <a class="extend prev" rel="prev" href="/categories/Summary/">Prev page</a><a class="page-number" href="/categories/Summary/">1</a><span class="page-number current">2</span><a class="page-number" href="/categories/Summary/page/3/">3</a><a class="extend next" rel="next" href="/categories/Summary/page/3/">Next page</a>
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2024/07/11/PKIX%20path%20building%20failed/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTPS/" rel="tag">HTTPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSL/" rel="tag">SSL</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2024/07/04/Keepalived%E6%B5%85%E5%85%A5%E6%B5%85%E5%87%BA/" class="article-nav-link">
+        <strong class="article-nav-caption">Next post</strong>
+        <div class="article-nav-title">Keepalived浅入浅出</div>
+      </a>
+    
   </nav>
+
   
+   
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'a1a50124b0c46fa4fab9',
+    clientSecret: '4a29dee6f998a9272f57ba07f987ea9eed9da5ec',
+    repo: 'blog-comments',
+    owner: 'boom1999',
+    admin: ['boom1999'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: true,  // Facebook-like distraction free mode
+    pagerDirection: 'last',
+    proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+     
+</article>
+
 </section>
       <footer class="footer">
   <div class="outer">
@@ -533,6 +404,23 @@
 <script src="/js/lazyload.min.js"></script>
 
 <!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
