@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta name="google-site-verification" content="QbUVAi0K2ZB_P4A6jbbi-GVB4BXs3n6GqgIEGHlySnk" />
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="Torch, Summary, UAV, Git" />
+   
+  <meta name="description" content="No fear of words,no fear of years" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    SpringBoot线程池和异步任务 |  Haisenberg
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-SpringBoot线程池和异步任务"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  SpringBoot线程池和异步任务
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2024/04/20/SpringBoot%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%92%8C%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/" class="article-date">
+  <time datetime="2024-04-20T00:00:00.000Z" itemprop="datePublished">2024-04-20</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Summary/">Summary</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">1.2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">5 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <blockquote>
+<p>通用的SpringBoot项目下线程池的配置和使用，异步任务的创建和使用等。</p>
+</blockquote>
+<span id="more"></span>
+<h2 id="books-1-线程池配置"><a href="#books-1-线程池配置" class="headerlink" title=":books: 1. 线程池配置"></a><span class="github-emoji"><span>📚</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4da.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 1. 线程池配置</h2><h3 id="1-1-参数配置"><a href="#1-1-参数配置" class="headerlink" title="1.1. 参数配置"></a>1.1. 参数配置</h3><ul>
+<li><p>resouces/appliccation.yml</p>
+  <figure class="highlight yml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">async:</span></span><br><span class="line"><span class="attr">executor:</span></span><br><span class="line">    <span class="attr">thread:</span></span><br><span class="line">    <span class="attr">keepAliveSeconds:</span> <span class="number">60</span></span><br><span class="line">    <span class="attr">namePrefix:</span> <span class="string">async-service-</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+<h3 id="1-2-开启线程池"><a href="#1-2-开启线程池" class="headerlink" title="1.2. 开启线程池"></a>1.2. 开启线程池</h3><ul>
+<li>从运行时拿Cpu核心数，提高可迁移性</li>
+<li><code>baseServiceExecutor</code>用拒绝的策略，防止请求过载</li>
+<li><code>downloadServiceExecutor</code>用等待的策略，保证所有下载线程都会被执行</li>
+<li><p>若有多个线程池，最好定义一些Bean(name = “executorName”)的线程池名字，方便后续使用<code>@Qualifier("executorName")</code>指定线程池</p>
+</li>
+<li><p>config/ExecutorConfiguration.java</p>
+  <figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.xxx.xxx.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.context.properties.ConfigurationProperties;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.support.PropertySourcesPlaceholderConfigurer;</span><br><span class="line"><span class="keyword">import</span> org.springframework.scheduling.annotation.EnableAsync;</span><br><span class="line"><span class="keyword">import</span> org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ThreadPoolExecutor;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@EnableAsync</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConfigurationProperties(prefix = "async.executor.thread")</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ExecutorConfiguration</span> {</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">cpuNum</span> <span class="operator">=</span> Runtime.getRuntime().availableProcessors();</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> corePoolSize;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> maxPoolSize;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> queueCapacity;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> keepAliveSeconds;</span><br><span class="line">    <span class="keyword">private</span> String namePrefix;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(name = "asyncBaseServiceExecutorConfigurer")</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> PropertySourcesPlaceholderConfigurer <span class="title function_">propertySourcesPlaceholderConfigurer</span><span class="params">()</span> {</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">PropertySourcesPlaceholderConfigurer</span>();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(name = "asyncBaseServiceExecutor")</span></span><br><span class="line">    <span class="keyword">public</span> ThreadPoolTaskExecutor <span class="title function_">baseServiceExecutor</span><span class="params">()</span> {</span><br><span class="line">        <span class="type">ThreadPoolTaskExecutor</span> <span class="variable">executor</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ThreadPoolTaskExecutor</span>();</span><br><span class="line">        executor.setCorePoolSize(cpuNum + <span class="number">1</span>);</span><br><span class="line">        executor.setMaxPoolSize((cpuNum + <span class="number">1</span>) * <span class="number">2</span>);</span><br><span class="line">        executor.setQueueCapacity(cpuNum * <span class="number">20</span>);</span><br><span class="line">        executor.setKeepAliveSeconds(keepAliveSeconds);</span><br><span class="line">        executor.setThreadNamePrefix(namePrefix + <span class="string">"base"</span>);</span><br><span class="line">        executor.setRejectedExecutionHandler(<span class="keyword">new</span> <span class="title class_">ThreadPoolExecutor</span>.AbortPolicy());</span><br><span class="line">        executor.initialize();</span><br><span class="line">        <span class="keyword">return</span> executor;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(name = "asyncDownloadServiceExecutor")</span></span><br><span class="line">    <span class="keyword">public</span> ThreadPoolTaskExecutor <span class="title function_">downloadServiceExecutor</span><span class="params">()</span> {</span><br><span class="line">        <span class="type">ThreadPoolTaskExecutor</span> <span class="variable">executor</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ThreadPoolTaskExecutor</span>();</span><br><span class="line">        executor.setCorePoolSize(cpuNum * <span class="number">2</span>);</span><br><span class="line">        executor.setMaxPoolSize(cpuNum * <span class="number">4</span>);</span><br><span class="line">        executor.setQueueCapacity(cpuNum * <span class="number">20</span>);</span><br><span class="line">        executor.setKeepAliveSeconds(keepAliveSeconds);</span><br><span class="line">        executor.setThreadNamePrefix(namePrefix + <span class="string">"download"</span>);</span><br><span class="line">        executor.setRejectedExecutionHandler(<span class="keyword">new</span> <span class="title class_">ThreadPoolExecutor</span>.CallerRunsPolicy());</span><br><span class="line">        executor.initialize();</span><br><span class="line">        <span class="keyword">return</span> executor;</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>启动类增加支持Async的注解</p>
+  <figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableAsync</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>用到线程池的服务接口增加注解，并标记使用哪个线程池</p>
+  <figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Async("asyncBaseServiceExecutor")</span></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><code>Method annotated with @Async should return 'void' or "Future-like" type</code>，异步调用不能有返回值或者要用带<code>Future</code>的返回，可以用<code>CompletableFuture&lt;T&gt;</code>的结构封装原来的返回类型<code>T</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="satellite-2-接口中的异步任务改写"><a href="#satellite-2-接口中的异步任务改写" class="headerlink" title=":satellite: 2. 接口中的异步任务改写"></a><span class="github-emoji"><span>📡</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4e1.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 2. 接口中的异步任务改写</h2><h3 id="2-1-引入线程池和注入"><a href="#2-1-引入线程池和注入" class="headerlink" title="2.1. 引入线程池和注入"></a>2.1. 引入线程池和注入</h3><ul>
+<li><p>controller/BaseController.java</p>
+  <figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> ThreadPoolTaskExecutor baseServiceExecutor;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">public</span> <span class="title function_">BaseController</span><span class="params">(XXX xxx, <span class="meta">@Qualifier("asyncBaseServiceExecutor")</span> ThreadPoolTaskExecutor baseServiceExecutor)</span> {</span><br><span class="line">    <span class="built_in">this</span>.xxx = xxx;</span><br><span class="line">    <span class="built_in">this</span>.baseServiceExecutor = baseServiceExecutor;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+<h3 id="2-2-接口内多任务的异步编排"><a href="#2-2-接口内多任务的异步编排" class="headerlink" title="2.2. 接口内多任务的异步编排"></a>2.2. 接口内多任务的异步编排</h3><ul>
+<li>接口请求成功马上返回结果，可以是查询的结果也可以是空，根据需求；如果需要返回的是多线程服务的查询，return的Result也要用Future结构封装</li>
+<li>执行异步的下载任务，防止阻塞接口的响应</li>
+<li><code>CompletableFuture</code>的<code>runasync()</code>和<code>supplyasync()</code>的区别<ul>
+<li><code>runasync()</code>方法接收一个<code>Runnable</code>类型的参数，不会返回任何结果</li>
+<li><code>supplyasync()</code>方法接收一个<code>Supplier</code>类型的参数，需要返回结果</li>
+</ul>
+</li>
+<li><code>CompletableFuture</code>的<code>thenCompose()</code>和<code>thenApply()</code>的区别<ul>
+<li><code>thenCompose()</code>用来连接两个<code>CompletableFuture</code>，是生成一个新的<code>CompletableFuture</code></li>
+<li><code>thenApply()</code>转换的是泛型中的类型，是同一个<code>CompletableFuture</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping("/******")</span></span><br><span class="line"><span class="keyword">private</span> Result&lt;String&gt; <span class="title function_">listByTime</span><span class="params">(<span class="meta">@RequestParam(required = false)</span> String startTime,</span></span><br><span class="line"><span class="params">                                  <span class="meta">@RequestParam(required = false)</span> String endTime)</span> {</span><br><span class="line">    log.info(<span class="string">"Select all log base by time"</span>);</span><br><span class="line">    <span class="comment">// If the endTime is null, set it to the current time</span></span><br><span class="line">    endTime = Optional.ofNullable(endTime)</span><br><span class="line">                .orElseGet(() -&gt; LocalDateTime.now().format(DateTimeFormatter.ofPattern(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>)));</span><br><span class="line"></span><br><span class="line">    <span class="type">String</span> <span class="variable">finalEndTime</span> <span class="operator">=</span> endTime;</span><br><span class="line">    <span class="type">AtomicLong</span> <span class="variable">DownloadNums</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AtomicLong</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="type">long</span> <span class="variable">startCostTime</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">    CompletableFuture.runAsync(() -&gt; {</span><br><span class="line">        <span class="keyword">try</span> {</span><br><span class="line">            List&lt;xxx&gt; logs = BaseService.listByTime(startTime, finalEndTime, pageNum, pageSize).get();</span><br><span class="line">            DownloadNums.getAndAdd(progressService.progressLogsAndInitiateDownloa(logs, startTime, finalEndTime, domainIdMap).get().get());</span><br><span class="line">        } <span class="keyword">catch</span> (Exception e) {</span><br><span class="line">            log.error(<span class="string">"Error initiating log download"</span>, e);</span><br><span class="line">        } <span class="keyword">finally</span> {</span><br><span class="line">            <span class="type">long</span> <span class="variable">endCostTime</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">            log.info(<span class="string">"Download finished, total {} files,time cost: {} ms"</span>, DownloadNums, endCostTime - startCostTime);</span><br><span class="line">        }</span><br><span class="line">    }, baseServiceExecutor);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Result.success(<span class="string">"Download is in progress in the background"</span>);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="mag-right-3-并行下载请求"><a href="#mag-right-3-并行下载请求" class="headerlink" title=":mag_right: 3. 并行下载请求"></a><span class="github-emoji"><span>🔎</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f50e.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 3. 并行下载请求</h2><ul>
+<li>网络请求下载任务要关注一些异常的捕获，直接抛出将漏掉部分下载内容</li>
+<li>为了统计下载任务总数，用了原子类来计数<code>AtomicLong</code>，和使用<code>CountDownLatch</code>统计预估下载总线程数量，再用<code>latch.countDown()</code>和<code>latch.wait()</code>等待所有线程结束统一返回</li>
+</ul>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.***.***.utils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Qualifier;</span><br><span class="line"><span class="keyword">import</span> org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.security.NoSuchAlgorithmException;</span><br><span class="line"><span class="keyword">import</span> java.util.AbstractMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.CountDownLatch;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.atomic.AtomicLong;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GetObject</span> {</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ThreadPoolTaskExecutor downloadServiceExecutor;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">setThreadPoolTaskExecutor</span><span class="params">(<span class="meta">@Qualifier("asyncDownloadServiceExecutor")</span> ThreadPoolTaskExecutor downloadServiceExecutor)</span> {</span><br><span class="line">        GetObject.downloadServiceExecutor = downloadServiceExecutor;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">log</span> <span class="operator">=</span> LoggerFactory.getLogger(GetObject.class);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> AtomicLong <span class="title function_">figDownload</span><span class="params">(Map&lt;Integer, Set&lt;AbstractMap.SimpleEntry&lt;String, String&gt;&gt;&gt; domainIdFileKeysResponse, String downloadSubName, Map&lt;Integer, String&gt; domainIdMap)</span> {</span><br><span class="line">        <span class="type">String</span> <span class="variable">pathName</span> <span class="operator">=</span> <span class="string">"D:\\download\\"</span> + downloadSubName + File.separator;</span><br><span class="line">        <span class="type">File</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(pathName);</span><br><span class="line">        <span class="keyword">if</span> (!file.exists()) {</span><br><span class="line">            <span class="type">boolean</span> <span class="variable">wasSuccessful</span> <span class="operator">=</span> file.mkdirs();</span><br><span class="line">            log.debug(<span class="string">"Create directory {} {}"</span>, pathName, wasSuccessful ? <span class="string">"succeed"</span> : <span class="string">"failed"</span>);</span><br><span class="line">        }</span><br><span class="line">        <span class="type">AtomicLong</span> <span class="variable">totalDownloadedFiles</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AtomicLong</span>(<span class="number">0</span>);</span><br><span class="line">        <span class="type">int</span> <span class="variable">totalTasks</span> <span class="operator">=</span> domainIdFileKeysResponse.values().stream().mapToInt(Set::size).sum();</span><br><span class="line">        <span class="type">CountDownLatch</span> <span class="variable">latch</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CountDownLatch</span>(totalTasks);</span><br><span class="line">        <span class="keyword">try</span> {</span><br><span class="line">            <span class="keyword">for</span> (Map.Entry&lt;Integer, Set&lt;AbstractMap.SimpleEntry&lt;String, String&gt;&gt;&gt; entry : domainIdFileKeysResponse.entrySet()) {</span><br><span class="line">                <span class="type">Integer</span> <span class="variable">domainId</span> <span class="operator">=</span> entry.getKey();</span><br><span class="line">                <span class="type">String</span> <span class="variable">domainName</span> <span class="operator">=</span> domainIdMap.get(domainId);</span><br><span class="line">                <span class="type">File</span> <span class="variable">fileDomain</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(pathName + domainId + domainName + File.separator);</span><br><span class="line">                <span class="keyword">if</span> (!fileDomain.exists()) {</span><br><span class="line">                    <span class="type">boolean</span> <span class="variable">wasSuccessful</span> <span class="operator">=</span> fileDomain.mkdirs();</span><br><span class="line">                    log.debug(<span class="string">"Create directory {}{}{} {}"</span>, pathName, domainId, domainName, wasSuccessful ? <span class="string">"succeed"</span> : <span class="string">"failed"</span>);</span><br><span class="line">                }</span><br><span class="line">                Set&lt;AbstractMap.SimpleEntry&lt;String, String&gt;&gt; fileUrlResponses = entry.getValue();</span><br><span class="line">                <span class="keyword">for</span> (AbstractMap.SimpleEntry&lt;String, String&gt; fileUrlResponse : fileUrlResponses) {</span><br><span class="line">                    downloadServiceExecutor.execute(() -&gt; {</span><br><span class="line">                        <span class="type">String</span> <span class="variable">responseData</span> <span class="operator">=</span> fileUrlResponse.getValue();</span><br><span class="line">                        <span class="type">String</span> <span class="variable">fileUrl</span> <span class="operator">=</span> fileUrlResponse.getKey();</span><br><span class="line">                        <span class="type">String</span> <span class="variable">downloadPathPre</span> <span class="operator">=</span> pathName + domainId + domainName + File.separator;</span><br><span class="line">                        <span class="keyword">try</span> {</span><br><span class="line">                            <span class="comment">// download the picture</span></span><br><span class="line">                            <span class="type">String</span> <span class="variable">sha256Name</span> <span class="operator">=</span> ImageDownloader.downloadImgFromUrl(fileUrl, downloadPathPre);</span><br><span class="line">                                <span class="keyword">if</span> (sha256Name != <span class="literal">null</span>) {</span><br><span class="line">                                    JsonDownloader.saveStringAsJson(responseData, downloadPathPre + sha256Name.split(<span class="string">"\\."</span>)[<span class="number">0</span>] + <span class="string">".json"</span>);</span><br><span class="line">                                    totalDownloadedFiles.incrementAndGet();</span><br><span class="line">                                }</span><br><span class="line">                        }   <span class="keyword">catch</span> (IOException e) {</span><br><span class="line">                            log.error(<span class="string">"Error Message:{}, URL:{}"</span>, e.getMessage(), fileUrl);</span><br><span class="line">                        } <span class="keyword">catch</span> (NoSuchAlgorithmException e) {</span><br><span class="line">                            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">                        } <span class="keyword">finally</span> {</span><br><span class="line">                            <span class="keyword">if</span> (ossClient != <span class="literal">null</span>) {</span><br><span class="line">                                ossClient.shutdown();</span><br><span class="line">                            }</span><br><span class="line">                            latch.countDown();</span><br><span class="line">                        }</span><br><span class="line">                    });</span><br><span class="line">                }</span><br><span class="line">            }</span><br><span class="line">            latch.await();</span><br><span class="line">        } <span class="keyword">catch</span> (Exception e) {</span><br><span class="line">            log.error(<span class="string">"Error occurred: "</span>, e);</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> totalDownloadedFiles;</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2024/04/20/SpringBoot%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%92%8C%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SprinBoot/" rel="tag">SprinBoot</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2024/04/20/Graphviz%20on%20Hexo/" class="article-nav-link">
+        <strong class="article-nav-caption">Prev post</strong>
+        <div class="article-nav-title">
+          
+            博客增加Graphviz支持
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2024/04/18/HUAWEI20240417/" class="article-nav-link">
+        <strong class="article-nav-caption">Next post</strong>
+        <div class="article-nav-title">华为2024暑期实习笔试</div>
+      </a>
+    
+  </nav>
+
+  
+   
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'a1a50124b0c46fa4fab9',
+    clientSecret: '4a29dee6f998a9272f57ba07f987ea9eed9da5ec',
+    repo: 'blog-comments',
+    owner: 'boom1999',
+    admin: ['boom1999'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: true,  // Facebook-like distraction free mode
+    pagerDirection: 'last',
+    proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2024
+        <span class="division">|</span> Zhicheng Ling
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+          
+          
+          Power <a href="https://hexo.io" target="_blank">Hexo</a>
+          <span class="division">|</span>
+          Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+          
+          <span class="division">|</span>
+        
+          
+          <span>
+  <span><i class="ri-eye-fill"></i> <span id="busuanzi_value_page_pv"></span></span>
+</span>
+          
+      </li>
+    </ul>
+    <ul>
+      
+        <li>
+          <a href="http://beian.miit.gov.cn/" target="_black" rel="nofollow">浙ICP备2020044847号-1</a>
+        </li>
+        
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/haisen-side.svg" alt="Haisenberg"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Categories</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.pan.lingzhicheng.cn">Pan</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.gallery.lingzhicheng.cn">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.todo.lingzhicheng.cn">Todo</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">Friends</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/me">Me</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+<!-- Graphiz -->
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/viz.js/1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+
+    
+  </div>
+  <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
+  fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
+  webpushr('setup',{'key':'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script>
+<script>(function (w, d, s, id) {
+            if (typeof (w.webpushr) !== 'undefined') return; w.webpushr = w.webpushr || function () { (w.webpushr.q = w.webpushr.q || []).push(arguments) }; var js, fjs = d.getElementsByTagName(s)[0]; js = d.createElement(s); js.id = id; js.async = 1; js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window, document, 'script', 'webpushr-jssdk'));webpushr('setup', { 'key': 'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script></body>
+
+</html>

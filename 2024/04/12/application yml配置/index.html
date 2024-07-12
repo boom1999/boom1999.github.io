@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta name="google-site-verification" content="QbUVAi0K2ZB_P4A6jbbi-GVB4BXs3n6GqgIEGHlySnk" />
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="Torch, Summary, UAV, Git" />
+   
+  <meta name="description" content="No fear of words,no fear of years" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    application yml配置 |  Haisenberg
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-application yml配置"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  application yml配置
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2024/04/12/application%20yml%E9%85%8D%E7%BD%AE/" class="article-date">
+  <time datetime="2024-04-12T00:00:00.000Z" itemprop="datePublished">2024-04-12</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Summary/">Summary</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">1k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">4 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <blockquote>
+<p><code>SpringBoot</code>常用配置文件<code>application.properties</code>或<code>application.yml</code>进行全局配置，<code>start.spring.io</code>的默认是用<code>properties</code>，只要改成<code>yml</code>文件即可，个人认为语法更舒适，在这篇记录一些常用的设置以及常用的一些包的参数，以便后续开发过程中及时翻阅，持续更新。</p>
+</blockquote>
+<span id="more"></span>
+<h2 id="books-1-application配置文件"><a href="#books-1-application配置文件" class="headerlink" title=":books: 1. application配置文件"></a><span class="github-emoji"><span>📚</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4da.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 1. application配置文件</h2><h3 id="1-1-全局配置文件"><a href="#1-1-全局配置文件" class="headerlink" title="1.1. 全局配置文件"></a>1.1. 全局配置文件</h3><blockquote>
+<p>启动类下的全局配置，修改<code>SpringBoot</code>在底层的默认值</p>
+</blockquote>
+<ul>
+<li><code>application.properties</code></li>
+<li><code>application.yml</code></li>
+</ul>
+<h3 id="1-2-Proterties和YML以及XML区别"><a href="#1-2-Proterties和YML以及XML区别" class="headerlink" title="1.2. Proterties和YML以及XML区别"></a>1.2. Proterties和YML以及XML区别</h3><ul>
+<li><p><code>Properties</code></p>
+  <figure class="highlight properties"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server.port</span>=<span class="string">8080</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p><code>YAML</code></p>
+  <figure class="highlight yaml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8080</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p><code>XML</code></p>
+  <figure class="highlight xml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">server</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">port</span>&gt;</span>8080<span class="tag">&lt;/<span class="name">port</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">server</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+<h2 id="satellite-2-YAML语法"><a href="#satellite-2-YAML语法" class="headerlink" title=":satellite: 2. YAML语法"></a><span class="github-emoji"><span>📡</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4e1.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 2. YAML语法</h2><h3 id="2-1-基本语法"><a href="#2-1-基本语法" class="headerlink" title="2.1. 基本语法"></a>2.1. 基本语法</h3><ul>
+<li>KV键值对，空格缩进（一般2格），左对齐的为同一层级</li>
+<li>属性和值大小写敏感，值不能空着</li>
+</ul>
+<h3 id="2-2-字面量"><a href="#2-2-字面量" class="headerlink" title="2.2. 字面量"></a>2.2. 字面量</h3><ul>
+<li>字符串，默认不需要使用引号<ul>
+<li>单引号，不会转义特殊字符例如’aaa \n bbb’不会输出换行</li>
+<li>双引号，会转义特殊字符例如”aaa \n bbb”会输出换行</li>
+</ul>
+</li>
+<li>布尔，<code>True</code>或<code>true</code>，<code>Flase</code>或<code>false</code></li>
+<li>整数，<code>123</code>或<code>0b1010_0111_0100_1010_1110</code></li>
+<li>浮点数，<code>0.123</code>或者科学计数<code>6.85e+5</code></li>
+<li><code>NULL</code>，可用<code>~</code>表示<code>null</code></li>
+<li>日期，2024-07-12`，日期使用ISO 8601格式，yyyy-MM-dd</li>
+<li>时间，<code>2024-07-12T14:31:00+08:00</code>，时间使用ISO 8601格式，时间和日期之间使用T连接，最后使用+代表时区</li>
+</ul>
+<h3 id="2-3-对象"><a href="#2-3-对象" class="headerlink" title="2.3. 对象"></a>2.3. 对象</h3><ul>
+<li><p>普通的缩进表示层级联系</p>
+  <figure class="highlight yml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">redis:</span></span><br><span class="line">  <span class="attr">host:</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.111</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">6379</span></span><br><span class="line">  <span class="attr">password:</span> <span class="number">123456</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>行内写法</p>
+  <figure class="highlight yml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">redis:</span> {<span class="attr">host:</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.111</span>,<span class="attr">port:</span> <span class="number">6379</span>,<span class="attr">password:</span> <span class="number">123456</span>}</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+<h3 id="2-4-数组"><a href="#2-4-数组" class="headerlink" title="2.4. 数组"></a>2.4. 数组</h3><ul>
+<li><p>普通写法，用<code>-</code>表示</p>
+  <figure class="highlight yml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">persons:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">zhangsan</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">lisi</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">wangwu</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>行内写法，用<code>[]</code></p>
+  <figure class="highlight yml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">persons:</span> [<span class="string">zhangsan</span>,<span class="string">lisi</span>,<span class="string">wangwu</span>]</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+<h3 id="2-5-锚点"><a href="#2-5-锚点" class="headerlink" title="2.5. 锚点"></a>2.5. 锚点</h3><ul>
+<li><p>用<code>&amp;</code>建立锚点，用<code>&lt;&lt;</code>合并数据，用<code>*</code>引用锚点内容</p>
+  <figure class="highlight yml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">defaults:</span> <span class="meta">&amp;defaults</span></span><br><span class="line">  <span class="attr">host:</span>  <span class="number">192.168</span><span class="number">.1</span><span class="number">.129</span></span><br><span class="line">  <span class="attr">port:</span>  <span class="number">8080</span></span><br><span class="line"></span><br><span class="line"><span class="attr">dev:</span></span><br><span class="line">  <span class="attr">database:</span> <span class="string">dev_db</span></span><br><span class="line">  <span class="string">&lt;&lt;:</span> <span class="meta">*defaults</span></span><br><span class="line"></span><br><span class="line"><span class="attr">prod:</span></span><br><span class="line">  <span class="attr">database:</span> <span class="string">prod_db</span></span><br><span class="line">  <span class="string">&lt;&lt;:</span> <span class="meta">*defaults</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 相当于</span></span><br><span class="line"><span class="comment"># defaults: </span></span><br><span class="line"><span class="comment">#   host:  192.168.1.111</span></span><br><span class="line"><span class="comment">#   port:  6379</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># dev:</span></span><br><span class="line"><span class="comment">#   database: dev_db</span></span><br><span class="line"><span class="comment">#   host:  192.168.1.111</span></span><br><span class="line"><span class="comment">#   port:  6379</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># prod:</span></span><br><span class="line"><span class="comment">#   database: prod_db</span></span><br><span class="line"><span class="comment">#   host:  192.168.1.111</span></span><br><span class="line"><span class="comment">#   port:  6379</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>直接在键后设置锚点，加空格后紧跟值，锚点名自定义，引用同样用<code>*</code></p>
+  <figure class="highlight yml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">defaults:</span> </span><br><span class="line">  <span class="attr">host:</span>  <span class="string">&amp;host</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.129</span></span><br><span class="line">  <span class="attr">port:</span>  <span class="string">&amp;port</span> <span class="number">8080</span></span><br><span class="line"></span><br><span class="line"><span class="attr">dev:</span></span><br><span class="line">  <span class="attr">database:</span> <span class="string">dev_db</span></span><br><span class="line">  <span class="attr">host:</span>  <span class="meta">*host</span></span><br><span class="line">  <span class="attr">port:</span>  <span class="meta">*port</span></span><br><span class="line"></span><br><span class="line"><span class="attr">prod:</span></span><br><span class="line">  <span class="attr">database:</span> <span class="string">prod_db</span></span><br><span class="line">  <span class="attr">host:</span>  <span class="meta">*host</span></span><br><span class="line">  <span class="attr">port:</span>  <span class="meta">*port</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+<h2 id="mag-right-3-配置文件注入"><a href="#mag-right-3-配置文件注入" class="headerlink" title=":mag_right: 3. 配置文件注入"></a><span class="github-emoji"><span>🔎</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f50e.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 3. 配置文件注入</h2><ul>
+<li>一般用注解<code>@ConfigurationProperties(prefix = "async.executor.thread")</code>，加上<code>@Data</code>注解或自己写<code>getter</code>和<code>setter</code>方法<ul>
+<li>配合<code>@Component</code>定义组件，来定义配置数据的结构Properties</li>
+<li>再配合<code>@Configuration</code>使用，用于定义配置类，再在配置类中注入配置文件的结构Properties，当然也可合并成一步</li>
+</ul>
+</li>
+<li>只有容器中的组件，才能提供<code>@ConfigurationProperties</code>功能</li>
+<li><p><code>prefix = "xxx.xxx"</code>是映射该路径下的配置文件，这里定义好<code>getter</code>和<code>setter</code>方法就能直接调用<code>setKeepAliveSeconds(int keepAliveSeconds)</code>等方法</p>
+  <figure class="highlight yml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">async:</span></span><br><span class="line"><span class="attr">executor:</span></span><br><span class="line">    <span class="attr">thread:</span></span><br><span class="line">    <span class="attr">keepAliveSeconds:</span> <span class="number">60</span></span><br><span class="line">    <span class="attr">namePrefix:</span> <span class="string">async-service-</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>可能需要<code>@ComponentScan(basePackages = {"com.***", "com.***"})</code>，扫描组件所在的<code>module</code></p>
+</li>
+<li><p>可选导入配置文件冲处理器，这样会有提示</p>
+  <figure class="highlight xml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-configuration-processor<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>可选用@Value配置</p>
+<ul>
+<li><p>若要在某个业务逻辑中要用到配置的值，可以用<code>@Value</code>，若已经整体设计了配置类的组件，则建议用<code>@ConfigurationProperties</code>批量注入</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Value("${thread.keepAliveSeconds}")</span></span><br><span class="line"><span class="keyword">private</span> <span class="type">int</span> keepAliveSeconds;</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>不支持松散绑定(Relaxed bindiing)，批量注入支持，<code>firstName</code>和<code>first-name</code>和<code>first_name</code></p>
+</li>
+<li>支持SPEL，批量注入不支持</li>
+<li>不持支map、对象等复杂类型以及JSR303校验</li>
+</ul>
+</li>
+</ul>
+<h2 id="zzz-4-多环境支持"><a href="#zzz-4-多环境支持" class="headerlink" title=":zzz: 4. 多环境支持"></a><span class="github-emoji"><span>💤</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4a4.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 4. 多环境支持</h2><ul>
+<li><code>application-{profile}.properties/yml</code>在测试环境和生成环境用不同的配置，包括一些<code>id</code>和<code>key</code>等重要的信息切换，例如<code>application-dev.yml</code>和<code>application-prod.yml</code>，再用<code>${xxx.xxx.driver-class-name}</code>在主配置文件中引入不同环境的配置参数</li>
+<li><code>properties</code>优先级大于同级别的<code>yml</code>，要么删掉要么确保内有相同内容被指定</li>
+<li><p>指定测试或生产环境，可以在<code>application.yml</code>中指定，或者打包jar时配置启动参数<code>Program arguments</code>为<code>--spring.profiles.active=dev</code>或者配置虚拟机参数<code>VM options</code>为<code>-Dspring.profiles.active=dev</code></p>
+  <figure class="highlight yml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">profiles:</span></span><br><span class="line">    <span class="attr">active:</span> <span class="string">"dev"</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>加载顺序</p>
+  <figure class="highlight md"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">–file:./config/（根目录下的config文件夹）</span><br><span class="line"></span><br><span class="line">–file:./（根目录下）</span><br><span class="line"></span><br><span class="line">–classpath:/config/（resources/config）</span><br><span class="line"></span><br><span class="line">–classpath:/（resources）</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>启动类开启<code>@EnableAutoConfiguration</code>（<code>@SpringBootApplication</code>已经引入，不用重复）</p>
+</li>
+</ul>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2024/04/12/application%20yml%E9%85%8D%E7%BD%AE/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SprinBoot/" rel="tag">SprinBoot</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/application/" rel="tag">application</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2024/04/18/HUAWEI20240417/" class="article-nav-link">
+        <strong class="article-nav-caption">Prev post</strong>
+        <div class="article-nav-title">
+          
+            华为2024暑期实习笔试
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2024/04/01/TencentTest20240331/" class="article-nav-link">
+        <strong class="article-nav-caption">Next post</strong>
+        <div class="article-nav-title">腾讯2024暑期实习笔试</div>
+      </a>
+    
+  </nav>
+
+  
+   
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'a1a50124b0c46fa4fab9',
+    clientSecret: '4a29dee6f998a9272f57ba07f987ea9eed9da5ec',
+    repo: 'blog-comments',
+    owner: 'boom1999',
+    admin: ['boom1999'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: true,  // Facebook-like distraction free mode
+    pagerDirection: 'last',
+    proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2024
+        <span class="division">|</span> Zhicheng Ling
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+          
+          
+          Power <a href="https://hexo.io" target="_blank">Hexo</a>
+          <span class="division">|</span>
+          Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+          
+          <span class="division">|</span>
+        
+          
+          <span>
+  <span><i class="ri-eye-fill"></i> <span id="busuanzi_value_page_pv"></span></span>
+</span>
+          
+      </li>
+    </ul>
+    <ul>
+      
+        <li>
+          <a href="http://beian.miit.gov.cn/" target="_black" rel="nofollow">浙ICP备2020044847号-1</a>
+        </li>
+        
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/haisen-side.svg" alt="Haisenberg"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Categories</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.pan.lingzhicheng.cn">Pan</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.gallery.lingzhicheng.cn">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.todo.lingzhicheng.cn">Todo</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">Friends</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/me">Me</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+<!-- Graphiz -->
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/viz.js/1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+
+    
+  </div>
+  <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
+  fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
+  webpushr('setup',{'key':'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script>
+<script>(function (w, d, s, id) {
+            if (typeof (w.webpushr) !== 'undefined') return; w.webpushr = w.webpushr || function () { (w.webpushr.q = w.webpushr.q || []).push(arguments) }; var js, fjs = d.getElementsByTagName(s)[0]; js = d.createElement(s); js.id = id; js.async = 1; js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window, document, 'script', 'webpushr-jssdk'));webpushr('setup', { 'key': 'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script></body>
+
+</html>
