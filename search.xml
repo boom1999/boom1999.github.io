@@ -46,18 +46,6 @@
       <tags>
         <tag>{{ tag }}</tag>
         <tag>{{ tag }}</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>{{ article.title }}</title>
-    <url>{{ article.url }}</url>
-    <content><![CDATA[{{ article.content | safe }}]]></content>
-      <categories>
-        <category>{{ category }}</category>
-      </categories>
-      <tags>
-        <tag>{{ tag }}</tag>
-        <tag>{{ tag }}</tag>
         <tag>{{ tag }}</tag>
       </tags>
   </entry>
@@ -81,6 +69,7 @@
         <category>{{ category }}</category>
       </categories>
       <tags>
+        <tag>{{ tag }}</tag>
         <tag>{{ tag }}</tag>
         <tag>{{ tag }}</tag>
       </tags>
@@ -155,19 +144,6 @@
       <tags>
         <tag>{{ tag }}</tag>
         <tag>{{ tag }}</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>{{ article.title }}</title>
-    <url>{{ article.url }}</url>
-    <content><![CDATA[{{ article.content | safe }}]]></content>
-      <categories>
-        <category>{{ category }}</category>
-      </categories>
-      <tags>
-        <tag>{{ tag }}</tag>
-        <tag>{{ tag }}</tag>
-        <tag>{{ tag }}</tag>
         <tag>{{ tag }}</tag>
       </tags>
   </entry>
@@ -179,79 +155,6 @@
         <category>{{ category }}</category>
       </categories>
       <tags>
-        <tag>{{ tag }}</tag>
-        <tag>{{ tag }}</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>{{ article.title }}</title>
-    <url>{{ article.url }}</url>
-    <content><![CDATA[{{ article.content | safe }}]]></content>
-      <categories>
-        <category>{{ category }}</category>
-      </categories>
-      <tags>
-        <tag>{{ tag }}</tag>
-        <tag>{{ tag }}</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>{{ article.title }}</title>
-    <url>{{ article.url }}</url>
-    <content><![CDATA[{{ article.content | safe }}]]></content>
-      <categories>
-        <category>{{ category }}</category>
-      </categories>
-      <tags>
-        <tag>{{ tag }}</tag>
-        <tag>{{ tag }}</tag>
-        <tag>{{ tag }}</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>{{ article.title }}</title>
-    <url>{{ article.url }}</url>
-    <content><![CDATA[{{ article.content | safe }}]]></content>
-      <categories>
-        <category>{{ category }}</category>
-      </categories>
-      <tags>
-        <tag>{{ tag }}</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>{{ article.title }}</title>
-    <url>{{ article.url }}</url>
-    <content><![CDATA[{{ article.content | safe }}]]></content>
-      <categories>
-        <category>{{ category }}</category>
-      </categories>
-      <tags>
-        <tag>{{ tag }}</tag>
-        <tag>{{ tag }}</tag>
-        <tag>{{ tag }}</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>{{ article.title }}</title>
-    <url>{{ article.url }}</url>
-    <content><![CDATA[{{ article.content | safe }}]]></content>
-      <categories>
-        <category>{{ category }}</category>
-      </categories>
-      <tags>
-        <tag>{{ tag }}</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>{{ article.title }}</title>
-    <url>{{ article.url }}</url>
-    <content><![CDATA[{{ article.content | safe }}]]></content>
-      <categories>
-        <category>{{ category }}</category>
-      </categories>
-      <tags>
-        <tag>{{ tag }}</tag>
         <tag>{{ tag }}</tag>
         <tag>{{ tag }}</tag>
       </tags>
@@ -312,25 +215,6 @@
       </categories>
       <tags>
         <tag>{{ tag }}</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>{{ article.title }}</title>
-    <url>{{ article.url }}</url>
-    <content><![CDATA[{{ article.content | safe }}]]></content>
-      <categories>
-        <category>{{ category }}</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>{{ article.title }}</title>
-    <url>{{ article.url }}</url>
-    <content><![CDATA[{{ article.content | safe }}]]></content>
-      <categories>
-        <category>{{ category }}</category>
-      </categories>
-      <tags>
-        <tag>{{ tag }}</tag>
         <tag>{{ tag }}</tag>
       </tags>
   </entry>
@@ -342,6 +226,7 @@
         <category>{{ category }}</category>
       </categories>
       <tags>
+        <tag>{{ tag }}</tag>
         <tag>{{ tag }}</tag>
         <tag>{{ tag }}</tag>
         <tag>{{ tag }}</tag>
@@ -368,17 +253,6 @@
       <tags>
         <tag>{{ tag }}</tag>
         <tag>{{ tag }}</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>{{ article.title }}</title>
-    <url>{{ article.url }}</url>
-    <content><![CDATA[{{ article.content | safe }}]]></content>
-      <categories>
-        <category>{{ category }}</category>
-      </categories>
-      <tags>
-        <tag>{{ tag }}</tag>
         <tag>{{ tag }}</tag>
       </tags>
   </entry>
@@ -391,7 +265,6 @@
       </categories>
       <tags>
         <tag>{{ tag }}</tag>
-        <tag>{{ tag }}</tag>
       </tags>
   </entry>
   <entry>
@@ -403,30 +276,6 @@
       </categories>
       <tags>
         <tag>{{ tag }}</tag>
-        <tag>{{ tag }}</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>{{ article.title }}</title>
-    <url>{{ article.url }}</url>
-    <content><![CDATA[{{ article.content | safe }}]]></content>
-      <categories>
-        <category>{{ category }}</category>
-      </categories>
-      <tags>
-        <tag>{{ tag }}</tag>
-        <tag>{{ tag }}</tag>
-        <tag>{{ tag }}</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>{{ article.title }}</title>
-    <url>{{ article.url }}</url>
-    <content><![CDATA[{{ article.content | safe }}]]></content>
-      <categories>
-        <category>{{ category }}</category>
-      </categories>
-      <tags>
         <tag>{{ tag }}</tag>
       </tags>
   </entry>
@@ -483,7 +332,52 @@
       <categories>
         <category>{{ category }}</category>
       </categories>
+  </entry>
+  <entry>
+    <title>{{ article.title }}</title>
+    <url>{{ article.url }}</url>
+    <content><![CDATA[{{ article.content | safe }}]]></content>
+      <categories>
+        <category>{{ category }}</category>
+      </categories>
       <tags>
+        <tag>{{ tag }}</tag>
+        <tag>{{ tag }}</tag>
+        <tag>{{ tag }}</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>{{ article.title }}</title>
+    <url>{{ article.url }}</url>
+    <content><![CDATA[{{ article.content | safe }}]]></content>
+      <categories>
+        <category>{{ category }}</category>
+      </categories>
+      <tags>
+        <tag>{{ tag }}</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>{{ article.title }}</title>
+    <url>{{ article.url }}</url>
+    <content><![CDATA[{{ article.content | safe }}]]></content>
+      <categories>
+        <category>{{ category }}</category>
+      </categories>
+      <tags>
+        <tag>{{ tag }}</tag>
+        <tag>{{ tag }}</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>{{ article.title }}</title>
+    <url>{{ article.url }}</url>
+    <content><![CDATA[{{ article.content | safe }}]]></content>
+      <categories>
+        <category>{{ category }}</category>
+      </categories>
+      <tags>
+        <tag>{{ tag }}</tag>
         <tag>{{ tag }}</tag>
       </tags>
   </entry>
@@ -519,5 +413,122 @@
       <categories>
         <category>{{ category }}</category>
       </categories>
+      <tags>
+        <tag>{{ tag }}</tag>
+        <tag>{{ tag }}</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>{{ article.title }}</title>
+    <url>{{ article.url }}</url>
+    <content><![CDATA[{{ article.content | safe }}]]></content>
+      <categories>
+        <category>{{ category }}</category>
+      </categories>
+      <tags>
+        <tag>{{ tag }}</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>{{ article.title }}</title>
+    <url>{{ article.url }}</url>
+    <content><![CDATA[{{ article.content | safe }}]]></content>
+      <categories>
+        <category>{{ category }}</category>
+      </categories>
+      <tags>
+        <tag>{{ tag }}</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>{{ article.title }}</title>
+    <url>{{ article.url }}</url>
+    <content><![CDATA[{{ article.content | safe }}]]></content>
+      <categories>
+        <category>{{ category }}</category>
+      </categories>
+      <tags>
+        <tag>{{ tag }}</tag>
+        <tag>{{ tag }}</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>{{ article.title }}</title>
+    <url>{{ article.url }}</url>
+    <content><![CDATA[{{ article.content | safe }}]]></content>
+      <categories>
+        <category>{{ category }}</category>
+      </categories>
+      <tags>
+        <tag>{{ tag }}</tag>
+        <tag>{{ tag }}</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>{{ article.title }}</title>
+    <url>{{ article.url }}</url>
+    <content><![CDATA[{{ article.content | safe }}]]></content>
+      <categories>
+        <category>{{ category }}</category>
+      </categories>
+      <tags>
+        <tag>{{ tag }}</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>{{ article.title }}</title>
+    <url>{{ article.url }}</url>
+    <content><![CDATA[{{ article.content | safe }}]]></content>
+      <categories>
+        <category>{{ category }}</category>
+      </categories>
+      <tags>
+        <tag>{{ tag }}</tag>
+        <tag>{{ tag }}</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>{{ article.title }}</title>
+    <url>{{ article.url }}</url>
+    <content><![CDATA[{{ article.content | safe }}]]></content>
+      <categories>
+        <category>{{ category }}</category>
+      </categories>
+      <tags>
+        <tag>{{ tag }}</tag>
+        <tag>{{ tag }}</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>{{ article.title }}</title>
+    <url>{{ article.url }}</url>
+    <content><![CDATA[{{ article.content | safe }}]]></content>
+      <categories>
+        <category>{{ category }}</category>
+      </categories>
+      <tags>
+        <tag>{{ tag }}</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>{{ article.title }}</title>
+    <url>{{ article.url }}</url>
+    <content><![CDATA[{{ article.content | safe }}]]></content>
+      <categories>
+        <category>{{ category }}</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>{{ article.title }}</title>
+    <url>{{ article.url }}</url>
+    <content><![CDATA[{{ article.content | safe }}]]></content>
+      <categories>
+        <category>{{ category }}</category>
+      </categories>
+      <tags>
+        <tag>{{ tag }}</tag>
+        <tag>{{ tag }}</tag>
+        <tag>{{ tag }}</tag>
+      </tags>
   </entry>
 </search>
