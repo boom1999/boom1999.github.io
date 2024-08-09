@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta name="google-site-verification" content="QbUVAi0K2ZB_P4A6jbbi-GVB4BXs3n6GqgIEGHlySnk" />
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="Torch, Summary, UAV, Git" />
+   
+  <meta name="description" content="No fear of words,no fear of years" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    Lucene search engine |  Haisenberg
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-Lucene search engine"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Lucene search engine
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2024/08/10/Lucene%20search%20engine/" class="article-date">
+  <time datetime="2024-08-10T00:00:00.000Z" itemprop="datePublished">2024-08-10</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Summary/">Summary</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">4.2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">19 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <blockquote>
+<p><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><strong>Elasticsearch</strong>是一个基于<strong>Lucene</strong>的搜索引擎，提供了一个分布式多用户能力的全文搜索引擎，基于<code>RESTful API</code>接口，解决了原生<code>Lucene</code>使用上的缺陷。为了更好的理解<code>Elasticsearch</code>，先对<code>Lucene</code>进行了解。</p>
+</blockquote>
+<span id="more"></span>
+<h2 id="books-全文检索"><a href="#books-全文检索" class="headerlink" title=":books: 全文检索"></a><span class="github-emoji"><span>📚</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4da.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 全文检索</h2><ul>
+<li><p>结构化数据，具有固定格式或有限长度的数据，如数据库表中的字段和元数据。</p>
+<ul>
+<li>数据库用<code>SQL</code>语句搜索；元数据用类型、属性、标签等搜索。</li>
+</ul>
+</li>
+<li><p>非结构化数据，不定长或无固定格式的数据，如邮件、Word 文档、PDF 文档等，又称<strong>全文数据</strong>。</p>
+<ul>
+<li><strong>顺序扫描法(Serial Scanning)</strong>，对每个文档从头到尾扫描，非结构化数据在数据量大时效率低下，不适合全文检索。</li>
+<li><strong>全文检索(Full-text Search)</strong>，把非结构化数据转换为结构化数据，再用结构化数据的检索方法。首先将要查询的目标数据中的词提取出来，组成索引，通过查询索引达到搜索目标数据的目的。</li>
+</ul>
+</li>
+</ul>
+<p>StringField 和 TextField 是 Apache Lucene 中用于存储和索引文档字段的两种不同类型。  </p>
+<ul>
+<li>StringField：用于存储不需要进行全文搜索的字段。它不会被分词器处理，适用于精确匹配查询。例如，ID、日期、分类等字段。</li>
+<li>TextField：用于存储需要进行全文搜索的字段。它会被分词器处理，适用于需要进行全文搜索的文本内容。例如，文章内容、描述等字段。<br>示例代码：</li>
+</ul>
+<h2 id="mag-right-Lucene基本原理"><a href="#mag-right-Lucene基本原理" class="headerlink" title=":mag_right:Lucene基本原理"></a><span class="github-emoji"><span>🔎</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f50e.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><code>Lucene</code>基本原理</h2><h3 id="倒排索引-Inverted-index"><a href="#倒排索引-Inverted-index" class="headerlink" title="倒排索引(Inverted index)"></a>倒排索引(Inverted index)</h3><blockquote>
+<p>快速查询某个词在文档中的位置，将文档集合中的每个词都映射到出现在该次的文档列表，而不是将文档映射到词的列表</p>
+</blockquote>
+<ol>
+<li>文档分词：将文档进行分词，得到词项列表，这里可以还有大小写转化、去停用词等操作。</li>
+<li>构建索引表：将词项列表构建倒排索引表，记录每个词项出现在哪些文档中。遍历所有文档，对每个词将其映射到文档列表，可以用哈希表、树等数据结构。</li>
+<li>优化索引：对索引表进行优化，如压缩、排序、合并等操作。</li>
+<li>查询处理：用户输入一个检索词时，对查询进行分词，得到查询词项列表，然后在索引表中查找每个词项对应的文档列表，最后对文档列表进行筛选、排序、交集、并集等操作，得到最终的查询结果。</li>
+</ol>
+<h3 id="段落索引-Segment-index"><a href="#段落索引-Segment-index" class="headerlink" title="段落索引(Segment index)"></a>段落索引(Segment index)</h3><blockquote>
+<p>为了提高搜索效率，将索引分为多个段落，每个段落都是一个独立的索引单元，每个段落都有自己的倒排索引表。</p>
+</blockquote>
+<ol>
+<li>分割文本：分词器的组件将文本分割成若干个段落，可以按照具体的需求来定义分割规则，例如空格、标点符号等。</li>
+<li>建立词汇表：Lucene对词汇表进行排序等以提高搜索效率。</li>
+<li>构建倒排索引：对每个段落构建倒排索引表，记录每个词项出现在哪些文档中。倒排索引的数据结构包括索引词项(Term)、文档编号(Document ID)、位置(Position)等。</li>
+<li>搜索：用户输入一个检索词时，Lucene在词汇表中查找，并获取到包含该单词的段落列表，然后根据这些段落列表计算相关度得分，并按照相关度排序返回搜索结果。</li>
+</ol>
+<h3 id="文本预处理"><a href="#文本预处理" class="headerlink" title="文本预处理"></a>文本预处理</h3><blockquote>
+<p>在构建索引之前，需要对文本进行预处理，包括分词、大小写转化、去停用词等操作。</p>
+</blockquote>
+<ol>
+<li>小写转换(Lowercasing)：将文本转换为小写，避免大小写不一致导致的搜索问题。</li>
+<li>去除停用词(Stopwords)：去除常用词，如“的”、“是”、“在”、“and”、“the”等，避免这些词对搜索结果的影响。</li>
+<li>词根提取(Stemming)：将词汇还原为词根，如“running”还原为“run”。</li>
+<li>同义词扩展(Synonyms)：将同义词映射到同一个词项，如“car”和“automobile”映射到同一个词项。</li>
+</ol>
+<h2 id="bulb-搜索算法"><a href="#bulb-搜索算法" class="headerlink" title=":bulb:搜索算法"></a><span class="github-emoji"><span>💡</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4a1.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>搜索算法</h2><h3 id="BM25算法"><a href="#BM25算法" class="headerlink" title="BM25算法"></a>BM25算法</h3><blockquote>
+<p>BM25算法是一种基于概率检索模型的搜索算法，它是一种基于词频和文档长度的搜索算法，适用于大型文本数据集的搜索，考虑了文档中各项词的权重、词频、文档长度等因素，根据<strong>文档和查询</strong>之间的关系来评估文档的相关性，并按照相关性进行排序。</p>
+</blockquote>
+<p>评分公式：<script type="math/tex">\text{score}(D, Q) = \sum_{i=1}^{n} \text{IDF}(q_i) \cdot \frac{f(q_i, D) \cdot (k_1 + 1)}{f(q_i, D) + k_1 \cdot (1 - b + b \cdot \frac{|D|}{\text{avgdl}})}</script></p>
+<p>其中：$D$表示文档，$Q$表示查询，$n$表示查询中的词项数量，$q_i$表示查询中的第$i$个词项，$f(q_i, D)$表示词项$q_i$在文档$D$中的词频，$k_1$和$b$是调节参数，$avgdl$表示文档集合的平均长度。</p>
+<h3 id="TF-IDF算法-Term-Frequency-Inverse-Document-Frequency"><a href="#TF-IDF算法-Term-Frequency-Inverse-Document-Frequency" class="headerlink" title="TF-IDF算法(Term Frequency-Inverse Document Frequency)"></a>TF-IDF算法(Term Frequency-Inverse Document Frequency)</h3><blockquote>
+<p>TF-IDF算法是一种用于评估一个词对于一个文件集或一个语料库中某个文件的重要程度的统计方法，基本思想是如果某个词在一篇文章中出现的频率高，并且在其他文章中出现的频率低，则认为这个词具有很好的区分能力，是这篇文章的关键词。</p>
+</blockquote>
+<ul>
+<li>TF(Term Frequency)：词频，表示某个词在文档中出现的频率，计算公式为<script type="math/tex">\text{TF}(t, d) = \frac{f(t, d)}{\sum_{t' \in d} f(t', d)}</script></li>
+<li>IDF(Inverse Document Frequency)：逆文档频率，表示某个词在文档集合中的区分能力，计算公式为<script type="math/tex">\text{IDF}(t, D) = \log \frac{N}{\text{DF}(t, D)}</script></li>
+<li>TF-IDF：综合考虑词频和逆文档频率，计算公式为<script type="math/tex">\text{TF-IDF}(t, d, D) = \text{TF}(t, d) \cdot \text{IDF}(t, D)</script></li>
+</ul>
+<h3 id="空间向量模型-Vector-Space-Model"><a href="#空间向量模型-Vector-Space-Model" class="headerlink" title="空间向量模型(Vector Space Model)"></a>空间向量模型(Vector Space Model)</h3><blockquote>
+<p>空间向量模型是一种基于向量空间的搜索算法，将文档和查询表示为向量，通过计算向量之间的相似度来评估文档的相关性。</p>
+</blockquote>
+<h4 id="余弦相似度-Cosine-Similarity"><a href="#余弦相似度-Cosine-Similarity" class="headerlink" title="余弦相似度(Cosine Similarity)"></a>余弦相似度(Cosine Similarity)</h4><ul>
+<li>基于向量的夹角来衡量文档和查询的相似度，计算文档向量和查询向量的内积除以两个向量的模长的乘积，计算公式为<script type="math/tex">\text{Cosine Similarity}(D, Q) = \frac{D \cdot Q}{\|D\| \cdot \|Q\|}</script>，其中$D$表示文档向量，$Q$表示查询向量，取值范围为$[-1, 1]$，值越大表示相似度越高。</li>
+</ul>
+<h4 id="Jaccard相似度-Jaccard-Similarity"><a href="#Jaccard相似度-Jaccard-Similarity" class="headerlink" title="Jaccard相似度(Jaccard Similarity)"></a>Jaccard相似度(Jaccard Similarity)</h4><ul>
+<li>基于向量的交集和并集来衡量文档和查询的相似度，计算文档向量和查询向量的交集除以两个向量的并集，计算公式为<script type="math/tex">\text{Jaccard Similarity}(D, Q) = \frac{|D \cap Q|}{|D \cup Q|}</script>，取值范围为$[0, 1]$，值越大表示相似度越高。</li>
+</ul>
+<h2 id="computer-Coding"><a href="#computer-Coding" class="headerlink" title=":computer:Coding"></a><span class="github-emoji"><span>💻</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4bb.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>Coding</h2><h3 id="导入依赖"><a href="#导入依赖" class="headerlink" title="导入依赖"></a>导入依赖</h3><figure class="highlight xml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- lucene核心包 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>${lunece.version}<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- lucene查询解析包 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-queryparser<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>${lunece.version}<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- lucene分词器包 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-analyzers-common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>${lunece.version}<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- test --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.8.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+<h3 id="从文件构建索引和检索"><a href="#从文件构建索引和检索" class="headerlink" title="从文件构建索引和检索"></a>从文件构建索引和检索</h3><h4 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h4><ul>
+<li>在资源目录下创建一个<code>data</code>目录，用于存放文档数据，这里用了雅思的三段话作为示例数据$1.txt$，$2.txt$，$3.txt$。</li>
+</ul>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/JavaProjects/luceneDemo/src/main/resources/data</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Many procedures are available for obtaining data about a language. They range from a carefully planned, intensive field investigation in a foreign country to a casual introspection about one’s mother tongue carried out in an armchair at home."</span> &gt; ~/JavaProjects/luceneDemo/src/main/resources/data/1.txt</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"In all cases, someone has to act as a source of language data – an informant. Informants are (ideally) native speakers of a language, who provide utterances for analysis and other kinds of information about the language (e.g. translations, comments about correctness, or judgements on usage). Often, when studying their mother tongue, linguists act as their own informants, judging the ambiguity, acceptability, or other properties of utterances against their own intuitions. The convenience of this approach makes it widely used, and it is considered the norm in the generative approach to linguistics. But a linguist’s personal judgements are often uncertain, or disagree with the judgements of other linguists, at which point recourse is needed to more objective methods of enquiry, using non-linguists as informants. The latter procedure is unavoidable when working on foreign languages, or child speech."</span> &gt; ~/JavaProjects/luceneDemo/src/main/resources/data/2.txt</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Many factors must be considered when selecting informants – whether one is working with single speakers (a common situation when languages have not been described before), two people interacting, small groups or large-scale samples. Age, sex, social background and other aspects of identity are important, as these factors are known to influence the kind of language used. The topic of conversation and the characteristics of the social setting (e.g. the level of formality) are also highly relevant, as are the personal qualities of the informants (e.g. their fluency and consistency). For larger studies, scrupulous attention has been paid to the sampling theory employed, and in all cases, decisions have to be made about the best investigative techniques to use."</span> &gt; ~/JavaProjects/luceneDemo/src/main/resources/data/3.txt</span><br></pre></td></tr></tbody></table></figure>
+<h4 id="构建索引"><a href="#构建索引" class="headerlink" title="构建索引"></a>构建索引</h4><figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.lucene.analysis.standard.StandardAnalyzer;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.document.Document;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.document.TextField;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriter;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriterConfig;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.store.Directory;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.store.FSDirectory;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileReader;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Indexer</span> {</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> IndexWriter writer;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Indexer</span><span class="params">(String indexDir)</span> <span class="keyword">throws</span> IOException {</span><br><span class="line">        <span class="type">Directory</span> <span class="variable">dir</span> <span class="operator">=</span> FSDirectory.open(Paths.get(indexDir));</span><br><span class="line">        <span class="comment">// StandardAnalyzer标准分词器，将忽略is，a，the等单词</span></span><br><span class="line">        <span class="type">IndexWriterConfig</span> <span class="variable">config</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">IndexWriterConfig</span>(<span class="keyword">new</span> <span class="title class_">StandardAnalyzer</span>());</span><br><span class="line">        <span class="comment">// 实例化写索引对象</span></span><br><span class="line">        writer = <span class="keyword">new</span> <span class="title class_">IndexWriter</span>(dir, config);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 关闭索引写入</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span> <span class="keyword">throws</span> IOException {</span><br><span class="line">        writer.close();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 索引dataDir目录下的所有文件</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">indexALl</span><span class="params">(String dataDir)</span> <span class="keyword">throws</span> Exception {</span><br><span class="line">        File[] files = <span class="keyword">new</span> <span class="title class_">File</span>(dataDir).listFiles();</span><br><span class="line">        <span class="keyword">assert</span> files != <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">for</span> (File file : files) {</span><br><span class="line">            indexFile(file);</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> writer.numDocs();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 索引单个文件</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">indexFile</span><span class="params">(File file)</span> <span class="keyword">throws</span> Exception {</span><br><span class="line">        System.out.println(<span class="string">"Indexing "</span> + file.getCanonicalPath());</span><br><span class="line">        <span class="type">Document</span> <span class="variable">doc</span> <span class="operator">=</span> getDocument(file);</span><br><span class="line">        <span class="comment">// 将文档写入索引</span></span><br><span class="line">        writer.addDocument(doc);</span><br><span class="line">        writer.commit();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取某个文件的文档</span></span><br><span class="line">    <span class="keyword">private</span> Document <span class="title function_">getDocument</span><span class="params">(File file)</span> <span class="keyword">throws</span> Exception {</span><br><span class="line">        <span class="type">Document</span> <span class="variable">doc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Document</span>();</span><br><span class="line">        doc.add(<span class="keyword">new</span> <span class="title class_">TextField</span>(<span class="string">"contents"</span>, <span class="keyword">new</span> <span class="title class_">FileReader</span>(file)));</span><br><span class="line">        doc.add(<span class="keyword">new</span> <span class="title class_">TextField</span>(<span class="string">"fileName"</span>, file.getName(), TextField.Store.YES));</span><br><span class="line">        doc.add(<span class="keyword">new</span> <span class="title class_">TextField</span>(<span class="string">"fullPath"</span>, file.getCanonicalPath(), TextField.Store.YES));</span><br><span class="line">        <span class="keyword">return</span> doc;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> {</span><br><span class="line">        <span class="type">String</span> <span class="variable">indexDir</span> <span class="operator">=</span> <span class="string">"~/JavaProjects/luceneDemo/src/main/resources/Index"</span>;</span><br><span class="line">        <span class="type">String</span> <span class="variable">dataDir</span> <span class="operator">=</span> <span class="string">"~/JavaProjects/luceneDemo/src/main/resources/data"</span>;</span><br><span class="line">        <span class="type">Indexer</span> <span class="variable">indexer</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">indexNum</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">long</span> <span class="variable">startTime</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">try</span> {</span><br><span class="line">            indexer = <span class="keyword">new</span> <span class="title class_">Indexer</span>(indexDir);</span><br><span class="line">            indexNum = indexer.indexALl(dataDir);</span><br><span class="line">        } <span class="keyword">catch</span> (Exception e) {</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        } <span class="keyword">finally</span> {</span><br><span class="line">            <span class="keyword">try</span> {</span><br><span class="line">                <span class="keyword">assert</span> indexer != <span class="literal">null</span>;</span><br><span class="line">                indexer.close();</span><br><span class="line">            } <span class="keyword">catch</span> (IOException e) {</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        <span class="type">long</span> <span class="variable">endTime</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        System.out.println(<span class="string">"Index "</span> + indexNum + <span class="string">" files, cost "</span> + (endTime - startTime) + <span class="string">" ms"</span>);</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h4 id="检索"><a href="#检索" class="headerlink" title="检索"></a>检索</h4><figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.lucene.analysis.standard.StandardAnalyzer;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.document.Document;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.index.DirectoryReader;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexReader;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.queryparser.classic.QueryParser;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.search.IndexSearcher;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.search.Query;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.search.ScoreDoc;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.search.TopDocs;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.store.Directory;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.store.FSDirectory;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Searcher</span> {</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">search</span><span class="params">(String indexDir, String q)</span> <span class="keyword">throws</span> Exception {</span><br><span class="line">        <span class="comment">// 索引所在路径</span></span><br><span class="line">        <span class="type">Directory</span> <span class="variable">dir</span> <span class="operator">=</span> FSDirectory.open(Paths.get(indexDir));</span><br><span class="line">        <span class="type">IndexReader</span> <span class="variable">reader</span> <span class="operator">=</span> DirectoryReader.open(dir);</span><br><span class="line">        <span class="type">IndexSearcher</span> <span class="variable">searcher</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">IndexSearcher</span>(reader);</span><br><span class="line">        <span class="comment">// 创建查询解析器</span></span><br><span class="line">        <span class="type">QueryParser</span> <span class="variable">parser</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">QueryParser</span>(<span class="string">"contents"</span>, <span class="keyword">new</span> <span class="title class_">StandardAnalyzer</span>());</span><br><span class="line">        <span class="type">Query</span> <span class="variable">query</span> <span class="operator">=</span> parser.parse(q);</span><br><span class="line"></span><br><span class="line">        <span class="type">long</span> <span class="variable">start</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        <span class="comment">// 查询并记录前十条数据</span></span><br><span class="line">        <span class="type">TopDocs</span> <span class="variable">hits</span> <span class="operator">=</span> searcher.search(query, <span class="number">10</span>);</span><br><span class="line">        <span class="type">long</span> <span class="variable">end</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        System.out.println(<span class="string">"Found "</span> + hits.totalHits + <span class="string">" document(s) (in "</span> + (end - start) + <span class="string">" milliseconds) that matched query '"</span> + q + <span class="string">"':"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 从结果中取数据</span></span><br><span class="line">        <span class="keyword">for</span> (ScoreDoc scoreDoc : hits.scoreDocs) {</span><br><span class="line">            <span class="comment">// scoreDoc.doc即docID，根据这个docID来获取文档</span></span><br><span class="line">            <span class="type">Document</span> <span class="variable">doc</span> <span class="operator">=</span> searcher.doc(scoreDoc.doc);</span><br><span class="line">            System.out.println(doc.get(<span class="string">"fullPath"</span>));</span><br><span class="line">        }</span><br><span class="line">        reader.close();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> {</span><br><span class="line">        <span class="type">String</span> <span class="variable">indexDir</span> <span class="operator">=</span> <span class="string">"~/JavaProjects/luceneDemo/src/main/resources/Index"</span>;</span><br><span class="line">        <span class="type">String</span> <span class="variable">q</span> <span class="operator">=</span> <span class="string">"speakers"</span>;</span><br><span class="line">        <span class="keyword">try</span> {</span><br><span class="line">            search(indexDir, q);</span><br><span class="line">        } <span class="keyword">catch</span> (Exception e) {</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h4 id="增删改查测试"><a href="#增删改查测试" class="headerlink" title="增删改查测试"></a>增删改查测试</h4><figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.lucene.analysis.Analyzer;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.analysis.standard.StandardAnalyzer;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.document.Document;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.document.StringField;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.document.TextField;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.index.*;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.queryparser.classic.QueryParser;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.search.*;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.store.Directory;</span><br><span class="line"><span class="keyword">import</span> org.apache.lucene.store.FSDirectory;</span><br><span class="line"><span class="keyword">import</span> org.junit.jupiter.api.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">IndexingTest</span> {</span><br><span class="line">    <span class="keyword">private</span> Directory dir;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String[] ids = {<span class="string">"1"</span>, <span class="string">"2"</span>, <span class="string">"3"</span>};</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String[] tools = {<span class="string">"Lucene"</span>, <span class="string">"ElasticSearch"</span>, <span class="string">"Solr"</span>};</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String[] positions = {<span class="string">"Java Engineer"</span>, <span class="string">"DevOps Engineer"</span>, <span class="string">"Data Engineer"</span>};</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String[] descs = {</span><br><span class="line">            <span class="string">"Lucene is a full-featured text search engine library written entirely in Java."</span>,</span><br><span class="line">            <span class="string">"ElasticSearch is a distributed, RESTful search and analytics engine capable of solving a growing number of use cases."</span>,</span><br><span class="line">            <span class="string">"Solr is the popular, blazing-fast, open source enterprise search platform built on Apache Lucene."</span></span><br><span class="line">    };</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testIndexAdd</span><span class="params">()</span> <span class="keyword">throws</span> Exception {</span><br><span class="line">        <span class="type">IndexWriter</span> <span class="variable">writer</span> <span class="operator">=</span> getWriter();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; ids.length; i++) {</span><br><span class="line">            <span class="type">Document</span> <span class="variable">doc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Document</span>();</span><br><span class="line">            doc.add(<span class="keyword">new</span> <span class="title class_">StringField</span>(<span class="string">"id"</span>, ids[i], StringField.Store.YES));</span><br><span class="line">            doc.add(<span class="keyword">new</span> <span class="title class_">StringField</span>(<span class="string">"tool"</span>, tools[i], StringField.Store.YES));</span><br><span class="line">            doc.add(<span class="keyword">new</span> <span class="title class_">TextField</span>(<span class="string">"position"</span>, positions[i], TextField.Store.YES));</span><br><span class="line">            <span class="comment">// TextField field = new TextField("position", poitions[i], StringField.Store.YES);</span></span><br><span class="line">            <span class="comment">// if("DevOps Engineer".equals(positions[i])){</span></span><br><span class="line">            <span class="comment">//     field.setBoost(1.5f);</span></span><br><span class="line">            <span class="comment">// }</span></span><br><span class="line">            <span class="comment">// doc.add(field);</span></span><br><span class="line">            doc.add(<span class="keyword">new</span> <span class="title class_">TextField</span>(<span class="string">"desc"</span>, descs[i], StringField.Store.YES));</span><br><span class="line">            writer.addDocument(doc);</span><br><span class="line">        }</span><br><span class="line">        writer.commit();</span><br><span class="line">        writer.close();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> IndexWriter <span class="title function_">getWriter</span><span class="params">()</span> <span class="keyword">throws</span> Exception {</span><br><span class="line">        <span class="type">String</span> <span class="variable">indexDir</span> <span class="operator">=</span> <span class="string">"~/JavaProjects/luceneDemo/src/main/resources/testIndex"</span>;</span><br><span class="line">        dir = FSDirectory.open(Paths.get(indexDir));</span><br><span class="line">        <span class="type">Analyzer</span> <span class="variable">analyzer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StandardAnalyzer</span>();</span><br><span class="line">        <span class="type">IndexWriterConfig</span> <span class="variable">config</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">IndexWriterConfig</span>(analyzer);</span><br><span class="line">        <span class="type">IndexWriter</span> <span class="variable">writer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">IndexWriter</span>(dir, config);</span><br><span class="line">        <span class="keyword">return</span> writer;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testIndexWriterNum</span><span class="params">()</span> <span class="keyword">throws</span> Exception {</span><br><span class="line">        <span class="type">IndexWriter</span> <span class="variable">writer</span> <span class="operator">=</span> getWriter();</span><br><span class="line">        System.out.println(<span class="string">"Total number of documents in this testIndexAdd: "</span> + writer.numDocs());</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testDeleteBeforeMerge</span><span class="params">()</span> <span class="keyword">throws</span> Exception {</span><br><span class="line">        <span class="type">IndexWriter</span> <span class="variable">writer</span> <span class="operator">=</span> getWriter();</span><br><span class="line">        System.out.println(<span class="string">"Total number of documents in this testIndexAdd before delete: "</span> + writer.numDocs());</span><br><span class="line">        writer.deleteDocuments(<span class="keyword">new</span> <span class="title class_">Term</span>(<span class="string">"id"</span>, <span class="string">"1"</span>));</span><br><span class="line">        writer.commit();</span><br><span class="line">        System.out.println(<span class="string">"Max number of documents in this testIndexAdd after delete: "</span> + writer.maxDoc());</span><br><span class="line">        System.out.println(<span class="string">"Total number of documents in this testIndexAdd after delete: "</span> + writer.numDocs());</span><br><span class="line">        writer.close();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testDeleteAfterMerge</span><span class="params">()</span> <span class="keyword">throws</span> Exception {</span><br><span class="line">        <span class="type">IndexWriter</span> <span class="variable">writer</span> <span class="operator">=</span> getWriter();</span><br><span class="line">        System.out.println(<span class="string">"Total number of documents in this testIndexAdd before delete: "</span> + writer.numDocs());</span><br><span class="line">        writer.deleteDocuments(<span class="keyword">new</span> <span class="title class_">Term</span>(<span class="string">"id"</span>, <span class="string">"1"</span>));</span><br><span class="line">        writer.forceMergeDeletes();</span><br><span class="line">        writer.commit();</span><br><span class="line">        System.out.println(<span class="string">"Max number of documents in this testIndexAdd after delete: "</span> + writer.maxDoc());</span><br><span class="line">        System.out.println(<span class="string">"Total number of documents in this testIndexAdd after delete: "</span> + writer.numDocs());</span><br><span class="line">        writer.close();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testUpdate</span><span class="params">()</span> <span class="keyword">throws</span> Exception {</span><br><span class="line">        <span class="type">IndexWriter</span> <span class="variable">writer</span> <span class="operator">=</span> getWriter();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// new a document</span></span><br><span class="line">        <span class="type">Document</span> <span class="variable">doc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Document</span>();</span><br><span class="line">        doc.add(<span class="keyword">new</span> <span class="title class_">StringField</span>(<span class="string">"id"</span>, <span class="string">"1"</span>, StringField.Store.YES));</span><br><span class="line">        doc.add(<span class="keyword">new</span> <span class="title class_">StringField</span>(<span class="string">"tool"</span>, <span class="string">"Lucene"</span>, StringField.Store.YES));</span><br><span class="line">        doc.add(<span class="keyword">new</span> <span class="title class_">TextField</span>(<span class="string">"position"</span>, <span class="string">"Java Engineer"</span>, StringField.Store.YES));</span><br><span class="line">        doc.add(<span class="keyword">new</span> <span class="title class_">TextField</span>(<span class="string">"desc"</span>, <span class="string">"Lucene is a full-text search engine library"</span>, StringField.Store.YES));</span><br><span class="line">        writer.updateDocument(<span class="keyword">new</span> <span class="title class_">Term</span>(<span class="string">"id"</span>, <span class="string">"1"</span>), doc);</span><br><span class="line"></span><br><span class="line">        writer.commit();</span><br><span class="line">        writer.close();</span><br><span class="line">        System.out.println(doc.getField(<span class="string">"desc"</span>));</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testIndexReader</span><span class="params">()</span> <span class="keyword">throws</span> Exception {</span><br><span class="line">        <span class="type">String</span> <span class="variable">indexDir</span> <span class="operator">=</span> <span class="string">"~/JavaProjects/luceneDemo/src/main/resources/testIndex"</span>;</span><br><span class="line">        dir = FSDirectory.open(Paths.get(indexDir));</span><br><span class="line">        <span class="type">IndexReader</span> <span class="variable">reader</span> <span class="operator">=</span> DirectoryReader.open(dir);</span><br><span class="line">        System.out.println(<span class="string">"Total number of documents in this testIndexAdd: "</span> + reader.numDocs());</span><br><span class="line">        System.out.println(<span class="string">"Total number of deleted documents in this testIndexAdd: "</span> + reader.numDeletedDocs());</span><br><span class="line">        System.out.println(<span class="string">"Total number of max docs in this testIndexAdd: "</span> + reader.maxDoc());</span><br><span class="line">        reader.close();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testIndexSearch</span><span class="params">()</span> <span class="keyword">throws</span> Exception {</span><br><span class="line">        <span class="type">String</span> <span class="variable">indexDir</span> <span class="operator">=</span> <span class="string">"~/JavaProjects/luceneDemo/src/main/resources/testIndex"</span>;</span><br><span class="line">        dir = FSDirectory.open(Paths.get(indexDir));</span><br><span class="line">        <span class="type">IndexReader</span> <span class="variable">reader</span> <span class="operator">=</span> DirectoryReader.open(dir);</span><br><span class="line">        <span class="type">IndexSearcher</span> <span class="variable">searcher</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">IndexSearcher</span>(reader);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Query</span></span><br><span class="line">        <span class="type">QueryParser</span> <span class="variable">parse</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">QueryParser</span>(<span class="string">"desc"</span>, <span class="keyword">new</span> <span class="title class_">StandardAnalyzer</span>());</span><br><span class="line">        <span class="type">Query</span> <span class="variable">query</span> <span class="operator">=</span> parse.parse(<span class="string">"search"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 权重搜索排序</span></span><br><span class="line">        <span class="comment">// 创建TermQuery</span></span><br><span class="line">        <span class="type">TermQuery</span> <span class="variable">termQuery</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TermQuery</span>(<span class="keyword">new</span> <span class="title class_">Term</span>(<span class="string">"position"</span>, <span class="string">"DevOps"</span>.toLowerCase()));</span><br><span class="line">        <span class="comment">// 提升TermQuery的权重</span></span><br><span class="line">        <span class="type">BoostQuery</span> <span class="variable">boostQuery</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BoostQuery</span>(termQuery, <span class="number">1.5f</span>);</span><br><span class="line">        <span class="comment">// 创建BooleanQuery</span></span><br><span class="line">        BooleanQuery.<span class="type">Builder</span> <span class="variable">booleanQuery</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BooleanQuery</span>.Builder();</span><br><span class="line">        booleanQuery.add(query, BooleanClause.Occur.MUST);</span><br><span class="line">        booleanQuery.add(boostQuery, BooleanClause.Occur.SHOULD);</span><br><span class="line"></span><br><span class="line">        <span class="type">TopDocs</span> <span class="variable">hits</span> <span class="operator">=</span> searcher.search(booleanQuery.build(), <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"Total number of hits: "</span> + hits.totalHits);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (ScoreDoc scoreDoc : hits.scoreDocs) {</span><br><span class="line">            <span class="type">Document</span> <span class="variable">doc</span> <span class="operator">=</span> searcher.doc(scoreDoc.doc);</span><br><span class="line">            System.out.println(doc.get(<span class="string">"id"</span>));</span><br><span class="line">            System.out.println(doc.get(<span class="string">"tool"</span>));</span><br><span class="line">            System.out.println(doc.get(<span class="string">"position"</span>));</span><br><span class="line">            System.out.println(doc.get(<span class="string">"desc"</span>));</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        reader.close();</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h4 id="mag-Attention"><a href="#mag-Attention" class="headerlink" title=":mag:Attention"></a><span class="github-emoji"><span>🔍</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f50d.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>Attention</h4><ul>
+<li><p><code>TextField</code>和<code>StringField</code>的区别</p>
+<ul>
+<li><code>StringField</code>：不会被分词器处理，适用于精确匹配查询，如ID、日期、分类等字段，<code>StringField.Store.YES</code>表示存储字段值。</li>
+<li><p><code>TextField</code>：会被分词器处理，适用于需要进行全文搜索的文本内容，如文章内容、描述等字段，<code>TextField.Store.YES</code>表示存储字段值并进行分词处理。</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用StringField存储ID字段</span></span><br><span class="line">doc.add(<span class="keyword">new</span> <span class="title class_">StringField</span>(<span class="string">"id"</span>, <span class="string">"1"</span>, StringField.Store.YES));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用TextField存储描述字段</span></span><br><span class="line">doc.add(<span class="keyword">new</span> <span class="title class_">TextField</span>(<span class="string">"desc"</span>, <span class="string">"Lucene is a full-featured text search engine library written entirely in Java."</span>, TextField.Store.YES));</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+</li>
+<li><p><code>IndexWriter</code>的<code>commit</code>和<code>close</code>方法</p>
+<ul>
+<li><code>commit</code>：提交索引，将内存中的索引写入磁盘，保证索引的一致性。</li>
+<li><code>close</code>：关闭索引写入器，释放资源。</li>
+</ul>
+</li>
+<li><p><code>TermQuery</code>中的文本可以是大写也可以是小写，但必须与索引中的文本完全匹配。因为<code>TermQuery</code>不会对查询文本进行分析或分词处理，所以如果索引中的文本是小写，那么查询文本也必须是小写。如果使用了<code>StandardAnalyzer</code>或其他分词器在索引时将文本转换为小写，那么在查询时也需要将文本转换为小写以确保匹配。可以使用<code>LowerCaseFilter</code>或<code>LowerCaseTokenizer</code>来确保查询文本是小写的。</p>
+  <figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建TermQuery并将文本转换为小写</span></span><br><span class="line"><span class="type">TermQuery</span> <span class="variable">termQuery</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TermQuery</span>(<span class="keyword">new</span> <span class="title class_">Term</span>(<span class="string">"position"</span>, <span class="string">"DevOps"</span>.toLowerCase()));</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p><code>TermQuery</code>不会进行分词处理，只会进行精确匹配查询，所以查询文本必须与索引中的文本完全匹配。如果需要查询包含多个词的字段，可以使用<code>PhraseQuery</code>或<code>BooleanQuery</code>。</p>
+  <figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用PhraseQuery查询包含多个词的字段</span></span><br><span class="line"><span class="type">PhraseQuery</span> <span class="variable">phraseQuery</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PhraseQuery</span>.Builder()</span><br><span class="line">    .add(<span class="keyword">new</span> <span class="title class_">Term</span>(<span class="string">"position"</span>, <span class="string">"DevOps"</span>))</span><br><span class="line">    .add(<span class="keyword">new</span> <span class="title class_">Term</span>(<span class="string">"position"</span>, <span class="string">"Engineer"</span>))</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用BooleanQuery查询包含多个词的字段</span></span><br><span class="line"><span class="type">BooleanQuery</span> <span class="variable">booleanQuery</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BooleanQuery</span>.Builder()</span><br><span class="line">    .add(<span class="keyword">new</span> <span class="title class_">TermQuery</span>(<span class="keyword">new</span> <span class="title class_">Term</span>(<span class="string">"position"</span>, <span class="string">"DevOps"</span>)), BooleanClause.Occur.MUST)</span><br><span class="line">    .add(<span class="keyword">new</span> <span class="title class_">TermQuery</span>(<span class="keyword">new</span> <span class="title class_">Term</span>(<span class="string">"position"</span>, <span class="string">"Engineer"</span>)), BooleanClause.Occur.MUST)</span><br><span class="line">    .build();</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>$lunece.version&gt;7.0$已经不再支持<code>setBoost</code>方法</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/LUCENE-6819">LUCENE-6819</a>: Index-time boosts are not supported anymore. As a replacement, index-time scoring factors should be indexed into a doc value field and combined at query time using eg. FunctionScoreQuery</li>
+</ul>
+</li>
+<li>同样不建议使用<code>Query.setBoost()</code>或者<code>Query.createWeight()</code><ul>
+<li><a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/LUCENE-6590">LUCENE-6590</a>: Query.setBoost(), Query.getBoost() and Query.clone() are gone. In order to apply boosts, you now need to wrap queries in a BoostQuery.</li>
+</ul>
+</li>
+<li><p>建议用<code>BoostQuery</code>封装来写权重查询，可以通过设置权重值来调整查询的相关性，值越大表示相关性越高。可以将<code>TermQuery</code>或<code>BooleanQuery</code>包装在<code>BoostQuery</code>中，然后将<code>BoostQuery</code>添加到<code>BooleanQuery</code>中。</p>
+  <figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建TermQuery</span></span><br><span class="line"><span class="type">TermQuery</span> <span class="variable">termQuery</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TermQuery</span>(<span class="keyword">new</span> <span class="title class_">Term</span>(<span class="string">"position"</span>, <span class="string">"DevOps"</span>.toLowerCase()));</span><br><span class="line"><span class="comment">// 提升TermQuery的权重</span></span><br><span class="line"><span class="type">BoostQuery</span> <span class="variable">boostQuery</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BoostQuery</span>(termQuery, <span class="number">1.5f</span>);</span><br><span class="line"><span class="comment">// 创建BooleanQuery</span></span><br><span class="line">BooleanQuery.<span class="type">Builder</span> <span class="variable">booleanQuery</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BooleanQuery</span>.Builder();</span><br><span class="line">booleanQuery.add(query, BooleanClause.Occur.MUST);</span><br><span class="line">booleanQuery.add(boostQuery, BooleanClause.Occur.SHOULD);</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2024/08/10/Lucene%20search%20engine/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lucene/" rel="tag">Lucene</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2024/08/01/Python%20unzip%20split%20zip/" class="article-nav-link">
+        <strong class="article-nav-caption">Next post</strong>
+        <div class="article-nav-title">Python unzip split zip</div>
+      </a>
+    
+  </nav>
+
+  
+   
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'a1a50124b0c46fa4fab9',
+    clientSecret: '4a29dee6f998a9272f57ba07f987ea9eed9da5ec',
+    repo: 'blog-comments',
+    owner: 'boom1999',
+    admin: ['boom1999'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: true,  // Facebook-like distraction free mode
+    pagerDirection: 'last',
+    proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2024
+        <span class="division">|</span> Zhicheng Ling
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+          
+          
+          Power <a href="https://hexo.io" target="_blank">Hexo</a>
+          <span class="division">|</span>
+          Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+          
+          <span class="division">|</span>
+        
+          
+          <span>
+  <span><i class="ri-eye-fill"></i> <span id="busuanzi_value_page_pv"></span></span>
+</span>
+          
+      </li>
+    </ul>
+    <ul>
+      
+        <li>
+          <a href="http://beian.miit.gov.cn/" target="_black" rel="nofollow">浙ICP备2020044847号-1</a>
+        </li>
+        
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/haisen-side.svg" alt="Haisenberg"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Categories</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.pan.lingzhicheng.cn">Pan</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.gallery.lingzhicheng.cn">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://www.todo.lingzhicheng.cn">Todo</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">Friends</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/me">Me</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+<!-- Graphiz -->
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/viz.js/1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+
+    
+  </div>
+  <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
+  fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
+  webpushr('setup',{'key':'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script>
+<script>(function (w, d, s, id) {
+            if (typeof (w.webpushr) !== 'undefined') return; w.webpushr = w.webpushr || function () { (w.webpushr.q = w.webpushr.q || []).push(arguments) }; var js, fjs = d.getElementsByTagName(s)[0]; js = d.createElement(s); js.id = id; js.async = 1; js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window, document, 'script', 'webpushr-jssdk'));webpushr('setup', { 'key': 'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script></body>
+
+</html>
