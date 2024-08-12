@@ -235,9 +235,6 @@ public class GetObject {
                         } catch (NoSuchAlgorithmException e) {
                             throw new RuntimeException(e);
                         } finally {
-                            if (ossClient != null) {
-                                ossClient.shutdown();
-                            }
                             latch.countDown();
                         }
                     });
