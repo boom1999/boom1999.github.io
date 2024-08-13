@@ -14,7 +14,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    Summary |  Haisenberg
+    ElasticSearch query performance optimization |  Haisenberg
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -47,322 +47,272 @@
       
     <main class="content on">
       <section class="outer">
+  <article
+  id="post-ElasticSearch query performance optimization"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  ElasticSearch query performance optimization
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2024/08/13/ElasticSearch%20query%20performance%20optimization/" class="article-date">
+  <time datetime="2024-08-13T00:00:00.000Z" itemprop="datePublished">2024-08-13</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Summary/">Summary</a>
+  </div>
   
-  <ul class="ads">
-    
-        <li>
-            <a href="">
-                <img src="" width="" alt="">
-            </a>
-        </li>
-    
-        <li>
-            <a href="">
-                <img src="" width="" alt="">
-            </a>
-        </li>
-    
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">1.6k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">5 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <blockquote>
+<p><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><strong>Elasticsearch</strong>使原生的<strong>Lucene</strong>查询更加简单，同时提供了更多的功能，且可以通过<strong>RESTful API</strong>访问。<strong>Elasticsearch</strong>是一个分布式的搜索引擎，提供了一个分布式多用户能力的全文搜索引擎，基于<strong>RESTful</strong>的<strong>web</strong>接口。此外也可以扩展到几乎无限数量的服务器，以及能力去处理<strong>PB</strong>级别的数据。</p>
+</blockquote>
+<span id="more"></span>
+<h2 id="books-核心概念"><a href="#books-核心概念" class="headerlink" title=":books: 核心概念"></a><span class="github-emoji"><span>📚</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4da.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 核心概念</h2><h3 id="lock-基本概念"><a href="#lock-基本概念" class="headerlink" title=":lock: 基本概念"></a><span class="github-emoji"><span>🔒</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f512.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 基本概念</h3><blockquote>
+<p>为了方便理解Elasticsearch的一些基本概念，将其中的一些概念和关系型数据库做类比。<strong>但是请注意，这样类比并不是非常合适，甚至可能存在一些偏差，仅适用为初期提供更好的理解。</strong></p>
+</blockquote>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Elasticsearch</th>
+<th style="text-align:center">Mysql</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">索引库<code>Index</code></td>
+<td style="text-align:center">数据库<code>Database</code></td>
+</tr>
+<tr>
+<td style="text-align:center">文档类型<code>Type</code>（ES6.0开始逐渐弃用）</td>
+<td style="text-align:center">数据表<code>Table</code></td>
+</tr>
+<tr>
+<td style="text-align:center">文档<code>Document</code></td>
+<td style="text-align:center">行数据<code>Row</code></td>
+</tr>
+<tr>
+<td style="text-align:center">字段<code>Field</code></td>
+<td style="text-align:center">具体到某一列<code>Column</code></td>
+</tr>
+<tr>
+<td style="text-align:center">文档ID</td>
+<td style="text-align:center">主键ID</td>
+</tr>
+<tr>
+<td style="text-align:center">查询<code>Query DSL</code></td>
+<td style="text-align:center">查询<code>SQL</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>Get http://...</code></td>
+<td style="text-align:center"><code>SELECT * FROM...</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>PUT http://...</code></td>
+<td style="text-align:center"><code>UPDATE TABLE SET...</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li><code>Index</code>是文档的集合，相当于关系型数据库中的数据库，一个<code>Index</code>可以包含多个<code>Type</code>，但是在ES6.0版本中逐渐弃用<code>Type</code>，一个<code>Index</code>只能包含一个<code>Type</code><ul>
+<li>索引名称必须是小写的，不能包含逗号、空格等特殊字符</li>
+<li>索引有<code>mapping</code>和<code>setting</code>两个配置，<code>mapping</code>定义了文档的字段类型，<code>setting</code>定义了索引的配置例如分片、副本和自定义的<code>analyzer</code></li>
 </ul>
-  
-  
-  <article class="articles">
-    
-    
-    <h1 class="page-type-title">Summary</h1>
-    
-    
-  
-  
-  
-  
-  
-  
-  <div class="archives-wrap">
-    <div class="archive-year-wrap">
-      <a href="/archives/2024" class="archive-year">2024</a>
-    </div>
-    <div class="archives">
-      
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/08/13/ElasticSearch%20query%20performance%20optimization/" class="archive-article-date">
-  <time datetime="2024-08-13T00:00:00.000Z" itemprop="datePublished">08/13</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/08/13/ElasticSearch%20query%20performance%20optimization/"
-    >ElasticSearch query performance optimization</a> 
-</h2>
+</li>
+<li><code>Document</code>是可搜索数据的最小单元，相当于关系型数据库中的一条记录，在ES中会被序列化成Json格式存储</li>
+<li>存储的Json对象由各个字段组成，相当于关系型数据库中的列，同时每个字段也有其自己的类型（字符串、布尔、时间范围等）</li>
+<li>创建文档时若不指定字段的类型，ES将自动匹配映射，但是在生产环境中最好自定义映射</li>
+<li>每个文档都有一个ID相当于Mysql的主键，可以自定也可以自动生成</li>
+<li>节点<code>Node</code>是一个单独的Elasticsearch实例，它属于一个集群<code>Cluster</code>，集群是由一个或多个节点组成的，本质上一个节点可简单看作是一个进程，在集群中建议在单机只部署一个高性能节点，单机多节点反而导致性能下降；同样也具有一般分布式架构的选举、<code>coor</code>等</li>
+<li>分片<code>Shard</code>是ES中最小的工作单元，每个分片都是一个<code>Lucene</code>实例，分片是ES实现分布式和水平扩展的基础，分片的数量在索引创建时就已经确定，分片的数量只能增加不能减少，一般不建议后期再次修改</li>
+<li>副本<code>Replica</code>是分片的副本，副本的作用是提高数据的可用性，副本的数量可以动态调整，副本的数量越多，读性能越好，但是写性能会下降，副本的数量不能超过节点的数量，默认副本系数为1，也就是给每个主分片创建一个copy</li>
+<li><strong>关于<code>Type</code></strong>，多<code>Type</code>里的字段需要保持一致，也就是不同实体之间出现了很多冗余，导致分布稀疏，干扰了<code>Lucene</code>压缩文档的能力，影响存储性能；相对于<code>Mysql</code>中每个<code>Table</code>下的<code>Scheme</code>是没有限制要保持一致的，这也是区别之一<ul>
+<li><code>6.x</code>之前可以有多个<code>Type</code></li>
+<li><code>6.x</code>之后只能有一个自定义名字的文档类型</li>
+<li><code>7.x</code>之后只能有一个且名字是<code>_doc</code></li>
+<li>未来可能取消文档类型的概念，部分API将改动</li>
+</ul>
+</li>
+</ul>
+<h2 id="pencil2-查询性能优化"><a href="#pencil2-查询性能优化" class="headerlink" title=":pencil2: 查询性能优化"></a><span class="github-emoji"><span>✏</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/270f.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 查询性能优化</h2><h3 id="Filesystem-Cache-文件系统缓存"><a href="#Filesystem-Cache-文件系统缓存" class="headerlink" title="Filesystem Cache 文件系统缓存"></a>Filesystem Cache 文件系统缓存</h3><blockquote>
+<p>数据写入流程：客户端选择一个Node发送请求，路由到主分片，主分片将数据先写入到<code>buffer</code>里，同时将数据写到<code>translog</code>日志（同步写入到副本分片），可选写到<code>translog</code>的同时同步写入磁盘或者等待后异步刷到磁盘；若<code>buffer</code>满了或是手动触发刷新<code>refresh</code>，就会刷新到<code>Filesystem Cache</code>，此时生成一个新的<code>segment</code>就可以被搜索到，一定时间或<code>translog</code>超出大小后触发<code>flush</code>将<code>Filesystem Cache</code>数据同步到磁盘然后清空<code>translog</code>。<strong>简而言之，写数据都写到磁盘里了，搜索从磁盘里搜索才是查询性能的瓶颈所在</strong></p>
+</blockquote>
+<ul>
+<li>尽可能给<code>filesystem cache</code>分配更多内存，最佳情况是大于ES所需要搜索的数据大小，可以保证容纳所有索引数据，搜索全部走内存的话性能非常高</li>
+<li>硬件配置的提升的有限度的，可以考虑减少存储的索引规模，只存储需要搜索的索引，将<code>id</code>、<code>name</code>、<code>age</code>等字段存入ES，将其他数据存在<code>HBase</code>等适合存放大规模在线数据的数据库，从ES中查询到关键字段再去Hbase中查完整的数据</li>
+</ul>
+<h3 id="数据冷热分离"><a href="#数据冷热分离" class="headerlink" title="数据冷热分离"></a>数据冷热分离</h3><blockquote>
+<p>无法完全保证<code>Filesystem Cache</code>大于数据量时，考虑分离热点数据和冷数据</p>
+</blockquote>
+<ul>
+<li>间隔一段时间自动搜索热点数据，保证热点数据始终在<code>Filesystem Cache</code>里，其实就是做一个预热的子系统</li>
+<li>拆分冷热数据构建不同的索引，防止热数据被冷数据冲刷掉，其实就是做类似于Mysql的分库，以牺牲冷数据的查询性能来提升热数据的查询性能</li>
+</ul>
+<h3 id="分页查询优化"><a href="#分页查询优化" class="headerlink" title="分页查询优化"></a>分页查询优化</h3><ul>
+<li>尽量避免复杂的操作，例如<code>join</code>查询</li>
+<li>和Mysql类似，分页查询越后面越慢，深度分页性能很差，也就是需要先做一个过滤，那么过滤用什么方式？<ul>
+<li>使用<code>scroll api</code>进行深度分页，但是作者不再推荐使用这个，<code>scroll</code>将一次性给出所有数据的快照谢谢，然后通过<code>scroll_id</code>移动查询，后续的查询基本都将是毫秒级，但不能实现跳转，同时数据实时性存在缺陷</li>
+<li>使用<code>search_after</code>利用前一页的检索结果来帮助检索下一页，同样这也无法实现随意跳转，官方推荐使用 <code>_uid</code>作为全局唯一值，其实使用业务层的<code>id</code>也可以，在模型设计时需要考虑预留一个用于sort的字段</li>
+</ul>
+</li>
+</ul>
  
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Summary/">Summary</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/08/10/Lucene%20search%20engine/" class="archive-article-date">
-  <time datetime="2024-08-10T00:00:00.000Z" itemprop="datePublished">08/10</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/08/10/Lucene%20search%20engine/"
-    >Lucene search engine</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Summary/">Summary</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/08/01/Python%20unzip%20split%20zip/" class="archive-article-date">
-  <time datetime="2024-08-01T00:00:00.000Z" itemprop="datePublished">08/01</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/08/01/Python%20unzip%20split%20zip/"
-    >Python unzip split zip</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Summary/">Summary</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/07/11/PKIX%20path%20building%20failed/" class="archive-article-date">
-  <time datetime="2024-07-11T00:00:00.000Z" itemprop="datePublished">07/11</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/07/11/PKIX%20path%20building%20failed/"
-    >PKIX path building failed</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Summary/">Summary</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/07/04/Keepalived%E6%B5%85%E5%85%A5%E6%B5%85%E5%87%BA/" class="archive-article-date">
-  <time datetime="2024-07-04T00:00:00.000Z" itemprop="datePublished">07/04</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/07/04/Keepalived%E6%B5%85%E5%85%A5%E6%B5%85%E5%87%BA/"
-    >Keepalived浅入浅出</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Summary/">Summary</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/06/29/ClickHouse%E5%88%9D%E6%8E%A2/" class="archive-article-date">
-  <time datetime="2024-06-29T00:00:00.000Z" itemprop="datePublished">06/29</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/06/29/ClickHouse%E5%88%9D%E6%8E%A2/"
-    >ClickHouse初探</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Summary/">Summary</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/05/10/Docker%20To%20Kubernetes/" class="archive-article-date">
-  <time datetime="2024-05-10T00:00:00.000Z" itemprop="datePublished">05/10</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/05/10/Docker%20To%20Kubernetes/"
-    >Docker To Kubernetes after V1.24</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Summary/">Summary</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/05/05/Google%20File%20System/" class="archive-article-date">
-  <time datetime="2024-05-05T00:00:00.000Z" itemprop="datePublished">05/05</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/05/05/Google%20File%20System/"
-    >Learning GFS - Google File System</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Summary/">Summary</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/05/02/Lose%20Internet%20Ubuntu/" class="archive-article-date">
-  <time datetime="2024-05-02T00:00:00.000Z" itemprop="datePublished">05/02</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/05/02/Lose%20Internet%20Ubuntu/"
-    >Ubuntu lose internet</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Summary/">Summary</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/04/20/SpringBoot%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%92%8C%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/" class="archive-article-date">
-  <time datetime="2024-04-20T00:00:00.000Z" itemprop="datePublished">04/20</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/04/20/SpringBoot%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%92%8C%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/"
-    >SpringBoot线程池和异步任务</a> 
-</h2>
- 
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Summary/">Summary</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
+      <!-- reward -->
       
     </div>
-  </div>
-  
-  
-
-  
-  <nav class="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/categories/Summary/page/2/">2</a><a class="page-number" href="/categories/Summary/page/3/">3</a><a class="extend next" rel="next" href="/categories/Summary/page/2/">Next page</a>
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.lingzhicheng.cn/2024/08/13/ElasticSearch%20query%20performance%20optimization/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ElasticSearch/" rel="tag">ElasticSearch</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2024/08/10/Lucene%20search%20engine/" class="article-nav-link">
+        <strong class="article-nav-caption">Next post</strong>
+        <div class="article-nav-title">Lucene search engine</div>
+      </a>
+    
   </nav>
+
   
+   
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'a1a50124b0c46fa4fab9',
+    clientSecret: '4a29dee6f998a9272f57ba07f987ea9eed9da5ec',
+    repo: 'blog-comments',
+    owner: 'boom1999',
+    admin: ['boom1999'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: true,  // Facebook-like distraction free mode
+    pagerDirection: 'last',
+    proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+     
+</article>
+
 </section>
       <footer class="footer">
   <div class="outer">
@@ -511,6 +461,23 @@
 <script src="/js/lazyload.min.js"></script>
 
 <!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">

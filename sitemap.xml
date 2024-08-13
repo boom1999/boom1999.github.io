@@ -451,6 +451,15 @@
     <priority>0.6</priority>
   </url>
   
+  <url>
+    <loc>{{ post.permalink | uriencode }}</loc>
+    
+    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
 
   <url>
     <loc>{{ config.url | uriencode }}</loc>
@@ -459,6 +468,13 @@
     <priority>1.0</priority>
   </url>
 
+  
+  <url>
+    <loc>{{ tag.permalink | uriencode }}</loc>
+    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
   <url>
     <loc>{{ tag.permalink | uriencode }}</loc>
