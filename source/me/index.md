@@ -6,13 +6,13 @@ type: me
 
 ## About me :telescope:
 
-> Hangzhou, China --> Nanjing, China
-> Graduated from `Zhejiang University of Technology`, majoring in `Communication Engineering`.
-> Currently studying for a master's degree in `Information and Communication Engineering` from `Nanjing University of Aeronautics and Astronautics`.
+> Hangzhou, China --> Nanjing, China --> Shanghai, China
+> 2018-2022 `Zhejiang University of Technology`, majoring in `Communication Engineering`.
+> 2022-2025 `Nanjing University of Aeronautics and Astronautics`, majoring in `Information and Communication Engineering`.
 > Field of research: UAV-based optical target localization and adaptive parameter optimization, UAV track planning.
-> Companies looking forward to joining: [`DJI`](https://www.dji.com), [`CASIC`](http://www.casic.com.cn/), [`CETC`](http://www.cetc.com.cn/), [`HUAWEI`](https://www.huawei.com/cn/), etc.
+> Future work: [`HUAWEI`](https://www.huawei.com/cn/) 2012 Lab.
 > ~~Personal blog: learning experience and trivial records~~. Now it's transforming into a technical blog
-> Mainly focus on `Java`, `Golang`, `Python`, `Linux`, `C++`, and familiar with `Kubernetes` and `Docker` containers, common data structures and algorithms.
+> Mainly focus on `Java`, `C++`, `Python`, `Linux`, `Golang`, and familiar with `Kubernetes` and `Docker` containers, common data structures and algorithms.
 > I'm familiar with `MATLAB`.~~`Altium Designer`, `Multisim`, `QuartusⅡ` for system simulation, `Keil` for MCU development(Less used now).~~
 
 ----
@@ -22,8 +22,8 @@ type: me
 <div style="display: inline_block"><br>
   <img align="center" alt="Java" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/java.svg" style="display: inline-block">
   <img align="center" alt="Python" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/python.svg" style="display: inline-block">
-  <img align="center" alt="Go" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/go.svg" style="display: inline-block">
   <img align="center" alt="cplusplus" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/cplusplus.svg" style="display: inline-block">
+  <img align="center" alt="Go" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/go.svg" style="display: inline-block">
   <img align="center" alt="matlab" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/matlab.svg" style="display: inline-block">
   <img align="center" alt="bash" height="30" width="40" src="https://www.lingzhicheng.cn/usr/file/picture/icon/bash.svg" style="display: inline-block">
 </div>
