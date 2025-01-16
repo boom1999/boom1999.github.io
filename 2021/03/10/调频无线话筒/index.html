@@ -115,13 +115,13 @@
 <h2 id="一、实验目的"><a href="#一、实验目的" class="headerlink" title="一、实验目的"></a>一、实验目的</h2><blockquote>
 <p>掌握调频发射机整机电路的设计与调试方法，以及高频电路的调试中常见故障的分析与 排除；学会如何将高频单元电路组合起来实现满足工程实际要求的整机电路的设计与调试技术</p>
 </blockquote>
-<h2 id="二、参考设计"><a href="#二、参考设计" class="headerlink" title="二、参考设计"></a>二、参考设计</h2><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/System.png" alt="系统框图"></p>
+<h2 id="二、参考设计"><a href="#二、参考设计" class="headerlink" title="二、参考设计"></a>二、参考设计</h2><p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/PCB/2021FM/System.png" alt="系统框图"></p>
 <center><font size="2">图1 小功率调频无线话筒的系统框图</font></center>
 
 <blockquote>
 <p>对于小功率的调频无线话筒，设计时在保证技术指标的前提下，应力求电路简单、性能 稳定可靠。单元电路级数尽可能少，以减小级间的相互感应、干扰和自激，工作在调频广播频段（87MHz~108MHz）。高频功放在发射功 率较小时可工作于甲类状态</p>
 </blockquote>
-<h3 id="高频部分等效电路"><a href="#高频部分等效电路" class="headerlink" title="高频部分等效电路"></a>高频部分等效电路</h3><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/equal.png" alt="等效电路"></p>
+<h3 id="高频部分等效电路"><a href="#高频部分等效电路" class="headerlink" title="高频部分等效电路"></a>高频部分等效电路</h3><p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/PCB/2021FM/equal.png" alt="等效电路"></p>
 <center><font size="2">图2 高频部分等效电路</font></center>
 
 <h2 id="三、仪器与工具"><a href="#三、仪器与工具" class="headerlink" title="三、仪器与工具"></a>三、仪器与工具</h2><blockquote>
@@ -156,28 +156,28 @@
 <p>微型麦克风将采集的语言信号转换成电压信号输入电路，R15微麦克风偏置电阻，用来确定麦克风的静态工作点。C16电容用来稳定放大器，同时起到低通滤波的作用。R16、R17、R18、R19、R20为三极管9013的偏置电阻。C17为旁路电容，三极管静态工作时，不起任何作用。当输入交流信号时，R19被C17短路，C14、C15接地起到滤波作用。C18为隔离电容</p>
 <p>理论上该部分能对输入的语音信号放大10倍左右，被放大后的语音信号就是调频系统的基带信号</p>
 </blockquote>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/Audio_amplification_module.png" alt="音频放大"></p>
+<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/PCB/2021FM/Audio_amplification_module.png" alt="音频放大"></p>
 <center><font size="2">图3 音频放大模块</font></center>
 
 <h3 id="5-2高频振荡与频率调制"><a href="#5-2高频振荡与频率调制" class="headerlink" title="5.2高频振荡与频率调制"></a>5.2高频振荡与频率调制</h3><blockquote>
 <p>调频系统中，用一个频率高的信号作为载波。载波的频率将被基带信号所控制，携带基带信号的全部信息</p>
 <p>采用电容三端式振荡器，加了变容二极管Cx1和反馈网络，外接电源后只要有一个微小的开关扰动就能自激振荡，最终输出频率为几十兆的正弦波。通过调节可调电感L1，可逐渐改变正弦波的频率直至达到期望值</p>
 </blockquote>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/High_frequency_oscillation_and_frequency_modulation_module.png" alt="高频振荡与频率调制"></p>
+<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/PCB/2021FM/High_frequency_oscillation_and_frequency_modulation_module.png" alt="高频振荡与频率调制"></p>
 <center><font size="2">图4 高频振荡与频率调制模块</font></center>
 
 <h3 id="5-3缓冲隔离与高频功放"><a href="#5-3缓冲隔离与高频功放" class="headerlink" title="5.3缓冲隔离与高频功放"></a>5.3缓冲隔离与高频功放</h3><blockquote>
 <p>缓冲高频振荡部分输出的信号，同时隔离前后级电路</p>
 <p>采用射极跟随器，三极管T2 9018的静态工作点由偏置电阻R7、R8、R9确定。此处同样设置了一个简单的模拟滤波电路，由C12、C13、L4构成，C9为隔离电容</p>
 </blockquote>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/Buffer_isolation_module.png" alt="缓冲隔离"></p>
+<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/PCB/2021FM/Buffer_isolation_module.png" alt="缓冲隔离"></p>
 <center><font size="2">图5 缓冲隔离模块</font></center>
 
 <blockquote>
 <p>高频振荡电路输出的调制信号幅值一般较小，而话筒天线传输出去的信号是在无线信道中传播的，必然存在一定程度上的幅值衰减，所以必须在震荡电路之后添加一个高频功率放大器。</p>
 <p>高频功放由三极管T3 9018，电阻R10、R11、R12作为偏置电阻确定静态工作点。C10和可调电感L3组成LC回路，谐振在载频上，输出波形的峰峰值$V_{pp}$可由L3调节</p>
 </blockquote>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/High-frequency_amplifier_module.png" alt="高频功放"></p>
+<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/PCB/2021FM/High-frequency_amplifier_module.png" alt="高频功放"></p>
 <center><font size="2">图6 高频功放模块</font></center>
 
 <h2 id="六、-操作步骤与数据记录"><a href="#六、-操作步骤与数据记录" class="headerlink" title="六、 操作步骤与数据记录"></a>六、 操作步骤与数据记录</h2><blockquote>
@@ -228,26 +228,26 @@
 <h3 id="附录👇"><a href="#附录👇" class="headerlink" title="附录👇"></a><em>附录👇</em></h3><h4 id="附1：SCH"><a href="#附1：SCH" class="headerlink" title="附1：SCH"></a><em>附1：SCH</em></h4><blockquote>
 <p>SCH图👇</p>
 </blockquote>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/SCH_new.png" alt="修改之后的SCH图"></p>
+<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/PCB/2021FM/SCH_new.png" alt="修改之后的SCH图"></p>
 <center><font size="2">图7 SCH</font></center>
 
 <h4 id="附2：PCB"><a href="#附2：PCB" class="headerlink" title="附2：PCB"></a><em>附2：PCB</em></h4><blockquote>
 <p>经过优化的PCB图👇</p>
 </blockquote>
-<p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/PCB_new.png" alt="经过优化的PCB图"></p>
+<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/PCB/2021FM/PCB_new.png" alt="经过优化的PCB图"></p>
 <center><font size="2">图8 PCB</font></center>
 
 <blockquote>
 <p>较为紧凑，封装与实物所用略有不同，稍有出入。实物上C9在焊接时两引脚掰开，中间空了一格走地线，PCB图中有所不同</p>
 </blockquote>
-<h4 id="附3：实物图正面"><a href="#附3：实物图正面" class="headerlink" title="附3：实物图正面"></a><em>附3：实物图正面</em></h4><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/Real_positive.jpg" alt="Real_positive"></p>
+<h4 id="附3：实物图正面"><a href="#附3：实物图正面" class="headerlink" title="附3：实物图正面"></a><em>附3：实物图正面</em></h4><p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/PCB/2021FM/Real_positive.jpg" alt="Real_positive"></p>
 <center><font size="2">实物图正面</font></center>
 
-<h4 id="附4：实物图反面"><a href="#附4：实物图反面" class="headerlink" title="附4：实物图反面"></a><em>附4：实物图反面</em></h4><p><img src="https://www.lingzhicheng.cn/usr/file/picture/PCB/2021FM/Real_opposite.jpg" alt="Real_opposite"></p>
+<h4 id="附4：实物图反面"><a href="#附4：实物图反面" class="headerlink" title="附4：实物图反面"></a><em>附4：实物图反面</em></h4><p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/PCB/2021FM/Real_opposite.jpg" alt="Real_opposite"></p>
 <center><font size="2">实物图反面</font></center>
 
 <h4 id="附5：源文件下载"><a href="#附5：源文件下载" class="headerlink" title="附5：源文件下载"></a><em>附5：源文件下载</em></h4><!-- markdownlint-disable-file MD025 MD033 MD028-->
-<p><a href="https://www.lingzhicheng.cn/usr/file/2021FM.zip">Altium Designer工程源文件</a></p>
+<p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/PCB/2021FM.zip">Altium Designer工程源文件</a></p>
  
       <!-- reward -->
       
