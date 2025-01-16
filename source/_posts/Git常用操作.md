@@ -182,14 +182,14 @@ git reset --mixed HEAD^ //暂存区和历史区回到上一个版本，工作区
 
 <!-- markdownlint-disable-file MD025 MD028 MD033 -->
 
-[1]: https://www.lingzhicheng.cn/usr/file/picture/Git/UserInfo.png
-[2]: https://www.lingzhicheng.cn/usr/file/picture/Git/SSHKey.png
-[3]: https://www.lingzhicheng.cn/usr/file/picture/Git/DeployKeys.png
-[4]: https://www.lingzhicheng.cn/usr/file/picture/Git/GitInit.png
-[5]: https://www.lingzhicheng.cn/usr/file/picture/Git/GitAdd.png
-[6]: https://www.lingzhicheng.cn/usr/file/picture/Git/GitRm.png
-[7]: https://www.lingzhicheng.cn/usr/file/picture/Git/GitCommit.png
-[8]: https://www.lingzhicheng.cn/usr/file/picture/Git/GitMerge.png
-[9]: https://www.lingzhicheng.cn/usr/file/picture/Git/GitDemo.png
-[10]: https://www.lingzhicheng.cn/usr/file/picture/Git/GitDemoUpload.png
-[11]: https://www.lingzhicheng.cn/usr/file/picture/Git/GitRemote.png
+[1]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/UserInfo.png
+[2]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/SSHKey.png
+[3]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/DeployKeys.png
+[4]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitInit.png
+[5]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitAdd.png
+[6]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitRm.png
+[7]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitCommit.png
+[8]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitMerge.png
+[9]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitDemo.png
+[10]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitDemoUpload.png
+[11]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitRemote.png

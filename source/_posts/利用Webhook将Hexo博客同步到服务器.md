@@ -144,7 +144,7 @@ else
 fi
 ```
 
-[1]: https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook01.png
-[2]: https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook02.png
-[3]: https://www.lingzhicheng.cn/usr/file/picture/Hexo_synchronization/Webhook03.png
+[1]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Hexo_synchronization/Webhook01.png
+[2]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Hexo_synchronization/Webhook02.png
+[3]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Hexo_synchronization/Webhook03.png
 [4]: https://mirror.ghproxy.com/

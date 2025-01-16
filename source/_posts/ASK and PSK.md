@@ -258,7 +258,7 @@ y=(1/2)*erfc(x/sqrt(2));
 <center><font size=2>Fig.2 Message bits in Frequency domain.</font></center>
 <br><br><br>
 
-<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/lab6_1_Eb.png" ></div>
+<div align=center><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/ASK_PSK/lab6_1_Eb.png" ></div>
 <center><font size=2>Fig.3 The average signal energy per bit.</font></center>
 <br><br><br>
 
@@ -468,7 +468,7 @@ theo_err_sym=theo_err_prb*2         % Theoretical symbol-error rate.
 <center><font size=2>Fig.7 The constellation diagram of the 4PSK.</font></center>
 <br><br><br>
 
-<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/lab6_2_theoretical_calculation_and_numerical_simulation.png" ></div>
+<div align=center><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/ASK_PSK/lab6_2_theoretical_calculation_and_numerical_simulation.png" ></div>
 <center><font size=2>Fig.8 BER and SER(theoretical calculation and numerical simulation).</font></center>
 
 ### :grey_question: 4PSK Discussion
@@ -478,11 +478,11 @@ When the phase of the two bits of information undergoes a sudden change, the tim
 In the constellation diagram, we can see that the PSK signal will drift due to noise. If the noise is too large, a large number of signals will drift to other phase points, causing an increase in the bit error rate.
 
 <!-- markdownlint-disable-file MD025 MD033 -->
-[1]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/Time_domain.png
-[2]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/Frequency_domain.png
-[3]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/Eb.png
-[4]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/SNR.png
-[5]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/4PSK_Time_domain.png
-[6]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/4PSK_Frequency_domain.png
-[7]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/Constellation_diagram.png
-[8]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/ASK_PSK/Theoretical_calculation_and_numerical_simulation.png
+[1]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/ASK_PSK/Time_domain.png
+[2]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/ASK_PSK/Frequency_domain.png
+[3]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/ASK_PSK/Eb.png
+[4]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/ASK_PSK/SNR.png
+[5]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/ASK_PSK/4PSK_Time_domain.png
+[6]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/ASK_PSK/4PSK_Frequency_domain.png
+[7]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/ASK_PSK/Constellation_diagram.png
+[8]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/ASK_PSK/Theoretical_calculation_and_numerical_simulation.png

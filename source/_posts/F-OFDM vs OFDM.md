@@ -251,14 +251,11 @@ rng(s);
 ![Fig.1  Impulse Response.][1]
 <center><font size=2>Fig.1  Impulse Response.</font></center>
 
-
 ![Fig.2  F-OFDM normalized frequency.][2]
 <center><font size=2>Fig.2  F-OFDM normalized frequency.</font></center>
 
-
 ![Fig.2  OFDM normalized frequency.][3]
 <center><font size=2>Fig.3  OFDM normalized frequency.</font></center>
-
 
 ![Fig.4  F-OFDM Reception.][4]
 <center><font size=2>Fig.4  F-OFDM Reception.</font></center>
@@ -270,7 +267,7 @@ rng(s);
 > 3. R1-165425. "F-OFDM scheme and filter design." 3GPP TSG RAN WG1 meeting 85. Huawei; HiSilicon. May 2016.
 
 <!-- markdownlint-disable-file MD025 MD033 -->
-[1]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/Impluse_Response.bmp
-[2]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/F-OFDM_normalized_frequency.bmp
-[3]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/OFDM_normalized_frequency.bmp
-[4]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/F-OFDM/F-OFDM_Reception.png
+[1]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/F-OFDM/Impluse_Response.bmp
+[2]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/F-OFDM/F-OFDM_normalized_frequency.png
+[3]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/F-OFDM/OFDM_normalized_frequency.png
+[4]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/F-OFDM/F-OFDM_Reception.png

@@ -76,10 +76,10 @@ xlabel('Time')
 
 :chart: Fig
 
-<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/mean_and_var.png"></div>
+<div align=center><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/modulate/mean_and_var.png"></div>
 <center><font size=2>Fig.1 Myav and Vyav of y[n].</font></center>
 
-<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_spectrum_and_auto-correlation_of_y[n].png"></div>
+<div align=center><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/modulate/the_spectrum_and_auto-correlation_of_y[n].png"></div>
 <center><font size=2>Fig.2 The spectrum and auto-correlation of y[n].</font></center>
 
 :grey_question: Discussion
@@ -293,13 +293,13 @@ xlabel('Frequency')
 
 :chart: Fig
 
-<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_power_of_the_modulated_signal_and_message_signal.png" ></div>
+<div align=center><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/modulate/the_power_of_the_modulated_signal_and_message_signal.png" ></div>
 <center><font size=2>Fig.3 The power of the modulated signal and message signal.</font></center>
 
-<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_modulated_signal_and_the_spectrum.png" ></div>
+<div align=center><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/modulate/the_modulated_signal_and_the_spectrum.png" ></div>
 <center><font size=2>Fig.4 The modulated signal and the spectrum.</font></center>
 
-<div align=center><img src="https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_pass_band_of_the_low-pass_filter_for_DSB_AM_and_USSB_AM.png"></div>
+<div align=center><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/modulate/the_pass_band_of_the_low-pass_filter_for_DSB_AM_and_USSB_AM.png"></div>
 
 <center><font size=2>Fig.5 The pass band of the low-pass filter for DSB_AM and USSB_AM.</font></center>
 
@@ -342,11 +342,11 @@ The demodulated signals:
 > - If we apply a low-pass filter with a band much wider than necessary, when filtering, it will mix in the high frequency components with the frequency spectrum nearby. The high frequency component is just the continuation of the baseband component at high frequency, if it is not too wide, may we can barely recover the original signal. If the cut-off frequency is set too wide, it may cause signal aliasing and amplitude changes.
 
 <!-- markdownlint-disable-file MD025 MD033 -->
-[1]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/mean_and_var.png
-[2]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_spectrum_and_auto-correlation_of_y[n].png
-[3]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_power_of_the_modulated_signal_and_message_signal.png
-[4]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_modulated_signal_and_the_spectrum.png
-[5]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_pass_band_of_the_low-pass_filter_for_DSB_AM_and_USSB_AM.png
-[6]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_demodulated_signal_and_the_spectrum.png
-[7]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/the_modulated_signal_and_demodulated_signal_with_noise.png
-[8]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/modulate/much_wider_band_the_demodulated_signal_and_the_spectrum.png
+[1]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/modulate/mean_and_var.png
+[2]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/modulate/the_spectrum_and_auto-correlation_of_y[n].png
+[3]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/modulate/the_power_of_the_modulated_signal_and_message_signal.png
+[4]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/modulate/the_modulated_signal_and_the_spectrum.png
+[5]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/modulate/the_pass_band_of_the_low-pass_filter_for_DSB_AM_and_USSB_AM.png
+[6]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/modulate/the_demodulated_signal_and_the_spectrum.png
+[7]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/modulate/the_modulated_signal_and_demodulated_signal_with_noise.png
+[8]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/modulate/much_wider_band_the_demodulated_signal_and_the_spectrum.png

@@ -188,8 +188,8 @@ st = Fmx*ifft(sff);
 2. The result of time domain convolution is the same as the result of inverse Fourier transform after frequency multiplication.
 3. Under a band-limited noiseless channel, the larger the passband, the smoother the signal.
 <!-- markdownlint-disable-file MD025 MD033 -->
-[1]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/Band_limited_channel/8-PAM_waveform.png
-[2]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/Band_limited_channel/8-PAM_spectrum.png
-[3]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/Band_limited_channel/Noiseless_channel_spectrum.png
-[4]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/Band_limited_channel/8-PAM_waveform_passing_noiseless_channel_spectrum.png
-[5]: https://www.lingzhicheng.cn/usr/file/picture/Matlab/Band_limited_channel/8-PAM_waveform_passing_noiseless_channel_waveform.png
+[1]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Band_limited_channel/8-PAM_waveform.png
+[2]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Band_limited_channel/8-PAM_spectrum.png
+[3]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Band_limited_channel/Noiseless_channel_spectrum.png
+[4]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Band_limited_channel/8-PAM_waveform_passing_noiseless_channel_spectrum.png
+[5]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Band_limited_channel/8-PAM_waveform_passing_noiseless_channel_waveform.png
