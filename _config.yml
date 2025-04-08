@@ -131,9 +131,9 @@ baidusitemap:
 
 #Webpushr
 webPushNotification:
-  webpushrKey: 3c5ad60ed6b624f96a21fa214a2d157f
-  webpushrAuthToken: 26411
-  trackingCode: BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA
+  webpushrKey: 85ab6fc0fe1364078f957347616c8d9e
+  webpushrAuthToken: 107575
+  trackingCode: BCIUIKNvEMl-GU2Wk7-cFezC62G58UeE4n3UsprSj1ZQSkfaV9cEwGxACmPZd97-UtK9kKQ-lfH4b7vawSAl3PM
 
   ## markdown 渲染引擎配置，默认是hexo-renderer-marked，这个插件渲染速度更快，且有新特性
 markdown:
