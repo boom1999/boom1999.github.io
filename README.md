@@ -55,7 +55,7 @@ gitalk:
 ### :speaker:[Webpushr][5] ###
 
 [1]: https://boom1999.github.io
-[2]: https://www.lingzhicheng.cn
+[2]: https://boom1999.github.io
 [3]: https://hexo.io/zh-cn
 [4]: https://shen-yu.gitee.io
 [5]: https://www.webpushr.com
