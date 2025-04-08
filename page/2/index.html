@@ -34,9 +34,9 @@
 
   
 
-<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
 
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
 </head>
 
 </html>
@@ -116,6 +116,65 @@
     
     
     
+    
+    <article
+  id="post-Graphviz on Hexo"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2024/04/20/Graphviz%20on%20Hexo/"
+    >博客增加Graphviz支持</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2024/04/20/Graphviz%20on%20Hexo/" class="article-date">
+  <time datetime="2024-04-20T00:00:00.000Z" itemprop="datePublished">2024-04-20</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Blog/">Blog</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><span class="github-emoji"><span>📌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4cc.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> 博客系统的Graphviz支持</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://graphviz.org">Graphviz（Graph Visualization Software）</a>是一个开源的图形可视化软件，用DOT描述语言来定义图形，让用户专注于内容而忽略布局的设计</li>
+<li>在先前的博客中，图片可以用对象存储在云端，而简单的结构图也如此未必太过复杂，因此想到用Graphviz来绘制简单的图结构。在本地的Vscode或者Typora中已经内嵌了Graphviz的渲染，标记代码块为<code>graphviz</code>即可，但在博客中没有，两端存在差异化，这篇用于解决这个问题。<br><span class="github-emoji"><span>💨</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4a8.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>🕚</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f55a.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>😴</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f634.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></li>
+</ul> 
+      <a class="article-more-link" href="/2024/04/20/Graphviz%20on%20Hexo/"
+        >More...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Graphviz/" rel="tag">Graphviz</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
+
     
     <article
   id="post-SpringBoot线程池和异步任务"
@@ -635,62 +694,6 @@
 </article>
 
     
-    <article
-  id="post-Hexo渲染引擎问题汇总"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/12/03/Hexo%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/"
-    >渲染问题汇总</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/12/03/Hexo%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="article-date">
-  <time datetime="2022-12-03T00:00:00.000Z" itemprop="datePublished">2022-12-03</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Blog/">Blog</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <ul>
-<li>Hexo将Markdown文件渲染成静态页面，但是每次都会出现不少问题，本地的渲染引擎和hexo的有所区别，在这里总结一些问题</li></ul> 
-      <a class="article-more-link" href="/2022/12/03/Hexo%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/"
-        >More...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Debug/" rel="tag">Debug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a></li></ul>
-
-    </footer>
-  </div>
-
-   
-    
-</article>
-
-    
   </article>
   
 
@@ -1083,9 +1086,9 @@
     
   </div>
   <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
-  fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
-  webpushr('setup',{'key':'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script>
+    fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
+    webpushr('setup',{'key':'BCIUIKNvEMl-GU2Wk7-cFezC62G58UeE4n3UsprSj1ZQSkfaV9cEwGxACmPZd97-UtK9kKQ-lfH4b7vawSAl3PM' });</script>
 <script>(function (w, d, s, id) {
-            if (typeof (w.webpushr) !== 'undefined') return; w.webpushr = w.webpushr || function () { (w.webpushr.q = w.webpushr.q || []).push(arguments) }; var js, fjs = d.getElementsByTagName(s)[0]; js = d.createElement(s); js.id = id; js.async = 1; js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window, document, 'script', 'webpushr-jssdk'));webpushr('setup', { 'key': 'BL_sZtV4DqDKkZ48a4va762P0m5ke869W_4yODxaGYAZ59daIX84-6sOrZmGOxsw6bxpwPk5yKCMxalOZl3rqTA' });</script></body>
+            if (typeof (w.webpushr) !== 'undefined') return; w.webpushr = w.webpushr || function () { (w.webpushr.q = w.webpushr.q || []).push(arguments) }; var js, fjs = d.getElementsByTagName(s)[0]; js = d.createElement(s); js.id = id; js.async = 1; js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window, document, 'script', 'webpushr-jssdk'));webpushr('setup', { 'key': 'BCIUIKNvEMl-GU2Wk7-cFezC62G58UeE4n3UsprSj1ZQSkfaV9cEwGxACmPZd97-UtK9kKQ-lfH4b7vawSAl3PM' });</script></body>
 
 </html>
