@@ -28,7 +28,7 @@ logo: /haisen-side.svg
 # enable-是否启用封面；path-封面背景图；logo-封面logo
 cover:
   enable: true
-  path: /images/bj.webp
+  path: /images/bj.jpg
   logo: false 
 
 # 页面顶部进度条
