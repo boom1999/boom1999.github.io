@@ -2,468 +2,468 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2025/04/17/TibetRound1/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2025-04-17</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2024/08/13/ElasticSearch%20query%20performance%20optimization/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2024-08-13</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2024/08/10/Lucene%20search%20engine/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2024-08-10</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2024/08/01/Python%20unzip%20split%20zip/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2024-08-01</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2024/07/11/PKIX%20path%20building%20failed/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2024-07-11</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2024/07/04/Keepalived%E6%B5%85%E5%85%A5%E6%B5%85%E5%87%BA/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2024-07-04</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2024/06/29/ClickHouse%E5%88%9D%E6%8E%A2/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2024-06-29</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2024/05/10/Docker%20To%20Kubernetes/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2024-05-10</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2024/05/05/Google%20File%20System/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2024-05-05</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2024/05/02/Lose%20Internet%20Ubuntu/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2024-05-02</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2024/04/20/Graphviz%20on%20Hexo/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2024-04-20</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2024/04/20/SpringBoot%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%92%8C%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2024-04-20</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2024/04/18/HUAWEI20240417/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2024-04-18</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2024/04/12/application%20yml%E9%85%8D%E7%BD%AE/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2024-04-12</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2024/04/01/TencentTest20240331/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2024-04-01</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2024/04/01/%E5%88%A9%E7%94%A8Webhook%E5%B0%86Hexo%E5%8D%9A%E5%AE%A2%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2024-04-01</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2024/03/14/MapReduce/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2024-03-14</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2023/07/12/TexSkills/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2023-07-12</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2023/03/27/TexLive+VsCode/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2023-03-27</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2023/02/09/LatexGrammar/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2023-02-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2022/12/03/Hexo%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2022-12-03</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2022/11/24/UAV%20Track%20Planning%20Algorithms/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2022-11-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2022/07/06/Fake%20news%20detection(Literature%20review)/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2022-07-06</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2022/06/22/%E6%AF%95%E4%B8%9A%E6%80%BB%E7%BB%93/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2022-06-22</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2022/01/02/debug%20Gitalk%20403/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
-    
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2022-01-02</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2021/10/20/%E6%8A%93%E5%8F%96%E9%81%93%E5%AE%A2%E5%B7%B4%E5%B7%B4%E5%86%85%E5%AE%B9/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2021-10-20</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>{{ post.permalink | uriencode }}</loc>
+    <loc>https://boom1999.github.io/2021/09/30/HDB3%E7%BC%96%E8%A7%A3%E7%A0%81%E7%B3%BB%E7%BB%9F/</loc>
     
-    <lastmod>{{ post.updated | formatDate }}</lastmod>
+    <lastmod>2021-09-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2021/08/26/NunjucksErrors/</loc>
+    
+    <lastmod>2021-08-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2021/08/25/mathBasic/</loc>
+    
+    <lastmod>2021-08-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2021/08/16/%E5%9F%BA%E4%BA%8E%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E5%9B%BE%E7%89%87%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/</loc>
+    
+    <lastmod>2021-08-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2021/06/19/Matlab%20sort%20out/</loc>
+    
+    <lastmod>2021-06-19</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2021/06/15/F-OFDM%20vs%20OFDM/</loc>
+    
+    <lastmod>2021-06-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2021/05/30/ASK%20and%20PSK/</loc>
+    
+    <lastmod>2021-05-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2021/05/25/Band-limited%20noiseless%20channel/</loc>
+    
+    <lastmod>2021-05-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2021/04/21/Modulate%20and%20demodulate/</loc>
+    
+    <lastmod>2021-04-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2021/03/25/Git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</loc>
+    
+    <lastmod>2021-03-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2021/03/10/%E8%B0%83%E9%A2%91%E6%97%A0%E7%BA%BF%E8%AF%9D%E7%AD%92/</loc>
+    
+    <lastmod>2021-03-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2021/02/26/Visual%20Studio%E5%87%BA%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E5%BB%B6%E8%BF%9F%EF%BC%8C%E9%83%A8%E5%88%86%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8/</loc>
+    
+    <lastmod>2021-02-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2021/02/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B4%E7%90%86/</loc>
+    
+    <lastmod>2021-02-17</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/friends/index.html</loc>
+    
+    <lastmod>2021-02-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/tags/index.html</loc>
+    
+    <lastmod>2021-02-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/categories/index.html</loc>
+    
+    <lastmod>2021-02-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/me/index.html</loc>
+    
+    <lastmod>2021-02-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2021/01/31/hexo_begin/</loc>
+    
+    <lastmod>2021-01-31</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2021/01/30/Tensorflow2.4%E4%BF%9D%E5%A7%86%E7%BA%A7%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</loc>
+    
+    <lastmod>2021-01-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2021/01/20/Process%20or%20Thread/</loc>
+    
+    <lastmod>2021-01-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2021/01/12/AT89S51%E4%BA%A4%E9%80%9A%E7%81%AF%E7%B3%BB%E7%BB%9F/</loc>
+    
+    <lastmod>2021-01-12</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2021/01/05/AT89S51%E6%A8%A1%E6%8B%9F%E9%87%87%E9%9B%86AD%E8%BD%AC%E5%8C%96/</loc>
+    
+    <lastmod>2021-01-05</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2020/12/29/AT89S51%E5%8F%8C%E6%9C%BA%E9%80%9A%E4%BF%A1/</loc>
+    
+    <lastmod>2020-12-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2020/12/22/AT89S51%E5%AE%9A%E6%97%B6%E5%99%A8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E5%A4%87%E5%BF%98%E5%BD%95/</loc>
+    
+    <lastmod>2020-12-22</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2020/12/15/AT89S51%E7%9A%84PSW%E8%AE%BE%E7%BD%AE%E6%94%B9%E8%BF%9B%E4%B8%AD%E6%96%AD/</loc>
+    
+    <lastmod>2020-12-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boom1999.github.io/2020/12/08/Keil5%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/</loc>
+    
+    <lastmod>2020-12-08</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -471,366 +471,366 @@
   
 
   <url>
-    <loc>{{ config.url | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Modulation/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/ASM/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Matlab/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Terminate/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/ADC/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/ClickHouse/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Database/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/ElasticSearch/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Docker/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Kubernetes/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Git/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Github/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Fake-news/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/NLP/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Quartus-%E2%85%A1/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Modelsim/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Verilog-HDL/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Hexo/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Graphviz/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Distributed-Systems/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/GFS/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Debug/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Latex/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Keepalived/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Load-Balance/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/LinkedList/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/UndirectedGraph/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/BackTrack/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Ubuntu/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/VMware/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Lucene/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/SSL/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/HTTPS/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Python/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/SprinBoot/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/VSCode/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Tutorial/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Tensorflow/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Mathematics/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/debug/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/application/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Nvidia-CUDA/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Visual-Studio/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Webhook/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/UAV/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Track-Planning/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/CNN/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/re-match/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/High-frequency-circuits/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/PCB/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ tag.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/tags/Tibet/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -838,50 +838,50 @@
 
   
   <url>
-    <loc>{{ cat.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/categories/AT89S51/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ cat.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/categories/Communication/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ cat.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/categories/Summary/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ cat.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/categories/Literature-review/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ cat.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/categories/Blog/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ cat.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/categories/NunjucksErrors/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>{{ cat.permalink | uriencode }}</loc>
-    <lastmod>{{ sNow | formatDate }}</lastmod>
+    <loc>https://boom1999.github.io/categories/Gitalk/</loc>
+    <lastmod>2025-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
