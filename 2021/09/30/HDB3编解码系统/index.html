@@ -34,9 +34,9 @@
 
   
 
-<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
 
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
 </head>
 
 </html>
@@ -127,7 +127,7 @@
 <h2 id="Design"><a href="#Design" class="headerlink" title="Design"></a>Design</h2><ul>
 <li>由原始的的32.768MHz时钟，经过第一次256分频用于后续的码元定时恢复，继续经过16分频产生8KHz的码元时钟，由M序列产生模块生成随机的M序列来模拟传输过程中的随机信号，根据AMI码和HDB3的编码规则对M序列进行调整，产生单极性的HDB3码，但由于存在0、+1、-1三种情况，至少需要两位数据才能存储，所以进行一次双极性变换，对应转化成八位数据，至此完成编码过程。</li>
 </ul>
-<h2 id="Frame-Diagram"><a href="#Frame-Diagram" class="headerlink" title="Frame Diagram"></a>Frame Diagram</h2><p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/1.FrameDiagram.png" alt="Fig.1 Frame Diagram"></p>
+<h2 id="Frame-Diagram"><a href="#Frame-Diagram" class="headerlink" title="Frame Diagram"></a>Frame Diagram</h2><p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/1.FrameDiagram.png" alt="Fig.1 Frame Diagram"></p>
 <center><font size="2">Fig.1 Frame Diagram</font></center>
 
 <h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><h3 id="分频设计"><a href="#分频设计" class="headerlink" title="分频设计"></a>分频设计</h3><ul>
@@ -240,31 +240,31 @@
 </li>
 </ul>
 <figure class="highlight verilog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> HDB3(rst,</span><br><span class="line">                clk,clk_256,clk_16,clk_recover,clk_256_ad,clk_256_da,</span><br><span class="line">                ena,</span><br><span class="line">                data_out,data_out_ad,outm,outv,outb,outP,outN,data_out_check,</span><br><span class="line">                finallyout,outdata_P,outdata_N,outdata_v</span><br><span class="line">                );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">input</span>  rst,clk,ena;</span><br><span class="line"><span class="keyword">input</span> [<span class="number">7</span>:<span class="number">0</span>]data_out_ad;</span><br><span class="line"><span class="keyword">output</span> clk_256,clk_16,clk_recover,clk_256_ad,clk_256_da;</span><br><span class="line"><span class="keyword">output</span> [<span class="number">7</span>:<span class="number">0</span>]data_out_check;</span><br><span class="line"><span class="keyword">output</span> [<span class="number">7</span>:<span class="number">0</span>]data_out;</span><br><span class="line"><span class="keyword">output</span> [<span class="number">1</span>:<span class="number">0</span>]outv;</span><br><span class="line"><span class="keyword">output</span> [<span class="number">1</span>:<span class="number">0</span>]outb;</span><br><span class="line"><span class="keyword">output</span> outm,outP,outN;</span><br><span class="line"><span class="keyword">output</span> outdata_P,outdata_N;</span><br><span class="line"><span class="keyword">output</span> [<span class="number">1</span>:<span class="number">0</span>]outdata_v;</span><br><span class="line"><span class="keyword">output</span> finallyout;</span><br><span class="line"><span class="comment">//分频</span></span><br><span class="line">even256_div div256(clk,rst,clk_256);</span><br><span class="line">even16_div div16(clk_256,rst,clk_16);</span><br><span class="line"><span class="comment">//m序列</span></span><br><span class="line">m_sequence m(clk_16,rst,ena,outm,load);</span><br><span class="line"><span class="comment">//编码</span></span><br><span class="line">add_v u1(rst,outm,outv,clk_16);</span><br><span class="line">add_b u2(rst,outv,outb,clk_16);</span><br><span class="line">polar u3(rst,outb,outP,outN,clk_16);</span><br><span class="line">change u4(rst,outP,outN,data_out,clk_16);</span><br><span class="line"><span class="comment">//码元定时恢复</span></span><br><span class="line">recover u8(clk_256, rst, data_out_ad, clk_recover);</span><br><span class="line"><span class="comment">//译码</span></span><br><span class="line">trans8to1 u5(rst, data_out_ad, outdata_P, outdata_N,clk_recover);</span><br><span class="line">findv u6(rst, outdata_P, outdata_N, outdata_v,clk_recover);</span><br><span class="line">delvb u7(rst, outdata_v, finallyout,clk_recover);</span><br><span class="line"></span><br><span class="line"><span class="keyword">assign</span> clk_256_ad = clk_256;</span><br><span class="line"><span class="keyword">assign</span> clk_256_da = clk_256;</span><br><span class="line"><span class="keyword">assign</span> data_out_check = data_out_ad;</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></tbody></table></figure>
-<h2 id="调试与验证"><a href="#调试与验证" class="headerlink" title="调试与验证"></a>调试与验证</h2><p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/2.FPGA.png" alt="Fig.2 FPGA"></p>
+<h2 id="调试与验证"><a href="#调试与验证" class="headerlink" title="调试与验证"></a>调试与验证</h2><p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/2.FPGA.png" alt="Fig.2 FPGA"></p>
 <center><font size="2">Fig.2 FPGA</font></center>
 
-<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/3.引脚分配.jpg" alt="Fig.3 引脚分配"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/3.引脚分配.jpg" alt="Fig.3 引脚分配"></p>
 <center><font size="2">Fig.3 引脚分配</font></center>
 
-<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/4.jpg" alt="Fig.4 FPGA连接"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/4.jpg" alt="Fig.4 FPGA连接"></p>
 <center><font size="2">Fig.4 FPGA连接</font></center>
 
-<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/5.256分频和16分频.jpg" alt="Fig.5 256分频和16分频"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/5.256分频和16分频.jpg" alt="Fig.5 256分频和16分频"></p>
 <center><font size="2">Fig.5 256分频和16分频</font></center>
 
-<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/6.16分频和m序列.jpg" alt="Fig.6 16分频和m序列"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/6.16分频和m序列.jpg" alt="Fig.6 16分频和m序列"></p>
 <center><font size="2">Fig.6 16分频和m序列</font></center>
 
-<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/7.16分频和码元定时恢复时钟.jpg" alt="Fig.7 16分频和码元定时恢复时钟"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/7.16分频和码元定时恢复时钟.jpg" alt="Fig.7 16分频和码元定时恢复时钟"></p>
 <center><font size="2">Fig.7 16分频和码元定时恢复时钟</font></center>
 
-<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/8.m序列和模拟传输信号.jpg" alt="Fig.8 m序列和模拟传输信号"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/8.m序列和模拟传输信号.jpg" alt="Fig.8 m序列和模拟传输信号"></p>
 <center><font size="2">Fig.8 m序列和模拟传输信号</font></center>
 
-<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/9.恢复的m序列和码元定时恢复时钟.jpg" alt="Fig.9 恢复的m序列和码元定时恢复时钟"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/9.恢复的m序列和码元定时恢复时钟.jpg" alt="Fig.9 恢复的m序列和码元定时恢复时钟"></p>
 <center><font size="2">Fig.9 恢复的m序列和码元定时恢复时钟</font></center>
 
-<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/10.m序列前后.jpg" alt="Fig.10 m序列前后"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/10.m序列前后.jpg" alt="Fig.10 m序列前后"></p>
 <center><font size="2">Fig.10 m序列前后</font></center>
 
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
@@ -285,7 +285,7 @@
 <ul>
 <li>解决办法：这个问题困扰的时间最久，由于AD转换输出的8位数字信号并不是非常完美的，存在跳变以及根据实验箱的实际情况并不会根据0~5V输出00~FF，于是将AD输出的八位信号分别绑定到FPGA的其他空余引脚，对每个引脚上的数据进行分析，判定-1，0和+1分别对应该位的0状态还是1状态，最终得到我们需要的三种状态区间，高四位可以比较准确的判定，而第四位的0和1状态反复跳变，最终确定的区间为：3’h00——8’h0f代表-1，8’h30——8’h3f代表0，大于8’h58代表+1</li>
 </ul>
-<h2 id="Download-Source-File"><a href="#Download-Source-File" class="headerlink" title="Download Source File"></a>Download Source File</h2><h3 id="Project-File"><a href="#Project-File" class="headerlink" title="Project File"></a><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/HDB3_quartus+modelism.zip">Project File</a></h3><h3 id="Wave-File"><a href="#Wave-File" class="headerlink" title="Wave File"></a><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/HDB3wavefile.zip">Wave File</a></h3><!-- markdownlint-disable-file MD025 MD033 -->
+<h2 id="Download-Source-File"><a href="#Download-Source-File" class="headerlink" title="Download Source File"></a>Download Source File</h2><h3 id="Project-File"><a href="#Project-File" class="headerlink" title="Project File"></a><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/HDB3_quartus+modelism.zip">Project File</a></h3><h3 id="Wave-File"><a href="#Wave-File" class="headerlink" title="Wave File"></a><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/HDB3wavefile.zip">Wave File</a></h3><!-- markdownlint-disable-file MD025 MD033 -->
  
       <!-- reward -->
       

@@ -34,9 +34,9 @@
 
   
 
-<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
 
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
 </head>
 
 </html>
@@ -126,20 +126,20 @@
 <ul>
 <li>Git bash here<br>  <code>$ git config --global user.name "boom1999"</code><br>  <code>$ git config --global user.email "lingzhicheng@zjut.edu.cn"</code><br>  <code>$ git config --list</code></li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/UserInfo.png" alt="UserInfo"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/UserInfo.png" alt="UserInfo"></p>
 <h3 id="SSH">1.2生成SSH Key</h3>
 
 <ul>
 <li>Git bash here<br>  <code>$ ssh-keygen -t rsa -C "lingzhicheng@zjut.edu.cn"</code></li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/SSHKey.png" alt="SSHKey"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/SSHKey.png" alt="SSHKey"></p>
 <ul>
 <li>添加SSH Key<blockquote>
 <p>将提示位置(/c/Users/xxx/.ssh/id_rsa)的公钥（id_rsa.pub）内容复制粘贴至github &gt; setting &gt; SSH and GPG keys&gt; key<br>注意不要弄混公钥和私钥<br>若只在某一个Repo中使用，可在此Repo中setting &gt; Deploy Keys中添加公钥</p>
 </blockquote>
 </li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/DeployKeys.png" alt="DeployKeys"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/DeployKeys.png" alt="DeployKeys"></p>
 <h2 id="UploadRepo">二、从本地上传Repositories</h2>
 
 <h3 id="memo-本地创建Repo"><a href="#memo-本地创建Repo" class="headerlink" title=":memo:本地创建Repo"></a><span class="github-emoji"><span>📝</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4dd.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>本地创建Repo</h3><ul>
@@ -158,40 +158,40 @@
 <li>新建测试（dev）分支<br>  <code>$ git checkout -b dev</code></li>
 <li>检查git状态<br>  <code>$ git status</code></li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitInit.png" alt="GitInit"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/GitInit.png" alt="GitInit"></p>
 <ul>
 <li>使用编辑器在文件夹中编辑内容，测试和执行</li>
 <li>提交文件至缓存区(用<code>git add .</code>提交目录下所有文件)<br>  <code>$ git add index.md</code></li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitAdd.png" alt="GitAdd"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/GitAdd.png" alt="GitAdd"></p>
 <ul>
 <li>撤销缓存内容<br>  <code>$ git rm --cached index.md</code></li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitRm.png" alt="GitRm"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/GitRm.png" alt="GitRm"></p>
 <ul>
 <li>发布版本<br>  <code>$ git commit -m 'This is a commit.'</code></li>
 <li>查看版本日志（—graph）<br>  <code>$ git log</code></li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitCommit.png" alt="GitCommit"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/GitCommit.png" alt="GitCommit"></p>
 <ul>
 <li>将测试分支合并到主分支<blockquote>
 <p>切换回主分支<br>  <code>$ git checkout master</code><br>执行合并操作<br>  <code>$ git merge dev</code><br>删除dev分支<br>  <code>$ git branch -d dev</code></p>
 </blockquote>
 </li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitMerge.png" alt="GitMerge"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/GitMerge.png" alt="GitMerge"></p>
 <h3 id="computer-Repo上传"><a href="#computer-Repo上传" class="headerlink" title=":computer:Repo上传"></a><span class="github-emoji"><span>💻</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4bb.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>Repo上传</h3><ul>
 <li>在Github上新建项目，复制生成项目对应的SSH地址</li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitDemo.png" alt="GitDemo"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/GitDemo.png" alt="GitDemo"></p>
 <p><code>$ git remote add origin git@github.com:boom1999/gitdemo.git</code></p>
-<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitDemoUpload.png" alt="GitDemoUpload"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/GitDemoUpload.png" alt="GitDemoUpload"></p>
 <ul>
 <li>第一次推送本地分支(+u将本地和远程分支关联)<br>  <code>$ git push -u origin master</code></li>
 <li>以后推送本地分支<br>  <code>$ git push origin master</code></li>
 <li>推送其他分支（如dev）<br>  <code>$ git push origin dev</code></li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitRemote.png" alt="GitRemote"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/GitRemote.png" alt="GitRemote"></p>
 <blockquote>
 <p>若有提示👇，请参照上文配置SSH Keys</p>
 </blockquote>
