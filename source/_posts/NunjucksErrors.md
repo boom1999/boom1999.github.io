@@ -104,5 +104,85 @@ var VARIABLE_END = '$}';
 
 其他的hexo依赖插件目前还没有发现因为修改`Nunjucks`源码而出现的问题，例如`hexo-generator-searchdb`、`hexo-generator-sitemap`等，有些插件也是依赖于`Nunjucks`的，如果出现问题，同步修改插件的`xml`模板文件就可以解决。
 
+### Update 2025.04.19
+
+> 果然记一笔是有用的，最近发现全局搜索出了问题，开始排查，果然是改`Nunjucks`源码引起的。
+
+- `hexo-generator-searchdb`插件的模板文件中也有`{{`和`}}`，所以在搜索的时候会报错，解决方法是将插件中的`{{`和`}}`作相同的替换，`node_modules/hexo-generator-searchdb/templates/search.xml`：
+
+``` xml
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  {%- for article in articles %}
+  <entry>
+    <title>{$ article.title $}</title>
+    <url>{$ article.url $}</url>
+    <content><![CDATA[{$ article.content | safe $}]]></content>
+    {%- if article.categories %}
+      <categories>
+        {%- for category in article.categories %}
+        <category>{$ category $}</category>
+        {%- endfor %}
+      </categories>
+    {%- endif %}
+    {%- if article.tags %}
+      <tags>
+        {%- for tag in article.tags %}
+        <tag>{$ tag $}</tag>
+        {%- endfor %}
+      </tags>
+    {%- endif %}
+  </entry>
+  {%- endfor %}
+</search>
+```
+
+- `hexo-generator-sitemap`插件的模板文件中也有`{{`和`}}`，`xml`文件中的`{{`和`}}`作相同的替换，`node_modules/hexo-generator-sitemap/sitemap.xml`：
+
+``` xml
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {% for post in posts %}
+  <url>
+    <loc>{$ post.permalink | uriencode $}</loc>
+    {% if post.updated %}
+    <lastmod>{$ post.updated | formatDate $}</lastmod>
+    {% elif post.date %}
+    <lastmod>{$ post.date | formatDate $}</lastmod>
+    {% endif %}
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  {% endfor %}
+
+  <url>
+    <loc>{$ config.url | uriencode $}</loc>
+    <lastmod>{$ sNow | formatDate $}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  {% for tag in tags %}
+  <url>
+    <loc>{$ tag.permalink | uriencode $}</loc>
+    <lastmod>{$ sNow | formatDate $}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  {% endfor %}
+
+  {% for cat in categories %}
+  <url>
+    <loc>{$ cat.permalink | uriencode $}</loc>
+    <lastmod>{$ sNow | formatDate $}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  {% endfor %}
+</urlset>
+```
+
+- `hexo-generator-feed`插件也要改
+
 [1]: https://github.com/hexojs/hexo/issues/2679
 [2]: https://github.com/hexojs/hexo/issues/2384
