@@ -150,28 +150,3 @@
       sessionStorage.setItem('darkmode', 1)
     }
   })
-
-  // showThemeInConsole
-  const ayerInfo = '主题不错？⭐star 支持一下 ->';
-  const ayerURL = 'https://github.com/Shen-Yu/hexo-theme-ayer';
-  const ayerNameStr =
-    '\n\n     _ __   _______ _____    \n    / \\ \\ \\ / / ____|  _  \\  \n   / _ \\ \\ V /|  _| | |_) |  \n  / ___ \\ \| | | |___|  _ <   \n /_/   \\_\\ _| |_____|_| \\__\\ \n';
-  const ayerInfoStyle =
-    'background-color: #49b1f5; color: #fff; padding: 8px; font-size: 14px;';
-  const ayerURLStyle =
-    'background-color: #ffbca2; padding: 8px; font-size: 14px;';
-  const ayerNameStyle = 'background-color: #eaf8ff;';
-
-  console.log(
-    '%c%s%c%s%c%s',
-    ayerInfoStyle,
-    ayerInfo,
-    ayerURLStyle,
-    ayerURL,
-    ayerNameStyle,
-    ayerNameStr
-  );
-  document.write('<script type="text/javascript"  src="https://js.users.51.la/20544303.js"></script>');
-})(jQuery);
-
-
