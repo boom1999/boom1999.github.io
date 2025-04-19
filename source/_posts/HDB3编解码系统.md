@@ -602,15 +602,15 @@ endmodule
 ### [Wave File][12]
 
 <!-- markdownlint-disable-file MD025 MD033 -->
-[1]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/1.FrameDiagram.png
-[2]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/2.FPGA.png
-[3]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/3.引脚分配.jpg
-[4]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/4.jpg
-[5]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/5.256分频和16分频.jpg
-[6]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/6.16分频和m序列.jpg
-[7]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/7.16分频和码元定时恢复时钟.jpg
-[8]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/8.m序列和模拟传输信号.jpg
-[9]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/9.恢复的m序列和码元定时恢复时钟.jpg
-[10]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/10.m序列前后.jpg
-[11]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/HDB3_quartus+modelism.zip
-[12]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/HDB3/HDB3wavefile.zip
+[1]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/1.FrameDiagram.png
+[2]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/2.FPGA.png
+[3]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/3.引脚分配.jpg
+[4]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/4.jpg
+[5]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/5.256分频和16分频.jpg
+[6]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/6.16分频和m序列.jpg
+[7]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/7.16分频和码元定时恢复时钟.jpg
+[8]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/8.m序列和模拟传输信号.jpg
+[9]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/9.恢复的m序列和码元定时恢复时钟.jpg
+[10]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/10.m序列前后.jpg
+[11]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/HDB3_quartus+modelism.zip
+[12]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/HDB3/HDB3wavefile.zip

@@ -167,6 +167,6 @@ categories: Literature review
 [26]: https://dl.acm.org/doi/abs/10.1145/3289600.3290994
 [27]: https://aclanthology.org/P17-1066/?ref=https://githubhelp.com
 [28]: https://www.liebertpub.com/doi/abs/10.1089/big.2020.0062
-[29]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/fakenews/图片1.jpg
-[30]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/fakenews/图片2.png
-[31]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/fakenews/图片3.png
+[29]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/fakenews/图片1.jpg
+[30]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/fakenews/图片2.png
+[31]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/fakenews/图片3.png

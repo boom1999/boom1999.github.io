@@ -182,14 +182,14 @@ git reset --mixed HEAD^ //暂存区和历史区回到上一个版本，工作区
 
 <!-- markdownlint-disable-file MD025 MD028 MD033 -->
 
-[1]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/UserInfo.png
-[2]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/SSHKey.png
-[3]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/DeployKeys.png
-[4]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitInit.png
-[5]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitAdd.png
-[6]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitRm.png
-[7]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitCommit.png
-[8]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitMerge.png
-[9]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitDemo.png
-[10]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitDemoUpload.png
-[11]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/Git/GitRemote.png
+[1]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/UserInfo.png
+[2]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/SSHKey.png
+[3]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/DeployKeys.png
+[4]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/GitInit.png
+[5]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/GitAdd.png
+[6]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/GitRm.png
+[7]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/GitCommit.png
+[8]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/GitMerge.png
+[9]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/GitDemo.png
+[10]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/GitDemoUpload.png
+[11]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/Git/GitRemote.png

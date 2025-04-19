@@ -49,7 +49,7 @@ copyright: true
 
 - Then it *freezes* for a while, which is normal, and the GUI for installation appears.
 <div align=center>
-  <img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/tex/installer_gui.jpg" alt="installer gui" width="30%" height="30%" text-align:center>
+  <img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/tex/installer_gui.jpg" alt="installer gui" width="30%" height="30%" text-align:center>
 </div>
 
 - :wrench: Modify the installation path, usually `Disk:/texlive/year`, such as`D:/texlive/2023`, and then click `Install`. It may take a while, depending on your computer performance, so take a break with a cup of coffee.
@@ -57,7 +57,7 @@ copyright: true
 
 - :white_check_mark: After the installation is complete, click `Finish` to exit the installation interface.
 <div align=center>
-  <img src="https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/tex/close_gui.jpg" alt="close gui" width="50%" height="50%" text-align:center>
+  <img src="https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/tex/close_gui.jpg" alt="close gui" width="50%" height="50%" text-align:center>
 </div>
 
 - Check if the installation is successful. Use `xelatex -v` in *CMD*.
@@ -276,13 +276,13 @@ copyright: true
 - `"latex-workshop.view.pdf.viewer": "external"` If you need to change the Tex PDF back to the internal reader, just change `external` to `tab`.
 
 <!-- markdownlint-disable-file MD025 MD028 MD033 -->
-[1]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/tex/tex_example.jpg
+[1]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/tex/tex_example.jpg
 [2]: https://code.visualstudio.com/
 [3]: https://code.visualstudio.com/docs/getstarted/locales
 [4]: https://tug.org/texlive/acquire-iso.html
-[5]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/tex/ISO_image.jpg
-[6]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/tex/open_ISO.jpg
-[7]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/tex/installation_success.jpg
-[8]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/tex/install_latex_workshop.jpg
-[9]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/tex/workshop_setting_1.jpg
+[5]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/tex/ISO_image.jpg
+[6]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/tex/open_ISO.jpg
+[7]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/tex/installation_success.jpg
+[8]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/tex/install_latex_workshop.jpg
+[9]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/tex/workshop_setting_1.jpg
 [10]: https://www.sumatrapdfreader.org/download-free-pdf-viewer

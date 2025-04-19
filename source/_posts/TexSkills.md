@@ -113,4 +113,4 @@ def quick_sort(arr):
 ![minted_file][1]
 
 <!-- markdownlint-disable-file MD025 MD028 MD033 -->
-[1]: https://raw.githubusercontent.com/boom1999/boom1999.github.io/refs/heads/hexo_backup/images/tex/minted.jpg
+[1]: https://cdn.jsdelivr.net/gh/boom1999/boom1999.github.io@hexo_backup/images/tex/minted.jpg
