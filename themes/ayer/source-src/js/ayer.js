@@ -150,3 +150,4 @@
       sessionStorage.setItem('darkmode', 1)
     }
   })
+})(jQuery);
