@@ -1,6 +1,6 @@
 highlight-background = #2d2d2d
 highlight-code = #f2f2f2
-highlight-code-color = #c7254e
+highlight-code-color =rgb(214, 187, 124)
 highlight-current-line = grey
 highlight-selection = #000
 highlight-foreground = #dedede
@@ -28,7 +28,8 @@ highlight-purple = #cc99cc
   &::-webkit-scrollbar {
     height: 10px;
     width: 7px;
-    background: rgba(0, 0, 0, 0.1);
+    background: highlight-background;
+    border-radius: 10px;
     /* 高宽分别对应横竖滚动条的尺寸 */
     /* width: 10px;
     height: 10px;
@@ -82,11 +83,11 @@ highlight-purple = #cc99cc
 
 .article-entry pre,
 .article-entry code {
-  font-family: Consolas,Monaco,"Andale Mono","Ubuntu Mono",monospace
+  font-family: Monaco,Consolas,"Andale Mono","Ubuntu Mono",monospace
 }
 
 .article-entry code {
-  background: #eee;
+  background: #ffffff;
   color: highlight-code-color;
   padding: 0 0.3em;
   border: none;
@@ -100,7 +101,7 @@ highlight-purple = #cc99cc
 }
 
 .article-entry .highlight {
-  border-radius: 4px;
+  border-radius: 10px;
 }
 
 .article-entry .highlight pre {
