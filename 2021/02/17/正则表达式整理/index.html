@@ -217,7 +217,7 @@
 <h2 id="re-match"><a href="#re-match" class="headerlink" title="re.match"></a>re.match</h2><blockquote>
 <p>传入两个参数，第一个是匹配的规则，第二个是需要被过滤的内容</p>
 </blockquote>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">content = <span class="string">'you have 100 bananas.'</span></span><br><span class="line">res = re.match(<span class="string">'^yo.*(\d+)\s.*s$'</span>,content)</span><br><span class="line"><span class="built_in">print</span>(res.group(<span class="number">1</span>))</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">content = <span class="string">'you have 100 bananas.'</span></span><br><span class="line">res = re.<span class="keyword">match</span>(<span class="string">'^yo.*(\d+)\s.*s$'</span>,content)</span><br><span class="line"><span class="built_in">print</span>(res.group(<span class="number">1</span>))</span><br></pre></td></tr></tbody></table></figure>
  
       <!-- reward -->
       
