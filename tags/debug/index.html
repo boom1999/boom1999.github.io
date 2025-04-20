@@ -34,9 +34,9 @@
 
   
 
+<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
 
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
-<link rel="alternate" href="/atom.xml" title="Haisenberg" type="application/atom+xml">
 </head>
 
 </html>
@@ -368,138 +368,6 @@
 <!-- MathJax -->
 
 <script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-      tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-  });
-
-  MathJax.Hub.Queue(function() {
-      var all = MathJax.Hub.getAllJax(), i;
-      for(i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-  });
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<script>
-  var ayerConfig = {
-    mathjax: true
-  }
-</script>
-
-<!-- Katex -->
-
-<!-- busuanzi  -->
-
-
-<script src="/js/busuanzi-2.3.pure.min.js"></script>
-
-
-<!-- ClickLove -->
-
-<!-- ClickBoom1 -->
-
-<!-- ClickBoom2 -->
-
-<!-- CodeCopy -->
-
-
-<link rel="stylesheet" href="/css/clipboard.css">
-
-<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
-<script>
-  function wait(callback, seconds) {
-    var timelag = null;
-    timelag = window.setTimeout(callback, seconds);
-  }
-  !function (e, t, a) {
-    var initCopyCode = function(){
-      var copyHtml = '';
-      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
-      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
-      copyHtml += '</button>';
-      $(".highlight .code pre").before(copyHtml);
-      $(".article pre code").before(copyHtml);
-      var clipboard = new ClipboardJS('.btn-copy', {
-        target: function(trigger) {
-          return trigger.nextElementSibling;
-        }
-      });
-      clipboard.on('success', function(e) {
-        let $btn = $(e.trigger);
-        $btn.addClass('copied');
-        let $icon = $($btn.find('i'));
-        $icon.removeClass('ri-file-copy-2-line');
-        $icon.addClass('ri-checkbox-circle-line');
-        let $span = $($btn.find('span'));
-        $span[0].innerText = 'COPIED';
-        
-        wait(function () { // 等待两秒钟后恢复
-          $icon.removeClass('ri-checkbox-circle-line');
-          $icon.addClass('ri-file-copy-2-line');
-          $span[0].innerText = 'COPY';
-        }, 2000);
-      });
-      clipboard.on('error', function(e) {
-        e.clearSelection();
-        let $btn = $(e.trigger);
-        $btn.addClass('copy-failed');
-        let $icon = $($btn.find('i'));
-        $icon.removeClass('ri-file-copy-2-line');
-        $icon.addClass('ri-time-line');
-        let $span = $($btn.find('span'));
-        $span[0].innerText = 'COPY FAILED';
-        
-        wait(function () { // 等待两秒钟后恢复
-          $icon.removeClass('ri-time-line');
-          $icon.addClass('ri-file-copy-2-line');
-          $span[0].innerText = 'COPY';
-        }, 2000);
-      });
-    }
-    initCopyCode();
-  }(window, document);
-</script>
-
-
-<!-- CanvasBackground -->
-
-<!-- Graphiz -->
-
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/viz.js/1.7.1/viz.js'></script>
-  <script>
-    String.prototype.replaceAll = function(search, replacement) {
-      var target = this;
-      return target.split(search).join(replacement);
-    };
-
-    let vizObjects = document.querySelectorAll('.graphviz')
-
-    for (let item of vizObjects) {
-      let svg = undefined
-      try {
-        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
-      } catch(e) {
-        svg = `<pre class="error">${e}</pre>`
-      }
-      item.outerHTML = svg
-    }
-  </script>
-
-
-    
-  </div>
-  <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
-    fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
-    webpushr('setup',{'key':'BCIUIKNvEMl-GU2Wk7-cFezC62G58UeE4n3UsprSj1ZQSkfaV9cEwGxACmPZd97-UtK9kKQ-lfH4b7vawSAl3PM' });</script>
-<script>(function (w, d, s, id) {
-            if (typeof (w.webpushr) !== 'undefined') return; w.webpushr = w.webpushr || function () { (w.webpushr.q = w.webpushr.q || []).push(arguments) }; var js, fjs = d.getElementsByTagName(s)[0]; js = d.createElement(s); js.id = id; js.async = 1; js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window, document, 'script', 'webpushr-jssdk'));webpushr('setup', { 'key': 'BCIUIKNvEMl-GU2Wk7-cFezC62G58UeE4n3UsprSj1ZQSkfaV9cEwGxACmPZd97-UtK9kKQ-lfH4b7vawSAl3PM' });</script></body>
-
-</html>e="text/x-mathjax-config">
   MathJax.Hub.Config({
       tex2jax: {
           inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
