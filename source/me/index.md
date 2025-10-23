@@ -8,15 +8,13 @@ type: me
 
 ----
 
-Hangzhou, China -> Nanjing, China -> Shanghai, China
+Hangzhou, China -> Nanjing, China -> Hangzhou, China
 
-- Zhejiang University of Technology, Communication Engineering (2018-2022).
-- Nanjing University of Aeronautics and Astronautics, Information and Communication Engineering (2022-2025).
-- Research: UAV-based optical target localization, UAV track planning.
+- 🌱 I received my M.S. in `Information and Communication Engineering` from the [Nanjing University of Aeronautics and Astronautics](http://www.nuaa.edu.cn) (2022-2025), jointly advised by Prof. Lei Zhongkui and Prof. Huang Daqing at the [Unmanned Aerial Vehicles Research Institute](https://uav.nuaa.edu.cn/main.htm) (2018-2022). Prior to that, I completed my B.S. at the [Zhejiang University of Technology](https://www.zjut.edu.cn).
+- 🔭 My research interests primary focus on **UAV-based optical target localization**, **flight control systems**, and **track planning**. I am committed to achieving high-precision precision strike guidance for UAVs through autonomous mission planning and adaptive flight control.
 
-> Future work: [`HUAWEI`](https://www.huawei.com/cn/) 2012 Labs.
-> Personal blog: learning experience and trivial records.
-> Mainly focus on `Java`, `C++`, `Python`, `Linux`, `Golang`, and familiar with `Kubernetes` and `Docker` containers, common data structures and algorithms.
+> ⚡Future work: [`HUAWEI`](https://www.huawei.com/cn/) 2012 Labs, AscendC\Training\Inference.
+> Mainly focus on `C++`, `Python`, `Linux`, `Java`, `Golang`, and familiar with `Kubernetes` and `Docker` containers.
 > Familiar with `MATLAB`.~~`Altium Designer`, `Multisim`, `QuartusⅡ` for system simulation, `Keil` for MCU development(Less used now).~~
 
 ----
@@ -54,3 +52,6 @@ Hangzhou, China -> Nanjing, China -> Shanghai, China
 </div>
 
 <!-- markdownlint-disable-file MD026, MD033 -->
+[1]: http://www.nuaa.edu.cn
+[2]: https://uav.nuaa.edu.cn/main.htm
+[3]: https://www.zjut.edu.cn
